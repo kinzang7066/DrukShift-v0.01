@@ -27,7 +27,7 @@ const QuizResult = require('./models/QuizResult');
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
+    res.send("Backend is running 🚀");
 });
 
 // Save quiz result
@@ -62,8 +62,28 @@ app.get('/api/quiz/:email', async (req, res) => {
     }
 });
 
+// Admin — get all users
+app.get('/api/admin/users', async (req, res) => {
+    try {
+        const users = await User.find({}).sort({ createdAt: -1 });
+        res.json({ users });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Admin — get all results
+app.get('/api/admin/results', async (req, res) => {
+    try {
+        const results = await QuizResult.find({}).sort({ takenAt: -1 });
+        res.json({ results });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Start server
 const PORT = 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 🚀`);
+    console.log(`Server running on port ${PORT} 🚀`);
 });
