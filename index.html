@@ -26,8 +26,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 
 /* HERO WITH SLIDESHOW */
 .hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;overflow:hidden;}
-
-/* SLIDESHOW */
 .hero-slides{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;}
 .hero-slide{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 1.5s ease;background-size:cover;background-position:center;background-repeat:no-repeat;}
 .hero-slide.active{opacity:1;}
@@ -36,20 +34,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .hero-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1920&q=80');}
 .hero-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=1920&q=80');}
 .hero-slide:nth-child(5){background-image:url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1920&q=80');}
-
-/* DARK OVERLAY ON EACH SLIDE */
 .hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,25,45,0.80) 0%,rgba(15,42,69,0.72) 50%,rgba(10,31,56,0.82) 100%);}
-
-/* GRID OVERLAY */
 .hero-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
-
-/* GLOW ORBS */
 .hero-orb{position:absolute;border-radius:50%;pointer-events:none;}
 .hero-orb-1{top:20%;right:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(42,106,173,0.2) 0%,transparent 70%);animation:pulse 4s ease-in-out infinite;z-index:2;}
 .hero-orb-2{bottom:20%;left:5%;width:300px;height:300px;background:radial-gradient(circle,rgba(244,162,97,0.12) 0%,transparent 70%);animation:pulse 5s ease-in-out infinite 1s;z-index:2;}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:0.6;}50%{transform:scale(1.1);opacity:1;}}
-
-/* HERO CONTENT */
 .hero-content{max-width:720px;text-align:center;position:relative;z-index:3;}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(244,162,97,0.12);border:1px solid rgba(244,162,97,0.35);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;border-radius:50px;margin-bottom:32px;animation:fadeDown 0.6s ease both;}
 .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,7vw,72px);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:24px;animation:fadeUp 0.6s 0.1s ease both;}
@@ -58,22 +48,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .hero-intro strong{color:var(--accent);font-weight:600;}
 .hero-desc{font-size:16px;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto 40px;animation:fadeUp 0.6s 0.2s ease both;}
 .hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.6s 0.3s ease both;}
-
-/* SLIDE DOTS */
 .hero-dots{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:4;}
 .hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);border:2px solid rgba(255,255,255,0.4);cursor:pointer;padding:0;transition:all 0.3s;}
 .hero-dot.active{background:var(--accent);border-color:var(--accent);transform:scale(1.3);}
 .hero-dot:hover{background:rgba(255,255,255,0.6);}
-
-/* SLIDE CAPTION */
 .hero-caption{position:absolute;bottom:112px;right:48px;z-index:4;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-align:right;text-transform:uppercase;}
-
-/* SLIDE COUNTER */
-.hero-counter{position:absolute;top:50%;right:48px;transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;gap:6px;align-items:center;}
-.hero-counter-line{width:1px;height:60px;background:rgba(255,255,255,0.15);}
-.hero-counter-text{font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:2px;writing-mode:vertical-rl;}
-
-/* SCROLL HINT */
 .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:2px;text-transform:uppercase;z-index:4;}
 .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:scrollPulse 2s ease-in-out infinite;}
 @keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
@@ -374,7 +353,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     .modal{border-radius:0;height:100vh;max-width:100%;}
     .modal-dots{display:none;}
     footer{padding:40px 20px;}
-    .hero-caption,.hero-counter{display:none;}
+    .hero-caption{display:none;}
     .solutions-grid,.findings-grid,.reports-grid,.res-grid{grid-template-columns:1fr;}
     .res-tab{padding:12px 20px;font-size:13px;}
 }
@@ -403,7 +382,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 
 <!-- HERO WITH SLIDESHOW -->
 <section class="hero" id="home">
-    <!-- BACKGROUND SLIDES -->
     <div class="hero-slides">
         <div class="hero-slide active"></div>
         <div class="hero-slide"></div>
@@ -411,27 +389,23 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
         <div class="hero-slide"></div>
         <div class="hero-slide"></div>
     </div>
-    <!-- GRID OVERLAY -->
     <div class="hero-grid"></div>
-    <!-- GLOW ORBS -->
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
-    <!-- MAIN CONTENT -->
     <div class="hero-content">
         <div class="hero-badge">🇧🇹 Bhutan Data Scientists Pvt. Ltd — Internship 2026</div>
         <div class="hero-intro">
-            Hi, I am <strong>Kinzang Choden</strong> —  who did an internship at Bhutan Data Scientists Pvt. Ltd when I was a 3rd year Business Intelligence student.
-            This is my internship project exploring cryptocurrency readiness in Bhutan.
+            Hi, I am <strong>Kinzang Choden</strong> — who did an internship at Bhutan Data Scientists Pvt. Ltd when I was a 3rd year Business Intelligence student.
+            This project explored cryptocurrency readiness in Bhutan.
         </div>
         <h1>Cryptocurrency<br><em>Readiness</em><br>in Bhutan</h1>
-        <p class="hero-desc">A data-driven survey project by <strong style="color:var(--accent)">Kinzang Choden</strong> — 3rd Year Business Intelligence Student interning at Bhutan Data Scientists Pvt. Ltd, examining whether Bhutanese adults are prepared to adopt cryptocurrency — aligned with Bhutan's GNH values.</p>
+        <p class="hero-desc">A data-driven survey project by <strong style="color:var(--accent)">Kinzang Choden</strong> — 3rd Year Business Intelligence Student who completed her internship at Bhutan Data Scientists Pvt. Ltd, examining whether Bhutanese adults are prepared to adopt cryptocurrency — aligned with Bhutan's GNH values.</p>
         <div class="hero-buttons">
             <a href="#gnh" class="btn-primary">🇧🇹 View GNH Story</a>
             <a href="#findings" class="btn-secondary">🔑 View Key Findings</a>
             <a href="#quiz" class="btn-quiz">✨ Take Readiness Quiz</a>
         </div>
     </div>
-    <!-- SLIDE DOTS -->
     <div class="hero-dots">
         <button class="hero-dot active" onclick="goToSlide(0)"></button>
         <button class="hero-dot" onclick="goToSlide(1)"></button>
@@ -439,9 +413,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
         <button class="hero-dot" onclick="goToSlide(3)"></button>
         <button class="hero-dot" onclick="goToSlide(4)"></button>
     </div>
-    <!-- CAPTION -->
     <div class="hero-caption" id="heroCaption">Bhutan · Digital Finance · Future</div>
-    <!-- SCROLL -->
     <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 </section>
 
@@ -452,7 +424,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
         <h2>Hi, I am <em>Kinzang Choden</em></h2>
         <p>I am a 3rd year Business Intelligence student who completed my internship at <strong>Bhutan Data Scientists Pvt. Ltd (BDS)</strong> — Bhutan's leading data science company focused on building data literacy and analytical capability across the country.</p>
         <p>During my internship I designed and developed this project from scratch — from collecting 113 survey responses, cleaning the data using Python, building 12 interactive Tableau visualizations, aligning findings with Bhutan's GNH values, and publishing everything as a live website on GitHub Pages.</p>
-        <p>This project is called <strong>DrukShift</strong> — named after Bhutan's identity as the Land of the Thunder Dragon and our shift toward the future of digital finance. I believe cryptocurrency readiness in Bhutan is not just a technology question — it is a happiness question.</p>
+        <p>This project is called <strong>DrukShift</strong> — named after Bhutan's identity as the Land of the Thunder Dragon and our shift toward the future of digital finance. I believed cryptocurrency readiness in Bhutan is not just a technology question — it is a happiness question.</p>
     </div>
 </section>
 
@@ -560,23 +532,44 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
             <h2>How Ready Are <em>You?</em></h2>
             <p>10 questions · Rate yourself 1 to 10 · Based on real data from 113 Bhutanese adults</p>
         </div>
-        <!-- USER INFO -->
+
+        <!-- ✅ USER INFO WITH OTP VERIFICATION -->
         <div class="quiz-card" id="userInfoWrap">
             <div style="text-align:center;margin-bottom:24px;">
                 <div style="font-size:28px;margin-bottom:8px;">👤</div>
                 <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;">Before you begin</div>
-                <div style="font-size:13px;color:var(--muted);">Enter your details to save your score and compare next time</div>
+                <div style="font-size:13px;color:var(--muted);">Verify your email to save your score and compare next time</div>
             </div>
             <div style="margin-bottom:16px;">
                 <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Your Name</label>
                 <input id="userName" type="text" placeholder="e.g. Kinzang Choden" style="width:100%;padding:12px 14px;border:1px solid #dce6f0;border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;">
             </div>
-            <div style="margin-bottom:24px;">
+            <div style="margin-bottom:16px;">
                 <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Your Email</label>
-                <input id="userEmail" type="email" placeholder="e.g. kinzang@email.com" style="width:100%;padding:12px 14px;border:1px solid #dce6f0;border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;">
+                <input id="userEmail" type="email" placeholder="e.g. kinzang@gmail.com" style="width:100%;padding:12px 14px;border:1px solid #dce6f0;border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;">
             </div>
-            <button onclick="startQuiz()" style="width:100%;padding:13px;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;">Start Quiz →</button>
+            <button onclick="sendOTP()" id="sendOtpBtn" style="width:100%;padding:13px;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;margin-bottom:16px;transition:all 0.2s;">
+                Send Verification Code →
+            </button>
+
+            <!-- OTP SECTION — hidden until code sent -->
+            <div id="otpSection" style="display:none;">
+                <div style="background:#e1f5ee;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center;">
+                    <div style="font-size:13px;color:#085041;font-weight:600;">✅ Code sent! Check your email inbox.</div>
+                    <div style="font-size:11px;color:#085041;margin-top:4px;">The code expires in 10 minutes.</div>
+                </div>
+                <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Enter 4-Digit Code</label>
+                <input id="otpInput" type="text" maxlength="4" placeholder="1 2 3 4" style="width:100%;padding:14px;border:1.5px solid #dce6f0;border-radius:8px;font-size:24px;font-family:'Outfit',sans-serif;outline:none;text-align:center;letter-spacing:10px;margin-bottom:12px;">
+                <button onclick="verifyOTP()" id="verifyOtpBtn" style="width:100%;padding:13px;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;">
+                    ✓ Verify &amp; Start Quiz
+                </button>
+                <div style="text-align:center;margin-top:12px;">
+                    <span style="font-size:12px;color:var(--teal);cursor:pointer;text-decoration:underline;" onclick="sendOTP()">Resend code</span>
+                </div>
+            </div>
+            <div id="otpError" style="display:none;font-size:13px;color:var(--red);text-align:center;margin-top:10px;background:#fcebeb;padding:10px;border-radius:8px;"></div>
         </div>
+
         <!-- QUIZ QUESTIONS -->
         <div class="quiz-card" id="quizWrap" style="display:none">
             <div class="q-progress-wrap">
@@ -594,6 +587,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
                 <button class="q-btn-next" id="qNextBtn" disabled onclick="qNext()">Next →</button>
             </div>
         </div>
+
         <!-- QUIZ RESULTS -->
         <div class="quiz-card" id="qResultWrap" style="display:none">
             <div id="qHistoryBox"></div>
@@ -643,7 +637,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
             <button class="res-tab active" onclick="resTab('individuals',this)">👤 For Individuals</button>
             <button class="res-tab" onclick="resTab('businesses',this)">🏢 For Small Businesses</button>
         </div>
-        <!-- INDIVIDUALS -->
         <div class="res-content active" id="res-individuals">
             <div class="res-category-label">🎓 Start Here — Crypto Basics</div>
             <div class="res-grid">
@@ -664,7 +657,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
                 <div class="res-card link"><div class="res-type link">🔗 Resource</div><div class="res-card-title">Khan Academy — Blockchain & Crypto Free Course</div><div class="res-card-desc">Free structured course covering Bitcoin, cryptography, and the economics of digital currencies — perfect for self-paced learning.</div><div class="res-card-meta"><span>🎓 Free Course</span><span>Self-paced</span></div><a href="https://www.khanacademy.org/economics-finance-domain/core-finance/money-and-banking/bitcoin/v/bitcoin-what-is-it" target="_blank" class="res-card-btn link">Start Learning →</a></div>
             </div>
         </div>
-        <!-- BUSINESSES -->
         <div class="res-content" id="res-businesses">
             <div class="res-category-label">💡 Getting Started — Crypto for Business</div>
             <div class="res-grid">
@@ -720,82 +712,117 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 // ══════════════════════════════════════════════════
 // HERO SLIDESHOW
 // ══════════════════════════════════════════════════
-var slideCaptions = [
-    'Bhutan · Mountains · Heritage',
-    'Blockchain · Technology · Future',
-    'Digital Finance · Crypto · Innovation',
-    'Data · Technology · Bhutan',
-    'Crypto · Readiness · DrukShift'
-];
-var currentSlide = 0;
-var totalSlides = 5;
-var slideTimer = null;
-
-function goToSlide(n) {
-    var slides = document.querySelectorAll('.hero-slide');
-    var dots   = document.querySelectorAll('.hero-dot');
-    if (!slides.length) return;
-    slides[currentSlide].classList.remove('active');
-    dots[currentSlide].classList.remove('active');
-    currentSlide = (n + totalSlides) % totalSlides;
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-    var caption = document.getElementById('heroCaption');
-    if (caption) caption.textContent = slideCaptions[currentSlide];
-}
-
-function nextSlide() { goToSlide(currentSlide + 1); }
-
-function startSlideshow() {
-    stopSlideshow();
-    slideTimer = setInterval(nextSlide, 4500);
-}
-
-function stopSlideshow() {
-    if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
-}
-
-// Start immediately
+var slideCaptions=['Bhutan · Mountains · Heritage','Blockchain · Technology · Future','Digital Finance · Crypto · Innovation','Data · Technology · Bhutan','Crypto · Readiness · DrukShift'];
+var currentSlide=0,totalSlides=5,slideTimer=null;
+function goToSlide(n){var slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dot');if(!slides.length)return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=(n+totalSlides)%totalSlides;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');var cap=document.getElementById('heroCaption');if(cap)cap.textContent=slideCaptions[currentSlide];}
+function nextSlide(){goToSlide(currentSlide+1);}
+function startSlideshow(){stopSlideshow();slideTimer=setInterval(nextSlide,4500);}
+function stopSlideshow(){if(slideTimer){clearInterval(slideTimer);slideTimer=null;}}
 startSlideshow();
-
-// Pause on hover
-window.addEventListener('DOMContentLoaded', function() {
-    var hero = document.querySelector('.hero');
-    if (hero) {
-        hero.addEventListener('mouseenter', stopSlideshow);
-        hero.addEventListener('mouseleave', startSlideshow);
-    }
-});
+window.addEventListener('DOMContentLoaded',function(){var hero=document.querySelector('.hero');if(hero){hero.addEventListener('mouseenter',stopSlideshow);hero.addEventListener('mouseleave',startSlideshow);}});
 
 // ══════════════════════════════════════════════════
 // RESOURCES TABS
 // ══════════════════════════════════════════════════
-function resTab(tab, btn) {
-    document.querySelectorAll('.res-content').forEach(function(el) { el.classList.remove('active'); });
-    document.querySelectorAll('.res-tab').forEach(function(el) { el.classList.remove('active'); });
-    document.getElementById('res-' + tab).classList.add('active');
-    btn.classList.add('active');
-}
+function resTab(tab,btn){document.querySelectorAll('.res-content').forEach(function(el){el.classList.remove('active');});document.querySelectorAll('.res-tab').forEach(function(el){el.classList.remove('active');});document.getElementById('res-'+tab).classList.add('active');btn.classList.add('active');}
 
 // ══════════════════════════════════════════════════
-// USER & BACKEND
+// USER & OTP VERIFICATION
 // ══════════════════════════════════════════════════
 var currentUser = { name: '', email: '' };
+var API_BASE = 'https://drukshift-vakend.onrender.com';
 
-function startQuiz() {
+async function sendOTP() {
     var name  = document.getElementById('userName').value.trim();
     var email = document.getElementById('userEmail').value.trim();
-    if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
+
+    if (!name) { alert('Please enter your name.'); return; }
+    if (!email) { alert('Please enter your email.'); return; }
+
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.\nExample: kinzang@gmail.com');
+        return;
+    }
+
     currentUser.name  = name;
     currentUser.email = email;
-    document.getElementById('userInfoWrap').style.display = 'none';
-    document.getElementById('quizWrap').style.display     = 'block';
-    qRender();
+
+    var btn = document.getElementById('sendOtpBtn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    try {
+        var res = await fetch(API_BASE + '/api/send-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        });
+        var data = await res.json();
+
+        if (data.success) {
+            document.getElementById('otpSection').style.display = 'block';
+            document.getElementById('otpError').style.display   = 'none';
+            btn.textContent = '✅ Code Sent — Resend';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.background = '#085041';
+        } else {
+            alert(data.error || 'Failed to send code. Please try again.');
+            btn.textContent = 'Send Verification Code →';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+    } catch (err) {
+        alert('Could not connect to server. Please try again.');
+        btn.textContent = 'Send Verification Code →';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    }
+}
+
+async function verifyOTP() {
+    var otp = document.getElementById('otpInput').value.trim();
+    if (!otp || otp.length < 4) {
+        document.getElementById('otpError').textContent = 'Please enter the 4-digit code from your email.';
+        document.getElementById('otpError').style.display = 'block';
+        return;
+    }
+
+    var btn = document.getElementById('verifyOtpBtn');
+    btn.textContent = 'Verifying...';
+    btn.disabled = true;
+
+    try {
+        var res = await fetch(API_BASE + '/api/verify-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: currentUser.email, otp: otp })
+        });
+        var data = await res.json();
+
+        if (data.success) {
+            document.getElementById('userInfoWrap').style.display = 'none';
+            document.getElementById('quizWrap').style.display     = 'block';
+            qRender();
+        } else {
+            document.getElementById('otpError').textContent = data.error || 'Incorrect code. Please try again.';
+            document.getElementById('otpError').style.display = 'block';
+            btn.textContent = '✓ Verify & Start Quiz';
+            btn.disabled = false;
+        }
+    } catch (err) {
+        document.getElementById('otpError').textContent = 'Could not verify. Please try again.';
+        document.getElementById('otpError').style.display = 'block';
+        btn.textContent = '✓ Verify & Start Quiz';
+        btn.disabled = false;
+    }
 }
 
 async function saveQuizResult(score, answers) {
     try {
-        await fetch('https://drukshift-vakend.onrender.com/api/quiz', {
+        await fetch(API_BASE + '/api/quiz', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: currentUser.name, email: currentUser.email, score: score, answers: answers })
         });
@@ -805,7 +832,7 @@ async function saveQuizResult(score, answers) {
 
 async function fetchHistory(score) {
     try {
-        var res  = await fetch('https://drukshift-vakend.onrender.com/api/quiz/' + encodeURIComponent(currentUser.email));
+        var res  = await fetch(API_BASE + '/api/quiz/' + encodeURIComponent(currentUser.email));
         if (!res.ok) return;
         var data = await res.json();
         if (data.history && data.history.length > 1) {
@@ -823,231 +850,149 @@ async function fetchHistory(score) {
 // ══════════════════════════════════════════════════
 // MODALS
 // ══════════════════════════════════════════════════
-function openViz(overlayId, bodyId, src) {
-    var overlay = document.getElementById(overlayId);
-    var body = document.getElementById(bodyId);
-    if (!body.querySelector('tableau-viz')) {
-        var viz = document.createElement('tableau-viz');
-        viz.setAttribute('src', src); viz.setAttribute('width', '100%');
-        viz.setAttribute('height', '900'); viz.setAttribute('hide-tabs', 'false'); viz.setAttribute('toolbar', 'bottom');
-        body.appendChild(viz);
-    }
-    overlay.style.display = 'flex'; document.body.style.overflow = 'hidden';
-    setTimeout(function() { overlay.classList.add('active'); }, 10);
-}
-function closeViz(overlayId) {
-    var overlay = document.getElementById(overlayId); overlay.classList.remove('active');
-    setTimeout(function() { overlay.style.display = 'none'; document.body.style.overflow = ''; }, 300);
-}
-function openGNHModal()       { openViz('gnhModalOverlay','gnhModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story2'); }
-function closeGNHModal()      { closeViz('gnhModalOverlay'); }
-function openReadinessModal() { openViz('readinessModalOverlay','readinessModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Readinesss'); }
-function closeReadinessModal(){ closeViz('readinessModalOverlay'); }
-function openScamModal()      { openViz('scamModalOverlay','scamModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story4'); }
-function closeScamModal()     { closeViz('scamModalOverlay'); }
-function openSolutionsModal() { openViz('solutionsModalOverlay','solutionsModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story4'); }
-function closeSolutionsModal(){ closeViz('solutionsModalOverlay'); }
-function closeModal()         { closeViz('modalOverlay'); }
-function handleOverlayClick(e){ if (e.target === document.getElementById('modalOverlay')) closeModal(); }
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') { closeGNHModal(); closeReadinessModal(); closeScamModal(); closeSolutionsModal(); closeModal(); }
-});
+function openViz(overlayId,bodyId,src){var overlay=document.getElementById(overlayId),body=document.getElementById(bodyId);if(!body.querySelector('tableau-viz')){var viz=document.createElement('tableau-viz');viz.setAttribute('src',src);viz.setAttribute('width','100%');viz.setAttribute('height','900');viz.setAttribute('hide-tabs','false');viz.setAttribute('toolbar','bottom');body.appendChild(viz);}overlay.style.display='flex';document.body.style.overflow='hidden';setTimeout(function(){overlay.classList.add('active');},10);}
+function closeViz(overlayId){var overlay=document.getElementById(overlayId);overlay.classList.remove('active');setTimeout(function(){overlay.style.display='none';document.body.style.overflow='';},300);}
+function openGNHModal(){openViz('gnhModalOverlay','gnhModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story2');}
+function closeGNHModal(){closeViz('gnhModalOverlay');}
+function openReadinessModal(){openViz('readinessModalOverlay','readinessModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Readinesss');}
+function closeReadinessModal(){closeViz('readinessModalOverlay');}
+function openScamModal(){openViz('scamModalOverlay','scamModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story4');}
+function closeScamModal(){closeViz('scamModalOverlay');}
+function openSolutionsModal(){openViz('solutionsModalOverlay','solutionsModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story4');}
+function closeSolutionsModal(){closeViz('solutionsModalOverlay');}
+function closeModal(){closeViz('modalOverlay');}
+function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeGNHModal();closeReadinessModal();closeScamModal();closeSolutionsModal();closeModal();}});
 
 // ══════════════════════════════════════════════════
 // QUIZ
 // ══════════════════════════════════════════════════
-var qQuestions = [
-    { text: "How familiar are you with what cryptocurrency is?", area: "Knowledge" },
-    { text: "How confident are you in your ability to use features, functions or tools of a crypto wallet?", area: "Technical Skill" },
-    { text: "How much do you trust cryptocurrency as a reliable form of digital money?", area: "Trust" },
-    { text: "How aware are you of the risks associated with cryptocurrency?", area: "Security Awareness" },
-    { text: "How ready do you feel personally to start transacting with cryptocurrency?", area: "Personal Readiness" },
-    { text: "How reliable is your internet connection for daily digital activities?", area: "Infrastructure" },
-    { text: "How comfortable are you with digital financial tools such as mobile banking?", area: "Digital Comfort" },
-    { text: "Have you heard about the cryptocurrency regulations?", area: "Regulatory Awareness" },
-    { text: "How willing are you to adopt cryptocurrency if it becomes safe and widely accepted in Bhutan?", area: "Adoption Willingness" },
-    { text: "How much do you think cryptocurrency could positively contribute to Bhutan's development?", area: "GNH Alignment" }
+var qQuestions=[
+    {text:"How familiar are you with what cryptocurrency is?",area:"Knowledge"},
+    {text:"How confident are you in your ability to use features, functions or tools of a crypto wallet?",area:"Technical Skill"},
+    {text:"How much do you trust cryptocurrency as a reliable form of digital money?",area:"Trust"},
+    {text:"How aware are you of the risks associated with cryptocurrency?",area:"Security Awareness"},
+    {text:"How ready do you feel personally to start transacting with cryptocurrency?",area:"Personal Readiness"},
+    {text:"How reliable is your internet connection for daily digital activities?",area:"Infrastructure"},
+    {text:"How comfortable are you with digital financial tools such as mobile banking?",area:"Digital Comfort"},
+    {text:"Have you heard about the cryptocurrency regulations?",area:"Regulatory Awareness"},
+    {text:"How willing are you to adopt cryptocurrency if it becomes safe and widely accepted in Bhutan?",area:"Adoption Willingness"},
+    {text:"How much do you think cryptocurrency could positively contribute to Bhutan's development?",area:"GNH Alignment"}
 ];
-var qColors = {
-    'Knowledge':'#2a6aad','Technical Skill':'#2a9d8f','Trust':'#e9c46a',
-    'Security Awareness':'#e63946','Personal Readiness':'#9b5de5',
-    'Infrastructure':'#f4a261','Digital Comfort':'#2a9d8f',
-    'Regulatory Awareness':'#d4537e','Adoption Willingness':'#2a9d8f','GNH Alignment':'#e9c46a'
-};
-var qCurrent = 0;
-var qAnswers = [];
-for (var i = 0; i < qQuestions.length; i++) { qAnswers.push(null); }
+var qColors={'Knowledge':'#2a6aad','Technical Skill':'#2a9d8f','Trust':'#e9c46a','Security Awareness':'#e63946','Personal Readiness':'#9b5de5','Infrastructure':'#f4a261','Digital Comfort':'#2a9d8f','Regulatory Awareness':'#d4537e','Adoption Willingness':'#2a9d8f','GNH Alignment':'#e9c46a'};
+var qCurrent=0,qAnswers=[];
+for(var i=0;i<qQuestions.length;i++){qAnswers.push(null);}
 
-function qRender() {
-    var q = qQuestions[qCurrent];
-    var pct = Math.round((qCurrent / qQuestions.length) * 100);
-    document.getElementById('qProgressText').textContent = 'Question ' + (qCurrent + 1) + ' of ' + qQuestions.length;
-    document.getElementById('qProgressPct').textContent  = pct + '%';
-    document.getElementById('qProgressFill').style.width = pct + '%';
-    document.getElementById('qDomain').textContent = q.area;
-    document.getElementById('qText').textContent   = q.text;
-    var row = document.getElementById('qLikertRow'); row.innerHTML = '';
-    for (var n = 1; n <= 10; n++) {
-        (function(val) {
-            var btn = document.createElement('button');
-            btn.className = 'q-likert-btn' + (qAnswers[qCurrent] === val ? ' selected' : '');
-            btn.textContent = val; btn.type = 'button';
-            btn.onclick = function() { qSelect(val); };
-            row.appendChild(btn);
-        })(n);
-    }
-    document.getElementById('qPrevBtn').style.visibility = qCurrent > 0 ? 'visible' : 'hidden';
-    document.getElementById('qNextBtn').disabled = (qAnswers[qCurrent] === null);
-    document.getElementById('qNextBtn').textContent = qCurrent === qQuestions.length - 1 ? 'See my results →' : 'Next →';
+function qRender(){
+    var q=qQuestions[qCurrent],pct=Math.round((qCurrent/qQuestions.length)*100);
+    document.getElementById('qProgressText').textContent='Question '+(qCurrent+1)+' of '+qQuestions.length;
+    document.getElementById('qProgressPct').textContent=pct+'%';
+    document.getElementById('qProgressFill').style.width=pct+'%';
+    document.getElementById('qDomain').textContent=q.area;
+    document.getElementById('qText').textContent=q.text;
+    var row=document.getElementById('qLikertRow');row.innerHTML='';
+    for(var n=1;n<=10;n++){(function(val){var btn=document.createElement('button');btn.className='q-likert-btn'+(qAnswers[qCurrent]===val?' selected':'');btn.textContent=val;btn.type='button';btn.onclick=function(){qSelect(val);};row.appendChild(btn);})(n);}
+    document.getElementById('qPrevBtn').style.visibility=qCurrent>0?'visible':'hidden';
+    document.getElementById('qNextBtn').disabled=(qAnswers[qCurrent]===null);
+    document.getElementById('qNextBtn').textContent=qCurrent===qQuestions.length-1?'See my results →':'Next →';
 }
 
-function qSelect(val) {
-    qAnswers[qCurrent] = val;
-    var btns = document.querySelectorAll('.q-likert-btn');
-    for (var i = 0; i < btns.length; i++) {
-        btns[i].className = 'q-likert-btn' + (parseInt(btns[i].textContent) === val ? ' selected' : '');
-    }
-    document.getElementById('qNextBtn').disabled = false;
+function qSelect(val){
+    qAnswers[qCurrent]=val;
+    var btns=document.querySelectorAll('.q-likert-btn');
+    for(var i=0;i<btns.length;i++){btns[i].className='q-likert-btn'+(parseInt(btns[i].textContent)===val?' selected':'');}
+    document.getElementById('qNextBtn').disabled=false;
 }
-function qNext() { if (qCurrent < qQuestions.length - 1) { qCurrent++; qRender(); } else { qShowResults(); } }
-function qPrev() { if (qCurrent > 0) { qCurrent--; qRender(); } }
+function qNext(){if(qCurrent<qQuestions.length-1){qCurrent++;qRender();}else{qShowResults();}}
+function qPrev(){if(qCurrent>0){qCurrent--;qRender();}}
 
-function qShowResults() {
-    var total = 0;
-    for (var i = 0; i < qAnswers.length; i++) { total += qAnswers[i]; }
-    var score = Math.round((total / 100) * 100);
-    var diff  = score - 80;
-
-    saveQuizResult(score, qAnswers);
-    setTimeout(function() { fetchHistory(score); }, 2000);
-
-    document.getElementById('quizWrap').style.display    = 'none';
-    document.getElementById('qResultWrap').style.display = 'block';
-    document.getElementById('qScoreNum').textContent     = score;
-    document.getElementById('qYourPct').textContent      = score + '%';
-    document.getElementById('qVsAvg').textContent        = (diff >= 0 ? '+' : '') + diff + '%';
-
-    var circle = document.getElementById('qScoreCircle');
-    var title, desc;
-    if (score >= 80) {
-        circle.className = 'q-score-circle high';
-        title = 'You are highly ready!';
-        desc  = 'Your readiness is at or above the Bhutan average of 80%. You have strong knowledge, confidence and willingness to adopt cryptocurrency safely.';
-    } else if (score >= 60) {
-        circle.className = 'q-score-circle mid';
-        title = 'You are somewhat ready';
-        desc  = 'You have a solid foundation but some areas need strengthening. Targeted education and practice will help you reach full readiness.';
-    } else {
-        circle.className = 'q-score-circle low';
-        title = 'You need more support';
-        desc  = 'Your readiness is below the Bhutan average. With the right education, awareness and support you can improve significantly.';
-    }
-    document.getElementById('qResultTitle').textContent = title;
-    document.getElementById('qResultDesc').textContent  = desc;
-
-    var dContainer = document.getElementById('qDomainBars');
-    dContainer.innerHTML = '<div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px;">Your score by readiness area</div>';
-    for (var i = 0; i < qQuestions.length; i++) {
-        var dpct  = Math.round((qAnswers[i] / 10) * 100);
-        var color = qColors[qQuestions[i].area] || '#888';
-        dContainer.innerHTML += '<div class="q-domain-row"><div class="q-domain-label"><span>' + qQuestions[i].area + '</span><span>' + qAnswers[i] + '/10</span></div><div class="q-domain-track"><div class="q-domain-fill" style="width:' + dpct + '%;background:' + color + '"></div></div></div>';
-    }
-    document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+function qShowResults(){
+    var total=0;
+    for(var i=0;i<qAnswers.length;i++){total+=qAnswers[i];}
+    var score=Math.round((total/100)*100),diff=score-80;
+    saveQuizResult(score,qAnswers);
+    setTimeout(function(){fetchHistory(score);},2000);
+    document.getElementById('quizWrap').style.display='none';
+    document.getElementById('qResultWrap').style.display='block';
+    document.getElementById('qScoreNum').textContent=score;
+    document.getElementById('qYourPct').textContent=score+'%';
+    document.getElementById('qVsAvg').textContent=(diff>=0?'+':'')+diff+'%';
+    var circle=document.getElementById('qScoreCircle'),title,desc;
+    if(score>=80){circle.className='q-score-circle high';title='You are highly ready!';desc='Your readiness is at or above the Bhutan average of 80%. You have strong knowledge, confidence and willingness to adopt cryptocurrency safely.';}
+    else if(score>=60){circle.className='q-score-circle mid';title='You are somewhat ready';desc='You have a solid foundation but some areas need strengthening. Targeted education and practice will help you reach full readiness.';}
+    else{circle.className='q-score-circle low';title='You need more support';desc='Your readiness is below the Bhutan average. With the right education, awareness and support you can improve significantly.';}
+    document.getElementById('qResultTitle').textContent=title;
+    document.getElementById('qResultDesc').textContent=desc;
+    var dContainer=document.getElementById('qDomainBars');
+    dContainer.innerHTML='<div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px;">Your score by readiness area</div>';
+    for(var i=0;i<qQuestions.length;i++){var dpct=Math.round((qAnswers[i]/10)*100),color=qColors[qQuestions[i].area]||'#888';dContainer.innerHTML+='<div class="q-domain-row"><div class="q-domain-label"><span>'+qQuestions[i].area+'</span><span>'+qAnswers[i]+'/10</span></div><div class="q-domain-track"><div class="q-domain-fill" style="width:'+dpct+'%;background:'+color+'"></div></div></div>';}
+    document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
     qsRenderAll(score);
 }
 
-function qRestart() {
-    qCurrent = 0;
-    for (var i = 0; i < qAnswers.length; i++) { qAnswers[i] = null; }
-    document.getElementById('qResultWrap').style.display  = 'none';
-    document.getElementById('qHistoryBox').innerHTML      = '';
-    document.getElementById('userInfoWrap').style.display = 'block';
+function qRestart(){
+    qCurrent=0;
+    for(var i=0;i<qAnswers.length;i++){qAnswers[i]=null;}
+    document.getElementById('qResultWrap').style.display='none';
+    document.getElementById('qHistoryBox').innerHTML='';
+    document.getElementById('otpSection').style.display='none';
+    document.getElementById('otpInput').value='';
+    document.getElementById('otpError').style.display='none';
+    document.getElementById('sendOtpBtn').textContent='Send Verification Code →';
+    document.getElementById('sendOtpBtn').style.background='var(--teal)';
+    document.getElementById('userInfoWrap').style.display='block';
 }
 
 // ══════════════════════════════════════════════════
 // SOLUTIONS ENGINE
 // ══════════════════════════════════════════════════
-var qsCurrentFilter = 'all';
-var qsCurrentScore  = 65;
-var qsSolutions = [
-    { id:'knowledge', category:'education', title:'Build your crypto knowledge from scratch', urgentBelow:60, mediumBelow:80, body:'You cannot safely adopt what you do not understand. Start with the basics — what Bitcoin is, how blockchain works, and what makes crypto different from regular money.', actions:['Watch 3 beginner videos on Bitcoin and blockchain this week','Read the Royal Monetary Authority of Bhutan\'s official statements on digital assets','Follow one trusted crypto education source — avoid anyone promising quick profits'], gnh:['Education','Living Standards'], impact:'+8 to +15 points' },
-    { id:'wallet', category:'education', title:'Practice with a demo crypto wallet before using real money', urgentBelow:50, mediumBelow:70, body:'Technical confidence comes from practice, not reading. Try a demo wallet where no real money is involved. Get comfortable with the interface before committing any actual funds.', actions:['Download a reputable demo wallet app and set it up with practice funds','Try sending and receiving small demo amounts between two accounts','Learn what a private key and seed phrase are — and never share them'], gnh:['Education','Psychological Wellbeing'], impact:'+5 to +10 points' },
-    { id:'scam', category:'security', title:'Protect yourself from crypto scams — awareness is your best defence', urgentBelow:70, mediumBelow:85, body:'DrukShift data shows the 35-44 age group has the highest trust but lowest security concern — the most vulnerable combination. High awareness does not mean high safety.', actions:['Learn the top 5 crypto scams — fake apps, pump and dump, phishing links','Never share your PIN, password or seed phrase with anyone — ever','If something promises guaranteed returns — walk away immediately','Verify every app and website URL before entering any financial information'], gnh:['Psychological Wellbeing','Governance'], impact:'+7 to +12 points' },
-    { id:'internet', category:'infrastructure', title:'Improve your internet reliability before transacting with crypto', urgentBelow:60, mediumBelow:75, body:'Poor internet is the number one barrier from our Bhutan survey. An interrupted connection during a crypto transaction can result in lost funds. Reliable connectivity is a safety requirement.', actions:['Test your internet speed — you need at least 5 Mbps for safe crypto transactions','If rural — contact NDCA or Bhutan Telecom about rural broadband programs','Never transact crypto on public WiFi — use mobile data or home connection only','Advocate in your community for improved internet — it benefits everyone'], gnh:['Living Standards','Community Vitality'], impact:'+6 to +10 points' },
-    { id:'regulation', category:'governance', title:'Stay informed about Bhutan\'s cryptocurrency regulations', urgentBelow:65, mediumBelow:80, body:'Many Bhutanese adults are unaware of the legal status of cryptocurrency in Bhutan. Before adopting anything, understand what is permitted, what is regulated and what consumer protections exist.', actions:['Visit the Royal Monetary Authority website and search for digital asset guidelines','Follow official government announcements on cryptocurrency policy','Ask your bank directly — what is their position on crypto-linked transactions?','Join community meetings where digital finance is discussed'], gnh:['Governance','Community Vitality'], impact:'+5 to +8 points' },
-    { id:'community', category:'community', title:'Start with your community — let trust build naturally', urgentBelow:100, mediumBelow:100, body:'DrukShift found most Bhutanese said Maybe — not No. These undecided people are waiting to see crypto working safely in real life. You can help by starting small in your own community.', actions:['Talk to one trusted friend or family member about what you have learned','Share the DrukShift readiness quiz with your network — more data helps everyone','Think GNH-first — ask how this technology serves your community, not just you','Identify one local business willing to explore crypto payments in future'], gnh:['Community Vitality','Time Use','Education'], impact:'Multiplies over time' }
+var qsCurrentFilter='all',qsCurrentScore=65;
+var qsSolutions=[
+    {id:'knowledge',category:'education',title:'Build your crypto knowledge from scratch',urgentBelow:60,mediumBelow:80,body:'You cannot safely adopt what you do not understand. Start with the basics — what Bitcoin is, how blockchain works, and what makes crypto different from regular money.',actions:['Watch 3 beginner videos on Bitcoin and blockchain this week','Read the Royal Monetary Authority of Bhutan\'s official statements on digital assets','Follow one trusted crypto education source — avoid anyone promising quick profits'],gnh:['Education','Living Standards'],impact:'+8 to +15 points'},
+    {id:'wallet',category:'education',title:'Practice with a demo crypto wallet before using real money',urgentBelow:50,mediumBelow:70,body:'Technical confidence comes from practice, not reading. Try a demo wallet where no real money is involved. Get comfortable with the interface before committing any actual funds.',actions:['Download a reputable demo wallet app and set it up with practice funds','Try sending and receiving small demo amounts between two accounts','Learn what a private key and seed phrase are — and never share them'],gnh:['Education','Psychological Wellbeing'],impact:'+5 to +10 points'},
+    {id:'scam',category:'security',title:'Protect yourself from crypto scams — awareness is your best defence',urgentBelow:70,mediumBelow:85,body:'DrukShift data shows the 35-44 age group has the highest trust but lowest security concern — the most vulnerable combination. High awareness does not mean high safety.',actions:['Learn the top 5 crypto scams — fake apps, pump and dump, phishing links','Never share your PIN, password or seed phrase with anyone — ever','If something promises guaranteed returns — walk away immediately','Verify every app and website URL before entering any financial information'],gnh:['Psychological Wellbeing','Governance'],impact:'+7 to +12 points'},
+    {id:'internet',category:'infrastructure',title:'Improve your internet reliability before transacting with crypto',urgentBelow:60,mediumBelow:75,body:'Poor internet is the number one barrier from our Bhutan survey. An interrupted connection during a crypto transaction can result in lost funds. Reliable connectivity is a safety requirement.',actions:['Test your internet speed — you need at least 5 Mbps for safe crypto transactions','If rural — contact NDCA or Bhutan Telecom about rural broadband programs','Never transact crypto on public WiFi — use mobile data or home connection only','Advocate in your community for improved internet — it benefits everyone'],gnh:['Living Standards','Community Vitality'],impact:'+6 to +10 points'},
+    {id:'regulation',category:'governance',title:'Stay informed about Bhutan\'s cryptocurrency regulations',urgentBelow:65,mediumBelow:80,body:'Many Bhutanese adults are unaware of the legal status of cryptocurrency in Bhutan. Before adopting anything, understand what is permitted, what is regulated and what consumer protections exist.',actions:['Visit the Royal Monetary Authority website and search for digital asset guidelines','Follow official government announcements on cryptocurrency policy','Ask your bank directly — what is their position on crypto-linked transactions?','Join community meetings where digital finance is discussed'],gnh:['Governance','Community Vitality'],impact:'+5 to +8 points'},
+    {id:'community',category:'community',title:'Start with your community — let trust build naturally',urgentBelow:100,mediumBelow:100,body:'DrukShift found most Bhutanese said Maybe — not No. These undecided people are waiting to see crypto working safely in real life. You can help by starting small in your own community.',actions:['Talk to one trusted friend or family member about what you have learned','Share the DrukShift readiness quiz with your network — more data helps everyone','Think GNH-first — ask how this technology serves your community, not just you','Identify one local business willing to explore crypto payments in future'],gnh:['Community Vitality','Time Use','Education'],impact:'Multiplies over time'}
 ];
 
-function qsFilter(cat, btn) {
-    qsCurrentFilter = cat;
-    document.querySelectorAll('.qs-filter').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    qsRenderSolutions(qsCurrentScore);
+function qsFilter(cat,btn){qsCurrentFilter=cat;document.querySelectorAll('.qs-filter').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');qsRenderSolutions(qsCurrentScore);}
+
+function qsRenderAll(score){
+    qsCurrentScore=score;
+    var gap=Math.max(0,80-score),urgent=0;
+    for(var i=0;i<qsSolutions.length;i++){if(score<qsSolutions[i].urgentBelow)urgent++;}
+    var timeEst=score<50?'3-6 months':score<70?'1-3 months':score<80?'2-4 weeks':'Ongoing';
+    document.getElementById('qsSub').textContent=score>=80?'You are above the Bhutan average of 80% — here are ways to keep strengthening and help your community.':'Your score is below the Bhutan average of 80% — these personalised solutions will help you improve step by step.';
+    document.getElementById('qsSummary').innerHTML='<div class="qs-sum-card"><div class="qs-sum-val">'+(gap>0?'+'+gap+'%':'Above')+'</div><div class="qs-sum-lbl">Points to average</div></div><div class="qs-sum-card"><div class="qs-sum-val">'+urgent+'</div><div class="qs-sum-lbl">Priority actions</div></div><div class="qs-sum-card"><div class="qs-sum-val">'+timeEst+'</div><div class="qs-sum-lbl">Est. time to improve</div></div>';
+    qsRenderSolutions(score);qsRenderRoadmap(score);
 }
 
-function qsRenderAll(score) {
-    qsCurrentScore = score;
-    var gap = Math.max(0, 80 - score);
-    var urgent = 0;
-    for (var i = 0; i < qsSolutions.length; i++) { if (score < qsSolutions[i].urgentBelow) urgent++; }
-    var timeEst = score < 50 ? '3-6 months' : score < 70 ? '1-3 months' : score < 80 ? '2-4 weeks' : 'Ongoing';
-    document.getElementById('qsSub').textContent = score >= 80 ? 'You are above the Bhutan average of 80% — here are ways to keep strengthening and help your community.' : 'Your score is below the Bhutan average of 80% — these personalised solutions will help you improve step by step.';
-    document.getElementById('qsSummary').innerHTML =
-        '<div class="qs-sum-card"><div class="qs-sum-val">' + (gap > 0 ? '+' + gap + '%' : 'Above') + '</div><div class="qs-sum-lbl">Points to average</div></div>' +
-        '<div class="qs-sum-card"><div class="qs-sum-val">' + urgent + '</div><div class="qs-sum-lbl">Priority actions</div></div>' +
-        '<div class="qs-sum-card"><div class="qs-sum-val">' + timeEst + '</div><div class="qs-sum-lbl">Est. time to improve</div></div>';
-    qsRenderSolutions(score);
-    qsRenderRoadmap(score);
-}
-
-function qsRenderSolutions(score) {
-    var filtered = [];
-    for (var i = 0; i < qsSolutions.length; i++) {
-        if (qsCurrentFilter === 'all' || qsSolutions[i].category === qsCurrentFilter) filtered.push(qsSolutions[i]);
+function qsRenderSolutions(score){
+    var filtered=[];
+    for(var i=0;i<qsSolutions.length;i++){if(qsCurrentFilter==='all'||qsSolutions[i].category===qsCurrentFilter)filtered.push(qsSolutions[i]);}
+    filtered.sort(function(a,b){var aU=score<a.urgentBelow,bU=score<b.urgentBelow;if(aU&&!bU)return -1;if(!aU&&bU)return 1;var aM=score<a.mediumBelow,bM=score<b.mediumBelow;if(aM&&!bM)return -1;if(!aM&&bM)return 1;return 0;});
+    var html='<div class="qs-sol-list">';
+    if(filtered.length===0)html+='<div style="font-size:13px;color:var(--muted);padding:8px 0;">No solutions in this category.</div>';
+    for(var i=0;i<filtered.length;i++){
+        var s=filtered[i],isU=score<s.urgentBelow,isM=!isU&&score<s.mediumBelow;
+        var cls=isU?'qs-sol urgent':isM?'qs-sol medium':'qs-sol',bCls=isU?'qs-badge urgent':isM?'qs-badge medium':'qs-badge good',bTxt=isU?'Priority':isM?'Recommended':'Strengthen';
+        html+='<div class="'+cls+'"><div class="qs-sol-header"><div class="qs-sol-title">'+s.title+'</div><div class="'+bCls+'">'+bTxt+'</div></div><div class="qs-sol-body">'+s.body+'</div><div class="qs-actions">';
+        for(var j=0;j<s.actions.length;j++)html+='<div class="qs-action"><div class="qs-adot"></div><span>'+s.actions[j]+'</span></div>';
+        html+='</div><div class="qs-tags">';
+        for(var k=0;k<s.gnh.length;k++)html+='<span class="qs-tag">'+s.gnh[k]+'</span>';
+        html+='<span class="qs-tag impact">'+s.impact+'</span></div></div>';
     }
-    filtered.sort(function(a, b) {
-        var aU = score < a.urgentBelow, bU = score < b.urgentBelow;
-        if (aU && !bU) return -1; if (!aU && bU) return 1;
-        var aM = score < a.mediumBelow, bM = score < b.mediumBelow;
-        if (aM && !bM) return -1; if (!aM && bM) return 1;
-        return 0;
-    });
-    var html = '<div class="qs-sol-list">';
-    if (filtered.length === 0) html += '<div style="font-size:13px;color:var(--muted);padding:8px 0;">No solutions in this category.</div>';
-    for (var i = 0; i < filtered.length; i++) {
-        var s = filtered[i];
-        var isU = score < s.urgentBelow, isM = !isU && score < s.mediumBelow;
-        var cls = isU ? 'qs-sol urgent' : isM ? 'qs-sol medium' : 'qs-sol';
-        var bCls = isU ? 'qs-badge urgent' : isM ? 'qs-badge medium' : 'qs-badge good';
-        var bTxt = isU ? 'Priority' : isM ? 'Recommended' : 'Strengthen';
-        html += '<div class="' + cls + '"><div class="qs-sol-header"><div class="qs-sol-title">' + s.title + '</div><div class="' + bCls + '">' + bTxt + '</div></div>';
-        html += '<div class="qs-sol-body">' + s.body + '</div><div class="qs-actions">';
-        for (var j = 0; j < s.actions.length; j++) html += '<div class="qs-action"><div class="qs-adot"></div><span>' + s.actions[j] + '</span></div>';
-        html += '</div><div class="qs-tags">';
-        for (var k = 0; k < s.gnh.length; k++) html += '<span class="qs-tag">' + s.gnh[k] + '</span>';
-        html += '<span class="qs-tag impact">' + s.impact + '</span></div></div>';
-    }
-    html += '</div>';
-    document.getElementById('qsSolutions').innerHTML = html;
+    html+='</div>';
+    document.getElementById('qsSolutions').innerHTML=html;
 }
 
-function qsRenderRoadmap(score) {
+function qsRenderRoadmap(score){
     var y1=Math.min(100,score+8),y2=Math.min(100,y1+7),y3=Math.min(100,y2+6),y4=Math.min(100,y3+5);
-    var steps = [
-        {label:'Now',sc:score,focus:'Assess your gaps',detail:'Take the quiz, identify weak areas, make a personal improvement plan'},
-        {label:'Year 1',sc:y1,focus:'Learn and protect',detail:'Complete crypto basics, learn scam awareness, improve internet access'},
-        {label:'Year 2',sc:y2,focus:'Practice and build',detail:'Use a demo wallet regularly, follow regulations, join community discussions'},
-        {label:'Year 3',sc:y3,focus:'Adopt carefully',detail:'Start small with regulated crypto products, help others in your community'},
-        {label:'Year 4',sc:y4,focus:'Lead and grow',detail:'Share knowledge, mentor others, contribute to GNH-aligned adoption in Bhutan'}
-    ];
-    var html = '';
-    for (var i = 0; i < steps.length; i++) {
-        var st = steps[i];
-        html += '<div class="qs-road-item"><div class="qs-year"><div class="qs-year-lbl">'+st.label+'</div><div class="qs-year-score">'+Math.round(st.sc)+'%</div></div>';
-        html += '<div class="qs-road-content" style="flex:1;"><p>'+st.focus+'</p><span>'+st.detail+'</span>';
-        html += '<div class="qs-road-bar-wrap"><div class="qs-road-bar" style="width:'+Math.round(st.sc)+'%"></div></div></div></div>';
-    }
-    document.getElementById('qsRoadmap').innerHTML = html;
+    var steps=[{label:'Now',sc:score,focus:'Assess your gaps',detail:'Take the quiz, identify weak areas, make a personal improvement plan'},{label:'Year 1',sc:y1,focus:'Learn and protect',detail:'Complete crypto basics, learn scam awareness, improve internet access'},{label:'Year 2',sc:y2,focus:'Practice and build',detail:'Use a demo wallet regularly, follow regulations, join community discussions'},{label:'Year 3',sc:y3,focus:'Adopt carefully',detail:'Start small with regulated crypto products, help others in your community'},{label:'Year 4',sc:y4,focus:'Lead and grow',detail:'Share knowledge, mentor others, contribute to GNH-aligned adoption in Bhutan'}];
+    var html='';
+    for(var i=0;i<steps.length;i++){var st=steps[i];html+='<div class="qs-road-item"><div class="qs-year"><div class="qs-year-lbl">'+st.label+'</div><div class="qs-year-score">'+Math.round(st.sc)+'%</div></div><div class="qs-road-content" style="flex:1;"><p>'+st.focus+'</p><span>'+st.detail+'</span><div class="qs-road-bar-wrap"><div class="qs-road-bar" style="width:'+Math.round(st.sc)+'%"></div></div></div></div>';}
+    document.getElementById('qsRoadmap').innerHTML=html;
 }
 </script>
 </body>
