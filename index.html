@@ -801,7 +801,7 @@ function qShowResults(){
     dContainer.innerHTML='<div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px;">Your score by readiness area</div>';
     for(var i=0;i<qQuestions.length;i++){var dpct=Math.round((qAnswers[i]/10)*100),color=qColors[qQuestions[i].area]||'#888';dContainer.innerHTML+='<div class="q-domain-row"><div class="q-domain-label"><span>'+qQuestions[i].area+'</span><span>'+qAnswers[i]+'/10</span></div><div class="q-domain-track"><div class="q-domain-fill" style="width:'+dpct+'%;background:'+color+'"></div></div></div>';}
     document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
-    qsRenderAll(score);
+    qsRenderAll(score, qAnswers);
 }
 
 function qRestart(){
@@ -815,42 +815,169 @@ function qRestart(){
 }
 
 // SOLUTIONS ENGINE
-var qsCurrentFilter='all',qsCurrentScore=65;
+var qsCurrentFilter='all',qsCurrentScore=65,qsCurrentAnswers=[];
+
+// Each solution maps to specific question indices (0-based) and has a "because" template
 var qsSolutions=[
-    {id:'knowledge',category:'education',title:'Build your crypto knowledge from scratch',urgentBelow:60,mediumBelow:80,body:'You cannot safely adopt what you do not understand. Start with the basics — what Bitcoin is, how blockchain works, and what makes crypto different from regular money.',actions:['Watch 3 beginner videos on Bitcoin and blockchain this week','Read the Royal Monetary Authority of Bhutan\'s official statements on digital assets','Follow one trusted crypto education source — avoid anyone promising quick profits'],gnh:['Education','Living Standards'],impact:'+8 to +15 points'},
-    {id:'wallet',category:'education',title:'Practice with a demo crypto wallet before using real money',urgentBelow:50,mediumBelow:70,body:'Technical confidence comes from practice, not reading. Try a demo wallet where no real money is involved. Get comfortable with the interface before committing any actual funds.',actions:['Download a reputable demo wallet app and set it up with practice funds','Try sending and receiving small demo amounts between two accounts','Learn what a private key and seed phrase are — and never share them'],gnh:['Education','Psychological Wellbeing'],impact:'+5 to +10 points'},
-    {id:'scam',category:'security',title:'Protect yourself from crypto scams — awareness is your best defence',urgentBelow:70,mediumBelow:85,body:'DrukShift data shows the 35-44 age group has the highest trust but lowest security concern — the most vulnerable combination. High awareness does not mean high safety.',actions:['Learn the top 5 crypto scams — fake apps, pump and dump, phishing links','Never share your PIN, password or seed phrase with anyone — ever','If something promises guaranteed returns — walk away immediately','Verify every app and website URL before entering any financial information'],gnh:['Psychological Wellbeing','Governance'],impact:'+7 to +12 points'},
-    {id:'internet',category:'infrastructure',title:'Improve your internet reliability before transacting with crypto',urgentBelow:60,mediumBelow:75,body:'Poor internet is the number one barrier from our Bhutan survey. An interrupted connection during a crypto transaction can result in lost funds. Reliable connectivity is a safety requirement.',actions:['Test your internet speed — you need at least 5 Mbps for safe crypto transactions','If rural — contact NDCA or Bhutan Telecom about rural broadband programs','Never transact crypto on public WiFi — use mobile data or home connection only','Advocate in your community for improved internet — it benefits everyone'],gnh:['Living Standards','Community Vitality'],impact:'+6 to +10 points'},
-    {id:'regulation',category:'governance',title:'Stay informed about Bhutan\'s cryptocurrency regulations',urgentBelow:65,mediumBelow:80,body:'Many Bhutanese adults are unaware of the legal status of cryptocurrency in Bhutan. Before adopting anything, understand what is permitted, what is regulated and what consumer protections exist.',actions:['Visit the Royal Monetary Authority website and search for digital asset guidelines','Follow official government announcements on cryptocurrency policy','Ask your bank directly — what is their position on crypto-linked transactions?','Join community meetings where digital finance is discussed'],gnh:['Governance','Community Vitality'],impact:'+5 to +8 points'},
-    {id:'community',category:'community',title:'Start with your community — let trust build naturally',urgentBelow:100,mediumBelow:100,body:'DrukShift found most Bhutanese said Maybe — not No. These undecided people are waiting to see crypto working safely in real life. You can help by starting small in your own community.',actions:['Talk to one trusted friend or family member about what you have learned','Share the DrukShift readiness quiz with your network — more data helps everyone','Think GNH-first — ask how this technology serves your community, not just you','Identify one local business willing to explore crypto payments in future'],gnh:['Community Vitality','Time Use','Education'],impact:'Multiplies over time'}
+    {
+        id:'knowledge',category:'education',
+        title:'Build your crypto knowledge from scratch',
+        questionIndex:0, // Q1 — Knowledge
+        urgentBelow:60,mediumBelow:80,
+        because:'You rated your cryptocurrency knowledge as {score}/10 (Question 1 — Knowledge). This means you may not yet have a solid enough foundation to make safe decisions about crypto.',
+        body:'Without understanding the basics, it is easy to make costly mistakes or fall for scams. The good news is that knowledge is the fastest thing to improve.',
+        actions:['Watch 3 beginner videos on Bitcoin and blockchain this week','Read the Royal Monetary Authority of Bhutan\'s official statements on digital assets','Follow one trusted crypto education source — avoid anyone promising quick profits'],
+        gnh:['Education','Living Standards'],impact:'+8 to +15 points'
+    },
+    {
+        id:'wallet',category:'education',
+        title:'Practice using a crypto wallet before using real money',
+        questionIndex:1, // Q2 — Technical Skill
+        urgentBelow:50,mediumBelow:70,
+        because:'You rated your crypto wallet confidence as {score}/10 (Question 2 — Technical Skill). Low technical confidence is one of the biggest barriers to safe adoption.',
+        body:'Technical confidence comes from practice, not reading. Try a demo wallet where no real money is involved — get comfortable before committing actual funds.',
+        actions:['Download a reputable demo wallet app and set it up with practice funds','Try sending and receiving small demo amounts between two accounts','Learn what a private key and seed phrase are — and never share them with anyone'],
+        gnh:['Education','Psychological Wellbeing'],impact:'+5 to +10 points'
+    },
+    {
+        id:'trust',category:'education',
+        title:'Understand why trust in crypto needs to be earned — not assumed',
+        questionIndex:2, // Q3 — Trust
+        urgentBelow:50,mediumBelow:70,
+        because:'You rated your trust in cryptocurrency as {score}/10 (Question 3 — Trust). Either very low or very high trust can be risky — healthy skepticism protects you.',
+        body:'Trust in crypto should be based on evidence, not emotion. Learn how the technology actually works, what protections exist, and what the risks are before making any financial decisions.',
+        actions:['Research how blockchain transactions are verified and why they are hard to fake','Learn about the difference between regulated and unregulated crypto platforms','Only trust platforms and exchanges that are officially registered and reviewed'],
+        gnh:['Psychological Wellbeing','Governance'],impact:'+5 to +8 points'
+    },
+    {
+        id:'scam',category:'security',
+        title:'Protect yourself from crypto scams — awareness is your best defence',
+        questionIndex:3, // Q4 — Security Awareness
+        urgentBelow:70,mediumBelow:85,
+        because:'You rated your security awareness as {score}/10 (Question 4 — Security Awareness). Our DrukShift data shows that low security awareness is the number one factor that leads to financial loss in crypto.',
+        body:'High awareness of crypto does not mean high safety. Scammers specifically target people who are curious but not yet security-savvy.',
+        actions:['Learn the top 5 crypto scams — fake apps, pump and dump, phishing links','Never share your PIN, password or seed phrase with anyone — ever','If something promises guaranteed returns — walk away immediately','Verify every app and website URL before entering any financial information'],
+        gnh:['Psychological Wellbeing','Governance'],impact:'+7 to +12 points'
+    },
+    {
+        id:'readiness',category:'education',
+        title:'Build your personal readiness step by step — do not rush',
+        questionIndex:4, // Q5 — Personal Readiness
+        urgentBelow:55,mediumBelow:75,
+        because:'You rated your personal readiness to transact with crypto as {score}/10 (Question 5 — Personal Readiness). Feeling unready is valid — it means you are being honest with yourself, which is the first step to safe adoption.',
+        body:'Personal readiness is about more than knowing what crypto is — it means feeling confident, informed, and secure enough to act. That confidence is built gradually.',
+        actions:['Make a personal crypto learning plan — 30 minutes a week for 2 months','Complete at least one full crypto basics course before transacting any real money','Talk to someone you trust who already uses crypto safely and ask about their experience'],
+        gnh:['Psychological Wellbeing','Education'],impact:'+6 to +12 points'
+    },
+    {
+        id:'internet',category:'infrastructure',
+        title:'Improve your internet reliability before transacting with crypto',
+        questionIndex:5, // Q6 — Infrastructure
+        urgentBelow:60,mediumBelow:75,
+        because:'You rated your internet reliability as {score}/10 (Question 6 — Infrastructure). Poor internet is the number one practical barrier to safe crypto adoption in Bhutan — an interrupted transaction can result in lost funds.',
+        body:'Reliable internet is not optional for crypto — it is a safety requirement. A dropped connection during a transaction can cause real financial harm.',
+        actions:['Test your internet speed — you need at least 5 Mbps for safe crypto transactions','If rural — contact NDCA or Bhutan Telecom about rural broadband programs','Never transact crypto on public WiFi — use mobile data or a trusted home connection only','Advocate in your community for improved internet — it benefits everyone'],
+        gnh:['Living Standards','Community Vitality'],impact:'+6 to +10 points'
+    },
+    {
+        id:'digital',category:'education',
+        title:'Get comfortable with digital finance tools first',
+        questionIndex:6, // Q7 — Digital Comfort
+        urgentBelow:55,mediumBelow:75,
+        because:'You rated your comfort with digital financial tools as {score}/10 (Question 7 — Digital Comfort). If mobile banking still feels unfamiliar, crypto will feel even harder — building digital finance confidence first makes crypto adoption much safer.',
+        body:'Cryptocurrency is more complex than mobile banking. If digital finance tools feel uncomfortable, start there first before moving to crypto.',
+        actions:['Use your mobile banking app every day for one month — explore all its features','Enable two-factor authentication on all your digital finance accounts','Practice sending and receiving small amounts using existing digital tools you trust'],
+        gnh:['Education','Living Standards'],impact:'+5 to +9 points'
+    },
+    {
+        id:'regulation',category:'governance',
+        title:'Stay informed about Bhutan\'s cryptocurrency regulations',
+        questionIndex:7, // Q8 — Regulatory Awareness
+        urgentBelow:65,mediumBelow:80,
+        because:'You rated your regulatory awareness as {score}/10 (Question 8 — Regulatory Awareness). Not knowing the legal status of crypto in Bhutan puts you at serious risk — you could unknowingly break the law or lose money with no legal protection.',
+        body:'Many Bhutanese adults are unaware of the legal status of cryptocurrency. Before adopting anything, understand what is permitted, what is regulated, and what consumer protections exist.',
+        actions:['Visit the Royal Monetary Authority website and search for digital asset guidelines','Follow official government announcements on cryptocurrency policy','Ask your bank directly — what is their position on crypto-linked transactions?','Join community meetings where digital finance is discussed'],
+        gnh:['Governance','Community Vitality'],impact:'+5 to +8 points'
+    },
+    {
+        id:'community',category:'community',
+        title:'Start with your community — let trust and adoption grow naturally',
+        questionIndex:8, // Q9 — Adoption Willingness
+        urgentBelow:100,mediumBelow:100,
+        because:'You rated your willingness to adopt crypto as {score}/10 (Question 9 — Adoption Willingness). Whether your score is high or low, community adoption is always the most sustainable path forward in Bhutan\'s GNH context.',
+        body:'DrukShift found most Bhutanese said Maybe — not No. These undecided people are waiting to see crypto working safely in real life. You can help by starting conversations.',
+        actions:['Talk to one trusted friend or family member about what you have learned','Share the DrukShift readiness quiz with your network — more data helps Bhutan','Think GNH-first — ask how this technology serves your community, not just you','Identify one local business willing to explore crypto payments in future'],
+        gnh:['Community Vitality','Time Use','Education'],impact:'Multiplies over time'
+    }
 ];
 
-function qsFilter(cat,btn){qsCurrentFilter=cat;document.querySelectorAll('.qs-filter').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');qsRenderSolutions(qsCurrentScore);}
+function qsFilter(cat,btn){
+    qsCurrentFilter=cat;
+    document.querySelectorAll('.qs-filter').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    qsRenderSolutions(qsCurrentScore, qsCurrentAnswers);
+}
 
-function qsRenderAll(score){
+function qsRenderAll(score, answers){
     qsCurrentScore=score;
+    qsCurrentAnswers=answers||[];
     var gap=Math.max(0,80-score),urgent=0;
     for(var i=0;i<qsSolutions.length;i++){if(score<qsSolutions[i].urgentBelow)urgent++;}
     var timeEst=score<50?'3-6 months':score<70?'1-3 months':score<80?'2-4 weeks':'Ongoing';
-    document.getElementById('qsSub').textContent=score>=80?'You are above the Bhutan average of 80% — here are ways to keep strengthening and help your community.':'Your score is below the Bhutan average of 80% — these personalised solutions will help you improve step by step.';
-    document.getElementById('qsSummary').innerHTML='<div class="qs-sum-card"><div class="qs-sum-val">'+(gap>0?'+'+gap+'%':'Above')+'</div><div class="qs-sum-lbl">Points to average</div></div><div class="qs-sum-card"><div class="qs-sum-val">'+urgent+'</div><div class="qs-sum-lbl">Priority actions</div></div><div class="qs-sum-card"><div class="qs-sum-val">'+timeEst+'</div><div class="qs-sum-lbl">Est. time to improve</div></div>';
-    qsRenderSolutions(score);qsRenderRoadmap(score);
+    document.getElementById('qsSub').textContent=score>=80?'You are above the Bhutan average of 80% — here are ways to keep strengthening and help your community.':'Your score is below the Bhutan average of 80% — these personalised solutions are based on your specific answers.';
+    document.getElementById('qsSummary').innerHTML=
+        '<div class="qs-sum-card"><div class="qs-sum-val">'+(gap>0?'+'+gap+'%':'Above avg')+'</div><div class="qs-sum-lbl">Points to average</div></div>'+
+        '<div class="qs-sum-card"><div class="qs-sum-val">'+urgent+'</div><div class="qs-sum-lbl">Priority actions</div></div>'+
+        '<div class="qs-sum-card"><div class="qs-sum-val">'+timeEst+'</div><div class="qs-sum-lbl">Est. time to improve</div></div>';
+    qsRenderSolutions(score, qsCurrentAnswers);
+    qsRenderRoadmap(score);
 }
 
-function qsRenderSolutions(score){
+function qsRenderSolutions(score, answers){
+    answers = answers || [];
     var filtered=[];
-    for(var i=0;i<qsSolutions.length;i++){if(qsCurrentFilter==='all'||qsSolutions[i].category===qsCurrentFilter)filtered.push(qsSolutions[i]);}
-    filtered.sort(function(a,b){var aU=score<a.urgentBelow,bU=score<b.urgentBelow;if(aU&&!bU)return -1;if(!aU&&bU)return 1;var aM=score<a.mediumBelow,bM=score<b.mediumBelow;if(aM&&!bM)return -1;if(!aM&&bM)return 1;return 0;});
+    for(var i=0;i<qsSolutions.length;i++){
+        if(qsCurrentFilter==='all'||qsSolutions[i].category===qsCurrentFilter) filtered.push(qsSolutions[i]);
+    }
+    // Sort: most urgent first based on actual answer score
+    filtered.sort(function(a,b){
+        var aScore = answers[a.questionIndex] || 5;
+        var bScore = answers[b.questionIndex] || 5;
+        // Lower answer = higher priority
+        return aScore - bScore;
+    });
+
     var html='<div class="qs-sol-list">';
-    if(filtered.length===0)html+='<div style="font-size:13px;color:var(--muted);padding:8px 0;">No solutions in this category.</div>';
+    if(filtered.length===0) html+='<div style="font-size:13px;color:var(--muted);padding:8px 0;">No solutions in this category.</div>';
+
     for(var i=0;i<filtered.length;i++){
-        var s=filtered[i],isU=score<s.urgentBelow,isM=!isU&&score<s.mediumBelow;
-        var cls=isU?'qs-sol urgent':isM?'qs-sol medium':'qs-sol',bCls=isU?'qs-badge urgent':isM?'qs-badge medium':'qs-badge good',bTxt=isU?'Priority':isM?'Recommended':'Strengthen';
-        html+='<div class="'+cls+'"><div class="qs-sol-header"><div class="qs-sol-title">'+s.title+'</div><div class="'+bCls+'">'+bTxt+'</div></div><div class="qs-sol-body">'+s.body+'</div><div class="qs-actions">';
-        for(var j=0;j<s.actions.length;j++)html+='<div class="qs-action"><div class="qs-adot"></div><span>'+s.actions[j]+'</span></div>';
-        html+='</div><div class="qs-tags">';
-        for(var k=0;k<s.gnh.length;k++)html+='<span class="qs-tag">'+s.gnh[k]+'</span>';
-        html+='<span class="qs-tag impact">'+s.impact+'</span></div></div>';
+        var s=filtered[i];
+        var answerScore = answers[s.questionIndex] || 5;
+        var isU = answerScore <= 3;
+        var isM = answerScore > 3 && answerScore <= 6;
+
+        var cls = isU?'qs-sol urgent':isM?'qs-sol medium':'qs-sol';
+        var bCls = isU?'qs-badge urgent':isM?'qs-badge medium':'qs-badge good';
+        var bTxt = isU?'🔴 Priority — Score '+answerScore+'/10':isM?'🟡 Recommended — Score '+answerScore+'/10':'🟢 Strengthen — Score '+answerScore+'/10';
+
+        // Build personalised "because" sentence
+        var becauseTxt = s.because.replace('{score}', answerScore);
+
+        html += '<div class="'+cls+'">';
+        html += '<div class="qs-sol-header"><div class="qs-sol-title">'+s.title+'</div><span class="'+bCls+'">'+bTxt+'</span></div>';
+
+        // BECAUSE block — the key personalisation
+        html += '<div style="background:#f0f6ff;border-left:3px solid #2a6aad;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#1a4a7a;line-height:1.6;">';
+        html += '<strong>Why this suggestion?</strong> '+becauseTxt;
+        html += '</div>';
+
+        html += '<div class="qs-sol-body">'+s.body+'</div>';
+        html += '<div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Your next steps:</div>';
+        html += '<div class="qs-actions">';
+        for(var j=0;j<s.actions.length;j++) html+='<div class="qs-action"><div class="qs-adot"></div><span>'+s.actions[j]+'</span></div>';
+        html += '</div><div class="qs-tags">';
+        for(var k=0;k<s.gnh.length;k++) html+='<span class="qs-tag">'+s.gnh[k]+'</span>';
+        html += '<span class="qs-tag impact">'+s.impact+'</span></div></div>';
     }
     html+='</div>';
     document.getElementById('qsSolutions').innerHTML=html;
