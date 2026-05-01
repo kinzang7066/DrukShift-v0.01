@@ -15,16 +15,12 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Outfit',sans-serif;background:var(--light);color:var(--navy);overflow-x:hidden;}
-
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:rgba(8,25,45,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white);letter-spacing:0.5px;}
 .nav-logo span{color:var(--accent);}
 .nav-links{display:flex;gap:32px;list-style:none;}
 .nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;}
 .nav-links a:hover{color:var(--white);}
-
-/* HERO WITH SLIDESHOW */
 .hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;overflow:hidden;}
 .hero-slides{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;}
 .hero-slide{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 1.5s ease;background-size:cover;background-position:center;background-repeat:no-repeat;}
@@ -56,24 +52,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:2px;text-transform:uppercase;z-index:4;}
 .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:scrollPulse 2s ease-in-out infinite;}
 @keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
-
-/* BUTTONS */
 .btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:var(--navy);font-size:14px;font-weight:600;padding:14px 32px;border-radius:8px;border:none;cursor:pointer;text-decoration:none;transition:all 0.25s;}
 .btn-primary:hover{background:#e8935a;transform:translateY(-2px);box-shadow:0 12px 30px rgba(244,162,97,0.35);}
 .btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);font-size:14px;font-weight:500;padding:14px 32px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);cursor:pointer;text-decoration:none;transition:all 0.25s;}
 .btn-secondary:hover{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.06);transform:translateY(-2px);}
 .btn-quiz{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--navy);font-size:14px;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none;transition:all 0.25s;}
 .btn-quiz:hover{background:#d4a017;transform:translateY(-2px);}
-
-/* ABOUT */
 .about-section{background:var(--white);padding:80px 48px;}
 .about-inner-simple{max-width:720px;margin:0 auto;}
 .about-inner-simple h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--navy);margin-bottom:24px;line-height:1.2;}
 .about-inner-simple h2 em{font-style:italic;color:var(--mid);}
 .about-inner-simple p{font-size:14px;color:#5a7a8a;line-height:1.9;margin-bottom:16px;}
 .about-inner-simple strong{color:var(--navy);font-weight:600;}
-
-/* STATS */
 .stats-section{background:var(--white);box-shadow:0 2px 40px rgba(8,25,45,0.08);display:flex;justify-content:center;flex-wrap:wrap;border-bottom:1px solid #e4eaf2;}
 .stat-item{padding:32px 56px;text-align:center;border-right:1px solid #edf2f7;position:relative;transition:background 0.2s;}
 .stat-item:last-child{border-right:none;}
@@ -82,11 +72,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .stat-item:hover::after{transform:translateX(-50%) scaleX(1);}
 .stat-num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:var(--blue);line-height:1;margin-bottom:6px;}
 .stat-lbl{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
-
-/* SECTION TAG */
 .section-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
-
-/* GNH */
 .gnh-section{padding:100px 48px;background:linear-gradient(160deg,#0a1f38 0%,#0d2137 50%,#0f2a45 100%);position:relative;overflow:hidden;text-align:center;}
 .gnh-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(233,196,106,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(233,196,106,0.03) 1px,transparent 1px);background-size:40px 40px;}
 .gnh-inner{position:relative;z-index:2;max-width:700px;margin:0 auto;}
@@ -99,8 +85,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .btn-gnh{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--gold),#d4a017);color:var(--navy);font-size:15px;font-weight:700;padding:18px 48px;border-radius:10px;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 8px 30px rgba(233,196,106,0.3);}
 .btn-gnh:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(233,196,106,0.45);}
 .btn-note{display:block;margin-top:16px;font-size:12px;color:rgba(255,255,255,0.3);}
-
-/* SOLUTIONS */
 .solutions-section{padding:100px 48px;background:var(--light);}
 .solutions-inner{max-width:1100px;margin:0 auto;text-align:center;}
 .solutions-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.2;}
@@ -121,8 +105,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .solution-card:nth-child(5){border-top:4px solid var(--accent);}
 .btn-solutions{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--teal),#1a7a6e);color:var(--white);font-size:15px;font-weight:700;padding:18px 48px;border-radius:10px;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 8px 30px rgba(42,157,143,0.3);}
 .btn-solutions:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(42,157,143,0.45);}
-
-/* READINESS */
 .readiness-section{padding:100px 48px;background:linear-gradient(160deg,#0f2a45 0%,#0d2137 100%);text-align:center;position:relative;overflow:hidden;}
 .readiness-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(244,162,97,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(244,162,97,0.03) 1px,transparent 1px);background-size:40px 40px;}
 .readiness-inner{position:relative;z-index:2;max-width:700px;margin:0 auto;}
@@ -133,8 +115,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .readiness-pill{background:rgba(244,162,97,0.1);border:1px solid rgba(244,162,97,0.3);color:var(--accent);font-size:13px;font-weight:500;padding:8px 20px;border-radius:50px;}
 .btn-readiness{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--accent),#e8935a);color:var(--navy);font-size:15px;font-weight:700;padding:18px 48px;border-radius:10px;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 8px 30px rgba(244,162,97,0.3);}
 .btn-readiness:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(244,162,97,0.45);}
-
-/* FINDINGS */
 .findings-section{padding:100px 48px;background:var(--light);}
 .findings-inner{max-width:1100px;margin:0 auto;}
 .section-header{text-align:center;margin-bottom:60px;}
@@ -153,8 +133,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .finding-icon{font-size:28px;margin-bottom:16px;}
 .finding-card h3{font-size:16px;font-weight:600;color:var(--navy);margin-bottom:10px;line-height:1.4;}
 .finding-card p{font-size:13px;color:#7a95ab;line-height:1.7;}
-
-/* REPORTS */
 .reports-section{padding:80px 48px;background:var(--navy);}
 .reports-inner{max-width:1100px;margin:0 auto;text-align:center;}
 .reports-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--white);margin-bottom:12px;line-height:1.2;}
@@ -171,8 +149,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .btn-report:hover{background:#e8935a;transform:translateY(-2px);}
 .btn-report-teal{background:var(--teal);color:var(--white);}
 .btn-report-teal:hover{background:#228b7e;}
-
-/* QUIZ */
 .quiz-section{padding:80px 48px;background:linear-gradient(160deg,#0d1f0d 0%,#0a1a1a 100%);position:relative;overflow:hidden;}
 .quiz-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(233,196,106,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(233,196,106,0.03) 1px,transparent 1px);background-size:40px 40px;}
 .quiz-outer{position:relative;z-index:2;max-width:680px;margin:0 auto;}
@@ -221,16 +197,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .q-domain-fill{height:100%;border-radius:3px;transition:width 0.8s ease;}
 .q-btn-restart{width:100%;padding:13px;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;margin-top:20px;}
 .q-btn-restart:hover{background:#1a7a6e;}
-
-/* FOOTER */
 footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 .footer-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--white);margin-bottom:8px;}
 .footer-logo span{color:var(--accent);}
 .footer-tagline{font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:32px;}
 .footer-divider{width:60px;height:1px;background:rgba(255,255,255,0.1);margin:0 auto 32px;}
 .footer-info{font-size:12px;color:rgba(255,255,255,0.3);line-height:2;}
-
-/* MODAL */
 .modal-overlay,.gnh-modal-overlay{position:fixed;inset:0;background:rgba(8,25,45,0.95);backdrop-filter:blur(12px);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity 0.3s;}
 .modal-overlay.active,.gnh-modal-overlay.active{display:flex;opacity:1;}
 .modal{background:var(--white);border-radius:20px;width:100%;max-width:1500px;height:95vh;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.6);display:flex;flex-direction:column;transform:scale(0.95);transition:transform 0.3s;}
@@ -244,8 +216,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 .modal-close:hover{background:rgba(255,255,255,0.25);color:var(--white);transform:rotate(90deg);}
 .modal-body{flex:1;overflow:auto;background:#f0f4f8;display:flex;align-items:flex-start;justify-content:center;padding:24px;}
 .modal-body tableau-viz{width:100% !important;min-height:850px;border-radius:12px;overflow:hidden;}
-
-/* ANIMATIONS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
 .stat-item{animation:fadeUp 0.5s ease both;}
@@ -254,8 +224,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 .stat-item:nth-child(3){animation-delay:0.15s;}
 .stat-item:nth-child(4){animation-delay:0.2s;}
 .stat-item:nth-child(5){animation-delay:0.25s;}
-
-/* QUIZ SOLUTIONS */
 .qs-divider{height:1px;background:#e8eef4;margin:24px 0;}
 .qs-heading{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;}
 .qs-sub{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;}
@@ -297,8 +265,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 .qs-road-content span{font-size:11px;color:var(--muted);line-height:1.5;}
 .qs-road-bar-wrap{margin-top:5px;height:3px;background:#dce6f0;border-radius:2px;overflow:hidden;}
 .qs-road-bar{height:100%;border-radius:2px;background:var(--teal);}
-
-/* RESOURCES */
 .resources-section{padding:100px 48px;background:var(--white);}
 .resources-inner{max-width:1100px;margin:0 auto;}
 .resources-header{text-align:center;margin-bottom:48px;}
@@ -334,8 +300,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 .res-card-btn.link{background:#e1f5ee;color:#085041;}
 .res-card-btn.link:hover{background:var(--teal);color:var(--white);}
 .res-category-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid #e4eaf2;}
-
-/* MOBILE */
 @media(max-width:768px){
     nav{padding:14px 20px;}
     .nav-links{gap:12px;}
@@ -365,7 +329,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
     <div class="nav-logo">Druk<span>Shift</span> 🇧🇹</div>
     <ul class="nav-links">
@@ -380,7 +343,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </ul>
 </nav>
 
-<!-- HERO WITH SLIDESHOW -->
 <section class="hero" id="home">
     <div class="hero-slides">
         <div class="hero-slide active"></div>
@@ -417,7 +379,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 </section>
 
-<!-- ABOUT -->
 <section class="about-section" id="about">
     <div class="about-inner-simple">
         <span class="section-tag" style="color:var(--mid)">👋 About Me</span>
@@ -428,7 +389,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- STATS -->
 <section class="stats-section" id="stats">
     <div class="stat-item"><div class="stat-num">113</div><div class="stat-lbl">Respondents</div></div>
     <div class="stat-item"><div class="stat-num">80%</div><div class="stat-lbl">Overall Readiness</div></div>
@@ -437,7 +397,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     <div class="stat-item"><div class="stat-num">#1</div><div class="stat-lbl">Barrier: Internet</div></div>
 </section>
 
-<!-- GNH -->
 <section class="gnh-section" id="gnh">
     <div class="gnh-inner">
         <span class="section-tag" style="color:var(--gold)">🇧🇹 GNH Alignment</span>
@@ -456,7 +415,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- SOLUTIONS -->
 <section class="solutions-section" id="solutions">
     <div class="solutions-inner">
         <span class="section-tag" style="color:var(--teal)">💡 Recommendations</span>
@@ -476,7 +434,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- READINESS -->
 <section class="readiness-section" id="readiness">
     <div class="readiness-inner">
         <span class="section-tag" style="color:var(--accent)">📈 Story 2</span>
@@ -493,7 +450,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- KEY FINDINGS -->
 <section class="findings-section" id="findings">
     <div class="findings-inner">
         <div class="section-header">
@@ -511,7 +467,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- REPORTS -->
 <section class="reports-section" id="reports">
     <div class="reports-inner">
         <span class="section-tag" style="color:var(--muted)">📄 Documentation</span>
@@ -524,7 +479,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- QUIZ -->
 <section class="quiz-section" id="quiz">
     <div class="quiz-outer">
         <div class="quiz-header-block">
@@ -533,41 +487,23 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
             <p>10 questions · Rate yourself 1 to 10 · Based on real data from 113 Bhutanese adults</p>
         </div>
 
-        <!-- ✅ USER INFO WITH OTP VERIFICATION -->
+        <!-- ✅ SIMPLE EMAIL VALIDATION — no OTP -->
         <div class="quiz-card" id="userInfoWrap">
             <div style="text-align:center;margin-bottom:24px;">
                 <div style="font-size:28px;margin-bottom:8px;">👤</div>
                 <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;">Before you begin</div>
-                <div style="font-size:13px;color:var(--muted);">Verify your email to save your score and compare next time</div>
+                <div style="font-size:13px;color:var(--muted);">Enter your details to save your score and compare next time</div>
             </div>
             <div style="margin-bottom:16px;">
                 <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Your Name</label>
                 <input id="userName" type="text" placeholder="e.g. Kinzang Choden" style="width:100%;padding:12px 14px;border:1px solid #dce6f0;border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;">
             </div>
-            <div style="margin-bottom:16px;">
+            <div style="margin-bottom:24px;">
                 <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Your Email</label>
                 <input id="userEmail" type="email" placeholder="e.g. kinzang@gmail.com" style="width:100%;padding:12px 14px;border:1px solid #dce6f0;border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;">
+                <div id="emailError" style="display:none;font-size:12px;color:var(--red);margin-top:6px;padding:8px 12px;background:#fcebeb;border-radius:6px;">⚠️ Please enter a valid email address (e.g. kinzang@gmail.com)</div>
             </div>
-            <button onclick="sendOTP()" id="sendOtpBtn" style="width:100%;padding:13px;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;margin-bottom:16px;transition:all 0.2s;">
-                Send Verification Code →
-            </button>
-
-            <!-- OTP SECTION — hidden until code sent -->
-            <div id="otpSection" style="display:none;">
-                <div style="background:#e1f5ee;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center;">
-                    <div style="font-size:13px;color:#085041;font-weight:600;">✅ Code sent! Check your email inbox.</div>
-                    <div style="font-size:11px;color:#085041;margin-top:4px;">The code expires in 10 minutes.</div>
-                </div>
-                <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Enter 4-Digit Code</label>
-                <input id="otpInput" type="text" maxlength="4" placeholder="1 2 3 4" style="width:100%;padding:14px;border:1.5px solid #dce6f0;border-radius:8px;font-size:24px;font-family:'Outfit',sans-serif;outline:none;text-align:center;letter-spacing:10px;margin-bottom:12px;">
-                <button onclick="verifyOTP()" id="verifyOtpBtn" style="width:100%;padding:13px;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;">
-                    ✓ Verify &amp; Start Quiz
-                </button>
-                <div style="text-align:center;margin-top:12px;">
-                    <span style="font-size:12px;color:var(--teal);cursor:pointer;text-decoration:underline;" onclick="sendOTP()">Resend code</span>
-                </div>
-            </div>
-            <div id="otpError" style="display:none;font-size:13px;color:var(--red);text-align:center;margin-top:10px;background:#fcebeb;padding:10px;border-radius:8px;"></div>
+            <button onclick="startQuiz()" style="width:100%;padding:13px;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;">Start Quiz →</button>
         </div>
 
         <!-- QUIZ QUESTIONS -->
@@ -625,7 +561,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- RESOURCES -->
 <section class="resources-section" id="resources">
     <div class="resources-inner">
         <div class="resources-header">
@@ -680,7 +615,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-logo">Druk<span>Shift</span> 🇧🇹</div>
     <div class="footer-tagline">Shift Forward, Bhutan</div>
@@ -691,7 +625,6 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </footer>
 
-<!-- MODALS -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
     <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">Cryptocurrency Readiness in Bhutan</span><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body" id="modalBody"></div></div>
 </div>
@@ -709,9 +642,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 </div>
 
 <script>
-// ══════════════════════════════════════════════════
 // HERO SLIDESHOW
-// ══════════════════════════════════════════════════
 var slideCaptions=['Bhutan · Mountains · Heritage','Blockchain · Technology · Future','Digital Finance · Crypto · Innovation','Data · Technology · Bhutan','Crypto · Readiness · DrukShift'];
 var currentSlide=0,totalSlides=5,slideTimer=null;
 function goToSlide(n){var slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dot');if(!slides.length)return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=(n+totalSlides)%totalSlides;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');var cap=document.getElementById('heroCaption');if(cap)cap.textContent=slideCaptions[currentSlide];}
@@ -721,104 +652,51 @@ function stopSlideshow(){if(slideTimer){clearInterval(slideTimer);slideTimer=nul
 startSlideshow();
 window.addEventListener('DOMContentLoaded',function(){var hero=document.querySelector('.hero');if(hero){hero.addEventListener('mouseenter',stopSlideshow);hero.addEventListener('mouseleave',startSlideshow);}});
 
-// ══════════════════════════════════════════════════
 // RESOURCES TABS
-// ══════════════════════════════════════════════════
 function resTab(tab,btn){document.querySelectorAll('.res-content').forEach(function(el){el.classList.remove('active');});document.querySelectorAll('.res-tab').forEach(function(el){el.classList.remove('active');});document.getElementById('res-'+tab).classList.add('active');btn.classList.add('active');}
 
-// ══════════════════════════════════════════════════
-// USER & OTP VERIFICATION
-// ══════════════════════════════════════════════════
+// ✅ SIMPLE EMAIL VALIDATION
 var currentUser = { name: '', email: '' };
 var API_BASE = 'https://drukshift-vakend.onrender.com';
 
-async function sendOTP() {
+function startQuiz() {
     var name  = document.getElementById('userName').value.trim();
     var email = document.getElementById('userEmail').value.trim();
+    var emailError = document.getElementById('emailError');
 
     if (!name) { alert('Please enter your name.'); return; }
-    if (!email) { alert('Please enter your email.'); return; }
 
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address.\nExample: kinzang@gmail.com');
+    if (!email || !emailRegex.test(email)) {
+        emailError.style.display = 'block';
+        document.getElementById('userEmail').style.borderColor = 'var(--red)';
         return;
     }
 
+    emailError.style.display = 'none';
+    document.getElementById('userEmail').style.borderColor = '#dce6f0';
     currentUser.name  = name;
     currentUser.email = email;
-
-    var btn = document.getElementById('sendOtpBtn');
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-    btn.style.opacity = '0.7';
-
-    try {
-        var res = await fetch(API_BASE + '/api/send-otp', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email })
-        });
-        var data = await res.json();
-
-        if (data.success) {
-            document.getElementById('otpSection').style.display = 'block';
-            document.getElementById('otpError').style.display   = 'none';
-            btn.textContent = '✅ Code Sent — Resend';
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            btn.style.background = '#085041';
-        } else {
-            alert(data.error || 'Failed to send code. Please try again.');
-            btn.textContent = 'Send Verification Code →';
-            btn.disabled = false;
-            btn.style.opacity = '1';
-        }
-    } catch (err) {
-        alert('Could not connect to server. Please try again.');
-        btn.textContent = 'Send Verification Code →';
-        btn.disabled = false;
-        btn.style.opacity = '1';
-    }
+    document.getElementById('userInfoWrap').style.display = 'none';
+    document.getElementById('quizWrap').style.display     = 'block';
+    qRender();
 }
 
-async function verifyOTP() {
-    var otp = document.getElementById('otpInput').value.trim();
-    if (!otp || otp.length < 4) {
-        document.getElementById('otpError').textContent = 'Please enter the 4-digit code from your email.';
-        document.getElementById('otpError').style.display = 'block';
-        return;
-    }
-
-    var btn = document.getElementById('verifyOtpBtn');
-    btn.textContent = 'Verifying...';
-    btn.disabled = true;
-
-    try {
-        var res = await fetch(API_BASE + '/api/verify-otp', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: currentUser.email, otp: otp })
+// Allow pressing Enter to start quiz
+document.addEventListener('DOMContentLoaded', function() {
+    var emailInput = document.getElementById('userEmail');
+    if (emailInput) {
+        emailInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') startQuiz();
         });
-        var data = await res.json();
-
-        if (data.success) {
-            document.getElementById('userInfoWrap').style.display = 'none';
-            document.getElementById('quizWrap').style.display     = 'block';
-            qRender();
-        } else {
-            document.getElementById('otpError').textContent = data.error || 'Incorrect code. Please try again.';
-            document.getElementById('otpError').style.display = 'block';
-            btn.textContent = '✓ Verify & Start Quiz';
-            btn.disabled = false;
-        }
-    } catch (err) {
-        document.getElementById('otpError').textContent = 'Could not verify. Please try again.';
-        document.getElementById('otpError').style.display = 'block';
-        btn.textContent = '✓ Verify & Start Quiz';
-        btn.disabled = false;
     }
-}
+    var nameInput = document.getElementById('userName');
+    if (nameInput) {
+        nameInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') startQuiz();
+        });
+    }
+});
 
 async function saveQuizResult(score, answers) {
     try {
@@ -847,9 +725,7 @@ async function fetchHistory(score) {
     } catch (err) { console.error('Could not fetch history', err); }
 }
 
-// ══════════════════════════════════════════════════
 // MODALS
-// ══════════════════════════════════════════════════
 function openViz(overlayId,bodyId,src){var overlay=document.getElementById(overlayId),body=document.getElementById(bodyId);if(!body.querySelector('tableau-viz')){var viz=document.createElement('tableau-viz');viz.setAttribute('src',src);viz.setAttribute('width','100%');viz.setAttribute('height','900');viz.setAttribute('hide-tabs','false');viz.setAttribute('toolbar','bottom');body.appendChild(viz);}overlay.style.display='flex';document.body.style.overflow='hidden';setTimeout(function(){overlay.classList.add('active');},10);}
 function closeViz(overlayId){var overlay=document.getElementById(overlayId);overlay.classList.remove('active');setTimeout(function(){overlay.style.display='none';document.body.style.overflow='';},300);}
 function openGNHModal(){openViz('gnhModalOverlay','gnhModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story2');}
@@ -864,9 +740,7 @@ function closeModal(){closeViz('modalOverlay');}
 function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeGNHModal();closeReadinessModal();closeScamModal();closeSolutionsModal();closeModal();}});
 
-// ══════════════════════════════════════════════════
 // QUIZ
-// ══════════════════════════════════════════════════
 var qQuestions=[
     {text:"How familiar are you with what cryptocurrency is?",area:"Knowledge"},
     {text:"How confident are you in your ability to use features, functions or tools of a crypto wallet?",area:"Technical Skill"},
@@ -935,17 +809,12 @@ function qRestart(){
     for(var i=0;i<qAnswers.length;i++){qAnswers[i]=null;}
     document.getElementById('qResultWrap').style.display='none';
     document.getElementById('qHistoryBox').innerHTML='';
-    document.getElementById('otpSection').style.display='none';
-    document.getElementById('otpInput').value='';
-    document.getElementById('otpError').style.display='none';
-    document.getElementById('sendOtpBtn').textContent='Send Verification Code →';
-    document.getElementById('sendOtpBtn').style.background='var(--teal)';
+    document.getElementById('emailError').style.display='none';
+    document.getElementById('userEmail').style.borderColor='#dce6f0';
     document.getElementById('userInfoWrap').style.display='block';
 }
 
-// ══════════════════════════════════════════════════
 // SOLUTIONS ENGINE
-// ══════════════════════════════════════════════════
 var qsCurrentFilter='all',qsCurrentScore=65;
 var qsSolutions=[
     {id:'knowledge',category:'education',title:'Build your crypto knowledge from scratch',urgentBelow:60,mediumBelow:80,body:'You cannot safely adopt what you do not understand. Start with the basics — what Bitcoin is, how blockchain works, and what makes crypto different from regular money.',actions:['Watch 3 beginner videos on Bitcoin and blockchain this week','Read the Royal Monetary Authority of Bhutan\'s official statements on digital assets','Follow one trusted crypto education source — avoid anyone promising quick profits'],gnh:['Education','Living Standards'],impact:'+8 to +15 points'},
