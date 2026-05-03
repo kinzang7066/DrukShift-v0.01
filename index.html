@@ -300,6 +300,67 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 .res-card-btn.link{background:#e1f5ee;color:#085041;}
 .res-card-btn.link:hover{background:var(--teal);color:var(--white);}
 .res-category-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid #e4eaf2;}
+/* ── STORY SECTION ── */
+.story-section{padding:0;background:var(--white);overflow:hidden;}
+.story-intro{padding:100px 48px 60px;text-align:center;background:var(--white);}
+.story-intro-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.story-intro h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:700;color:var(--navy);line-height:1.15;margin-bottom:20px;}
+.story-intro h2 em{font-style:italic;color:var(--teal);}
+.story-intro-lead{font-size:18px;color:var(--muted);line-height:1.8;max-width:600px;margin:0 auto;font-style:italic;}
+.story-ch1{display:grid;grid-template-columns:1fr 1fr;min-height:520px;}
+.story-ch1-img{position:relative;overflow:hidden;}
+.story-ch1-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 8s ease;}
+.story-ch1-img:hover img{transform:scale(1.05);}
+.story-ch1-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--white) 100%);}
+.story-ch1-text{padding:60px 56px;display:flex;flex-direction:column;justify-content:center;background:var(--white);}
+.story-ch-num{font-family:'Cormorant Garamond',serif;font-size:100px;font-weight:700;color:#eef2f7;line-height:1;margin-bottom:-20px;}
+.story-ch-label{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.story-ch1-text h3{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,40px);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:20px;}
+.story-ch1-text h3 em{font-style:italic;color:var(--mid);}
+.story-ch1-text p{font-size:15px;color:#5a7a8a;line-height:1.9;margin-bottom:16px;}
+.story-ch1-text strong{color:var(--navy);font-weight:600;}
+.story-quote{background:var(--light);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:16px 20px;margin-top:8px;font-size:14px;font-style:italic;color:var(--navy);line-height:1.7;}
+.story-ch2{background:linear-gradient(135deg,#08192d 0%,#0f2a45 100%);padding:100px 48px;position:relative;overflow:hidden;}
+.story-ch2::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
+.story-ch2-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2;}
+.story-ch2-text .story-ch-num{color:rgba(255,255,255,0.05);}
+.story-ch2-text .story-ch-label{color:var(--gold);}
+.story-ch2-text h3{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,42px);font-weight:700;color:var(--white);line-height:1.2;margin-bottom:20px;}
+.story-ch2-text h3 em{font-style:italic;color:var(--gold);}
+.story-ch2-text p{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:16px;}
+.story-ch2-text strong{color:var(--white);}
+.story-ch2-img-wrap{position:relative;}
+.story-ch2-img-wrap img{width:100%;border-radius:16px;box-shadow:0 40px 80px rgba(0,0,0,0.5);display:block;}
+.story-ch2-img-badge{position:absolute;bottom:-20px;left:-20px;background:var(--teal);color:var(--white);padding:20px 24px;border-radius:12px;box-shadow:0 12px 30px rgba(42,157,143,0.4);}
+.story-ch2-img-badge .badge-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;line-height:1;}
+.story-ch2-img-badge .badge-lbl{font-size:11px;opacity:0.8;margin-top:2px;}
+.story-ch3{padding:100px 48px;background:var(--light);}
+.story-ch3-inner{max-width:1100px;margin:0 auto;}
+.story-ch3-header{text-align:center;margin-bottom:60px;}
+.story-ch3-header h3{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:16px;}
+.story-ch3-header h3 em{font-style:italic;color:var(--accent);}
+.story-ch3-header p{font-size:15px;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.8;}
+.story-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;}
+.story-card{background:var(--white);border-radius:16px;overflow:hidden;box-shadow:0 4px 30px rgba(8,25,45,0.08);transition:transform 0.3s,box-shadow 0.3s;}
+.story-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(8,25,45,0.15);}
+.story-card-img{height:200px;overflow:hidden;position:relative;}
+.story-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 6s ease;}
+.story-card:hover .story-card-img img{transform:scale(1.08);}
+.story-card-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(8,25,45,0.6) 100%);}
+.story-card-body{padding:28px 24px;}
+.story-card-icon{font-size:32px;margin-bottom:12px;}
+.story-card-body h4{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.3;}
+.story-card-body p{font-size:13px;color:#7a95ab;line-height:1.8;}
+.story-card-tag{display:inline-block;margin-top:16px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);padding:4px 12px;background:#e1f5ee;border-radius:50px;}
+.story-finale{position:relative;height:500px;overflow:hidden;}
+.story-finale-img{width:100%;height:100%;object-fit:cover;display:block;}
+.story-finale-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,25,45,0.85) 0%,rgba(15,42,69,0.75) 50%,rgba(8,25,45,0.90) 100%);}
+.story-finale-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px;}
+.story-finale-content h3{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,60px);font-weight:700;color:var(--white);line-height:1.2;margin-bottom:20px;}
+.story-finale-content h3 em{font-style:italic;color:var(--gold);}
+.story-finale-content p{font-size:16px;color:rgba(255,255,255,0.7);max-width:560px;line-height:1.8;margin-bottom:16px;}
+.story-finale-sig{font-size:13px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-top:16px;}
+
 @media(max-width:768px){
     nav{padding:14px 20px;}
     .nav-links{gap:12px;}
@@ -320,6 +381,17 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     .hero-caption{display:none;}
     .solutions-grid,.findings-grid,.reports-grid,.res-grid{grid-template-columns:1fr;}
     .res-tab{padding:12px 20px;font-size:13px;}
+    .story-ch1{grid-template-columns:1fr;}
+    .story-ch1-img{height:280px;}
+    .story-ch1-img::after{background:linear-gradient(to bottom,transparent 60%,var(--white) 100%);}
+    .story-ch1-text{padding:40px 24px;}
+    .story-ch2{padding:60px 24px;}
+    .story-ch2-inner{grid-template-columns:1fr;gap:40px;}
+    .story-ch3{padding:60px 24px;}
+    .story-cards{grid-template-columns:1fr;}
+    .story-intro{padding:60px 24px 40px;}
+    .story-finale{height:400px;}
+    .story-ch2-img-badge{bottom:-10px;left:10px;}
 }
 @media(max-width:480px){
     .stat-num{font-size:28px;}
@@ -338,6 +410,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
         <li><a href="#readiness">Readiness</a></li>
         <li><a href="#findings">Findings</a></li>
         <li><a href="#reports">Reports</a></li>
+        <li><a href="#story" style="color:var(--accent)">🇧🇹 Our Story</a></li>
         <li><a href="#quiz" style="color:var(--gold)">Take Quiz</a></li>
         <li><a href="#resources" style="color:var(--teal)">📚 Resources</a></li>
     </ul>
@@ -395,6 +468,117 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     <div class="stat-item"><div class="stat-num">96%</div><div class="stat-lbl">Crypto Awareness</div></div>
     <div class="stat-item"><div class="stat-num">12.75</div><div class="stat-lbl">Avg Score / 16</div></div>
     <div class="stat-item"><div class="stat-num">#1</div><div class="stat-lbl">Barrier: Internet</div></div>
+
+<section class="story-section" id="story">
+
+    <!-- INTRO -->
+    <div class="story-intro">
+        <div class="story-intro-tag">🇧🇹 Why DrukShift Exists</div>
+        <h2>A Story About <em>One Woman,<br>One Quiz, One Village</em></h2>
+        <p class="story-intro-lead">This is not just a research project. This is a story about what happens when one curious person gets the right information — in their own language, about their own life.</p>
+    </div>
+
+    <!-- CHAPTER 1 — The Problem -->
+    <div class="story-ch1">
+        <div class="story-ch1-img">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80" alt="Bhutan mountains morning" loading="lazy">
+        </div>
+        <div class="story-ch1-text">
+            <div class="story-ch-num">01</div>
+            <div class="story-ch-label">The Problem</div>
+            <h3>She Lost a Sale.<br><em>Because of a Knowledge Gap.</em></h3>
+            <p>Imagine Deki — a 34 year old textile weaver in Paro who crafts beautiful Kishuthara silk by hand. A tourist wants to buy. They have no cash. She cannot accept digital payment.</p>
+            <p>The tourist walks away. <strong>This happens every week.</strong> Not because Deki is not smart. Not because she is not ready. But because no one ever explained cryptocurrency to her — in her language, in terms of her life.</p>
+            <div class="story-quote">"The information existed. But it was complicated, in a foreign language, and felt very far away from Paro."</div>
+        </div>
+    </div>
+
+    <!-- CHAPTER 2 — The Discovery -->
+    <div class="story-ch2">
+        <div class="story-ch2-inner">
+            <div class="story-ch2-text">
+                <div class="story-ch-num">02</div>
+                <div class="story-ch-label">The Discovery</div>
+                <h3>What If Bhutan<br><em>Had Its Own Answer?</em></h3>
+                <p>This question is what drove the DrukShift research project - built for Bhutanese people, during my internship at Bhutan Data Scientists Pvt. Ltd.</p>
+                <p><strong>113 real Bhutanese adults</strong> were surveyed - weavers, farmers, students, shopkeepers, government workers. Asked 10 honest questions about what they know, what they trust, and what they fear about cryptocurrency.</p>
+                <p>The results were surprising. <strong>Bhutan is 80% ready.</strong> The knowledge exists. The willingness is there. The barriers are specific - and fixable.</p>
+                <div class="story-quote" style="border-color:var(--gold);background:rgba(233,196,106,0.08);color:rgba(255,255,255,0.9);">"We did not need to look to Silicon Valley for answers. The answers were already here - in Bhutan."</div>
+            </div>
+            <div class="story-ch2-img-wrap">
+                <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80" alt="Blockchain technology" loading="lazy">
+                <div class="story-ch2-img-badge">
+                    <div class="badge-num">113</div>
+                    <div class="badge-lbl">Bhutanese voices</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAPTER 3 — The Three Barriers -->
+    <div class="story-ch3">
+        <div class="story-ch3-inner">
+            <div class="story-ch3-header">
+                <div class="story-ch-num" style="text-align:center;">03</div>
+                <div class="story-ch-label" style="text-align:center;display:block;">The Findings</div>
+                <h3>Three Things Standing<br><em>Between Bhutan and the Future</em></h3>
+                <p>The data revealed that Bhutan's readiness gap is not about willingness — it is about three very specific and very solvable barriers.</p>
+            </div>
+            <div class="story-cards">
+                <div class="story-card">
+                    <div class="story-card-img">
+                        <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=600&q=80" alt="Internet infrastructure" loading="lazy">
+                        <div class="story-card-img-overlay"></div>
+                    </div>
+                    <div class="story-card-body">
+                        <div class="story-card-icon">🌐</div>
+                        <h4>Internet is Barrier #1</h4>
+                        <p>Poor internet connectivity — especially in rural Bhutan — is the single biggest obstacle to safe crypto adoption. You cannot transact safely on an unstable connection.</p>
+                        <span class="story-card-tag">Infrastructure</span>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-card-img">
+                        <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" alt="Digital education" loading="lazy">
+                        <div class="story-card-img-overlay"></div>
+                    </div>
+                    <div class="story-card-body">
+                        <div class="story-card-icon">📚</div>
+                        <h4>High Awareness, Low Understanding</h4>
+                        <p>96% of Bhutanese adults have heard of cryptocurrency — but most only have surface level knowledge. Awareness without understanding is the most dangerous combination.</p>
+                        <span class="story-card-tag">Education</span>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-card-img">
+                        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Security and trust" loading="lazy">
+                        <div class="story-card-img-overlay"></div>
+                    </div>
+                    <div class="story-card-body">
+                        <div class="story-card-icon">🛡️</div>
+                        <h4>The Scam Vulnerability Gap</h4>
+                        <p>The 35–44 age group has the highest trust in crypto but the lowest security awareness — the most dangerous combination. They are the most likely targets for scammers.</p>
+                        <span class="story-card-tag">Security</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINALE -->
+    <div class="story-finale">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80" alt="Bhutan landscape" class="story-finale-img" loading="lazy">
+        <div class="story-finale-overlay"></div>
+        <div class="story-finale-content">
+            <h3>Back to Deki.<br><em>She Took the Quiz.</em></h3>
+            <p>She scored 58%. The quiz did not judge her. It gave her a personalised plan — because she rated her personal readiness as 2 out of 10, her next step was clear. She followed it. Weeks later the same tourist returned. This time she showed a QR code. The payment went through. She smiled.</p>
+            <p style="font-size:14px;color:rgba(255,255,255,0.5);font-style:italic;">One quiz. One woman. One village. This is how Bhutan shifts — not all at once, but one person at a time.</p>
+            <div class="story-finale-sig">Kinzang Choden · BDS Internship 2026 · Bhutan Data Scientists Pvt. Ltd 🇧🇹</div>
+        </div>
+    </div>
+
+</section>
+
 </section>
 
 <section class="gnh-section" id="gnh">
