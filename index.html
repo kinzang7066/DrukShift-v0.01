@@ -23,8 +23,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .nav-links a:hover{color:var(--white);}
 .hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;overflow:hidden;}
 .hero-slides{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;}
-.hero-slide{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 1.5s ease;background-size:cover;background-position:center;background-repeat:no-repeat;}
-.hero-slide.active{opacity:1;}
+.hero-slide{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 0.6s cubic-bezier(0.4,0,0.2,1),transform 0.6s cubic-bezier(0.4,0,0.2,1);background-size:cover;background-position:center;background-repeat:no-repeat;transform:scale(1.08);}
+.hero-slide.active{opacity:1;transform:scale(1);}
 .hero-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');}
 .hero-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&q=80');}
 .hero-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1920&q=80');}
@@ -48,7 +48,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);border:2px solid rgba(255,255,255,0.4);cursor:pointer;padding:0;transition:all 0.3s;}
 .hero-dot.active{background:var(--accent);border-color:var(--accent);transform:scale(1.3);}
 .hero-dot:hover{background:rgba(255,255,255,0.6);}
-.hero-caption{position:absolute;bottom:112px;right:48px;z-index:4;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-align:right;text-transform:uppercase;}
+.hero-caption{position:absolute;bottom:112px;right:48px;z-index:4;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-align:right;text-transform:uppercase;transition:opacity 0.3s ease;}
 .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:2px;text-transform:uppercase;z-index:4;}
 .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:scrollPulse 2s ease-in-out infinite;}
 @keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
@@ -397,24 +397,172 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     .stat-num{font-size:28px;}
     .q-compare-val{font-size:20px;}
 }
+
+/* ═══════════════════════════════════════
+   LOADING SCREEN
+═══════════════════════════════════════ */
+@keyframes loadPulse{0%,100%{opacity:0.7;transform:scale(0.98);}50%{opacity:1;transform:scale(1.02);}}
+@keyframes loadDots{0%,100%{transform:translateY(0);opacity:0.4;}50%{transform:translateY(-8px);opacity:1;}}
+
+/* ═══════════════════════════════════════
+   HAMBURGER MENU
+═══════════════════════════════════════ */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:101;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s ease;}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+/* ═══════════════════════════════════════
+   SCROLL ANIMATIONS
+═══════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+
+/* ═══════════════════════════════════════
+   COUNTER ANIMATION
+═══════════════════════════════════════ */
+.stat-num{transition:all 0.3s;}
+
+/* ═══════════════════════════════════════
+   MOBILE NAV
+═══════════════════════════════════════ */
+@media(max-width:768px){
+    .hamburger{display:flex;}
+    .nav-links{
+        position:fixed;top:0;right:-100%;width:75%;max-width:300px;height:100vh;
+        background:rgba(8,25,45,0.98);backdrop-filter:blur(20px);
+        flex-direction:column;justify-content:center;align-items:center;
+        gap:28px;z-index:100;transition:right 0.4s ease;
+        border-left:1px solid rgba(255,255,255,0.08);
+    }
+    .nav-links.open{right:0;}
+    .nav-links a{font-size:16px !important;color:var(--white) !important;}
+    .nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none;}
+    .nav-overlay.show{display:block;}
+}
+
+
+/* ── DARK / LIGHT MODE ── */
+body.light-mode {
+    --navy:#f0f4f8; --deep:#e4eaf2; --blue:#1a4a7a; --mid:#2a6aad;
+    --accent:#e8935a; --gold:#c49a10; --teal:#1a7a6e; --red:#c0303c;
+    --light:#ffffff; --white:#08192d; --muted:#4a6a7a;
+    background:#f0f4f8; color:#08192d;
+}
+body.light-mode nav{background:rgba(240,244,248,0.95);border-bottom:1px solid #dce6f0;}
+body.light-mode .nav-logo{color:#08192d;}
+body.light-mode .nav-links a{color:#4a6a7a;}
+body.light-mode .nav-links a:hover{color:#08192d;}
+body.light-mode .quiz-card{background:#ffffff;box-shadow:0 8px 40px rgba(8,25,45,0.1);}
+body.light-mode .about-section{background:#ffffff;}
+body.light-mode .stats-section{background:#ffffff;}
+body.light-mode footer{background:#08192d;}
+body.light-mode footer .footer-logo{color:#ffffff;}
+body.light-mode footer .footer-tagline{color:#7a9bb5;}
+body.light-mode footer .footer-info{color:rgba(255,255,255,0.4);}
+
+/* Theme toggle button */
+.theme-toggle{background:none;border:1px solid rgba(255,255,255,0.2);color:var(--white);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;flex-shrink:0;}
+.theme-toggle:hover{background:rgba(255,255,255,0.1);transform:rotate(20deg);}
+body.light-mode .theme-toggle{border-color:rgba(8,25,45,0.2);color:#08192d;}
+
+/* ── LIVE COUNTER BANNER ── */
+.live-counter-bar{background:linear-gradient(90deg,#0a1f38,#0d2a45,#0a1f38);border-bottom:1px solid rgba(42,157,143,0.3);padding:10px 48px;display:flex;align-items:center;justify-content:center;gap:16px;position:relative;z-index:99;}
+.live-counter-bar .lc-dot{width:8px;height:8px;border-radius:50%;background:#2a9d8f;animation:livePulse 1.5s ease-in-out infinite;flex-shrink:0;}
+@keyframes livePulse{0%,100%{opacity:0.4;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
+.live-counter-bar .lc-text{font-size:13px;color:rgba(255,255,255,0.7);font-family:'Outfit',sans-serif;}
+.live-counter-bar .lc-num{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#2a9d8f;}
+.live-counter-bar .lc-share{font-size:12px;color:var(--accent);text-decoration:none;border:1px solid rgba(244,162,97,0.3);padding:4px 12px;border-radius:50px;transition:all 0.2s;white-space:nowrap;}
+.live-counter-bar .lc-share:hover{background:rgba(244,162,97,0.1);}
+body.light-mode .live-counter-bar{background:linear-gradient(90deg,#e4eaf2,#eef2f7,#e4eaf2);border-bottom:1px solid rgba(42,157,143,0.2);}
+body.light-mode .live-counter-bar .lc-text{color:#4a6a7a;}
+
+/* ── ANIMATED PROGRESS BARS IN FINDINGS ── */
+.finding-stat-wrap{margin-top:16px;}
+.finding-stat-row{margin-bottom:10px;}
+.finding-stat-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:500;}
+.finding-stat-track{height:6px;background:#e8eef4;border-radius:3px;overflow:hidden;}
+.finding-stat-fill{height:100%;border-radius:3px;width:0%;transition:width 1.4s cubic-bezier(0.4,0,0.2,1);}
+body.light-mode .finding-stat-track{background:#dce6f0;}
+
+@media(max-width:768px){
+    .live-counter-bar{padding:10px 20px;flex-wrap:wrap;gap:8px;}
+    .live-counter-bar .lc-share{display:none;}
+}
+
+
+/* ── STORY BUTTON ── */
+.btn-story{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#e63946,#c0303c);color:var(--white);font-size:14px;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none;transition:all 0.25s;border:none;cursor:pointer;}
+.btn-story:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(230,57,70,0.35);}
+
     </style>
 </head>
 <body>
 
+<!-- ═══════════════════════════════════════
+     LOADING SCREEN
+═══════════════════════════════════════ -->
+<div id="loadingScreen" style="position:fixed;inset:0;background:#08192d;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease;">
+    <div id="loadingLogo" style="text-align:center;animation:loadPulse 1.5s ease-in-out infinite;">
+        <div style="font-size:48px;margin-bottom:12px;">🇧🇹</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:#ffffff;letter-spacing:2px;">Druk<span style="color:#f4a261;">Shift</span></div>
+        <div style="font-size:12px;color:#7a9bb5;letter-spacing:4px;text-transform:uppercase;margin-top:8px;">Shift Forward, Bhutan</div>
+    </div>
+    <div style="margin-top:48px;display:flex;gap:8px;">
+        <div class="load-dot" style="width:8px;height:8px;border-radius:50%;background:#2a9d8f;animation:loadDots 1.2s ease-in-out infinite;"></div>
+        <div class="load-dot" style="width:8px;height:8px;border-radius:50%;background:#2a9d8f;animation:loadDots 1.2s ease-in-out 0.2s infinite;"></div>
+        <div class="load-dot" style="width:8px;height:8px;border-radius:50%;background:#2a9d8f;animation:loadDots 1.2s ease-in-out 0.4s infinite;"></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FLOATING QUIZ BUTTON
+═══════════════════════════════════════ -->
+<div id="floatingQuizBtn" style="position:fixed;bottom:32px;right:32px;z-index:500;opacity:0;transform:translateY(20px);transition:all 0.4s ease;">
+    <a href="#quiz" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#e9c46a,#d4a017);color:#08192d;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;padding:14px 24px;border-radius:50px;text-decoration:none;box-shadow:0 8px 30px rgba(233,196,106,0.4);transition:all 0.25s;">
+        ✨ Take Quiz
+    </a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CURSOR GLOW
+═══════════════════════════════════════ -->
+<div id="cursorGlow" style="position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(42,157,143,0.08) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:left 0.1s ease,top 0.1s ease;left:-999px;top:-999px;"></div>
+
+
 <nav>
     <div class="nav-logo">Druk<span>Shift</span> 🇧🇹</div>
-    <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#gnh">GNH Story</a></li>
-        <li><a href="#solutions">Solutions</a></li>
-        <li><a href="#readiness">Readiness</a></li>
-        <li><a href="#findings">Findings</a></li>
-        <li><a href="#reports">Reports</a></li>
-        <li><a href="#story" style="color:var(--accent)">🇧🇹 Our Story</a></li>
-        <li><a href="#quiz" style="color:var(--gold)">Take Quiz</a></li>
-        <li><a href="#resources" style="color:var(--teal)">📚 Resources</a></li>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#about" onclick="closeMenu()">About</a></li>
+        <li><a href="#gnh" onclick="closeMenu()">GNH Story</a></li>
+        <li><a href="#solutions" onclick="closeMenu()">Solutions</a></li>
+        <li><a href="#readiness" onclick="closeMenu()">Readiness</a></li>
+        <li><a href="#findings" onclick="closeMenu()">Findings</a></li>
+        <li><a href="#reports" onclick="closeMenu()">Reports</a></li>
+        <li><a href="#story" style="color:var(--accent)" onclick="closeMenu()">🇧🇹 Our Story</a></li>
+        <li><a href="drukshift_story.html" style="color:var(--red)" target="_blank" onclick="closeMenu()">🎬 Webtoon</a></li>
+        <li><a href="#quiz" style="color:var(--gold)" onclick="closeMenu()">Take Quiz</a></li>
+        <li><a href="#resources" style="color:var(--teal)" onclick="closeMenu()">📚 Resources</a></li>
     </ul>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
 </nav>
+<div class="live-counter-bar" id="liveCounterBar">
+    <div class="lc-dot"></div>
+    <span class="lc-text">Bhutanese adults who have taken the DrukShift quiz:</span>
+    <span class="lc-num" id="liveCountNum">...</span>
+    <a href="#quiz" class="lc-share">✨ Take the Quiz →</a>
+</div>
+<div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
 
 <section class="hero" id="home">
     <div class="hero-slides">
@@ -439,6 +587,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
             <a href="#gnh" class="btn-primary">🇧🇹 View GNH Story</a>
             <a href="#findings" class="btn-secondary">🔑 View Key Findings</a>
             <a href="#quiz" class="btn-quiz">✨ Take Readiness Quiz</a>
+            <a href="drukshift_story.html" class="btn-story" target="_blank">🎬 Read Our Story</a>
         </div>
     </div>
     <div class="hero-dots">
@@ -452,7 +601,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 </section>
 
-<section class="about-section" id="about">
+<section class="about-section reveal" id="about">
     <div class="about-inner-simple">
         <span class="section-tag" style="color:var(--mid)">👋 About Me</span>
         <h2>Hi, I am <em>Kinzang Choden</em></h2>
@@ -462,7 +611,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<section class="stats-section" id="stats">
+<section class="stats-section reveal" id="stats">
     <div class="stat-item"><div class="stat-num">113</div><div class="stat-lbl">Respondents</div></div>
     <div class="stat-item"><div class="stat-num">80%</div><div class="stat-lbl">Overall Readiness</div></div>
     <div class="stat-item"><div class="stat-num">96%</div><div class="stat-lbl">Crypto Awareness</div></div>
@@ -581,7 +730,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 
 </section>
 
-<section class="gnh-section" id="gnh">
+<section class="gnh-section reveal" id="gnh">
     <div class="gnh-inner">
         <span class="section-tag" style="color:var(--gold)">🇧🇹 GNH Alignment</span>
         <h2>Crypto Readiness as<br>a <em>GNH Story</em></h2>
@@ -599,7 +748,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<section class="solutions-section" id="solutions">
+<section class="solutions-section reveal" id="solutions">
     <div class="solutions-inner">
         <span class="section-tag" style="color:var(--teal)">💡 Recommendations</span>
         <h2>5 Solutions to Improve<br><em>Crypto Readiness in Bhutan</em></h2>
@@ -618,7 +767,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<section class="readiness-section" id="readiness">
+<section class="readiness-section reveal" id="readiness">
     <div class="readiness-inner">
         <span class="section-tag" style="color:var(--accent)">📈 Story 2</span>
         <h2>How Can Readiness<br>Be <em>Improved Over Time?</em></h2>
@@ -634,7 +783,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<section class="findings-section" id="findings">
+<section class="findings-section reveal" id="findings">
     <div class="findings-inner">
         <div class="section-header">
             <span class="section-tag" style="color:var(--mid)">Research Results</span>
@@ -642,16 +791,56 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
             <p>Four critical insights from 113 survey responses</p>
             <div class="accent-line"></div>
         </div>
-        <div class="findings-grid">
-            <div class="finding-card"><span class="finding-num">01</span><div class="finding-icon">🏆</div><h3>Bhutan is 80% Ready</h3><p>Average readiness score of 12.75 out of 16 — Bhutan shows strong foundational readiness for cryptocurrency adoption aligned with GNH values.</p></div>
-            <div class="finding-card"><span class="finding-num">02</span><div class="finding-icon">👂</div><h3>High Awareness, Low Understanding</h3><p>96% have heard of cryptocurrency but most only have basic understanding — a critical knowledge gap exists between awareness and true readiness.</p></div>
-            <div class="finding-card"><span class="finding-num">03</span><div class="finding-icon">🌐</div><h3>Internet is Barrier #1</h3><p>Poor internet connection is the single biggest barrier to adoption — especially critical for rural communities who remain underserved.</p></div>
-            <div class="finding-card"><span class="finding-num">04</span><div class="finding-icon">📅</div><h3>Age Predicts Readiness</h3><p>Age is a stronger predictor of readiness than location — younger groups show consistently higher scores regardless of where they live.</p></div>
+        <div class="findings-grid" id="findingsGrid">
+            <div class="finding-card">
+                <span class="finding-num">01</span>
+                <div class="finding-icon">🏆</div>
+                <h3>Bhutan is 80% Ready</h3>
+                <p>Average readiness score of 12.75 out of 16 — Bhutan shows strong foundational readiness for cryptocurrency adoption aligned with GNH values.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Overall Readiness</span><span>80%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="80" style="background:#2a6aad;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Avg Score</span><span>12.75/16</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="79.7" style="background:#2a9d8f;"></div></div></div>
+                </div>
+            </div>
+            <div class="finding-card">
+                <span class="finding-num">02</span>
+                <div class="finding-icon">👂</div>
+                <h3>High Awareness, Low Understanding</h3>
+                <p>96% have heard of cryptocurrency but most only have basic understanding — a critical knowledge gap exists between awareness and true readiness.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Have Heard of Crypto</span><span>96%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="96" style="background:#f4a261;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Deep Understanding</span><span>34%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="34" style="background:#e63946;"></div></div></div>
+                </div>
+            </div>
+            <div class="finding-card">
+                <span class="finding-num">03</span>
+                <div class="finding-icon">🌐</div>
+                <h3>Internet is Barrier #1</h3>
+                <p>Poor internet connection is the single biggest barrier to adoption — especially critical for rural communities who remain underserved.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Cite Internet as Barrier</span><span>68%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="68" style="background:#e63946;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Rural Connectivity Gap</span><span>74%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="74" style="background:#e9c46a;"></div></div></div>
+                </div>
+            </div>
+            <div class="finding-card">
+                <span class="finding-num">04</span>
+                <div class="finding-icon">📅</div>
+                <h3>Age Predicts Readiness</h3>
+                <p>Age is a stronger predictor of readiness than location — younger groups show consistently higher scores regardless of where they live.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>25–34 age group score</span><span>13.74/16</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="86" style="background:#2a9d8f;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>55+ age group score</span><span>7.83/16</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="49" style="background:#9b5de5;"></div></div></div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:48px;">
+            <button onclick="openFindingsModal()" style="display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--mid),#1a3a6a);color:var(--white);font-size:15px;font-weight:700;padding:18px 48px;border-radius:10px;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 8px 30px rgba(26,74,122,0.3);">📊 View Full Findings Story →</button>
+            <span style="display:block;margin-top:12px;font-size:12px;color:var(--muted);">Opens interactive Tableau findings — no download required</span>
         </div>
     </div>
 </section>
 
-<section class="reports-section" id="reports">
+<section class="reports-section reveal" id="reports">
     <div class="reports-inner">
         <span class="section-tag" style="color:var(--muted)">📄 Documentation</span>
         <h2>Project <em>Reports</em></h2>
@@ -745,7 +934,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     </div>
 </section>
 
-<section class="resources-section" id="resources">
+<section class="resources-section reveal" id="resources">
     <div class="resources-inner">
         <div class="resources-header">
             <span class="section-tag" style="color:var(--teal)">📚 Learn & Grow</span>
@@ -829,7 +1018,30 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 // HERO SLIDESHOW
 var slideCaptions=['Bhutan · Mountains · Heritage','Blockchain · Technology · Future','Digital Finance · Crypto · Innovation','Data · Technology · Bhutan','Crypto · Readiness · DrukShift'];
 var currentSlide=0,totalSlides=5,slideTimer=null;
-function goToSlide(n){var slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dot');if(!slides.length)return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=(n+totalSlides)%totalSlides;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');var cap=document.getElementById('heroCaption');if(cap)cap.textContent=slideCaptions[currentSlide];}
+function goToSlide(n){
+    var slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dot');
+    if(!slides.length)return;
+    // Outgoing slide — scale up and fade out
+    slides[currentSlide].style.transition='opacity 0.5s ease,transform 0.5s ease';
+    slides[currentSlide].style.transform='scale(1.12)';
+    slides[currentSlide].style.opacity='0';
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide=(n+totalSlides)%totalSlides;
+    // Incoming slide — reset then animate in
+    slides[currentSlide].style.transition='none';
+    slides[currentSlide].style.transform='scale(1.04)';
+    slides[currentSlide].style.opacity='0';
+    setTimeout(function(){
+        slides[currentSlide].style.transition='opacity 0.6s cubic-bezier(0.4,0,0.2,1),transform 3s ease-out';
+        slides[currentSlide].style.transform='scale(1)';
+        slides[currentSlide].style.opacity='1';
+        slides[currentSlide].classList.add('active');
+    }, 30);
+    dots[currentSlide].classList.add('active');
+    var cap=document.getElementById('heroCaption');
+    if(cap){cap.style.opacity='0';setTimeout(function(){cap.textContent=slideCaptions[currentSlide];cap.style.opacity='1';},300);}
+}
 function nextSlide(){goToSlide(currentSlide+1);}
 function startSlideshow(){stopSlideshow();slideTimer=setInterval(nextSlide,4500);}
 function stopSlideshow(){if(slideTimer){clearInterval(slideTimer);slideTimer=null;}}
@@ -912,7 +1124,8 @@ async function fetchHistory(score) {
 // MODALS
 function openViz(overlayId,bodyId,src){var overlay=document.getElementById(overlayId),body=document.getElementById(bodyId);if(!body.querySelector('tableau-viz')){var viz=document.createElement('tableau-viz');viz.setAttribute('src',src);viz.setAttribute('width','100%');viz.setAttribute('height','900');viz.setAttribute('hide-tabs','false');viz.setAttribute('toolbar','bottom');body.appendChild(viz);}overlay.style.display='flex';document.body.style.overflow='hidden';setTimeout(function(){overlay.classList.add('active');},10);}
 function closeViz(overlayId){var overlay=document.getElementById(overlayId);overlay.classList.remove('active');setTimeout(function(){overlay.style.display='none';document.body.style.overflow='';},300);}
-function openGNHModal(){openViz('gnhModalOverlay','gnhModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story2');}
+function openFindingsModal(){openViz('findingsModalOverlay','findingsModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Findings');}
+function closeFindingsModal(){closeViz('findingsModalOverlay');}
 function closeGNHModal(){closeViz('gnhModalOverlay');}
 function openReadinessModal(){openViz('readinessModalOverlay','readinessModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Readinesss');}
 function closeReadinessModal(){closeViz('readinessModalOverlay');}
@@ -922,7 +1135,7 @@ function openSolutionsModal(){openViz('solutionsModalOverlay','solutionsModalBod
 function closeSolutionsModal(){closeViz('solutionsModalOverlay');}
 function closeModal(){closeViz('modalOverlay');}
 function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeGNHModal();closeReadinessModal();closeScamModal();closeSolutionsModal();closeModal();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeGNHModal();closeReadinessModal();closeScamModal();closeSolutionsModal();closeModal();closeFindingsModal();}});
 
 // QUIZ
 var qQuestions=[
@@ -1174,6 +1387,210 @@ function qsRenderRoadmap(score){
     for(var i=0;i<steps.length;i++){var st=steps[i];html+='<div class="qs-road-item"><div class="qs-year"><div class="qs-year-lbl">'+st.label+'</div><div class="qs-year-score">'+Math.round(st.sc)+'%</div></div><div class="qs-road-content" style="flex:1;"><p>'+st.focus+'</p><span>'+st.detail+'</span><div class="qs-road-bar-wrap"><div class="qs-road-bar" style="width:'+Math.round(st.sc)+'%"></div></div></div></div>';}
     document.getElementById('qsRoadmap').innerHTML=html;
 }
+
+
+// ═══════════════════════════════════════
+// LOADING SCREEN
+// ═══════════════════════════════════════
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        var ls = document.getElementById('loadingScreen');
+        if (ls) {
+            ls.style.opacity = '0';
+            setTimeout(function() { ls.style.display = 'none'; }, 800);
+        }
+    }, 1800);
+});
+
+// ═══════════════════════════════════════
+// HAMBURGER MENU
+// ═══════════════════════════════════════
+function toggleMenu() {
+    var nav     = document.getElementById('navLinks');
+    var burger  = document.getElementById('hamburger');
+    var overlay = document.getElementById('navOverlay');
+    nav.classList.toggle('open');
+    burger.classList.toggle('active');
+    overlay.classList.toggle('show');
+    document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+function closeMenu() {
+    var nav     = document.getElementById('navLinks');
+    var burger  = document.getElementById('hamburger');
+    var overlay = document.getElementById('navOverlay');
+    if (nav) nav.classList.remove('open');
+    if (burger) burger.classList.remove('active');
+    if (overlay) overlay.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+// ═══════════════════════════════════════
+// SCROLL ANIMATIONS
+// ═══════════════════════════════════════
+var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function(el) {
+    revealObserver.observe(el);
+});
+
+// ═══════════════════════════════════════
+// COUNTER ANIMATION
+// ═══════════════════════════════════════
+function animateCounter(el, target, suffix, duration) {
+    var start = 0;
+    var step  = target / (duration / 16);
+    var timer = setInterval(function() {
+        start += step;
+        if (start >= target) {
+            start = target;
+            clearInterval(timer);
+        }
+        if (suffix === '%') el.textContent = Math.round(start) + '%';
+        else if (suffix === '.75') el.textContent = Math.round(start) === target ? '12.75' : Math.round(start);
+        else el.textContent = Math.round(start);
+    }, 16);
+}
+
+var statsObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            var items = entry.target.querySelectorAll('.stat-num');
+            items.forEach(function(item) {
+                var text = item.textContent.trim();
+                if (text === '113')   animateCounter(item, 113, '', 1200);
+                if (text === '80%')   animateCounter(item, 80, '%', 1200);
+                if (text === '96%')   animateCounter(item, 96, '%', 1200);
+                if (text === '12.75') animateCounter(item, 12.75, '.75', 1200);
+            });
+            statsObserver.disconnect();
+        }
+    });
+}, { threshold: 0.3 });
+
+var statsSection = document.querySelector('.stats-section');
+if (statsSection) statsObserver.observe(statsSection);
+
+// ═══════════════════════════════════════
+// CURSOR GLOW
+// ═══════════════════════════════════════
+var cursorGlow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', function(e) {
+    if (cursorGlow) {
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top  = e.clientY + 'px';
+    }
+});
+
+// ═══════════════════════════════════════
+// FLOATING QUIZ BUTTON
+// ═══════════════════════════════════════
+var floatBtn = document.getElementById('floatingQuizBtn');
+window.addEventListener('scroll', function() {
+    if (!floatBtn) return;
+    if (window.scrollY > 400) {
+        floatBtn.style.opacity  = '1';
+        floatBtn.style.transform = 'translateY(0)';
+    } else {
+        floatBtn.style.opacity  = '0';
+        floatBtn.style.transform = 'translateY(20px)';
+    }
+});
+
+// Hide floating button when user is in quiz section
+var quizSection = document.getElementById('quiz');
+if (quizSection) {
+    var quizObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (floatBtn) {
+                floatBtn.style.opacity = entry.isIntersecting ? '0' : (window.scrollY > 400 ? '1' : '0');
+            }
+        });
+    }, { threshold: 0.1 });
+    quizObserver.observe(quizSection);
+}
+
+
+// ══════════════════════════════════════════
+// DARK / LIGHT MODE
+// ══════════════════════════════════════════
+function toggleTheme() {
+    var body = document.body;
+    var btn  = document.getElementById('themeToggle');
+    body.classList.toggle('light-mode');
+    var isLight = body.classList.contains('light-mode');
+    if (btn) btn.textContent = isLight ? '🌙' : '☀️';
+    localStorage.setItem('drukshift-theme', isLight ? 'light' : 'dark');
+}
+
+// Remember theme on reload
+window.addEventListener('DOMContentLoaded', function() {
+    var saved = localStorage.getItem('drukshift-theme');
+    var btn   = document.getElementById('themeToggle');
+    if (saved === 'light') {
+        document.body.classList.add('light-mode');
+        if (btn) btn.textContent = '🌙';
+    } else {
+        if (btn) btn.textContent = '☀️';
+    }
+});
+
+// ══════════════════════════════════════════
+// LIVE QUIZ COUNTER
+// ══════════════════════════════════════════
+async function loadLiveCount() {
+    try {
+        var res  = await fetch('https://drukshift-vakend.onrender.com/api/admin/results');
+        var data = await res.json();
+        var count = (data.results || []).length;
+        var el = document.getElementById('liveCountNum');
+        if (el) {
+            // Animate number counting up
+            var start = 0;
+            var timer = setInterval(function() {
+                start += 1;
+                el.textContent = start;
+                if (start >= count) { el.textContent = count; clearInterval(timer); }
+            }, 60);
+        }
+    } catch(e) {
+        var el = document.getElementById('liveCountNum');
+        if (el) el.textContent = '—';
+    }
+}
+loadLiveCount();
+
+// ══════════════════════════════════════════
+// ANIMATED PROGRESS BARS IN FINDINGS
+// ══════════════════════════════════════════
+var findingsObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            var bars = entry.target.querySelectorAll('.finding-stat-fill');
+            bars.forEach(function(bar) {
+                var target = bar.getAttribute('data-width');
+                setTimeout(function() {
+                    bar.style.width = target + '%';
+                }, 200);
+            });
+            findingsObserver.disconnect();
+        }
+    });
+}, { threshold: 0.2 });
+
+var fg = document.getElementById('findingsGrid');
+if (fg) findingsObserver.observe(fg);
+
 </script>
+
+<div class="gnh-modal-overlay" id="findingsModalOverlay" onclick="if(event.target===this)closeFindingsModal()">
+    <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">🔑 Key Findings — Cryptocurrency Readiness in Bhutan</span><button class="modal-close" onclick="closeFindingsModal()">✕</button></div><div class="modal-body" id="findingsModalBody"></div></div>
+</div>
+
 </body>
 </html>
