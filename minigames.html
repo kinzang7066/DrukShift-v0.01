@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DrukShift Mini Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --navy:#08192d;--deep:#0f2a45;--blue:#1a4a7a;--mid:#2a6aad;
+    --accent:#f4a261;--gold:#e9c46a;--teal:#2a9d8f;--red:#e63946;
+    --light:#eef2f7;--white:#ffffff;--muted:#7a9bb5;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+
+/* ── FLOATING GAME BUTTON ── */
+#gameToggle{
+    position:fixed;right:0;top:50%;transform:translateY(-50%);
+    z-index:800;background:linear-gradient(135deg,var(--teal),#1a7a6e);
+    color:var(--white);border:none;cursor:pointer;
+    padding:16px 10px;border-radius:12px 0 0 12px;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    box-shadow:-4px 0 20px rgba(42,157,143,0.3);
+    transition:all 0.3s;font-family:'Outfit',sans-serif;
+}
+#gameToggle:hover{background:linear-gradient(135deg,#1a7a6e,#0d5a50);padding-right:14px;}
+#gameToggle .toggle-icon{font-size:22px;}
+#gameToggle .toggle-label{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);}
+#gameToggle .toggle-xp{font-size:10px;color:var(--gold);font-weight:700;}
+
+/* ── GAME PANEL ── */
+#gamePanel{
+    position:fixed;right:-420px;top:0;bottom:0;width:420px;
+    background:linear-gradient(160deg,#08192d 0%,#0f2a45 100%);
+    z-index:799;overflow-y:auto;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.5);
+    border-left:1px solid rgba(255,255,255,0.08);
+    transition:right 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+#gamePanel.open{right:0;}
+
+/* PANEL HEADER */
+.panel-header{
+    background:linear-gradient(90deg,var(--teal),#1a7a6e);
+    padding:20px 20px 16px;position:sticky;top:0;z-index:10;
+}
+.panel-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.panel-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;}
+.panel-close{background:rgba(255,255,255,0.2);border:none;color:var(--white);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.panel-close:hover{background:rgba(255,255,255,0.3);transform:rotate(90deg);}
+.panel-xp-row{display:flex;align-items:center;gap:10px;}
+.panel-xp-label{font-size:11px;color:rgba(255,255,255,0.7);}
+.panel-xp-track{flex:1;height:6px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden;}
+.panel-xp-fill{height:100%;background:var(--gold);border-radius:3px;transition:width 0.5s ease;}
+.panel-xp-num{font-size:13px;font-weight:700;color:var(--gold);}
+
+/* GAME MENU */
+.game-menu{padding:20px;}
+.game-menu-title{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.game-card{
+    background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+    border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;
+    display:flex;align-items:center;gap:16px;
+    transition:all 0.25s;
+}
+.game-card:hover{background:rgba(255,255,255,0.1);transform:translateX(-4px);border-color:var(--teal);}
+.game-card-icon{font-size:36px;flex-shrink:0;}
+.game-card-info h3{font-size:15px;font-weight:600;margin-bottom:4px;}
+.game-card-info p{font-size:12px;color:var(--muted);line-height:1.5;}
+.game-card-badge{margin-left:auto;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.game-card-xp{font-size:11px;color:var(--gold);font-weight:700;background:rgba(233,196,106,0.1);padding:3px 8px;border-radius:50px;}
+.game-card-hs{font-size:10px;color:var(--muted);}
+
+/* LEADERBOARD in menu */
+.leaderboard-wrap{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;}
+.lb-title{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.lb-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{font-size:18px;width:28px;}
+.lb-name{flex:1;font-size:13px;color:var(--white);}
+.lb-score{font-size:13px;font-weight:700;color:var(--gold);}
+
+/* ── GAME SCREENS ── */
+.game-screen{display:none;padding:20px;}
+.game-screen.active{display:block;}
+
+/* GAME HEADER */
+.game-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.game-back{background:rgba(255,255,255,0.1);border:none;color:var(--white);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;flex-shrink:0;transition:all 0.2s;}
+.game-back:hover{background:rgba(255,255,255,0.2);}
+.game-title-wrap h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;}
+.game-title-wrap p{font-size:11px;color:var(--muted);}
+
+/* TIMER + SCORE BAR */
+.game-stats{display:flex;gap:12px;margin-bottom:20px;}
+.game-stat-box{flex:1;background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center;}
+.game-stat-box .gsb-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;line-height:1;}
+.game-stat-box .gsb-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
+.timer-wrap{flex:2;}
+.timer-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-top:8px;}
+.timer-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--accent),var(--teal));border-radius:3px;transition:width 0.1s linear;}
+
+/* QUESTION CARD */
+.q-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;margin-bottom:16px;}
+.q-card-num{font-size:10px;color:var(--teal);font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.q-card-text{font-size:15px;font-weight:500;line-height:1.6;color:var(--white);}
+
+/* ANSWER BUTTONS */
+.ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.ans-btn{
+    padding:14px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.05);color:var(--white);font-size:13px;
+    font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;
+    text-align:center;line-height:1.4;
+}
+.ans-btn:hover:not(:disabled){background:rgba(42,157,143,0.2);border-color:var(--teal);}
+.ans-btn.correct{background:rgba(42,157,143,0.3);border-color:var(--teal);color:var(--teal);}
+.ans-btn.wrong{background:rgba(230,57,70,0.3);border-color:var(--red);color:var(--red);}
+.ans-btn:disabled{cursor:not-allowed;}
+
+/* TRUE/FALSE BUTTONS */
+.tf-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.tf-btn{
+    padding:20px;border-radius:12px;border:2px solid rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.05);color:var(--white);
+    font-size:20px;font-weight:700;font-family:'Outfit',sans-serif;
+    cursor:pointer;transition:all 0.2s;text-align:center;
+}
+.tf-btn:hover:not(:disabled){transform:scale(1.03);}
+.tf-btn.true-btn:hover:not(:disabled){background:rgba(42,157,143,0.2);border-color:var(--teal);}
+.tf-btn.false-btn:hover:not(:disabled){background:rgba(230,57,70,0.2);border-color:var(--red);}
+.tf-btn.correct{background:rgba(42,157,143,0.3);border-color:var(--teal);}
+.tf-btn.wrong{background:rgba(230,57,70,0.3);border-color:var(--red);}
+
+/* FEEDBACK */
+.feedback-box{
+    padding:14px;border-radius:10px;margin-bottom:16px;
+    font-size:13px;line-height:1.6;display:none;
+}
+.feedback-box.correct{background:rgba(42,157,143,0.15);border:1px solid var(--teal);color:var(--teal);}
+.feedback-box.wrong{background:rgba(230,57,70,0.15);border:1px solid var(--red);color:#ff8a8a;}
+
+/* RESULT SCREEN */
+.result-screen{text-align:center;padding:20px 0;}
+.result-emoji{font-size:72px;margin-bottom:16px;display:block;animation:resultPop 0.5s ease;}
+@keyframes resultPop{0%{transform:scale(0);}70%{transform:scale(1.1);}100%{transform:scale(1);}}
+.result-score{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:8px;}
+.result-label{font-size:16px;color:var(--muted);margin-bottom:24px;}
+.result-xp{font-size:20px;font-weight:700;color:var(--teal);margin-bottom:24px;}
+.result-btn{width:100%;padding:14px;background:var(--teal);color:var(--white);border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;margin-bottom:10px;}
+.result-btn:hover{background:#1a7a6e;}
+.result-btn.secondary{background:rgba(255,255,255,0.1);color:var(--muted);}
+
+/* MEMORY GAME */
+.memory-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+    margin-bottom:16px;
+}
+.mem-card{
+    aspect-ratio:1;border-radius:8px;border:2px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.05);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:clamp(10px,1.5vw,13px);text-align:center;padding:4px;
+    transition:all 0.3s;color:transparent;font-weight:600;line-height:1.3;
+    position:relative;overflow:hidden;
+}
+.mem-card.flipped{
+    background:rgba(42,157,143,0.15);border-color:var(--teal);
+    color:var(--white);
+}
+.mem-card.matched{
+    background:rgba(42,157,143,0.3);border-color:var(--teal);
+    color:var(--teal);cursor:default;
+    animation:matchPop 0.3s ease;
+}
+@keyframes matchPop{0%{transform:scale(0.9);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+.mem-card.wrong-match{
+    background:rgba(230,57,70,0.2);border-color:var(--red);
+    animation:wrongShake 0.3s ease;
+}
+@keyframes wrongShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.mem-card-front{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:4px;text-align:center;font-size:11px;line-height:1.3;}
+.mem-card-back{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:24px;}
+
+/* SCAM SPOTTER */
+.scam-message{
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+    border-radius:14px;padding:20px;margin-bottom:20px;
+}
+.scam-sender{font-size:11px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.scam-sender-avatar{width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.scam-text{font-size:14px;line-height:1.7;color:var(--white);}
+.scam-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.scam-btn{
+    padding:16px;border-radius:12px;border:2px solid rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.05);color:var(--white);
+    font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;
+    cursor:pointer;transition:all 0.2s;text-align:center;
+}
+.scam-btn.legit{border-color:rgba(42,157,143,0.4);}
+.scam-btn.scam{border-color:rgba(230,57,70,0.4);}
+.scam-btn.legit:hover:not(:disabled){background:rgba(42,157,143,0.2);border-color:var(--teal);}
+.scam-btn.scam:hover:not(:disabled){background:rgba(230,57,70,0.2);border-color:var(--red);}
+.scam-btn.correct{background:rgba(42,157,143,0.3);border-color:var(--teal);}
+.scam-btn.wrong{background:rgba(230,57,70,0.3);border-color:var(--red);}
+
+/* PROGRESS DOTS */
+.progress-dots{display:flex;gap:6px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;}
+.pdot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);}
+.pdot.done{background:var(--teal);}
+.pdot.current{background:var(--gold);}
+.pdot.wrong{background:var(--red);}
+
+/* COMBO */
+.combo-wrap{text-align:center;margin-bottom:12px;height:24px;}
+.combo-text{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold);animation:comboPop 0.3s ease;}
+@keyframes comboPop{0%{transform:scale(0.5);}70%{transform:scale(1.1);}100%{transform:scale(1);}}
+
+@media(max-width:480px){
+    #gamePanel{width:100vw;}
+    .memory-grid{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════
+     FLOATING TOGGLE BUTTON
+════════════════════════ -->
+<div id="gameToggle" onclick="togglePanel()">
+    <div class="toggle-icon">🎮</div>
+    <div class="toggle-label">Mini Games</div>
+    <div class="toggle-xp" id="toggleXP">0 XP</div>
+</div>
+
+<!-- ════════════════════════
+     GAME PANEL
+════════════════════════ -->
+<div id="gamePanel">
+
+    <!-- HEADER -->
+    <div class="panel-header">
+        <div class="panel-header-top">
+            <div class="panel-title">🎮 DrukShift Games</div>
+            <button class="panel-close" onclick="togglePanel()">✕</button>
+        </div>
+        <div class="panel-xp-row">
+            <span class="panel-xp-label">Total XP</span>
+            <div class="panel-xp-track"><div class="panel-xp-fill" id="panelXpFill" style="width:0%"></div></div>
+            <span class="panel-xp-num" id="panelXpNum">0</span>
+        </div>
+    </div>
+
+    <!-- ════ MAIN MENU ════ -->
+    <div id="screen-menu" class="game-screen active">
+        <div class="game-menu">
+            <div class="game-menu-title">Choose a game</div>
+
+            <div class="game-card" onclick="startGame('blitz')">
+                <div class="game-card-icon">⚡</div>
+                <div class="game-card-info">
+                    <h3>Crypto Quiz Blitz</h3>
+                    <p>10 rapid fire questions. 30 seconds. How many can you get?</p>
+                </div>
+                <div class="game-card-badge">
+                    <span class="game-card-xp">+50 XP</span>
+                    <span class="game-card-hs" id="hs-blitz">Best: 0</span>
+                </div>
+            </div>
+
+            <div class="game-card" onclick="startGame('scam')">
+                <div class="game-card-icon">🎯</div>
+                <div class="game-card-info">
+                    <h3>Scam Spotter</h3>
+                    <p>Scam or Legit? Spot the red flags before time runs out!</p>
+                </div>
+                <div class="game-card-badge">
+                    <span class="game-card-xp">+60 XP</span>
+                    <span class="game-card-hs" id="hs-scam">Best: 0</span>
+                </div>
+            </div>
+
+            <div class="game-card" onclick="startGame('memory')">
+                <div class="game-card-icon">🃏</div>
+                <div class="game-card-info">
+                    <h3>Match the Term</h3>
+                    <p>Flip cards and match crypto terms to their definitions!</p>
+                </div>
+                <div class="game-card-badge">
+                    <span class="game-card-xp">+40 XP</span>
+                    <span class="game-card-hs" id="hs-memory">Best: 0</span>
+                </div>
+            </div>
+
+            <!-- LEADERBOARD -->
+            <div class="leaderboard-wrap">
+                <div class="lb-title">🏆 Top Scores — Bhutan</div>
+                <div id="leaderboardList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════ GAME 1: QUIZ BLITZ ════ -->
+    <div id="screen-blitz" class="game-screen">
+        <div class="game-header">
+            <button class="game-back" onclick="showMenu()">←</button>
+            <div class="game-title-wrap">
+                <h2>⚡ Crypto Quiz Blitz</h2>
+                <p>Answer as many as you can!</p>
+            </div>
+        </div>
+        <div class="game-stats">
+            <div class="game-stat-box">
+                <div class="gsb-val" id="blitz-score">0</div>
+                <div class="gsb-lbl">Score</div>
+            </div>
+            <div class="game-stat-box">
+                <div class="gsb-val" id="blitz-q">1</div>
+                <div class="gsb-lbl">Question</div>
+            </div>
+            <div class="game-stat-box timer-wrap">
+                <div class="gsb-val" id="blitz-time">30</div>
+                <div class="gsb-lbl">Seconds</div>
+                <div class="timer-bar"><div class="timer-fill" id="blitz-timer-fill" style="width:100%"></div></div>
+            </div>
+        </div>
+        <div class="combo-wrap"><span id="blitz-combo"></span></div>
+        <div class="progress-dots" id="blitz-dots"></div>
+        <div class="q-card">
+            <div class="q-card-num" id="blitz-qnum">Question 1</div>
+            <div class="q-card-text" id="blitz-qtext">Loading...</div>
+        </div>
+        <div class="tf-grid">
+            <button class="tf-btn true-btn" id="blitz-true" onclick="answerBlitz(true)">✅ TRUE</button>
+            <button class="tf-btn false-btn" id="blitz-false" onclick="answerBlitz(false)">❌ FALSE</button>
+        </div>
+        <div class="feedback-box" id="blitz-feedback"></div>
+    </div>
+
+    <!-- ════ GAME 2: SCAM SPOTTER ════ -->
+    <div id="screen-scam" class="game-screen">
+        <div class="game-header">
+            <button class="game-back" onclick="showMenu()">←</button>
+            <div class="game-title-wrap">
+                <h2>🎯 Scam Spotter</h2>
+                <p>Is this message a scam or legit?</p>
+            </div>
+        </div>
+        <div class="game-stats">
+            <div class="game-stat-box">
+                <div class="gsb-val" id="scam-score">0</div>
+                <div class="gsb-lbl">Correct</div>
+            </div>
+            <div class="game-stat-box">
+                <div class="gsb-val" id="scam-q">1/8</div>
+                <div class="gsb-lbl">Round</div>
+            </div>
+            <div class="game-stat-box timer-wrap">
+                <div class="gsb-val" id="scam-time">10</div>
+                <div class="gsb-lbl">Seconds</div>
+                <div class="timer-bar"><div class="timer-fill" id="scam-timer-fill" style="width:100%"></div></div>
+            </div>
+        </div>
+        <div class="progress-dots" id="scam-dots"></div>
+        <div class="scam-message">
+            <div class="scam-sender">
+                <div class="scam-sender-avatar" id="scam-avatar">👤</div>
+                <span id="scam-sender-name">Unknown</span>
+                <span style="color:var(--muted);font-size:10px;">· Just now</span>
+            </div>
+            <div class="scam-text" id="scam-text">Loading...</div>
+        </div>
+        <div class="scam-btns">
+            <button class="scam-btn legit" id="scam-legit-btn" onclick="answerScam('legit')">✅ LEGIT</button>
+            <button class="scam-btn scam" id="scam-scam-btn" onclick="answerScam('scam')">🚨 SCAM!</button>
+        </div>
+        <div class="feedback-box" id="scam-feedback"></div>
+    </div>
+
+    <!-- ════ GAME 3: MEMORY MATCH ════ -->
+    <div id="screen-memory" class="game-screen">
+        <div class="game-header">
+            <button class="game-back" onclick="showMenu()">←</button>
+            <div class="game-title-wrap">
+                <h2>🃏 Match the Term</h2>
+                <p>Match crypto terms to definitions!</p>
+            </div>
+        </div>
+        <div class="game-stats">
+            <div class="game-stat-box">
+                <div class="gsb-val" id="mem-matches">0</div>
+                <div class="gsb-lbl">Matched</div>
+            </div>
+            <div class="game-stat-box">
+                <div class="gsb-val" id="mem-moves">0</div>
+                <div class="gsb-lbl">Moves</div>
+            </div>
+            <div class="game-stat-box timer-wrap">
+                <div class="gsb-val" id="mem-time">0</div>
+                <div class="gsb-lbl">Seconds</div>
+                <div class="timer-bar"><div class="timer-fill" id="mem-timer-fill" style="width:100%"></div></div>
+            </div>
+        </div>
+        <div class="memory-grid" id="memoryGrid"></div>
+        <div style="text-align:center;font-size:12px;color:var(--muted);">Tap two cards to match a term with its definition</div>
+    </div>
+
+    <!-- ════ RESULT SCREEN ════ -->
+    <div id="screen-result" class="game-screen">
+        <div class="result-screen">
+            <span class="result-emoji" id="result-emoji">🏆</span>
+            <div class="result-score" id="result-score">0</div>
+            <div class="result-label" id="result-label">Great job!</div>
+            <div class="result-xp" id="result-xp">+50 XP earned!</div>
+            <button class="result-btn" id="result-play-again" onclick="playAgain()">▶ Play Again</button>
+            <button class="result-btn secondary" onclick="showMenu()">← Back to Games</button>
+        </div>
+    </div>
+
+</div><!-- end gamePanel -->
+
+<script>
+// ════════════════════════════════════════
+// XP SYSTEM
+// ════════════════════════════════════════
+var totalXP = parseInt(localStorage.getItem('drukshift-game-xp') || '0');
+var currentGame = 'blitz';
+
+function addXP(pts) {
+    totalXP += pts;
+    localStorage.setItem('drukshift-game-xp', totalXP);
+    updateXPDisplay();
+    // Also update parent window if embedded
+    try {
+        if (window.parent && window.parent.updateXP) window.parent.updateXP(pts);
+    } catch(e) {}
+}
+
+function updateXPDisplay() {
+    var pct = Math.min((totalXP / 500) * 100, 100);
+    var fill = document.getElementById('panelXpFill');
+    var num  = document.getElementById('panelXpNum');
+    var tog  = document.getElementById('toggleXP');
+    if (fill) fill.style.width = pct + '%';
+    if (num)  num.textContent = totalXP;
+    if (tog)  tog.textContent = totalXP + ' XP';
+}
+updateXPDisplay();
+
+function togglePanel() {
+    var panel = document.getElementById('gamePanel');
+    panel.classList.toggle('open');
+    loadLeaderboard();
+    updateHighScores();
+}
+
+function showMenu() {
+    stopAllTimers();
+    document.querySelectorAll('.game-screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screen-menu').classList.add('active');
+    loadLeaderboard();
+    updateHighScores();
+}
+
+function startGame(game) {
+    currentGame = game;
+    document.querySelectorAll('.game-screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screen-' + game).classList.add('active');
+    if (game === 'blitz')  initBlitz();
+    if (game === 'scam')   initScam();
+    if (game === 'memory') initMemory();
+}
+
+function showResult(score, maxScore, xpEarned, game) {
+    stopAllTimers();
+    saveHighScore(game, score);
+
+    var pct = Math.round((score / maxScore) * 100);
+    var emoji = pct >= 80 ? '🏆' : pct >= 60 ? '🥇' : pct >= 40 ? '🥈' : '🥉';
+    var label = pct >= 80 ? 'Outstanding! 🇧🇹' : pct >= 60 ? 'Great job!' : pct >= 40 ? 'Good effort!' : 'Keep practising!';
+
+    document.getElementById('result-emoji').textContent = emoji;
+    document.getElementById('result-score').textContent = score + '/' + maxScore;
+    document.getElementById('result-label').textContent = label;
+    document.getElementById('result-xp').textContent = '+' + xpEarned + ' XP earned!';
+    document.getElementById('result-play-again').onclick = function() { startGame(game); };
+
+    addXP(xpEarned);
+
+    document.querySelectorAll('.game-screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screen-result').classList.add('active');
+}
+
+// High scores
+function saveHighScore(game, score) {
+    var key = 'drukshift-hs-' + game;
+    var current = parseInt(localStorage.getItem(key) || '0');
+    if (score > current) localStorage.setItem(key, score);
+
+    // Save to leaderboard
+    var name = localStorage.getItem('drukshift-player-name') || 'Anonymous';
+    var lb = JSON.parse(localStorage.getItem('drukshift-leaderboard') || '[]');
+    lb.push({ name: name, game: game, score: score, date: new Date().toLocaleDateString() });
+    lb.sort(function(a,b){return b.score-a.score;});
+    lb = lb.slice(0, 10);
+    localStorage.setItem('drukshift-leaderboard', JSON.stringify(lb));
+}
+
+function updateHighScores() {
+    ['blitz','scam','memory'].forEach(function(g) {
+        var el = document.getElementById('hs-' + g);
+        if (el) el.textContent = 'Best: ' + (localStorage.getItem('drukshift-hs-' + g) || '0');
+    });
+}
+updateHighScores();
+
+function loadLeaderboard() {
+    var lb = JSON.parse(localStorage.getItem('drukshift-leaderboard') || '[]');
+    var medals = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+    var html = '';
+    if (lb.length === 0) {
+        html = '<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px;">Play a game to get on the board!</div>';
+    } else {
+        lb.slice(0,5).forEach(function(entry, i) {
+            html += '<div class="lb-row">' +
+                '<span class="lb-rank">' + (medals[i] || (i+1)) + '</span>' +
+                '<span class="lb-name">' + entry.name + ' <span style="font-size:10px;color:var(--muted);">(' + entry.game + ')</span></span>' +
+                '<span class="lb-score">' + entry.score + '</span>' +
+                '</div>';
+        });
+    }
+    var el = document.getElementById('leaderboardList');
+    if (el) el.innerHTML = html;
+}
+loadLeaderboard();
+
+var activeTimers = [];
+function stopAllTimers() {
+    activeTimers.forEach(function(t) { clearInterval(t); clearTimeout(t); });
+    activeTimers = [];
+}
+
+// ════════════════════════════════════════
+// GAME 1 — CRYPTO QUIZ BLITZ
+// ════════════════════════════════════════
+var blitzQuestions = [
+    { q: "Bitcoin was created in 2009.", ans: true, fact: "Satoshi Nakamoto released Bitcoin in January 2009." },
+    { q: "Cryptocurrency transactions are completely anonymous.", ans: false, fact: "Crypto transactions are pseudonymous — wallet addresses are visible on the blockchain." },
+    { q: "Bhutan has been mining Bitcoin using hydropower.", ans: true, fact: "Bhutan quietly built one of Asia's largest Bitcoin mining operations using its hydropower resources." },
+    { q: "A blockchain is controlled by one central bank.", ans: false, fact: "Blockchain is decentralised — no single entity controls it." },
+    { q: "You can recover a crypto wallet without the seed phrase.", ans: false, fact: "Without your seed phrase, a lost wallet cannot be recovered. Store it safely!" },
+    { q: "Ethereum is a cryptocurrency that also supports smart contracts.", ans: true, fact: "Ethereum introduced programmable smart contracts alongside its ETH currency." },
+    { q: "80% of surveyed Bhutanese adults show crypto readiness.", ans: true, fact: "DrukShift research found 80% overall readiness among 113 Bhutanese adults." },
+    { q: "Nansen is partnering with Gelephu Mindfulness City in Bhutan.", ans: true, fact: "Nansen announced a partnership with GMC to build blockchain analytics in Bhutan." },
+    { q: "Internet quality does NOT affect crypto safety.", ans: false, fact: "Poor internet is the #1 barrier to safe crypto adoption in Bhutan according to DrukShift data." },
+    { q: "The 25-34 age group scored highest in DrukShift's readiness survey.", ans: true, fact: "The 25-34 group averaged 13.74/16 — the highest of any age group." },
+    { q: "Once a crypto transaction is confirmed, it can be reversed.", ans: false, fact: "Crypto transactions are irreversible once confirmed on the blockchain." },
+    { q: "GNH stands for Gross National Happiness.", ans: true, fact: "Bhutan's GNH framework measures wellbeing across 9 domains instead of just GDP." },
+    { q: "A crypto wallet stores your actual cryptocurrency.", ans: false, fact: "Wallets store private keys — the actual crypto lives on the blockchain." },
+    { q: "96% of Bhutanese adults surveyed had heard of cryptocurrency.", ans: true, fact: "DrukShift found very high awareness (96%) but much lower deep understanding." },
+    { q: "Stablecoins are designed to maintain a fixed value.", ans: true, fact: "Stablecoins like USDT are pegged to a stable asset like the US dollar." }
+];
+
+var blitzState = {};
+
+function initBlitz() {
+    blitzState = {
+        questions: shuffleArray([...blitzQuestions]).slice(0, 10),
+        current: 0,
+        score: 0,
+        combo: 0,
+        timeLeft: 30,
+        answered: [],
+        running: true
+    };
+    updateBlitzDots();
+    renderBlitzQ();
+    startBlitzTimer();
+}
+
+function renderBlitzQ() {
+    if (blitzState.current >= blitzState.questions.length) {
+        showResult(blitzState.score, blitzState.questions.length, Math.round(blitzState.score * 5), 'blitz');
+        return;
+    }
+    var q = blitzState.questions[blitzState.current];
+    document.getElementById('blitz-qnum').textContent = 'Question ' + (blitzState.current + 1);
+    document.getElementById('blitz-qtext').textContent = q.q;
+    document.getElementById('blitz-score').textContent = blitzState.score;
+    document.getElementById('blitz-q').textContent = blitzState.current + 1;
+    document.getElementById('blitz-combo').textContent = blitzState.combo >= 2 ? '🔥 ' + blitzState.combo + 'x Combo!' : '';
+    document.getElementById('blitz-feedback').style.display = 'none';
+    var tb = document.getElementById('blitz-true');
+    var fb = document.getElementById('blitz-false');
+    if (tb) { tb.disabled = false; tb.className = 'tf-btn true-btn'; }
+    if (fb) { fb.disabled = false; fb.className = 'tf-btn false-btn'; }
+}
+
+function answerBlitz(userAns) {
+    if (!blitzState.running) return;
+    var q = blitzState.questions[blitzState.current];
+    var correct = userAns === q.ans;
+    var tb = document.getElementById('blitz-true');
+    var fb = document.getElementById('blitz-false');
+    if (tb) tb.disabled = true;
+    if (fb) fb.disabled = true;
+
+    if (correct) {
+        blitzState.score++;
+        blitzState.combo++;
+        if (tb && userAns) tb.className = 'tf-btn correct';
+        if (fb && !userAns) fb.className = 'tf-btn correct';
+    } else {
+        blitzState.combo = 0;
+        if (tb && !userAns) tb.className = 'tf-btn wrong';
+        if (fb && userAns) fb.className = 'tf-btn wrong';
+    }
+    blitzState.answered.push(correct);
+    updateBlitzDots();
+
+    var fb2 = document.getElementById('blitz-feedback');
+    fb2.className = 'feedback-box ' + (correct ? 'correct' : 'wrong');
+    fb2.textContent = (correct ? '✅ Correct! ' : '❌ Wrong. ') + q.fact;
+    fb2.style.display = 'block';
+
+    setTimeout(function() {
+        blitzState.current++;
+        renderBlitzQ();
+    }, 1200);
+}
+
+function updateBlitzDots() {
+    var html = '';
+    for (var i = 0; i < 10; i++) {
+        var cls = i < blitzState.answered.length ? (blitzState.answered[i] ? 'pdot done' : 'pdot wrong') : (i === blitzState.current ? 'pdot current' : 'pdot');
+        html += '<div class="' + cls + '"></div>';
+    }
+    document.getElementById('blitz-dots').innerHTML = html;
+}
+
+function startBlitzTimer() {
+    blitzState.timeLeft = 30;
+    var t = setInterval(function() {
+        if (!blitzState.running) { clearInterval(t); return; }
+        blitzState.timeLeft--;
+        document.getElementById('blitz-time').textContent = blitzState.timeLeft;
+        document.getElementById('blitz-timer-fill').style.width = (blitzState.timeLeft / 30 * 100) + '%';
+        if (blitzState.timeLeft <= 0) {
+            clearInterval(t);
+            blitzState.running = false;
+            showResult(blitzState.score, blitzState.questions.length, Math.round(blitzState.score * 5), 'blitz');
+        }
+    }, 1000);
+    activeTimers.push(t);
+}
+
+// ════════════════════════════════════════
+// GAME 2 — SCAM SPOTTER
+// ════════════════════════════════════════
+var scamMessages = [
+    { sender:'CryptoKing2026', avatar:'👑', text:'🚀 URGENT! Send 0.01 BTC now and receive 0.1 BTC back in 24 hours! Limited time offer! 500% guaranteed returns! Act fast!', isScam:true, reason:'Guaranteed high returns are the #1 sign of a crypto scam. Nobody can guarantee returns.' },
+    { sender:'RMA Bhutan Official', avatar:'🏛️', text:'Dear customer, please be informed that cryptocurrency transactions above Nu.50,000 must be reported to the Royal Monetary Authority. Visit rma.org.bt for details.', isScam:false, reason:'This is legitimate regulatory communication from an official government body.' },
+    { sender:'Binance Support', avatar:'💬', text:'Your account has been locked! Click this link immediately to verify: binance-secure-verify.xyz. Enter your seed phrase to restore access.', isScam:true, reason:'Never share your seed phrase. Official exchanges never ask for it. The URL is fake.' },
+    { sender:'Coinbase', avatar:'🔵', text:'Your monthly statement is ready. Log in at coinbase.com to view your transaction history for April 2026.', isScam:false, reason:'This is a legitimate notification. Always check the real domain — coinbase.com is correct.' },
+    { sender:'Elon_Musk_Official', avatar:'🚀', text:'I am giving away 5,000 Bitcoin to my fans! Send 0.1 BTC to this address and I will send back 1 BTC! Limited to first 1000 people!', isScam:true, reason:'Celebrity giveaway scams are extremely common. No celebrity gives away free crypto.' },
+    { sender:'DrukShift Quiz', avatar:'🇧🇹', text:'Your readiness quiz result is ready! You scored 78% — Crypto Ready 🥇. Visit kinzang7066.github.io to see your personalised improvement plan.', isScam:false, reason:'This is a legitimate DrukShift notification with a real GitHub Pages link.' },
+    { sender:'CryptoPro_BT', avatar:'💰', text:'Hi! I can triple your investment in 7 days using my secret crypto algorithm. Minimum deposit Nu.10,000. Bhutanese investors only. WhatsApp me now!', isScam:true, reason:'Promises of doubling or tripling money quickly are classic investment scams.' },
+    { sender:'Bank of Bhutan', avatar:'🏦', text:'BOB Digital Lending: Your loan application BOB-DLP-2026 has been approved. Log in to bobloan.bt to complete your documentation.', isScam:false, reason:'This references a real loan system with a legitimate .bt domain.' },
+    { sender:'MetaMask_Security', avatar:'🦊', text:'SECURITY ALERT: Your MetaMask wallet detected unusual activity. Enter your 12-word recovery phrase at metamask-security-check.com to secure your funds.', isScam:true, reason:'MetaMask will NEVER ask for your recovery phrase. This is a phishing attack.' },
+    { sender:'Nansen Analytics', avatar:'📊', text:'Nansen is establishing presence in Gelephu Mindfulness City, Bhutan. Follow our LinkedIn for updates on our local team and analytics platform.', isScam:false, reason:'This is real — Nansen announced their GMC Bhutan partnership in 2026.' }
+];
+
+var scamState = {};
+
+function initScam() {
+    scamState = {
+        messages: shuffleArray([...scamMessages]).slice(0, 8),
+        current: 0,
+        score: 0,
+        answered: [],
+        timeLeft: 10,
+        running: true
+    };
+    updateScamDots();
+    renderScamQ();
+    startScamTimer();
+}
+
+function renderScamQ() {
+    if (scamState.current >= scamState.messages.length) {
+        showResult(scamState.score, scamState.messages.length, Math.round(scamState.score * 7.5), 'scam');
+        return;
+    }
+    var m = scamState.messages[scamState.current];
+    document.getElementById('scam-avatar').textContent = m.avatar;
+    document.getElementById('scam-sender-name').textContent = m.sender;
+    document.getElementById('scam-text').textContent = m.text;
+    document.getElementById('scam-score').textContent = scamState.score;
+    document.getElementById('scam-q').textContent = (scamState.current + 1) + '/8';
+    document.getElementById('scam-feedback').style.display = 'none';
+    var lb = document.getElementById('scam-legit-btn');
+    var sb = document.getElementById('scam-scam-btn');
+    if (lb) { lb.disabled = false; lb.className = 'scam-btn legit'; }
+    if (sb) { sb.disabled = false; sb.className = 'scam-btn scam'; }
+    scamState.timeLeft = 10;
+}
+
+function answerScam(ans) {
+    if (!scamState.running) return;
+    clearScamTimer();
+    var m = scamState.messages[scamState.current];
+    var correct = (ans === 'scam') === m.isScam;
+    var lb = document.getElementById('scam-legit-btn');
+    var sb = document.getElementById('scam-scam-btn');
+    if (lb) lb.disabled = true;
+    if (sb) sb.disabled = true;
+
+    if (correct) {
+        scamState.score++;
+        if (ans === 'legit' && lb) lb.className = 'scam-btn correct';
+        if (ans === 'scam' && sb) sb.className = 'scam-btn correct';
+    } else {
+        if (ans === 'legit' && lb) lb.className = 'scam-btn wrong';
+        if (ans === 'scam' && sb) sb.className = 'scam-btn wrong';
+    }
+    scamState.answered.push(correct);
+    updateScamDots();
+
+    var fb = document.getElementById('scam-feedback');
+    fb.className = 'feedback-box ' + (correct ? 'correct' : 'wrong');
+    fb.textContent = (correct ? '✅ Correct! ' : '❌ Wrong! ') + m.reason;
+    fb.style.display = 'block';
+
+    setTimeout(function() {
+        scamState.current++;
+        renderScamQ();
+        startScamTimer();
+    }, 2000);
+}
+
+function updateScamDots() {
+    var html = '';
+    for (var i = 0; i < 8; i++) {
+        var cls = i < scamState.answered.length ? (scamState.answered[i] ? 'pdot done' : 'pdot wrong') : (i === scamState.current ? 'pdot current' : 'pdot');
+        html += '<div class="' + cls + '"></div>';
+    }
+    document.getElementById('scam-dots').innerHTML = html;
+}
+
+var scamTimerInterval = null;
+function clearScamTimer() { if (scamTimerInterval) { clearInterval(scamTimerInterval); scamTimerInterval = null; } }
+
+function startScamTimer() {
+    clearScamTimer();
+    if (scamState.current >= scamState.messages.length) return;
+    scamState.timeLeft = 10;
+    scamTimerInterval = setInterval(function() {
+        scamState.timeLeft--;
+        document.getElementById('scam-time').textContent = scamState.timeLeft;
+        document.getElementById('scam-timer-fill').style.width = (scamState.timeLeft / 10 * 100) + '%';
+        if (scamState.timeLeft <= 0) {
+            clearScamTimer();
+            scamState.answered.push(false);
+            updateScamDots();
+            var fb = document.getElementById('scam-feedback');
+            fb.className = 'feedback-box wrong';
+            fb.textContent = '⏰ Time up! ' + scamState.messages[scamState.current].reason;
+            fb.style.display = 'block';
+            setTimeout(function() {
+                scamState.current++;
+                renderScamQ();
+                startScamTimer();
+            }, 2000);
+        }
+    }, 1000);
+    activeTimers.push(scamTimerInterval);
+}
+
+// ════════════════════════════════════════
+// GAME 3 — MEMORY MATCH
+// ════════════════════════════════════════
+var memoryPairs = [
+    { term:'Bitcoin', def:'First cryptocurrency, created in 2009' },
+    { term:'Blockchain', def:'Decentralised digital ledger' },
+    { term:'Wallet', def:'Stores your private keys' },
+    { term:'Seed Phrase', def:'12-24 words to recover wallet' },
+    { term:'Mining', def:'Creating new coins by solving puzzles' },
+    { term:'DeFi', def:'Decentralised financial services' },
+    { term:'NFT', def:'Unique digital ownership token' },
+    { term:'GNH', def:'Bhutan\'s happiness measure' }
+];
+
+var memState = {};
+
+function initMemory() {
+    var pairs = shuffleArray([...memoryPairs]).slice(0, 6);
+    var cards = [];
+    pairs.forEach(function(p, i) {
+        cards.push({ id: i, type: 'term', text: p.term, pairId: i });
+        cards.push({ id: i + 100, type: 'def', text: p.def, pairId: i });
+    });
+    memState = {
+        cards: shuffleArray(cards),
+        flipped: [],
+        matched: [],
+        moves: 0,
+        timeElapsed: 0,
+        running: true,
+        canFlip: true
+    };
+    renderMemory();
+    startMemTimer();
+}
+
+function renderMemory() {
+    var grid = document.getElementById('memoryGrid');
+    grid.innerHTML = '';
+    memState.cards.forEach(function(card, idx) {
+        var div = document.createElement('div');
+        div.className = 'mem-card';
+        div.setAttribute('data-idx', idx);
+
+        var front = document.createElement('div');
+        front.className = 'mem-card-front';
+        front.textContent = card.text;
+
+        var back = document.createElement('div');
+        back.className = 'mem-card-back';
+        back.textContent = card.type === 'term' ? '📖' : '💡';
+
+        div.appendChild(back);
+        div.appendChild(front);
+
+        if (memState.flipped.indexOf(idx) !== -1 || memState.matched.indexOf(card.pairId) !== -1) {
+            div.classList.add('flipped');
+            if (memState.matched.indexOf(card.pairId) !== -1) div.classList.add('matched');
+        }
+
+        div.onclick = function() { flipMemCard(idx); };
+        grid.appendChild(div);
+    });
+    document.getElementById('mem-matches').textContent = memState.matched.length;
+    document.getElementById('mem-moves').textContent = memState.moves;
+}
+
+function flipMemCard(idx) {
+    if (!memState.canFlip) return;
+    if (!memState.running) return;
+    if (memState.flipped.indexOf(idx) !== -1) return;
+    if (memState.matched.indexOf(memState.cards[idx].pairId) !== -1) return;
+    if (memState.flipped.length >= 2) return;
+
+    memState.flipped.push(idx);
+    renderMemory();
+
+    if (memState.flipped.length === 2) {
+        memState.moves++;
+        memState.canFlip = false;
+        var c1 = memState.cards[memState.flipped[0]];
+        var c2 = memState.cards[memState.flipped[1]];
+
+        if (c1.pairId === c2.pairId && c1.type !== c2.type) {
+            // Match!
+            setTimeout(function() {
+                memState.matched.push(c1.pairId);
+                memState.flipped = [];
+                memState.canFlip = true;
+                renderMemory();
+                if (memState.matched.length === 6) {
+                    memState.running = false;
+                    var xp = Math.max(10, 40 - memState.moves);
+                    showResult(memState.matched.length, 6, xp, 'memory');
+                }
+            }, 500);
+        } else {
+            // No match
+            setTimeout(function() {
+                var cards = document.querySelectorAll('.mem-card');
+                memState.flipped.forEach(function(fi) {
+                    if (cards[fi]) cards[fi].classList.add('wrong-match');
+                });
+                setTimeout(function() {
+                    memState.flipped = [];
+                    memState.canFlip = true;
+                    renderMemory();
+                }, 600);
+            }, 600);
+        }
+    }
+}
+
+var memTimerInterval = null;
+function startMemTimer() {
+    if (memTimerInterval) clearInterval(memTimerInterval);
+    memTimerInterval = setInterval(function() {
+        if (!memState.running) { clearInterval(memTimerInterval); return; }
+        memState.timeElapsed++;
+        document.getElementById('mem-time').textContent = memState.timeElapsed;
+    }, 1000);
+    activeTimers.push(memTimerInterval);
+}
+
+function playAgain() { startGame(currentGame); }
+
+// ════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════
+function shuffleArray(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+}
+</script>
+</body>
+</html>
