@@ -1909,6 +1909,453 @@ var findingsObserver = new IntersectionObserver(function(entries) {
 var fg = document.getElementById('findingsGrid');
 if (fg) findingsObserver.observe(fg);
 
+
+
+// ════════════════════════════════════════
+// MINI GAMES ENGINE — DIRECTLY EMBEDDED
+// ════════════════════════════════════════
+var mgXP = parseInt(localStorage.getItem('mg-xp') || '0');
+var mgCurrentGame = 'blitz';
+var mgTimers = [];
+
+function mgUpdateXP() {
+    var pct = Math.min((mgXP / 500) * 100, 100);
+    var fill = document.getElementById('mg-xp-fill');
+    var num  = document.getElementById('mg-xp-num');
+    if (fill) fill.style.width = pct + '%';
+    if (num)  num.textContent = mgXP;
+}
+
+function mgAddXP(pts) {
+    mgXP += pts;
+    localStorage.setItem('mg-xp', mgXP);
+    mgUpdateXP();
+    if (typeof updateXP === 'function') updateXP(pts);
+}
+
+function mgShowMenu() {
+    mgStopTimers();
+    var menu = document.getElementById('mg-menu');
+    var game = document.getElementById('mg-game');
+    var res  = document.getElementById('mg-result');
+    if (menu) menu.style.display = 'block';
+    if (game) game.style.display = 'none';
+    if (res)  res.style.display  = 'none';
+    mgUpdateHS();
+    mgUpdateLB();
+}
+
+function mgUpdateHS() {
+    ['blitz','scam','memory'].forEach(function(g) {
+        var el = document.getElementById('mg-hs-' + g);
+        if (el) el.textContent = 'Best: ' + (localStorage.getItem('mg-hs-' + g) || '0');
+    });
+}
+
+function mgUpdateLB() {
+    var el = document.getElementById('mg-lb');
+    if (!el) return;
+    var medals = ['🥇','🥈','🥉'];
+    var names  = {blitz:'Quiz Blitz', scam:'Scam Spotter', memory:'Match Term'};
+    var html = '';
+    ['blitz','scam','memory'].forEach(function(g, i) {
+        var score = localStorage.getItem('mg-hs-' + g) || '0';
+        html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);">' +
+            '<span style="font-size:18px;">' + medals[i] + '</span>' +
+            '<span style="flex:1;font-size:13px;color:white;">' + names[g] + '</span>' +
+            '<span style="font-size:13px;font-weight:700;color:#e9c46a;">' + score + '</span></div>';
+    });
+    el.innerHTML = html;
+}
+
+function mgStart(game) {
+    mgCurrentGame = game;
+    var menu = document.getElementById('mg-menu');
+    var gameDiv = document.getElementById('mg-game');
+    var res  = document.getElementById('mg-result');
+    if (menu) menu.style.display = 'none';
+    if (gameDiv) gameDiv.style.display = 'block';
+    if (res)  res.style.display = 'none';
+    var fb = document.getElementById('mg-feedback');
+    if (fb) fb.style.display = 'none';
+    var qcard = document.getElementById('mg-qcard');
+    if (qcard) qcard.style.display = 'block';
+    if (game === 'blitz')  mgInitBlitz();
+    if (game === 'scam')   mgInitScam();
+    if (game === 'memory') mgInitMemory();
+}
+
+function mgShowResult(score, max, xp) {
+    mgStopTimers();
+    var prev = parseInt(localStorage.getItem('mg-hs-' + mgCurrentGame) || '0');
+    if (score > prev) localStorage.setItem('mg-hs-' + mgCurrentGame, score);
+    var pct   = max > 0 ? Math.round((score / max) * 100) : 0;
+    var emoji = pct >= 80 ? '🏆' : pct >= 60 ? '🥇' : pct >= 40 ? '🥈' : '🥉';
+    var label = pct >= 80 ? 'Outstanding! 🇧🇹' : pct >= 60 ? 'Great job!' : pct >= 40 ? 'Good effort!' : 'Keep practising!';
+    var re = document.getElementById('mg-res-emoji');
+    var rs = document.getElementById('mg-res-score');
+    var rl = document.getElementById('mg-res-label');
+    var rx = document.getElementById('mg-res-xp');
+    var ra = document.getElementById('mg-res-again');
+    if (re) re.textContent = emoji;
+    if (rs) rs.textContent = score + '/' + max;
+    if (rl) rl.textContent = label;
+    if (rx) rx.textContent = '+' + xp + ' XP earned!';
+    if (ra) ra.onclick = function() { mgStart(mgCurrentGame); };
+    var gameDiv = document.getElementById('mg-game');
+    var res     = document.getElementById('mg-result');
+    if (gameDiv) gameDiv.style.display = 'none';
+    if (res)     res.style.display     = 'block';
+    mgAddXP(xp);
+}
+
+function mgStopTimers() {
+    mgTimers.forEach(function(t) { clearInterval(t); clearTimeout(t); });
+    mgTimers = [];
+}
+
+function mgShuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+}
+
+function mgDots(answered, total, current) {
+    var el = document.getElementById('mg-dots');
+    if (!el) return;
+    var html = '';
+    for (var i = 0; i < total; i++) {
+        var bg = i < answered.length
+            ? (answered[i] ? '#2a9d8f' : '#e63946')
+            : (i === current ? '#e9c46a' : 'rgba(255,255,255,0.2)');
+        html += '<div style="width:10px;height:10px;border-radius:50%;background:' + bg + ';display:inline-block;margin:2px;"></div>';
+    }
+    el.innerHTML = html;
+}
+
+// ── BLITZ ──
+var mgBlitzQs = [
+    {q:"Bitcoin was created in 2009.", a:true, f:"Satoshi Nakamoto released Bitcoin in January 2009."},
+    {q:"Crypto transactions are 100% anonymous.", a:false, f:"They are pseudonymous — wallet addresses are public."},
+    {q:"Bhutan mines Bitcoin using hydropower.", a:true, f:"Bhutan built one of Asia's largest Bitcoin mining operations."},
+    {q:"Blockchain is controlled by one central bank.", a:false, f:"Blockchain is decentralised — no single entity controls it."},
+    {q:"You can recover a wallet without the seed phrase.", a:false, f:"Without seed phrase, a lost wallet cannot be recovered."},
+    {q:"80% of Bhutanese adults show crypto readiness.", a:true, f:"DrukShift found 80% overall readiness among 113 adults."},
+    {q:"Nansen is partnering with Gelephu Mindfulness City.", a:true, f:"Nansen announced GMC Bhutan partnership in 2026."},
+    {q:"Internet quality does NOT affect crypto safety.", a:false, f:"Poor internet is the #1 barrier to safe crypto in Bhutan."},
+    {q:"The 25-34 age group scored highest in DrukShift.", a:true, f:"25-34 group averaged 13.74/16 — the highest score."},
+    {q:"Confirmed crypto transactions can be reversed.", a:false, f:"Crypto transactions are irreversible once confirmed."},
+    {q:"GNH stands for Gross National Happiness.", a:true, f:"Bhutan measures wellbeing through GNH across 9 domains."},
+    {q:"A crypto wallet stores your actual coins.", a:false, f:"Wallets store private keys — coins live on the blockchain."}
+];
+
+var mgBState = {};
+function mgInitBlitz() {
+    var gt = document.getElementById('mg-game-title');
+    var gs = document.getElementById('mg-game-sub');
+    if (gt) gt.textContent = '⚡ Crypto Quiz Blitz';
+    if (gs) gs.textContent = 'True or False · 30 seconds';
+    mgBState = { qs: mgShuffle([].concat(mgBlitzQs)).slice(0,10), cur:0, score:0, answered:[], timeLeft:30, running:true };
+    mgBlitzRender();
+    mgBlitzTimer();
+}
+
+function mgBlitzRender() {
+    if (mgBState.cur >= mgBState.qs.length) { mgShowResult(mgBState.score, mgBState.qs.length, mgBState.score * 5); return; }
+    var q = mgBState.qs[mgBState.cur];
+    var qn = document.getElementById('mg-qnum');
+    var qt = document.getElementById('mg-qtext');
+    var ss = document.getElementById('mg-stat-score');
+    var sq = document.getElementById('mg-stat-q');
+    var fb = document.getElementById('mg-feedback');
+    if (qn) qn.textContent = 'Question ' + (mgBState.cur + 1);
+    if (qt) qt.textContent = q.q;
+    if (ss) ss.textContent = mgBState.score;
+    if (sq) sq.textContent = mgBState.cur + 1;
+    if (fb) fb.style.display = 'none';
+    mgDots(mgBState.answered, 10, mgBState.cur);
+    var ans = document.getElementById('mg-answers');
+    if (ans) ans.innerHTML =
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">' +
+        '<button id="mg-true-btn" style="padding:20px;border-radius:12px;border:2px solid rgba(42,157,143,0.5);background:rgba(42,157,143,0.08);color:white;font-size:18px;font-weight:700;font-family:Outfit,sans-serif;cursor:pointer;">✅ TRUE</button>' +
+        '<button id="mg-false-btn" style="padding:20px;border-radius:12px;border:2px solid rgba(230,57,70,0.5);background:rgba(230,57,70,0.08);color:white;font-size:18px;font-weight:700;font-family:Outfit,sans-serif;cursor:pointer;">❌ FALSE</button>' +
+        '</div>';
+    setTimeout(function() {
+        var tb = document.getElementById('mg-true-btn');
+        var fb2 = document.getElementById('mg-false-btn');
+        if (tb) tb.addEventListener('click', function() { mgBlitzAns(true); });
+        if (fb2) fb2.addEventListener('click', function() { mgBlitzAns(false); });
+    }, 50);
+}
+
+function mgBlitzAns(ans) {
+    if (!mgBState.running) return;
+    var q = mgBState.qs[mgBState.cur];
+    var correct = ans === q.a;
+    if (correct) mgBState.score++;
+    mgBState.answered.push(correct);
+    var fb = document.getElementById('mg-feedback');
+    if (fb) {
+        fb.style.cssText = 'display:block;padding:14px;border-radius:10px;margin-bottom:16px;font-size:13px;line-height:1.6;' +
+            (correct ? 'background:rgba(42,157,143,0.15);border:1px solid #2a9d8f;color:#2a9d8f;' : 'background:rgba(230,57,70,0.15);border:1px solid #e63946;color:#ff8a8a;');
+        fb.textContent = (correct ? '✅ Correct! ' : '❌ Wrong. ') + q.f;
+    }
+    var ans2 = document.getElementById('mg-answers');
+    if (ans2) ans2.innerHTML = '';
+    mgBState.cur++;
+    var t = setTimeout(mgBlitzRender, 1200);
+    mgTimers.push(t);
+}
+
+function mgBlitzTimer() {
+    mgBState.timeLeft = 30;
+    var t = setInterval(function() {
+        if (!mgBState.running) { clearInterval(t); return; }
+        mgBState.timeLeft--;
+        var st = document.getElementById('mg-stat-time');
+        var tb = document.getElementById('mg-timer-bar');
+        if (st) st.textContent = mgBState.timeLeft;
+        if (tb) tb.style.width = (mgBState.timeLeft / 30 * 100) + '%';
+        if (mgBState.timeLeft <= 0) {
+            clearInterval(t);
+            mgBState.running = false;
+            mgShowResult(mgBState.score, mgBState.qs.length, mgBState.score * 5);
+        }
+    }, 1000);
+    mgTimers.push(t);
+}
+
+// ── SCAM SPOTTER ──
+var mgScamMsgs = [
+    {sender:'CryptoKing2026', avatar:'👑', text:'🚀 URGENT! Send 0.01 BTC now and receive 0.1 BTC back in 24 hours! 500% guaranteed returns!', isScam:true, reason:'Guaranteed returns are the #1 sign of a crypto scam.'},
+    {sender:'RMA Bhutan Official', avatar:'🏛️', text:'Cryptocurrency transactions above Nu.50,000 must be reported to the Royal Monetary Authority. Visit rma.org.bt.', isScam:false, reason:'Legitimate regulatory communication from an official government body.'},
+    {sender:'Binance Support', avatar:'💬', text:'Your account is locked! Click binance-secure-verify.xyz and enter your seed phrase to restore access.', isScam:true, reason:'Never share your seed phrase. Official exchanges never ask for it.'},
+    {sender:'Elon_Musk_Official', avatar:'🚀', text:'I am giving away 5,000 Bitcoin! Send 0.1 BTC to this address and I will send back 1 BTC!', isScam:true, reason:'Celebrity giveaway scams are very common. Never send crypto to receive more.'},
+    {sender:'DrukShift', avatar:'🇧🇹', text:'Your readiness quiz result is ready! You scored 78% — Crypto Ready 🥇. Visit kinzang7066.github.io.', isScam:false, reason:'Legitimate DrukShift notification with a real GitHub Pages link.'},
+    {sender:'CryptoPro_BT', avatar:'💰', text:'I can triple your investment in 7 days. Minimum deposit Nu.10,000. WhatsApp me now!', isScam:true, reason:'Promises of tripling money quickly are classic investment scams.'},
+    {sender:'Bank of Bhutan', avatar:'🏦', text:'BOB Digital Lending: Your loan application has been approved. Log in to bobloan.bt.', isScam:false, reason:'Real loan system with a legitimate .bt domain.'},
+    {sender:'MetaMask Security', avatar:'🦊', text:'ALERT: Enter your 12-word recovery phrase at metamask-security-check.com to secure your funds.', isScam:true, reason:'MetaMask will NEVER ask for your recovery phrase. This is phishing.'}
+];
+
+var mgSState = {};
+var mgSTimerInt = null;
+
+function mgInitScam() {
+    var gt = document.getElementById('mg-game-title');
+    var gs = document.getElementById('mg-game-sub');
+    if (gt) gt.textContent = '🎯 Scam Spotter';
+    if (gs) gs.textContent = 'Scam or Legit? · 10 seconds each';
+    mgSState = { msgs: mgShuffle([].concat(mgScamMsgs)), cur:0, score:0, answered:[], timeLeft:10, running:true };
+    mgScamRender();
+    mgScamStartTimer();
+}
+
+function mgScamRender() {
+    if (mgSState.cur >= mgSState.msgs.length) { mgShowResult(mgSState.score, mgSState.msgs.length, Math.round(mgSState.score * 7.5)); return; }
+    var m = mgSState.msgs[mgSState.cur];
+    var qn = document.getElementById('mg-qnum');
+    var qt = document.getElementById('mg-qtext');
+    var ss = document.getElementById('mg-stat-score');
+    var sq = document.getElementById('mg-stat-q');
+    var fb = document.getElementById('mg-feedback');
+    if (qn) qn.textContent = m.avatar + ' ' + m.sender;
+    if (qt) qt.textContent = m.text;
+    if (ss) ss.textContent = mgSState.score;
+    if (sq) sq.textContent = (mgSState.cur + 1) + '/' + mgSState.msgs.length;
+    if (fb) fb.style.display = 'none';
+    mgDots(mgSState.answered, mgSState.msgs.length, mgSState.cur);
+    mgSState.timeLeft = 10;
+    var ans = document.getElementById('mg-answers');
+    if (ans) ans.innerHTML =
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">' +
+        '<button id="mg-legit-btn" style="padding:16px;border-radius:12px;border:2px solid rgba(42,157,143,0.5);background:rgba(42,157,143,0.08);color:white;font-size:14px;font-weight:700;font-family:Outfit,sans-serif;cursor:pointer;">✅ LEGIT</button>' +
+        '<button id="mg-scam-btn" style="padding:16px;border-radius:12px;border:2px solid rgba(230,57,70,0.5);background:rgba(230,57,70,0.08);color:white;font-size:14px;font-weight:700;font-family:Outfit,sans-serif;cursor:pointer;">🚨 SCAM!</button>' +
+        '</div>';
+    setTimeout(function() {
+        var lb = document.getElementById('mg-legit-btn');
+        var sb = document.getElementById('mg-scam-btn');
+        if (lb) lb.addEventListener('click', function() { mgScamAns('legit'); });
+        if (sb) sb.addEventListener('click', function() { mgScamAns('scam'); });
+    }, 50);
+}
+
+function mgScamAns(ans) {
+    if (mgSTimerInt) { clearInterval(mgSTimerInt); mgSTimerInt = null; }
+    var m = mgSState.msgs[mgSState.cur];
+    var correct = (ans === 'scam') === m.isScam;
+    if (correct) mgSState.score++;
+    mgSState.answered.push(correct);
+    var fb = document.getElementById('mg-feedback');
+    if (fb) {
+        fb.style.cssText = 'display:block;padding:14px;border-radius:10px;margin-bottom:16px;font-size:13px;line-height:1.6;' +
+            (correct ? 'background:rgba(42,157,143,0.15);border:1px solid #2a9d8f;color:#2a9d8f;' : 'background:rgba(230,57,70,0.15);border:1px solid #e63946;color:#ff8a8a;');
+        fb.textContent = (correct ? '✅ Correct! ' : '❌ Wrong! ') + m.reason;
+    }
+    var ans2 = document.getElementById('mg-answers');
+    if (ans2) ans2.innerHTML = '';
+    mgSState.cur++;
+    var t = setTimeout(function() {
+        mgScamRender();
+        if (mgSState.cur < mgSState.msgs.length) mgScamStartTimer();
+    }, 2000);
+    mgTimers.push(t);
+}
+
+function mgScamStartTimer() {
+    if (mgSTimerInt) clearInterval(mgSTimerInt);
+    mgSTimerInt = setInterval(function() {
+        mgSState.timeLeft--;
+        var st = document.getElementById('mg-stat-time');
+        var tb = document.getElementById('mg-timer-bar');
+        if (st) st.textContent = mgSState.timeLeft;
+        if (tb) tb.style.width = (mgSState.timeLeft / 10 * 100) + '%';
+        if (mgSState.timeLeft <= 0) {
+            clearInterval(mgSTimerInt);
+            mgSState.answered.push(false);
+            var fb = document.getElementById('mg-feedback');
+            if (fb) {
+                fb.style.cssText = 'display:block;padding:14px;border-radius:10px;margin-bottom:16px;font-size:13px;line-height:1.6;background:rgba(230,57,70,0.15);border:1px solid #e63946;color:#ff8a8a;';
+                fb.textContent = '⏰ Time up! ' + mgSState.msgs[mgSState.cur].reason;
+            }
+            var ans2 = document.getElementById('mg-answers');
+            if (ans2) ans2.innerHTML = '';
+            mgSState.cur++;
+            var t = setTimeout(function() {
+                mgScamRender();
+                if (mgSState.cur < mgSState.msgs.length) mgScamStartTimer();
+            }, 2000);
+            mgTimers.push(t);
+        }
+    }, 1000);
+    mgTimers.push(mgSTimerInt);
+}
+
+// ── MEMORY MATCH ──
+var mgMemPairs = [
+    {term:'Bitcoin', def:'First crypto, created 2009'},
+    {term:'Blockchain', def:'Decentralised digital ledger'},
+    {term:'Seed Phrase', def:'12 words to recover wallet'},
+    {term:'Mining', def:'Creating coins by solving puzzles'},
+    {term:'DeFi', def:'Decentralised finance services'},
+    {term:'GNH', def:'Gross National Happiness'},
+    {term:'Wallet', def:'Stores your private keys'},
+    {term:'NFT', def:'Unique digital ownership token'}
+];
+var mgMState = {};
+var mgMTimerInt = null;
+
+function mgInitMemory() {
+    var gt = document.getElementById('mg-game-title');
+    var gs = document.getElementById('mg-game-sub');
+    var st = document.getElementById('mg-stat-time');
+    var qc = document.getElementById('mg-qcard');
+    if (gt) gt.textContent = '🃏 Match the Term';
+    if (gs) gs.textContent = 'Tap two cards to match term + definition';
+    if (st) st.textContent = '0';
+    if (qc) qc.style.display = 'none';
+    document.getElementById('mg-dots').innerHTML = '';
+    var pairs = mgShuffle([].concat(mgMemPairs)).slice(0,6);
+    var cards = [];
+    pairs.forEach(function(p,i){
+        cards.push({type:'term', text:p.term, pairId:i});
+        cards.push({type:'def',  text:p.def,  pairId:i});
+    });
+    mgMState = { cards:mgShuffle(cards), flipped:[], matched:[], moves:0, time:0, canFlip:true, running:true };
+    mgMemRender();
+    if (mgMTimerInt) clearInterval(mgMTimerInt);
+    mgMTimerInt = setInterval(function(){
+        if (!mgMState.running) return;
+        mgMState.time++;
+        var st2 = document.getElementById('mg-stat-time');
+        if (st2) st2.textContent = mgMState.time;
+    },1000);
+    mgTimers.push(mgMTimerInt);
+}
+
+function mgMemRender() {
+    var ss = document.getElementById('mg-stat-score');
+    var sq = document.getElementById('mg-stat-q');
+    if (ss) ss.textContent = mgMState.matched.length;
+    if (sq) sq.textContent = mgMState.moves;
+    var html = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">';
+    mgMState.cards.forEach(function(card,idx){
+        var isFlipped  = mgMState.flipped.indexOf(idx) !== -1;
+        var isMatched  = mgMState.matched.indexOf(card.pairId) !== -1;
+        var bg     = isMatched ? 'rgba(42,157,143,0.3)' : isFlipped ? 'rgba(42,157,143,0.15)' : 'rgba(255,255,255,0.05)';
+        var border = isMatched ? '#2a9d8f' : isFlipped ? '#2a9d8f' : 'rgba(255,255,255,0.1)';
+        var show   = isFlipped || isMatched;
+        var cursor = isMatched ? 'default' : 'pointer';
+        html += '<div data-memidx="' + idx + '" style="aspect-ratio:1;border-radius:8px;border:2px solid '+border+';background:'+bg+';cursor:'+cursor+';display:flex;align-items:center;justify-content:center;font-size:10px;text-align:center;padding:4px;color:white;font-weight:600;line-height:1.3;">' +
+            (show ? '<span style="font-size:10px;">'+card.text+'</span>' : '<span style="font-size:18px;">'+(card.type==='term'?'📖':'💡')+'</span>') +
+            '</div>';
+    });
+    html += '</div><div style="text-align:center;font-size:11px;color:#7a9bb5;">Matches: '+mgMState.matched.length+'/6 · Moves: '+mgMState.moves+'</div>';
+    var ans = document.getElementById('mg-answers');
+    if (ans) {
+        ans.innerHTML = html;
+        ans.querySelectorAll('[data-memidx]').forEach(function(el) {
+            el.addEventListener('click', function() { mgMemFlip(parseInt(this.getAttribute('data-memidx'))); });
+        });
+    }
+}
+
+function mgMemFlip(idx) {
+    if (!mgMState.canFlip || !mgMState.running) return;
+    if (mgMState.flipped.indexOf(idx) !== -1) return;
+    if (mgMState.matched.indexOf(mgMState.cards[idx].pairId) !== -1) return;
+    if (mgMState.flipped.length >= 2) return;
+    mgMState.flipped.push(idx);
+    mgMemRender();
+    if (mgMState.flipped.length === 2) {
+        mgMState.moves++;
+        mgMState.canFlip = false;
+        var c1 = mgMState.cards[mgMState.flipped[0]];
+        var c2 = mgMState.cards[mgMState.flipped[1]];
+        if (c1.pairId === c2.pairId && c1.type !== c2.type) {
+            var t = setTimeout(function(){
+                mgMState.matched.push(c1.pairId);
+                mgMState.flipped = [];
+                mgMState.canFlip = true;
+                mgMemRender();
+                if (mgMState.matched.length === 6) {
+                    mgMState.running = false;
+                    mgShowResult(6, 6, Math.max(10, 40 - mgMState.moves));
+                }
+            }, 500);
+            mgTimers.push(t);
+        } else {
+            var t2 = setTimeout(function(){
+                mgMState.flipped = [];
+                mgMState.canFlip = true;
+                mgMemRender();
+            }, 800);
+            mgTimers.push(t2);
+        }
+    }
+}
+
+// ── ATTACH GAME CARD CLICKS AFTER PAGE LOADS ──
+window.addEventListener('load', function() {
+    mgUpdateXP();
+    mgUpdateLB();
+    mgUpdateHS();
+    var cards = {
+        'mg-card-blitz':  'blitz',
+        'mg-card-scam':   'scam',
+        'mg-card-memory': 'memory'
+    };
+    Object.keys(cards).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('click', function() {
+                mgStart(cards[id]);
+            });
+        }
+    });
+});
+
 </script>
 
 <div class="gnh-modal-overlay" id="findingsModalOverlay" onclick="if(event.target===this)closeFindingsModal()">
@@ -1970,7 +2417,7 @@ if (fg) findingsObserver.observe(fg);
         <div id="mg-menu">
             <div style="font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Choose a game</div>
             
-            <div onclick="mgStart('blitz')" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
+            <div id="mg-card-blitz" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
                 <span style="font-size:36px;">⚡</span>
                 <div style="flex:1;">
                     <div style="font-size:15px;font-weight:600;color:white;margin-bottom:4px;">Crypto Quiz Blitz</div>
@@ -1979,7 +2426,7 @@ if (fg) findingsObserver.observe(fg);
                 <div style="text-align:center;"><span style="font-size:11px;color:#e9c46a;background:rgba(233,196,106,0.1);padding:3px 8px;border-radius:50px;font-weight:700;">+50 XP</span><br><span id="mg-hs-blitz" style="font-size:10px;color:#7a9bb5;">Best: 0</span></div>
             </div>
 
-            <div onclick="mgStart('scam')" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
+            <div id="mg-card-scam" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
                 <span style="font-size:36px;">🎯</span>
                 <div style="flex:1;">
                     <div style="font-size:15px;font-weight:600;color:white;margin-bottom:4px;">Scam Spotter</div>
@@ -1988,7 +2435,7 @@ if (fg) findingsObserver.observe(fg);
                 <div style="text-align:center;"><span style="font-size:11px;color:#e9c46a;background:rgba(233,196,106,0.1);padding:3px 8px;border-radius:50px;font-weight:700;">+60 XP</span><br><span id="mg-hs-scam" style="font-size:10px;color:#7a9bb5;">Best: 0</span></div>
             </div>
 
-            <div onclick="mgStart('memory')" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
+            <div id="mg-card-memory" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
                 <span style="font-size:36px;">🃏</span>
                 <div style="flex:1;">
                     <div style="font-size:15px;font-weight:600;color:white;margin-bottom:4px;">Match the Term</div>

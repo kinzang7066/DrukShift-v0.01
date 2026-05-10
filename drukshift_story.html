@@ -6,1239 +6,677 @@
 <title>DrukShift — The Story of Deki</title>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-    --ink:#0a0a0f;
-    --paper:#f5f0e8;
-    --panel:#1a1a2e;
-    --accent:#e63946;
-    --gold:#f4a261;
-    --teal:#2a9d8f;
-    --blue:#1a4a7a;
-    --white:#ffffff;
-    --muted:#8a9bb5;
-    --bhutan-orange:#FF6B00;
-    --bhutan-red:#cc0000;
-}
-
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html,body{height:100%;overflow:hidden;font-family:'Outfit',sans-serif;background:#0a0a0f;color:white;}
 
-body{
-    background:var(--ink);
-    font-family:'Outfit',sans-serif;
-    overflow-x:hidden;
-    cursor:crosshair;
-}
+/* ── SPLASH ── */
+#splash{position:fixed;inset:0;background:linear-gradient(160deg,#08192d,#0f2a45);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
+.splash-flag{font-size:80px;animation:wave 2s ease-in-out infinite;}
+@keyframes wave{0%,100%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}}
+.splash-title{font-family:'Bangers',cursive;font-size:clamp(48px,8vw,80px);color:white;letter-spacing:4px;margin-top:16px;text-shadow:3px 3px 0 #f4a261;}
+.splash-sub{font-size:13px;color:#7a9bb5;letter-spacing:4px;text-transform:uppercase;margin-top:8px;}
+.splash-btn{margin-top:40px;padding:16px 48px;background:#f4a261;color:#08192d;font-family:'Bangers',cursive;font-size:24px;letter-spacing:3px;border:none;border-radius:8px;cursor:pointer;box-shadow:4px 4px 0 #c0603a;transition:all 0.1s;}
+.splash-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #c0603a;}
+.splash-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #c0603a;}
 
-/* ── SPLASH SCREEN ── */
-#splash{
-    position:fixed;inset:0;background:var(--ink);z-index:9999;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    transition:opacity 1s ease;
-}
-.splash-flag{font-size:80px;animation:flagWave 2s ease-in-out infinite;}
-@keyframes flagWave{0%,100%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}}
-.splash-title{
-    font-family:'Bangers',cursive;font-size:72px;letter-spacing:6px;
-    color:var(--white);margin-top:16px;
-    text-shadow:4px 4px 0 var(--bhutan-orange),-4px -4px 0 var(--teal);
-    animation:titlePop 0.6s 0.5s both;
-}
-@keyframes titlePop{from{opacity:0;transform:scale(0.5) rotate(-3deg);}to{opacity:1;transform:scale(1) rotate(0deg);}}
-.splash-sub{font-size:14px;color:var(--muted);letter-spacing:4px;text-transform:uppercase;margin-top:8px;animation:fadeIn 0.6s 1s both;}
-.splash-start{
-    margin-top:48px;padding:16px 40px;background:var(--bhutan-orange);color:var(--ink);
-    font-family:'Bangers',cursive;font-size:24px;letter-spacing:3px;border:none;
-    border-radius:4px;cursor:pointer;box-shadow:4px 4px 0 var(--bhutan-red);
-    animation:fadeIn 0.6s 1.5s both;transition:all 0.1s;
-}
-.splash-start:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--bhutan-red);}
-.splash-start:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--bhutan-red);}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+/* ── COMIC WRAPPER ── */
+#comic{display:none;height:100vh;overflow:hidden;position:relative;}
 
-/* ── MAIN COMIC ── */
-#comic{display:none;}
+/* ── PROGRESS ── */
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#f4a261,#2a9d8f);z-index:100;transition:width 0.3s;}
 
-/* ── PROGRESS BAR ── */
-.comic-progress{
-    position:fixed;top:0;left:0;height:4px;
-    background:linear-gradient(90deg,var(--bhutan-orange),var(--teal));
-    z-index:100;transition:width 0.3s ease;width:0%;
-}
-
-/* ── NAVIGATION ── */
-.comic-nav{
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-    display:flex;gap:12px;z-index:100;align-items:center;
-    background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);
-    padding:12px 20px;border-radius:50px;border:1px solid rgba(255,255,255,0.1);
-}
-.nav-btn{
-    width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);
-    background:transparent;color:var(--gold);font-size:20px;cursor:pointer;
-    transition:all 0.2s;font-family:'Bangers',cursive;
-}
-.nav-btn:hover{background:var(--gold);color:var(--ink);}
+/* ── NAV ── */
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);padding:10px 20px;border-radius:50px;border:1px solid rgba(255,255,255,0.1);}
+.nav-btn{width:40px;height:40px;border-radius:50%;border:2px solid #e9c46a;background:transparent;color:#e9c46a;font-size:18px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:#e9c46a;color:#08192d;}
 .nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
-.page-indicator{font-family:'Bangers',cursive;font-size:18px;color:var(--white);letter-spacing:2px;padding:0 8px;}
+.nav-ind{font-family:'Bangers',cursive;font-size:18px;color:white;letter-spacing:2px;padding:0 8px;}
 
 /* ── PAGES ── */
-.page{
-    display:none;min-height:100vh;
-    animation:pageFlip 0.5s ease;
-}
-.page.active{display:flex;flex-direction:column;}
-@keyframes pageFlip{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:translateX(0);}}
+.page{display:none;height:100vh;overflow-y:auto;animation:fadeIn 0.4s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
 
 /* ── COVER PAGE ── */
-.cover{
-    background:var(--paper);
-    position:relative;overflow:hidden;
-    min-height:100vh;
-    display:flex;flex-direction:column;
-}
-.cover-halftone{
-    position:absolute;inset:0;
-    background-image:radial-gradient(circle,rgba(0,0,0,0.15) 1px,transparent 1px);
-    background-size:8px 8px;
-    z-index:0;
-}
-.cover-top-bar{
-    background:var(--bhutan-orange);padding:12px 24px;
-    display:flex;justify-content:space-between;align-items:center;
-    position:relative;z-index:2;
-    border-bottom:4px solid var(--ink);
-}
-.cover-series{font-family:'Bangers',cursive;font-size:16px;letter-spacing:3px;color:var(--ink);}
-.cover-issue{font-family:'Bangers',cursive;font-size:16px;color:var(--ink);}
-.cover-main{flex:1;display:grid;grid-template-columns:1fr 1fr;position:relative;z-index:1;}
-.cover-text-side{
-    padding:40px;display:flex;flex-direction:column;justify-content:center;
-    border-right:4px solid var(--ink);
-}
-.cover-publisher{
-    font-size:11px;letter-spacing:4px;text-transform:uppercase;
-    color:var(--blue);font-weight:600;margin-bottom:16px;
-    border-left:4px solid var(--bhutan-orange);padding-left:12px;
-}
-.cover-headline{
-    font-family:'Bangers',cursive;
-    font-size:clamp(48px,6vw,80px);line-height:0.9;
-    color:var(--ink);letter-spacing:2px;
-    text-shadow:3px 3px 0 var(--bhutan-orange);
-    margin-bottom:20px;
-}
-.cover-subhead{
-    font-family:'Noto Serif',serif;font-style:italic;
-    font-size:18px;color:#333;line-height:1.5;
-    border-top:2px solid var(--ink);padding-top:16px;
-}
-.cover-art-side{
-    background:linear-gradient(160deg,#0a1a3a 0%,#1a3a6a 50%,#0a2a4a 100%);
-    position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
-    padding:24px;
-}
-.cover-mountain{
-    position:absolute;bottom:0;left:0;right:0;
-    height:200px;
-}
-.cover-dragon{
-    font-size:120px;position:relative;z-index:2;
-    animation:dragonFloat 3s ease-in-out infinite;
-    filter:drop-shadow(0 0 30px rgba(244,162,97,0.5));
-}
-@keyframes dragonFloat{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-15px) rotate(2deg);}}
-.cover-woman{
-    position:absolute;bottom:60px;right:40px;z-index:3;
-    font-size:80px;
-    animation:womanStand 4s ease-in-out infinite;
-}
-@keyframes womanStand{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
-.cover-stars{position:absolute;inset:0;z-index:1;}
-.star{position:absolute;color:rgba(255,255,255,0.6);font-size:12px;animation:twinkle 2s ease-in-out infinite;}
-@keyframes twinkle{0%,100%{opacity:0.3;}50%{opacity:1;}}
-.cover-bottom-bar{
-    background:var(--ink);padding:16px 24px;
-    display:flex;justify-content:space-between;align-items:center;
-    position:relative;z-index:2;
-}
-.cover-price{font-family:'Bangers',cursive;font-size:18px;color:var(--gold);}
-.cover-tagline{font-family:'Bangers',cursive;font-size:14px;color:var(--white);letter-spacing:2px;}
+.cover{height:100vh;display:grid;grid-template-rows:auto 1fr auto;background:#f5f0e8;position:relative;overflow:hidden;}
+.cover-bg{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,0.1) 1px,transparent 1px);background-size:8px 8px;}
+.cover-top{background:#f4a261;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;z-index:2;position:relative;border-bottom:4px solid #0a0a0f;}
+.cover-top span{font-family:'Bangers',cursive;font-size:14px;letter-spacing:2px;color:#0a0a0f;}
+.cover-body{display:grid;grid-template-columns:1fr 1fr;z-index:2;position:relative;}
+.cover-left{padding:40px;display:flex;flex-direction:column;justify-content:center;border-right:4px solid #0a0a0f;}
+.cover-pub{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a4a7a;border-left:4px solid #f4a261;padding-left:10px;margin-bottom:16px;}
+.cover-h1{font-family:'Bangers',cursive;font-size:clamp(40px,5vw,72px);line-height:0.9;color:#0a0a0f;text-shadow:2px 2px 0 #f4a261;margin-bottom:16px;letter-spacing:2px;}
+.cover-quote{font-family:'Noto Serif',serif;font-style:italic;font-size:14px;color:#444;line-height:1.6;border-top:2px solid #0a0a0f;padding-top:14px;}
+.cover-right{position:relative;overflow:hidden;}
+.cover-right img{width:100%;height:100%;object-fit:cover;}
+.cover-right-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(245,240,232,0.4) 0%,transparent 30%);}
+.cover-badge{position:absolute;top:16px;right:16px;background:rgba(8,25,45,0.85);color:white;padding:8px 14px;border-radius:8px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(244,162,97,0.5);}
+.cover-bottom{background:#0a0a0f;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;z-index:2;position:relative;}
+.cover-bottom span{font-family:'Bangers',cursive;font-size:14px;color:#e9c46a;letter-spacing:2px;}
 
 /* ── PANEL PAGES ── */
-.panel-page{
-    background:var(--paper);
-    padding:0;min-height:100vh;
-    display:grid;position:relative;
-    border:none;
-}
-.page-bg-halftone{
-    position:absolute;inset:0;
-    background-image:radial-gradient(circle,rgba(0,0,0,0.08) 1px,transparent 1px);
-    background-size:6px 6px;
-    pointer-events:none;z-index:0;
-}
-.panel-grid{
-    display:grid;gap:0;
-    position:relative;z-index:1;
-    min-height:100vh;
-}
+.panel-page{min-height:100vh;background:#f5f0e8;display:grid;position:relative;}
+.panel-page-bg{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,0.07) 1px,transparent 1px);background-size:6px 6px;pointer-events:none;}
+.chapter-bar{background:#0a0a0f;padding:10px 20px;display:flex;align-items:center;gap:12px;border-bottom:3px solid #f4a261;position:relative;z-index:5;}
+.ch-num{font-family:'Bangers',cursive;font-size:22px;color:#f4a261;letter-spacing:2px;}
+.ch-name{font-family:'Bangers',cursive;font-size:16px;color:white;letter-spacing:3px;}
+.panels{flex:1;display:grid;position:relative;z-index:2;}
+.panel{border:3px solid #0a0a0f;position:relative;overflow:hidden;min-height:180px;}
+.panel img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease;}
+.panel:hover img{transform:scale(1.03);}
+.panel-overlay{position:absolute;inset:0;}
+.caption{position:absolute;padding:8px 14px;font-size:11px;font-weight:600;letter-spacing:0.5px;line-height:1.5;z-index:10;max-width:70%;}
+.caption.top{top:10px;left:10px;background:#1a4a7a;color:white;}
+.caption.bottom{bottom:10px;left:10px;background:#1a4a7a;color:white;}
+.caption.gold{background:#e9c46a;color:#0a0a0f;}
+.caption.teal{background:#2a9d8f;color:white;}
+.caption.red{background:#e63946;color:white;}
+.caption.dark{background:rgba(8,25,45,0.9);color:white;}
+.bubble{position:absolute;background:white;border:2.5px solid #0a0a0f;border-radius:14px;padding:10px 14px;font-family:'Noto Serif',serif;font-size:clamp(10px,1.2vw,13px);line-height:1.5;max-width:200px;z-index:10;box-shadow:2px 2px 0 #0a0a0f;}
+.bubble::after{content:'';position:absolute;border:8px solid transparent;border-top-color:#0a0a0f;bottom:-19px;left:20px;}
+.bubble::before{content:'';position:absolute;border:7px solid transparent;border-top-color:white;bottom:-14px;left:21px;z-index:1;}
+.bubble.right::after{left:auto;right:20px;}
+.bubble.right::before{left:auto;right:21px;}
+.bubble.up::after{border-top-color:transparent;border-bottom-color:#0a0a0f;top:-19px;bottom:auto;}
+.bubble.up::before{border-top-color:transparent;border-bottom-color:white;top:-14px;bottom:auto;z-index:1;}
+.sfx{position:absolute;font-family:'Bangers',cursive;color:#e9c46a;text-shadow:2px 2px 0 #0a0a0f;z-index:10;pointer-events:none;}
+.screen{position:absolute;background:#0a1a0a;border:2px solid #2a9d8f;border-radius:8px;padding:10px;z-index:10;box-shadow:0 0 20px rgba(42,157,143,0.4);}
+.screen-h{color:white;font-size:11px;font-weight:700;margin-bottom:6px;border-bottom:1px solid #2a9d8f;padding-bottom:4px;}
+.screen-s{font-family:'Bangers',cursive;font-size:36px;color:#2a9d8f;text-align:center;text-shadow:0 0 12px rgba(42,157,143,0.5);}
+.screen-bar{height:5px;background:rgba(42,157,143,0.2);border-radius:3px;margin:3px 0;overflow:hidden;}
+.screen-bar-fill{height:100%;background:#2a9d8f;border-radius:3px;}
+.screen-row{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:2px;}
+.pnum{position:absolute;bottom:6px;right:12px;font-family:'Bangers',cursive;font-size:16px;color:#0a0a0f;z-index:20;background:#f5f0e8;padding:1px 6px;border:2px solid #0a0a0f;}
 
-/* Grid layouts */
-.grid-2-1{grid-template-columns:2fr 1fr;grid-template-rows:1fr;}
-.grid-1-2{grid-template-columns:1fr 2fr;grid-template-rows:1fr;}
-.grid-top-wide{grid-template-rows:1.5fr 1fr;grid-template-columns:1fr;}
-.grid-3col{grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr;}
-.grid-comic{
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:1.5fr 1fr;
-}
-.grid-full{grid-template-rows:1fr;grid-template-columns:1fr;}
-.grid-bottom{grid-template-rows:1fr 1fr;grid-template-columns:1fr 1fr;}
+/* ── FINALE ── */
+.finale{min-height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;}
+.finale-bg{position:absolute;inset:0;z-index:0;}
+.finale-bg img{width:100%;height:100%;object-fit:cover;}
+.finale-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,25,45,0.9) 0%,rgba(15,42,69,0.85) 50%,rgba(8,25,45,0.92) 100%);}
+.finale-content{position:relative;z-index:2;}
+.finale-dragon{font-size:80px;animation:float 3s ease-in-out infinite;margin-bottom:16px;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+.finale-h1{font-family:'Bangers',cursive;font-size:clamp(48px,8vw,90px);color:white;line-height:0.9;text-shadow:3px 3px 0 #f4a261;margin-bottom:16px;letter-spacing:3px;}
+.finale-h1 em{color:#e9c46a;font-style:normal;}
+.finale-sub{font-family:'Noto Serif',serif;font-style:italic;font-size:clamp(14px,2vw,18px);color:rgba(255,255,255,0.75);max-width:560px;line-height:1.8;margin:0 auto 32px;}
+.finale-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.f-stat{text-align:center;}
+.f-stat-n{font-family:'Bangers',cursive;font-size:clamp(36px,5vw,52px);color:#e9c46a;line-height:1;}
+.f-stat-l{font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.finale-btn{display:inline-block;padding:16px 40px;background:#f4a261;color:#08192d;font-family:'Bangers',cursive;font-size:22px;letter-spacing:2px;text-decoration:none;border-radius:8px;box-shadow:3px 3px 0 #c0603a;transition:all 0.1s;margin-bottom:20px;}
+.finale-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 #c0603a;}
+.finale-credit{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;line-height:1.8;}
 
-/* PANEL */
-.panel{
-    border:3px solid var(--ink);
-    position:relative;overflow:hidden;
-    display:flex;flex-direction:column;
-    justify-content:flex-end;
-    min-height:200px;
-    cursor:pointer;
-}
-.panel.wide{grid-column:1/-1;}
-.panel.tall{grid-row:1/3;}
-.panel:hover .panel-art{transform:scale(1.02);}
-
-.panel-art{
-    position:absolute;inset:0;
-    display:flex;align-items:center;justify-content:center;
-    transition:transform 0.3s ease;
-    overflow:hidden;
-}
-.panel-art img{width:100%;height:100%;object-fit:cover;}
-.panel-art-bg{
-    width:100%;height:100%;
-    display:flex;align-items:center;justify-content:center;
-    font-size:clamp(60px,8vw,120px);
-    position:relative;
-}
-
-/* Color themes per panel */
-.panel-dawn{background:linear-gradient(160deg,#1a2a4a 0%,#2a4a7a 40%,#e8935a 100%);}
-.panel-night{background:linear-gradient(160deg,#05070f 0%,#0a1020 60%,#1a2040 100%);}
-.panel-warm{background:linear-gradient(160deg,#4a2010 0%,#8a4020 50%,#c06030 100%);}
-.panel-market{background:linear-gradient(160deg,#2a4a2a 0%,#3a6a3a 50%,#8a9a6a 100%);}
-.panel-tech{background:linear-gradient(160deg,#0a1a3a 0%,#1a3a6a 50%,#2a9d8f 100%);}
-.panel-hope{background:linear-gradient(160deg,#1a3a1a 0%,#2a9d8f 50%,#e9c46a 100%);}
-.panel-joy{background:linear-gradient(160deg,#8a2020 0%,#c04040 30%,#e9c46a 100%);}
-.panel-blue{background:linear-gradient(160deg,#0a1a4a 0%,#1a2a8a 60%,#2a6aad 100%);}
-
-/* SFX */
-.sfx{
-    position:absolute;top:16px;left:50%;transform:translateX(-50%) rotate(-5deg);
-    font-family:'Bangers',cursive;font-size:clamp(32px,5vw,64px);
-    color:var(--gold);
-    text-shadow:3px 3px 0 var(--bhutan-red),-1px -1px 0 var(--ink);
-    z-index:10;white-space:nowrap;
-    animation:sfxPop 0.3s ease;
-}
-@keyframes sfxPop{from{transform:translateX(-50%) rotate(-5deg) scale(0.5);}to{transform:translateX(-50%) rotate(-5deg) scale(1);}}
-
-/* SPEECH BUBBLES */
-.bubble{
-    position:absolute;background:var(--white);
-    border:3px solid var(--ink);border-radius:16px;
-    padding:12px 16px;z-index:20;
-    font-family:'Noto Serif',serif;font-size:clamp(11px,1.5vw,14px);
-    line-height:1.5;max-width:220px;
-    box-shadow:3px 3px 0 var(--ink);
-}
-.bubble::after{
-    content:'';position:absolute;
-    border:10px solid transparent;
-    border-top-color:var(--ink);
-    bottom:-23px;left:24px;
-}
-.bubble::before{
-    content:'';position:absolute;
-    border:9px solid transparent;
-    border-top-color:var(--white);
-    bottom:-18px;left:25px;z-index:1;
-}
-.bubble.right::after{left:auto;right:24px;}
-.bubble.right::before{left:auto;right:25px;}
-.bubble.bottom::after{border-top-color:transparent;border-bottom-color:var(--ink);top:-23px;bottom:auto;}
-.bubble.bottom::before{border-top-color:transparent;border-bottom-color:var(--white);top:-18px;bottom:auto;z-index:1;}
-.bubble.thought{border-radius:50px;font-style:italic;}
-.bubble.thought::after{display:none;}
-.bubble.thought::before{display:none;}
-.bubble.shout{
-    background:var(--bhutan-orange);color:var(--ink);
-    border-radius:4px;transform:rotate(-1deg);
-    font-weight:700;
-}
-.bubble.narration{
-    background:var(--gold);color:var(--ink);
-    border-radius:4px;font-style:italic;
-    position:relative;border-color:var(--ink);
-    font-family:'Outfit',sans-serif;font-size:12px;
-}
-.bubble.narration::after,.bubble.narration::before{display:none;}
-
-/* CAPTION BOXES */
-.caption{
-    position:absolute;background:var(--blue);color:var(--white);
-    padding:8px 16px;font-size:clamp(10px,1.2vw,13px);
-    font-family:'Outfit',sans-serif;z-index:20;
-    border:2px solid var(--ink);
-    font-weight:600;letter-spacing:0.5px;
-    line-height:1.4;
-}
-.caption.top{top:12px;left:12px;right:12px;}
-.caption.bottom-left{bottom:12px;left:12px;max-width:60%;}
-.caption.bottom-right{bottom:12px;right:12px;max-width:60%;background:var(--teal);}
-.caption.center{top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
-.caption.gold{background:var(--gold);color:var(--ink);}
-.caption.red{background:var(--bhutan-red);}
-.caption.orange{background:var(--bhutan-orange);color:var(--ink);}
-
-/* CHARACTER EMOJIS */
-.char{position:absolute;font-size:clamp(40px,6vw,90px);z-index:5;filter:drop-shadow(2px 4px 6px rgba(0,0,0,0.5));}
-.char.deki{bottom:10%;left:15%;}
-.char.deki-r{bottom:10%;right:15%;}
-.char.tourist{bottom:10%;right:10%;}
-.char.nephew{bottom:10%;right:20%;}
-
-/* MOTION LINES */
-.motion-lines{
-    position:absolute;inset:0;z-index:3;
-    background:repeating-linear-gradient(90deg,transparent,transparent 20px,rgba(255,255,255,0.03) 20px,rgba(255,255,255,0.03) 21px);
-    pointer-events:none;
-}
-
-/* PAGE NUMBER */
-.page-num{
-    position:absolute;bottom:8px;right:16px;
-    font-family:'Bangers',cursive;font-size:18px;
-    color:var(--ink);z-index:30;
-    background:var(--paper);padding:2px 8px;
-    border:2px solid var(--ink);
-}
-
-/* CHAPTER TITLE OVERLAY */
-.chapter-title{
-    position:absolute;top:0;left:0;right:0;
-    background:var(--ink);padding:12px 20px;z-index:25;
-    display:flex;align-items:center;gap:12px;
-    border-bottom:4px solid var(--bhutan-orange);
-}
-.chapter-num{
-    font-family:'Bangers',cursive;font-size:28px;
-    color:var(--bhutan-orange);letter-spacing:2px;
-}
-.chapter-name{
-    font-family:'Bangers',cursive;font-size:20px;
-    color:var(--white);letter-spacing:3px;
-}
-
-/* SPEED LINES */
-.speed-lines{
-    position:absolute;inset:0;z-index:2;
-    background:conic-gradient(from 0deg at 50% 50%,
-        transparent 0deg,rgba(255,255,255,0.05) 1deg,
-        transparent 2deg,transparent 10deg,
-        rgba(255,255,255,0.05) 11deg,transparent 12deg,
-        transparent 20deg,rgba(255,255,255,0.05) 21deg,
-        transparent 22deg,transparent 30deg);
-}
-
-/* SCREEN PANEL */
-.screen-panel{
-    background:#0a1a0a;border:3px solid var(--teal);
-    border-radius:8px;padding:16px;
-    font-family:'Outfit',sans-serif;font-size:11px;
-    color:var(--teal);position:absolute;
-    box-shadow:0 0 20px rgba(42,157,143,0.3);
-    z-index:15;
-}
-.screen-header{
-    color:var(--white);font-size:13px;font-weight:700;
-    margin-bottom:8px;padding-bottom:6px;
-    border-bottom:1px solid var(--teal);
-}
-.screen-score{
-    font-family:'Bangers',cursive;font-size:48px;
-    color:var(--teal);text-align:center;
-    text-shadow:0 0 20px rgba(42,157,143,0.5);
-    margin:8px 0;
-}
-.screen-bar{
-    height:6px;background:rgba(42,157,143,0.2);
-    border-radius:3px;margin:4px 0;overflow:hidden;
-}
-.screen-bar-fill{height:100%;background:var(--teal);border-radius:3px;}
-.screen-label{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,0.5);margin-bottom:2px;}
-
-/* FINAL PAGE */
-.final-page{
-    background:linear-gradient(160deg,#05070f 0%,#0a1020 40%,#1a2a4a 100%);
-    min-height:100vh;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;
-    text-align:center;padding:48px 24px;
-    position:relative;overflow:hidden;
-}
-.final-stars{position:absolute;inset:0;}
-.final-dragon{font-size:100px;margin-bottom:24px;animation:dragonFloat 3s ease-in-out infinite;}
-.final-title{
-    font-family:'Bangers',cursive;font-size:clamp(48px,8vw,96px);
-    color:var(--white);letter-spacing:4px;line-height:0.9;
-    text-shadow:4px 4px 0 var(--bhutan-orange);margin-bottom:16px;
-}
-.final-sub{
-    font-family:'Noto Serif',serif;font-style:italic;
-    font-size:clamp(16px,2vw,22px);color:rgba(255,255,255,0.7);
-    max-width:600px;line-height:1.7;margin-bottom:40px;
-}
-.final-stats{
-    display:flex;gap:40px;margin-bottom:40px;flex-wrap:wrap;justify-content:center;
-}
-.final-stat{text-align:center;}
-.final-stat-num{
-    font-family:'Bangers',cursive;font-size:48px;
-    color:var(--gold);line-height:1;
-}
-.final-stat-lbl{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
-.final-btn{
-    display:inline-flex;align-items:center;gap:12px;
-    background:var(--bhutan-orange);color:var(--ink);
-    font-family:'Bangers',cursive;font-size:24px;letter-spacing:2px;
-    padding:18px 48px;border-radius:4px;text-decoration:none;
-    border:none;cursor:pointer;
-    box-shadow:4px 4px 0 var(--bhutan-red);transition:all 0.1s;
-    margin-bottom:24px;
-}
-.final-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--bhutan-red);}
-.final-credit{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
-
-/* SOUND EFFECT PANEL */
-.impact{
-    position:absolute;z-index:15;
-    font-family:'Bangers',cursive;
-    text-shadow:2px 2px 0 var(--ink);
-    animation:impactBounce 0.5s ease;
-}
-@keyframes impactBounce{0%{transform:scale(0) rotate(-10deg);}70%{transform:scale(1.1) rotate(2deg);}100%{transform:scale(1) rotate(0deg);}}
-
-/* TRANSITION SWIPE */
-.swipe-effect{
-    position:fixed;inset:0;
-    background:var(--ink);
-    z-index:500;
-    transform:translateX(-100%);
-    pointer-events:none;
-}
-.swipe-effect.animate{
-    animation:swipeThrough 0.4s ease;
-}
-@keyframes swipeThrough{
-    0%{transform:translateX(-100%);}
-    40%{transform:translateX(0%);}
-    60%{transform:translateX(0%);}
-    100%{transform:translateX(100%);}
-}
-
-/* MOBILE */
 @media(max-width:768px){
-    .grid-2-1,.grid-1-2,.grid-3col{grid-template-columns:1fr;grid-template-rows:auto;}
-    .grid-comic{grid-template-columns:1fr;grid-template-rows:auto;}
-    .panel{min-height:250px;}
-    .cover-main{grid-template-columns:1fr;}
-    .cover-art-side{min-height:200px;}
-    .bubble{font-size:10px;padding:8px 10px;}
-    .final-stats{gap:20px;}
+    .cover-body{grid-template-columns:1fr;}
+    .cover-right{display:none;}
+    .panel{min-height:150px;}
+    .bubble{font-size:10px;max-width:160px;}
 }
 </style>
 </head>
 <body>
 
-<!-- SWIPE EFFECT -->
-<div class="swipe-effect" id="swipe"></div>
-
-<!-- PROGRESS BAR -->
-<div class="comic-progress" id="progress"></div>
-
-<!-- ════════════════════════════════════
-     SPLASH SCREEN
-════════════════════════════════════ -->
+<!-- SPLASH -->
 <div id="splash">
     <div class="splash-flag">🇧🇹</div>
     <div class="splash-title">DRUKSHIFT</div>
     <div class="splash-sub">A Webtoon · Bhutan 2026</div>
-    <button class="splash-start" onclick="startComic()">▶ READ THE STORY</button>
+    <button class="splash-btn" onclick="startComic()">▶ READ THE STORY</button>
 </div>
 
-<!-- ════════════════════════════════════
-     COMIC PAGES
-════════════════════════════════════ -->
+<div class="progress" id="prog"></div>
+
 <div id="comic">
 
-<!-- ══════ PAGE 1 — COVER ══════ -->
-<div class="page active" id="page-1">
+<!-- ══ PAGE 1: COVER ══ -->
+<div class="page active" id="p1">
 <div class="cover">
-    <div class="cover-halftone"></div>
-    <div class="cover-top-bar">
-        <div class="cover-series">DRUKSHIFT COMICS · VOL.1</div>
-        <div style="font-family:'Bangers',cursive;font-size:13px;letter-spacing:2px;">🇧🇹 MADE IN BHUTAN</div>
-        <div class="cover-issue">ISSUE #01</div>
+    <div class="cover-bg"></div>
+    <div class="cover-top">
+        <span>DRUKSHIFT COMICS · VOL.1</span>
+        <span>🇧🇹 MADE IN BHUTAN</span>
+        <span>ISSUE #01 · 2026</span>
     </div>
-    <div class="cover-main">
-        <div class="cover-text-side">
-            <div class="cover-publisher">Bhutan Data Scientists Pvt. Ltd</div>
-            <div class="cover-headline">THE WOMAN<br>WHO SHIFTED<br>BHUTAN</div>
-            <div class="cover-subhead">
+    <div class="cover-body">
+        <div class="cover-left">
+            <div class="cover-pub">Bhutan Data Scientists Pvt. Ltd · Internship 2026</div>
+            <div class="cover-h1">THE WOMAN<br>WHO SHIFTED<br>BHUTAN</div>
+            <div class="cover-quote">
                 "One quiz. One woman. One village.<br>
                 This is how Bhutan shifts —<br>
                 <em>not all at once, but one person at a time.</em>"
-            </div>
-            <div style="margin-top:24px;padding:12px;background:rgba(244,162,97,0.15);border-left:4px solid var(--bhutan-orange);border-radius:0 8px 8px 0;">
-                <div style="font-size:11px;color:#666;font-family:'Outfit',sans-serif;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Featuring</div>
-                <div style="font-family:'Noto Serif',serif;font-size:15px;color:#333;line-height:1.6;">🧵 Deki — Weaver from Paro<br>💻 DrukShift — Crypto Quiz<br>🇧🇹 113 Real Bhutanese Voices</div>
-            </div>
-        </div>
-        <div class="cover-art-side">
-            <svg class="cover-mountain" viewBox="0 0 600 200" fill="none">
-                <path d="M0 200 L100 80 L180 140 L280 40 L380 120 L460 60 L560 130 L600 90 L600 200Z" fill="#0a1525" opacity="0.8"/>
-                <path d="M0 200 L80 120 L160 160 L260 90 L340 140 L440 80 L520 150 L600 110 L600 200Z" fill="#08192d"/>
-                <path d="M260 90 L280 40 L300 90" fill="white" opacity="0.6"/>
-                <path d="M440 80 L460 60 L480 80" fill="white" opacity="0.5"/>
-            </svg>
-            <div class="cover-stars" id="coverStars"></div>
-            <div class="cover-dragon">🐉</div>
-            <div class="cover-woman">🧕</div>
-            <div style="position:absolute;top:20px;left:20px;font-family:'Bangers',cursive;font-size:14px;color:rgba(255,255,255,0.4);letter-spacing:3px;">PARO · BHUTAN</div>
-            <div style="position:absolute;top:20px;right:20px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--teal);letter-spacing:1px;text-align:right;">CRYPTO<br>READINESS<br>STORY</div>
-        </div>
-    </div>
-    <div class="cover-bottom-bar">
-        <div class="cover-price">FREE · 2026</div>
-        <div class="cover-tagline">DRUK = THUNDER DRAGON · SHIFT = THE FUTURE</div>
-        <div style="font-family:'Bangers',cursive;font-size:14px;color:var(--teal);">kinzang7066.github.io</div>
-    </div>
-</div>
-<div class="page-num">1</div>
-</div>
-
-<!-- ══════ PAGE 2 — MORNING IN PARO ══════ -->
-<div class="page" id="page-2">
-<div class="panel-page">
-<div class="page-bg-halftone"></div>
-<div class="chapter-title" style="position:relative;border:none;margin-bottom:0;">
-    <div class="chapter-num">CHAPTER 01</div>
-    <div class="chapter-name">THE MORNING THAT CHANGED EVERYTHING</div>
-</div>
-<div class="panel-grid grid-comic" style="flex:1;">
-
-    <!-- Panel 1 — Wide establishing shot -->
-    <div class="panel wide" style="min-height:300px;">
-        <div class="panel-art panel-dawn">
-            <div class="panel-art-bg">
-                <svg style="position:absolute;bottom:0;left:0;right:0;height:100%;" viewBox="0 0 800 300">
-                    <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a2a4a"/><stop offset="60%" stop-color="#3a5a8a"/><stop offset="100%" stop-color="#e8935a"/></linearGradient></defs>
-                    <rect width="800" height="300" fill="url(#sky)"/>
-                    <path d="M0 300 L80 180 L160 220 L260 140 L360 200 L460 120 L560 180 L660 130 L760 160 L800 140 L800 300Z" fill="#0a1525"/>
-                    <path d="M0 300 L60 220 L130 250 L220 190 L300 230 L400 180 L500 220 L600 190 L700 210 L800 180 L800 300Z" fill="#08192d"/>
-                    <circle cx="650" cy="60" r="40" fill="#e8935a" opacity="0.8"/>
-                    <path d="M260 140 L280 100 L300 140" fill="white" opacity="0.5"/>
-                    <rect x="340" y="220" width="30" height="80" fill="#8a6a4a" opacity="0.8"/>
-                    <rect x="320" y="200" width="70" height="20" fill="#a08060" opacity="0.8"/>
-                    <rect x="380" y="210" width="40" height="90" fill="#7a5a3a" opacity="0.8"/>
-                </svg>
-                <div style="position:absolute;bottom:80px;left:50%;transform:translateX(-50%);font-size:50px;z-index:5;">🧕</div>
-                <div style="position:absolute;bottom:60px;left:calc(50% + 60px);font-size:30px;z-index:5;transform:scaleX(-1);">🏪</div>
-            </div>
-        </div>
-        <div class="caption top" style="background:#1a2a4a;">PARO, BHUTAN. EARLY MORNING. THE MARKET DISTRICT WAKES UP.</div>
-        <div class="caption bottom-left gold">Deki, 34. Kishuthara silk weaver. Opens her shop every morning at 6am.</div>
-    </div>
-
-    <!-- Panel 2 — Close up hands weaving -->
-    <div class="panel">
-        <div class="panel-art panel-warm">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:70px;">🧵</div>
-                <div style="font-size:40px;">👐</div>
-            </div>
-            <div class="motion-lines"></div>
-        </div>
-        <div class="bubble" style="top:16px;left:12px;max-width:160px;">Her hands have woven silk for 12 years.</div>
-    </div>
-
-    <!-- Panel 3 — Tourist arrives -->
-    <div class="panel">
-        <div class="panel-art panel-market">
-            <div class="panel-art-bg" style="gap:24px;">
-                <div style="font-size:60px;">🧕</div>
-                <div style="font-size:60px;">✈️🧑‍💼</div>
-            </div>
-        </div>
-        <div class="sfx" style="font-size:28px;color:var(--gold);top:8px;">TING! ✨</div>
-        <div class="caption bottom-left">A customer! A tourist from Singapore.</div>
-    </div>
-
-</div>
-<div class="page-num">2</div>
-</div>
-</div>
-
-<!-- ══════ PAGE 3 — THE PROBLEM ══════ -->
-<div class="page" id="page-3">
-<div class="panel-page">
-<div class="page-bg-halftone"></div>
-<div class="panel-grid" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:100vh;">
-
-    <!-- Panel 1 — Tourist shows wallet -->
-    <div class="panel">
-        <div class="panel-art" style="background:linear-gradient(160deg,#2a4a2a,#4a7a4a);">
-            <div class="panel-art-bg" style="gap:12px;">
-                <div style="font-size:70px;">🧑‍💼</div>
-                <div style="font-size:40px;">📱💳</div>
-            </div>
-        </div>
-        <div class="bubble bottom" style="top:12px;right:12px;background:#e8f5e8;">
-            <strong>"Beautiful! How much?<br>I can pay by phone —<br>Bitcoin? PayPal?"</strong>
-        </div>
-    </div>
-
-    <!-- Panel 2 — Deki confused -->
-    <div class="panel">
-        <div class="panel-art panel-warm">
-            <div class="panel-art-bg">
-                <div style="font-size:80px;">🧕</div>
-            </div>
-        </div>
-        <div class="bubble" style="top:12px;left:12px;background:#fff3e0;">
-            <em>"Bitcoin? I... I only take cash. Sorry."</em>
-        </div>
-        <div class="caption bottom-left red">She has heard the word. But she does not know what it means.</div>
-    </div>
-
-    <!-- Panel 3 — Tourist walks away -->
-    <div class="panel">
-        <div class="panel-art" style="background:linear-gradient(160deg,#3a2a1a,#5a4030);">
-            <div class="panel-art-bg">
-                <div style="font-size:60px; opacity:0.5;">🧑‍💼💨</div>
-            </div>
-            <div class="speed-lines" style="opacity:0.3;"></div>
-        </div>
-        <div class="sfx" style="color:var(--accent);font-size:32px;">WHOOSH!</div>
-        <div class="caption bottom-left">The tourist walks away. Again.</div>
-    </div>
-
-    <!-- Panel 4 — Deki alone -->
-    <div class="panel">
-        <div class="panel-art panel-night">
-            <div class="panel-art-bg" style="flex-direction:column;">
-                <div style="font-size:70px;">🧕</div>
-                <div style="font-size:28px;color:rgba(255,255,255,0.3);">😶</div>
-            </div>
-        </div>
-        <div class="bubble thought" style="top:12px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.95);">
-            <em>"This happens every week.<br>Every single week."</em>
-        </div>
-        <div class="caption bottom-right gold">This time she decides to find out.</div>
-    </div>
-
-</div>
-<div class="impact" style="top:47%;left:50%;transform:translate(-50%,-50%);font-size:60px;color:var(--accent);opacity:0.15;pointer-events:none;">THIS STOPS TODAY</div>
-<div class="page-num">3</div>
-</div>
-</div>
-
-<!-- ══════ PAGE 4 — THE SEARCH ══════ -->
-<div class="page" id="page-4">
-<div class="panel-page">
-<div class="page-bg-halftone"></div>
-<div class="chapter-title" style="position:relative;border:none;margin-bottom:0;">
-    <div class="chapter-num">CHAPTER 02</div>
-    <div class="chapter-name">THE SEARCH FOR ANSWERS</div>
-</div>
-<div class="panel-grid" style="grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;flex:1;min-height:calc(100vh - 60px);">
-
-    <!-- Wide top panel — night research -->
-    <div class="panel wide">
-        <div class="panel-art panel-night">
-            <div class="panel-art-bg" style="gap:32px;">
-                <div style="font-size:60px;">🧕</div>
-                <div style="background:#1a1a2e;border:2px solid #333;border-radius:8px;padding:16px;font-family:monospace;font-size:11px;color:#4a9;text-align:left;min-width:200px;">
-                    <div style="color:#888;margin-bottom:4px;">Search: "cryptocurrency bhutan"</div>
-                    <div style="color:#4a9;">━━━━━━━━━━━━━━━━━━━━</div>
-                    <div style="color:#f90;margin-top:4px;">⚠️ 847,000 results</div>
-                    <div style="color:#888;font-size:9px;margin-top:4px;">Complex... foreign... confusing...</div>
+                <div style="margin-top:16px;padding:12px;background:rgba(244,162,97,0.1);border-left:4px solid #f4a261;font-size:13px;color:#333;">
+                    🧵 Deki — Weaver from Paro<br>
+                    💻 DrukShift — Crypto Quiz<br>
+                    🇧🇹 113 Real Bhutanese Voices
                 </div>
             </div>
         </div>
-        <div class="caption top">3AM. PARO. DEKI'S KITCHEN TABLE.</div>
-        <div class="bubble thought" style="bottom:60px;left:20px;background:rgba(255,255,255,0.9);max-width:180px;">
-            <em>"847,000 results. None of them are for me."</em>
+        <div class="cover-right">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Bhutan Tiger's Nest">
+            <div class="cover-right-overlay"></div>
+            <div class="cover-badge">PARO · BHUTAN · 2026</div>
         </div>
     </div>
+    <div class="cover-bottom">
+        <span>FREE · 2026</span>
+        <span>DRUK = THUNDER DRAGON · SHIFT = THE FUTURE</span>
+        <span>kinzang7066.github.io</span>
+    </div>
+</div>
+<div class="pnum">1</div>
+</div>
 
-    <!-- Panel — News headline -->
-    <div class="panel">
-        <div class="panel-art panel-blue">
-            <div class="panel-art-bg" style="flex-direction:column;padding:16px;">
-                <div style="background:rgba(0,0,0,0.5);border:1px solid #2a6aad;padding:12px;border-radius:4px;text-align:center;">
-                    <div style="font-family:'Bangers',cursive;font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:8px;">BREAKING NEWS</div>
-                    <div style="font-size:11px;color:white;line-height:1.5;">"BHUTAN SECRETLY MINES BITCOIN WITH HYDROPOWER"</div>
-                    <div style="font-size:9px;color:#888;margin-top:6px;">Kuensel Online · 2024</div>
+<!-- ══ PAGE 2: MORNING IN PARO ══ -->
+<div class="page" id="p2">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="chapter-bar">
+        <span class="ch-num">CHAPTER 01</span>
+        <span class="ch-name">THE MORNING THAT CHANGED EVERYTHING</span>
+    </div>
+    <div class="panels" style="grid-template-columns:1fr 1fr;grid-template-rows:1.4fr 1fr;flex:1;">
+
+        <!-- Wide top panel - Paro valley -->
+        <div class="panel" style="grid-column:1/-1;min-height:280px;">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80" alt="Paro Valley Bhutan morning">
+            <div class="panel-overlay" style="background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.7) 100%);"></div>
+            <div class="caption top">PARO, BHUTAN. EARLY MORNING. THE MARKET DISTRICT WAKES UP.</div>
+            <div class="caption bottom gold">Deki, 34. Kishuthara silk weaver. Opens her shop every morning at 6am for 12 years.</div>
+        </div>
+
+        <!-- Panel - silk weaving -->
+        <div class="panel" style="min-height:200px;">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Traditional Bhutan monastery">
+            <div class="panel-overlay" style="background:linear-gradient(160deg,rgba(8,25,45,0.3),rgba(8,25,45,0.1));"></div>
+            <div class="bubble" style="top:12px;left:12px;">
+                Her hands have woven silk for 12 years. Every thread tells a story.
+            </div>
+            <div class="caption bottom teal">PARO OLD TOWN — 6:00 AM</div>
+        </div>
+
+        <!-- Panel - tourist arrives -->
+        <div class="panel" style="min-height:200px;">
+            <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=600&q=80" alt="Digital payment phone">
+            <div class="panel-overlay" style="background:linear-gradient(160deg,rgba(8,25,45,0.5),rgba(8,25,45,0.2));"></div>
+            <div class="bubble right" style="top:12px;right:12px;background:#e8f5e8;">
+                <strong>"Beautiful fabric! Can I pay by Bitcoin? PayPal?"</strong>
+            </div>
+            <div class="sfx" style="bottom:40px;left:20px;font-size:28px;color:#e9c46a;">TING! ✨</div>
+        </div>
+
+    </div>
+</div>
+<div class="pnum">2</div>
+</div>
+
+<!-- ══ PAGE 3: THE PROBLEM ══ -->
+<div class="page" id="p3">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="panels" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1;">
+
+        <!-- Panel 1 - confused Deki -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" alt="Crypto confusion">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.5);"></div>
+            <div class="bubble" style="top:12px;left:12px;max-width:180px;">
+                <em>"Bitcoin? I... I only take cash. Sorry."</em>
+            </div>
+            <div class="caption bottom red">She has heard the word. But she does not understand what it means.</div>
+        </div>
+
+        <!-- Panel 2 - tourist walks away -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80" alt="Blockchain network">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.6);"></div>
+            <div class="sfx" style="top:20px;left:50%;transform:translateX(-50%);font-size:36px;color:#e63946;">WHOOSH!</div>
+            <div class="caption bottom dark">The tourist walks away. Again. The third time this week.</div>
+        </div>
+
+        <!-- Panel 3 - night research -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Crypto charts at night">
+            <div class="panel-overlay" style="background:rgba(0,0,0,0.6);"></div>
+            <div class="caption top">3AM. PARO. DEKI'S KITCHEN TABLE.</div>
+            <div class="bubble" style="bottom:50px;left:12px;max-width:180px;background:rgba(255,255,255,0.95);">
+                <em>"847,000 results. None of them are for me."</em>
+            </div>
+        </div>
+
+        <!-- Panel 4 - decision -->
+        <div class="panel" style="background:#0a0a0f;display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:24px;">
+                <div style="font-size:60px;margin-bottom:12px;">🧕</div>
+                <div style="font-family:'Bangers',cursive;font-size:clamp(24px,3vw,40px);color:#e9c46a;line-height:1;letter-spacing:2px;margin-bottom:10px;">THIS STOPS<br>TODAY.</div>
+                <div style="font-family:'Noto Serif',serif;font-style:italic;font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8;">She decides to find out.<br>Tonight. Right now.</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="pnum">3</div>
+</div>
+
+<!-- ══ PAGE 4: THE DISCOVERY ══ -->
+<div class="page" id="p4">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="chapter-bar">
+        <span class="ch-num">CHAPTER 02</span>
+        <span class="ch-name">THE DISCOVERY</span>
+    </div>
+    <div class="panels" style="grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;flex:1;">
+
+        <!-- Wide top - Bhutan mountains at dusk -->
+        <div class="panel" style="grid-column:1/-1;min-height:220px;">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80" alt="Bhutan mountains dusk">
+            <div class="panel-overlay" style="background:linear-gradient(to bottom,transparent 30%,rgba(8,25,45,0.85) 100%);"></div>
+            <div class="caption top">BHUTAN MAKES HEADLINES — "BHUTAN SECRETLY MINES BITCOIN WITH HYDROPOWER"</div>
+            <div class="bubble" style="bottom:50px;left:20px;max-width:220px;background:rgba(255,255,255,0.95);">
+                <em>"Even my country mines it. But nobody told ME what it means."</em>
+            </div>
+        </div>
+
+        <!-- Panel - nephew arrives -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" alt="Phone screen">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.5);"></div>
+            <div class="bubble up" style="bottom:12px;left:12px;max-width:150px;background:#fff3e0;">
+                "ALA! Deki Ashi! I found something — look at this!"
+            </div>
+        </div>
+
+        <!-- Panel - DrukShift revealed -->
+        <div class="panel" style="background:#08192d;display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:16px;">
+                <div style="background:rgba(42,157,143,0.15);border:2px solid #2a9d8f;border-radius:10px;padding:14px;margin-bottom:10px;">
+                    <div style="font-family:'Bangers',cursive;font-size:22px;color:white;letter-spacing:2px;">Druk<span style="color:#e9c46a;">Shift</span> 🇧🇹</div>
+                    <div style="font-size:10px;color:#2a9d8f;margin-top:4px;">"Built for Bhutanese people"</div>
+                    <div style="font-size:9px;color:#7a9bb5;margin-top:2px;">by Kinzang Choden · BDS Internship</div>
                 </div>
-                <div style="font-size:50px;margin-top:12px;">📱</div>
+                <div style="font-family:'Bangers',cursive;font-size:28px;color:#2a9d8f;letter-spacing:2px;">DRUKSHIFT!</div>
             </div>
         </div>
-        <div class="bubble" style="top:12px;right:8px;max-width:140px;background:#fff3e0;">
-            <em>"Even my country mines it. But nobody told ME."</em>
-        </div>
-    </div>
 
-    <!-- Panel — Nephew arrives -->
-    <div class="panel">
-        <div class="panel-art" style="background:linear-gradient(160deg,#1a3a1a,#2a5a2a);">
-            <div class="panel-art-bg" style="gap:20px;">
-                <div style="font-size:65px;">🧕</div>
-                <div style="font-size:65px;">👦</div>
+        <!-- Panel - Deki reads -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=400&q=80" alt="Reading on phone">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.5);"></div>
+            <div class="bubble right" style="top:12px;right:12px;max-width:160px;border-color:#2a9d8f;">
+                <em>"Built by a Bhutanese student... for Bhutanese people...?"</em>
             </div>
+            <div class="caption bottom teal">Something in her eyes changes.</div>
         </div>
-        <div class="bubble shout" style="top:12px;left:50%;transform:translateX(-50%);">
-            "ALA! Deki Ashi! I found something!"
-        </div>
-    </div>
 
-    <!-- Panel — Phone shown -->
-    <div class="panel">
-        <div class="panel-art panel-tech">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:50px;">📱</div>
-                <div style="background:rgba(42,157,143,0.2);border:2px solid var(--teal);border-radius:8px;padding:8px;text-align:center;font-family:'Bangers',cursive;letter-spacing:2px;">
-                    <div style="font-size:11px;color:var(--teal);">DRUKSHIFT.BT</div>
-                    <div style="font-size:20px;color:white;margin-top:4px;">Druk<span style="color:var(--gold);">Shift</span> 🇧🇹</div>
-                    <div style="font-size:9px;color:#888;margin-top:4px;">"Built for Bhutanese people"</div>
+    </div>
+</div>
+<div class="pnum">4</div>
+</div>
+
+<!-- ══ PAGE 5: THE QUIZ ══ -->
+<div class="page" id="p5">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="chapter-bar">
+        <span class="ch-num">CHAPTER 03</span>
+        <span class="ch-name">THE QUIZ THAT LISTENED</span>
+    </div>
+    <div class="panels" style="grid-template-columns:1fr 1fr;grid-template-rows:1.3fr 1fr;flex:1;">
+
+        <!-- Left tall panel - taking quiz -->
+        <div class="panel" style="grid-row:1/3;">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Looking at phone">
+            <div class="panel-overlay" style="background:rgba(0,0,0,0.65);"></div>
+            <div class="caption top">2AM. SHE STARTS THE QUIZ.</div>
+            <div class="screen" style="top:60px;left:50%;transform:translateX(-50%);width:180px;">
+                <div class="screen-h">✨ DrukShift Quiz</div>
+                <div style="font-size:10px;color:#aaa;margin-bottom:6px;">Question 5 of 10</div>
+                <div style="font-size:10px;color:white;line-height:1.5;margin-bottom:8px;">"How ready do you feel personally to transact with crypto?"</div>
+                <div style="display:flex;gap:3px;margin-bottom:6px;">
+                    <div style="flex:1;height:20px;background:#e63946;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;color:white;font-weight:700;">1</div>
+                    <div style="flex:1;height:20px;background:rgba(255,255,255,0.1);border-radius:2px;"></div>
+                    <div style="flex:1;height:20px;background:rgba(255,255,255,0.1);border-radius:2px;"></div>
+                    <div style="flex:1;height:20px;background:rgba(255,255,255,0.1);border-radius:2px;"></div>
+                    <div style="flex:1;height:20px;background:rgba(255,255,255,0.1);border-radius:2px;"></div>
                 </div>
+                <div style="font-size:9px;color:#e63946;">She taps 1. The honest truth.</div>
+            </div>
+            <div class="bubble" style="bottom:60px;left:12px;max-width:170px;background:rgba(255,255,255,0.95);">
+                <em>"It is not judging me. It is asking how I actually feel."</em>
             </div>
         </div>
-        <div class="sfx" style="font-size:24px;color:var(--teal);top:8px;">DRUKSHIFT!</div>
-    </div>
 
-    <!-- Panel — Deki reacts -->
-    <div class="panel">
-        <div class="panel-art panel-hope">
-            <div class="panel-art-bg">
-                <div style="font-size:80px;">🧕✨</div>
+        <!-- Panel - Q1 answer -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80" alt="Blockchain network">
+            <div class="panel-overlay" style="background:rgba(0,0,0,0.7);"></div>
+            <div class="screen" style="top:16px;left:50%;transform:translateX(-50%);width:160px;">
+                <div class="screen-h">Question 1 · Knowledge</div>
+                <div class="screen-row"><span>Familiarity</span><span>3/10</span></div>
+                <div class="screen-bar"><div class="screen-bar-fill" style="width:30%;"></div></div>
+                <div style="font-size:9px;color:#888;margin-top:4px;">Honest. She knows a little.</div>
             </div>
         </div>
-        <div class="bubble" style="top:12px;left:12px;max-width:160px;border-color:var(--teal);">
-            <em>"Built for Bhutanese people...? By a Bhutanese student?"</em>
+
+        <!-- Panel - results appear -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" alt="Results screen">
+            <div class="panel-overlay" style="background:rgba(0,0,0,0.75);"></div>
+            <div class="screen" style="top:12px;left:50%;transform:translateX(-50%);width:170px;">
+                <div class="screen-h">📊 Your Results</div>
+                <div class="screen-s">58%</div>
+                <div style="font-size:10px;color:#aaa;text-align:center;margin-bottom:8px;">Somewhat Ready</div>
+                <div class="screen-row"><span>Knowledge</span><span>3/10</span></div>
+                <div class="screen-bar"><div class="screen-bar-fill" style="width:30%;"></div></div>
+                <div class="screen-row"><span>Readiness</span><span>1/10</span></div>
+                <div class="screen-bar"><div class="screen-bar-fill" style="width:10%;background:#e63946;"></div></div>
+                <div class="screen-row"><span>Internet</span><span>7/10</span></div>
+                <div class="screen-bar"><div class="screen-bar-fill" style="width:70%;background:#e9c46a;"></div></div>
+            </div>
+            <div class="sfx" style="bottom:10px;right:10px;font-size:22px;color:#2a9d8f;">58%!</div>
         </div>
-        <div class="caption bottom-right" style="background:var(--teal);">Something in her eyes changes.</div>
+
     </div>
-
 </div>
-<div class="page-num">4</div>
-</div>
+<div class="pnum">5</div>
 </div>
 
-<!-- ══════ PAGE 5 — THE QUIZ ══════ -->
-<div class="page" id="page-5">
-<div class="panel-page">
-<div class="page-bg-halftone"></div>
-<div class="chapter-title" style="position:relative;border:none;margin-bottom:0;">
-    <div class="chapter-num">CHAPTER 03</div>
-    <div class="chapter-name">THE QUIZ THAT LISTENED</div>
-</div>
-<div class="panel-grid" style="grid-template-columns:1fr 1fr;grid-template-rows:1.2fr 0.8fr;flex:1;min-height:calc(100vh - 60px);">
+<!-- ══ PAGE 6: PERSONALISED PLAN ══ -->
+<div class="page" id="p6">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="panels" style="grid-template-columns:1.2fr 1fr;grid-template-rows:1fr;flex:1;">
 
-    <!-- Wide panel — taking quiz -->
-    <div class="panel tall">
-        <div class="panel-art panel-night" style="background:#05070f;">
-            <div class="panel-art-bg" style="flex-direction:column;gap:16px;padding:20px;">
-                <div style="font-size:50px;">🧕</div>
-                <div class="screen-panel" style="position:relative;width:200px;">
-                    <div class="screen-header">✨ DrukShift Quiz</div>
-                    <div style="font-size:10px;color:#aaa;margin-bottom:8px;">Question 1 of 10</div>
-                    <div style="font-size:11px;color:white;line-height:1.5;margin-bottom:12px;">"How familiar are you with cryptocurrency?"</div>
-                    <div style="display:flex;gap:4px;margin-bottom:8px;">
-                        <div style="flex:1;height:24px;background:rgba(42,157,143,0.3);border:1px solid var(--teal);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;">1</div>
-                        <div style="flex:1;height:24px;background:rgba(42,157,143,0.3);border:1px solid var(--teal);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;">2</div>
-                        <div style="flex:1;height:24px;background:var(--teal);border:1px solid var(--teal);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;color:white;font-weight:700;">3</div>
-                        <div style="flex:1;height:24px;background:rgba(42,157,143,0.3);border:1px solid var(--teal);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;">4</div>
-                        <div style="flex:1;height:24px;background:rgba(42,157,143,0.3);border:1px solid var(--teal);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;">5</div>
+        <!-- Left - the plan appears -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Bhutan landscape night">
+            <div class="panel-overlay" style="background:rgba(0,0,0,0.8);"></div>
+            <div class="caption top">THE PERSONALISED PLAN APPEARS.</div>
+            <div style="position:absolute;top:60px;left:12px;right:12px;background:rgba(8,25,45,0.95);border-left:3px solid #2a9d8f;border-radius:0 8px 8px 0;padding:12px;z-index:10;">
+                <div style="font-size:10px;color:#2a9d8f;font-weight:700;margin-bottom:6px;">💡 Why this suggestion?</div>
+                <div style="font-size:11px;color:white;line-height:1.6;font-family:'Noto Serif',serif;font-style:italic;">"Because you rated your Personal Readiness as 1/10 — your next step is to build confidence through learning, not by transacting real money yet."</div>
+            </div>
+            <div style="position:absolute;bottom:60px;left:12px;right:12px;background:rgba(8,25,45,0.95);border-left:3px solid #e9c46a;border-radius:0 8px 8px 0;padding:12px;z-index:10;">
+                <div style="font-size:10px;color:#e9c46a;font-weight:700;margin-bottom:6px;">📋 Your next steps:</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.8);line-height:1.7;">✦ Watch 3 beginner crypto videos<br>✦ Visit RMA Bhutan website<br>✦ Talk to someone who uses crypto safely</div>
+            </div>
+        </div>
+
+        <!-- Right - reaction -->
+        <div class="panel" style="background:#08192d;display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:20px;">
+                <div style="font-size:70px;margin-bottom:12px;">🧕✨</div>
+                <div style="font-family:'Noto Serif',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.8;margin-bottom:16px;">"For the first time —<br>someone explained this<br>in terms of <strong style="color:#e9c46a;">my life.</strong>"</div>
+                <div style="font-size:12px;color:#2a9d8f;font-family:'Bangers',cursive;letter-spacing:2px;">She reads every word. Twice.</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="pnum">6</div>
+</div>
+
+<!-- ══ PAGE 7: THE TRANSFORMATION ══ -->
+<div class="page" id="p7">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="chapter-bar">
+        <span class="ch-num">CHAPTER 04</span>
+        <span class="ch-name">THE SHIFT BEGINS</span>
+    </div>
+    <div class="panels" style="grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;flex:1;">
+
+        <!-- Panel 1 - learning -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&q=80" alt="Learning crypto">
+            <div class="panel-overlay" style="background:rgba(0,0,0,0.5);"></div>
+            <div class="caption bottom dark">WEEK 1. She watches every night. Bitcoin. Blockchain. Wallets.</div>
+        </div>
+
+        <!-- Panel 2 - Thimphu RMA visit -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Bhutan government building">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.4);"></div>
+            <div class="bubble" style="bottom:50px;left:12px;max-width:150px;font-size:10px;">
+                <em>"I want to understand the crypto regulations in Bhutan."</em>
+            </div>
+            <div class="caption bottom teal">WEEK 2. She visits RMA Bhutan.</div>
+        </div>
+
+        <!-- Panel 3 - retakes quiz -->
+        <div class="panel" style="background:#08192d;display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:12px;">
+                <div style="background:rgba(42,157,143,0.15);border:2px solid #2a9d8f;border-radius:8px;padding:12px;margin-bottom:8px;">
+                    <div style="font-size:11px;color:#2a9d8f;font-weight:700;margin-bottom:4px;">DrukShift · Retake</div>
+                    <div style="font-family:'Bangers',cursive;font-size:40px;color:#2a9d8f;text-shadow:0 0 12px rgba(42,157,143,0.5);">71%</div>
+                    <div style="font-size:10px;color:#e9c46a;">↑ +13% improvement!</div>
+                </div>
+                <div style="font-family:'Bangers',cursive;font-size:22px;color:#e9c46a;letter-spacing:2px;">LEVEL UP! 🎯</div>
+            </div>
+        </div>
+
+        <!-- Panel 4 - Paro market -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" alt="Bhutan market">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.4);"></div>
+            <div class="caption bottom gold">WEEK 3. She adds a new sign to her shop.</div>
+        </div>
+
+        <!-- Panel 5 - QR code sign -->
+        <div class="panel" style="background:linear-gradient(160deg,#1a3a1a,#2a5a2a);display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:16px;">
+                <div style="background:white;border:3px solid #0a0a0f;padding:12px 18px;border-radius:4px;transform:rotate(-2deg);box-shadow:3px 3px 0 #0a0a0f;display:inline-block;">
+                    <div style="font-size:12px;font-weight:700;color:#0a0a0f;">DEKI'S SILK SHOP</div>
+                    <div style="font-size:10px;color:#2a9d8f;margin-top:4px;">📱 Digital payments<br>coming soon!</div>
+                </div>
+                <div style="margin-top:12px;font-size:12px;color:rgba(255,255,255,0.7);font-family:'Noto Serif',serif;font-style:italic;">The first sign of its kind<br>in Paro market.</div>
+            </div>
+        </div>
+
+        <!-- Panel 6 - one month later -->
+        <div class="panel" style="background:#0a0a0f;display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:20px;">
+                <div style="font-family:'Bangers',cursive;font-size:clamp(28px,4vw,44px);color:#e9c46a;line-height:1;letter-spacing:2px;margin-bottom:10px;">ONE MONTH<br>LATER...</div>
+                <div style="font-size:36px;margin:12px 0;">🕐➡️🌟</div>
+                <div style="font-family:'Noto Serif',serif;font-style:italic;font-size:12px;color:rgba(255,255,255,0.5);line-height:1.8;">She kept learning.<br>She kept asking.<br>She kept shifting.</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="pnum">7</div>
+</div>
+
+<!-- ══ PAGE 8: THE MOMENT ══ -->
+<div class="page" id="p8">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="chapter-bar" style="background:#2a9d8f;border-color:#e9c46a;">
+        <span class="ch-num" style="color:white;">CHAPTER 05</span>
+        <span class="ch-name">THE PAYMENT THAT CHANGED EVERYTHING</span>
+    </div>
+    <div class="panels" style="grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr;flex:1;">
+
+        <!-- BIG panel - the payment moment -->
+        <div class="panel" style="grid-row:1/3;">
+            <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=800&q=80" alt="Digital payment success">
+            <div class="panel-overlay" style="background:rgba(0,0,0,0.55);"></div>
+            <div class="sfx" style="top:16px;left:50%;transform:translateX(-50%);font-size:36px;color:#2a9d8f;text-shadow:2px 2px 0 #0a0a0f;white-space:nowrap;">KA-CHING! 💫</div>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(42,157,143,0.15);border:3px solid #2a9d8f;border-radius:12px;padding:16px 24px;text-align:center;z-index:10;backdrop-filter:blur(4px);">
+                <div style="font-family:'Bangers',cursive;font-size:26px;color:#2a9d8f;letter-spacing:2px;">PAYMENT RECEIVED</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:4px;">✅ Nu. 2,400 · Confirmed</div>
+                <div style="font-size:10px;color:#e9c46a;margin-top:2px;">🇧🇹 First crypto payment in Paro market</div>
+            </div>
+            <div class="bubble" style="bottom:60px;left:50%;transform:translateX(-50%);background:#2a9d8f;border-color:#1a7a6e;color:white;white-space:nowrap;font-size:14px;font-weight:700;">
+                PAYMENT RECEIVED! 🎉
+            </div>
+            <div class="bubble" style="bottom:60px;left:50%;transform:translateX(-50%);display:none;"></div>
+        </div>
+
+        <!-- Panel - tourist amazed -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" alt="Amazed customer">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.5);"></div>
+            <div class="bubble up" style="bottom:12px;left:12px;max-width:150px;background:#e8f5e8;">
+                "Wait — you accept crypto NOW?! This is amazing!"
+            </div>
+        </div>
+
+        <!-- Panel - Deki smiles -->
+        <div class="panel" style="background:linear-gradient(160deg,#1a3a1a,#2a9d8f);display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:20px;">
+                <div style="font-size:70px;margin-bottom:12px;animation:float 3s ease-in-out infinite;">🧕😊</div>
+                <div style="font-family:'Bangers',cursive;font-size:clamp(20px,3vw,32px);color:white;letter-spacing:3px;text-shadow:2px 2px 0 rgba(0,0,0,0.3);">SHIFT FORWARD</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:8px;font-family:'Noto Serif',serif;font-style:italic;">She is ready.</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="pnum">8</div>
+</div>
+
+<!-- ══ PAGE 9: THE RIPPLE ══ -->
+<div class="page" id="p9">
+<div class="panel-page" style="display:flex;flex-direction:column;">
+    <div class="panel-page-bg"></div>
+    <div class="chapter-bar">
+        <span class="ch-num">CHAPTER 06</span>
+        <span class="ch-name">THE RIPPLE EFFECT</span>
+    </div>
+    <div class="panels" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1;">
+
+        <!-- Panel - sharing with women -->
+        <div class="panel" style="grid-column:1/-1;min-height:200px;">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80" alt="Bhutan community">
+            <div class="panel-overlay" style="background:linear-gradient(to bottom,rgba(8,25,45,0.3),rgba(8,25,45,0.8));"></div>
+            <div class="caption top" style="right:auto;max-width:60%;">THAT EVENING. SHE SHARES DRUKSHIFT WITH HER NEIGHBOURHOOD.</div>
+            <div class="bubble" style="bottom:50px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:12px;font-weight:700;">"Come see this — free quiz — it tells you YOUR readiness!"</div>
+        </div>
+
+        <!-- Panel - nephew at school -->
+        <div class="panel">
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80" alt="Students sharing phone">
+            <div class="panel-overlay" style="background:rgba(8,25,45,0.5);"></div>
+            <div class="bubble up" style="bottom:12px;left:12px;max-width:160px;font-size:10px;">
+                "My aunt's project — try it! It is actually for us!"
+            </div>
+            <div class="caption bottom gold">Her nephew shares it at college.</div>
+        </div>
+
+        <!-- Panel - dashboard filling -->
+        <div class="panel" style="background:#05070f;display:flex;align-items:center;justify-content:center;">
+            <div style="padding:16px;width:100%;max-width:240px;">
+                <div style="background:#0a1a0a;border:2px solid #2a9d8f;border-radius:8px;padding:12px;">
+                    <div style="font-family:'Bangers',cursive;font-size:14px;color:#2a9d8f;letter-spacing:2px;margin-bottom:8px;">DRUKSHIFT DASHBOARD</div>
+                    <div style="display:flex;gap:16px;margin-bottom:8px;">
+                        <div style="text-align:center;"><div style="font-family:'Bangers',cursive;font-size:28px;color:#e9c46a;">113</div><div style="font-size:9px;color:#888;">total users</div></div>
+                        <div style="text-align:center;"><div style="font-family:'Bangers',cursive;font-size:28px;color:#2a9d8f;">80%</div><div style="font-size:9px;color:#888;">avg readiness</div></div>
                     </div>
-                    <div style="font-size:9px;color:#888;">She is honest. She taps 3.</div>
-                </div>
-            </div>
-        </div>
-        <div class="bubble thought" style="top:12px;left:12px;max-width:180px;background:rgba(255,255,255,0.9);">
-            <em>"It is not judging me. It is asking how I actually feel."</em>
-        </div>
-        <div class="caption bottom-left">Question 5: "How ready do you feel personally?"<br>She taps 2. Honest.</div>
-    </div>
-
-    <!-- Panel — Q5 close up -->
-    <div class="panel">
-        <div class="panel-art panel-tech">
-            <div class="panel-art-bg" style="flex-direction:column;padding:16px;gap:8px;">
-                <div class="screen-panel" style="position:relative;width:180px;">
-                    <div class="screen-header">Question 5 · Personal Readiness</div>
-                    <div style="font-size:10px;color:#ccc;line-height:1.5;margin-bottom:10px;">"How ready do you feel personally to start transacting with crypto?"</div>
-                    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;">
-                        <div style="height:20px;background:var(--accent);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;color:white;">1</div>
-                        <div style="height:20px;background:rgba(255,255,255,0.2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#aaa;">2</div>
-                        <div style="height:20px;background:rgba(255,255,255,0.2);border-radius:2px;"></div>
-                        <div style="height:20px;background:rgba(255,255,255,0.2);border-radius:2px;"></div>
-                        <div style="height:20px;background:rgba(255,255,255,0.2);border-radius:2px;"></div>
+                    <div style="display:flex;flex-wrap:wrap;gap:4px;">
+                        <div style="background:rgba(42,157,143,0.3);border:1px solid #2a9d8f;border-radius:50px;padding:2px 8px;font-size:9px;color:#aaa;">● Deki</div>
+                        <div style="background:rgba(42,157,143,0.3);border:1px solid #2a9d8f;border-radius:50px;padding:2px 8px;font-size:9px;color:#aaa;">● Sonam</div>
+                        <div style="background:rgba(42,157,143,0.3);border:1px solid #2a9d8f;border-radius:50px;padding:2px 8px;font-size:9px;color:#aaa;">● Karma</div>
+                        <div style="background:rgba(42,157,143,0.3);border:1px solid #2a9d8f;border-radius:50px;padding:2px 8px;font-size:9px;color:#aaa;">● Tenzin</div>
+                        <div style="background:rgba(42,157,143,0.3);border:1px solid #2a9d8f;border-radius:50px;padding:2px 8px;font-size:9px;color:#aaa;">● Pema +109</div>
                     </div>
-                    <div style="font-size:9px;color:var(--accent);margin-top:6px;">← She chooses 1. The truth.</div>
                 </div>
+                <div style="font-size:10px;color:#2a9d8f;text-align:center;margin-top:8px;font-family:'Bangers',cursive;letter-spacing:1px;">Real Bhutanese voices. Growing.</div>
             </div>
         </div>
-        <div class="caption bottom-left red">Readiness: 1/10. She is being completely honest.</div>
-    </div>
 
-    <!-- Panel — Results appear -->
-    <div class="panel">
-        <div class="panel-art" style="background:#05070f;">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;padding:16px;">
-                <div class="screen-panel" style="position:relative;width:200px;">
-                    <div class="screen-header">Your Results 📊</div>
-                    <div class="screen-score">58%</div>
-                    <div style="font-size:11px;color:#aaa;text-align:center;margin-bottom:12px;">You are somewhat ready</div>
-                    <div class="screen-label"><span>Knowledge</span><span>3/10</span></div>
-                    <div class="screen-bar"><div class="screen-bar-fill" style="width:30%;"></div></div>
-                    <div class="screen-label"><span>Personal Readiness</span><span>1/10</span></div>
-                    <div class="screen-bar"><div class="screen-bar-fill" style="width:10%;background:var(--accent);"></div></div>
-                    <div class="screen-label"><span>Internet</span><span>7/10</span></div>
-                    <div class="screen-bar"><div class="screen-bar-fill" style="width:70%;background:#e9c46a;"></div></div>
-                </div>
-            </div>
-        </div>
-        <div class="sfx" style="font-size:28px;top:8px;color:var(--teal);">58%!</div>
     </div>
-
-    <!-- Panel — Personalised plan -->
-    <div class="panel">
-        <div class="panel-art panel-hope">
-            <div class="panel-art-bg" style="flex-direction:column;padding:16px;gap:8px;">
-                <div style="font-size:40px;">🧕✨</div>
-                <div style="background:rgba(0,0,0,0.6);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:10px;font-size:10px;color:white;line-height:1.6;max-width:200px;">
-                    <strong style="color:var(--teal);font-size:11px;">Why this suggestion?</strong><br>
-                    <em>"Because you rated your Personal Readiness as 1/10 — your next step is to build confidence through learning, not by transacting real money yet."</em>
-                </div>
-            </div>
-        </div>
-        <div class="bubble" style="top:12px;left:12px;max-width:160px;border-color:var(--teal);background:#e8f5f0;">
-            <em>"For the first time — it spoke to me. About MY life."</em>
-        </div>
-        <div class="caption bottom-right" style="background:var(--teal);">She reads every word. Twice.</div>
-    </div>
-
 </div>
-<div class="page-num">5</div>
-</div>
+<div class="pnum">9</div>
 </div>
 
-<!-- ══════ PAGE 6 — THE TRANSFORMATION ══════ -->
-<div class="page" id="page-6">
-<div class="panel-page">
-<div class="page-bg-halftone"></div>
-<div class="chapter-title" style="position:relative;border:none;margin-bottom:0;">
-    <div class="chapter-num">CHAPTER 04</div>
-    <div class="chapter-name">THE SHIFT BEGINS</div>
+<!-- ══ PAGE 10: FINALE ══ -->
+<div class="page" id="p10">
+<div class="finale">
+    <div class="finale-bg">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80" alt="Bhutan mountains">
+    </div>
+    <div class="finale-content">
+        <div class="finale-dragon">🐉</div>
+        <div style="font-family:'Bangers',cursive;font-size:13px;letter-spacing:6px;color:#2a9d8f;margin-bottom:14px;text-transform:uppercase;">The End · But Also The Beginning</div>
+        <div class="finale-h1">SHIFT<br>FORWARD<br><em>BHUTAN</em></div>
+        <p class="finale-sub">
+            "Deki's story is not a fantasy.<br>
+            It is what happens when one curious person<br>
+            gets the right information — in their own language,<br>
+            about their own life.<br>
+            <em>This is why DrukShift was built.</em>"
+        </p>
+        <div class="finale-stats">
+            <div class="f-stat"><div class="f-stat-n">113</div><div class="f-stat-l">Voices Surveyed</div></div>
+            <div class="f-stat"><div class="f-stat-n">80%</div><div class="f-stat-l">Overall Readiness</div></div>
+            <div class="f-stat"><div class="f-stat-n">10</div><div class="f-stat-l">Questions</div></div>
+            <div class="f-stat"><div class="f-stat-n">🇧🇹</div><div class="f-stat-l">Made in Bhutan</div></div>
+        </div>
+        <a href="https://kinzang7066.github.io/Cryptocurrency_Readiness_In_Bhutan/" target="_blank" class="finale-btn">🇧🇹 TAKE THE QUIZ NOW</a>
+        <div class="finale-credit">
+            Story · Research · Website by Kinzang Choden<br>
+            BDS Internship 2026 · Bhutan Data Scientists Pvt. Ltd<br>
+            <span style="color:#2a9d8f;">Druk = Thunder Dragon · Shift = The Future</span>
+        </div>
+        <button onclick="goTo(1)" style="margin-top:20px;background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.4);padding:8px 20px;border-radius:50px;cursor:pointer;font-size:12px;font-family:Outfit,sans-serif;">↩ Read Again</button>
+    </div>
 </div>
-<div class="panel-grid" style="grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;flex:1;min-height:calc(100vh - 60px);">
-
-    <!-- Panel 1 — Watching videos -->
-    <div class="panel">
-        <div class="panel-art panel-night">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:50px;">🧕📺</div>
-                <div style="background:#1a1a1a;border:2px solid #333;padding:8px;border-radius:4px;text-align:center;font-size:10px;color:#aaa;">
-                    <div style="color:#f00;font-size:12px;margin-bottom:4px;">▶ YouTube</div>
-                    "Bitcoin Explained Simply"<br>
-                    <div style="color:var(--teal);margin-top:4px;">👁 2.4M views</div>
-                </div>
-            </div>
-        </div>
-        <div class="caption bottom-left">WEEK 1. She watches every night.</div>
-    </div>
-
-    <!-- Panel 2 — RMA visit -->
-    <div class="panel">
-        <div class="panel-art panel-blue">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:50px;">🏛️</div>
-                <div style="font-size:35px;">🧕📋</div>
-            </div>
-        </div>
-        <div class="bubble" style="top:12px;left:50%;transform:translateX(-50%);max-width:160px;">
-            <em>"Excuse me — I want to understand the crypto regulations in Bhutan."</em>
-        </div>
-        <div class="caption bottom-left">WEEK 2. She visits the RMA Bhutan.</div>
-    </div>
-
-    <!-- Panel 3 — Talking to bank -->
-    <div class="panel">
-        <div class="panel-art" style="background:linear-gradient(160deg,#2a1a3a,#3a2a5a);">
-            <div class="panel-art-bg" style="gap:20px;">
-                <div style="font-size:55px;">🧕</div>
-                <div style="font-size:55px;">👨‍💼</div>
-            </div>
-        </div>
-        <div class="bubble shout right" style="top:12px;left:auto;right:12px;max-width:150px;font-size:11px;">
-            "What is your bank's position on crypto transactions?"
-        </div>
-        <div class="caption bottom-left">WEEK 3. She asks questions nobody asked before.</div>
-    </div>
-
-    <!-- Panel 4 — Practice quiz again -->
-    <div class="panel">
-        <div class="panel-art panel-tech">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:45px;">🧕💻</div>
-                <div class="screen-panel" style="position:relative;width:160px;">
-                    <div class="screen-header">DrukShift Quiz — Retake</div>
-                    <div class="screen-score" style="font-size:36px;">71%</div>
-                    <div style="font-size:10px;color:#aaa;text-align:center;">↑ +13% improvement!</div>
-                </div>
-            </div>
-        </div>
-        <div class="sfx" style="font-size:24px;color:var(--teal);top:8px;">LEVEL UP!</div>
-        <div class="caption bottom-left gold">WEEK 4. She retakes the quiz. 71%.</div>
-    </div>
-
-    <!-- Panel 5 — Shop sign -->
-    <div class="panel">
-        <div class="panel-art panel-warm">
-            <div class="panel-art-bg" style="flex-direction:column;gap:12px;">
-                <div style="font-size:50px;">🏪</div>
-                <div style="background:white;border:3px solid #333;padding:10px 16px;border-radius:4px;text-align:center;transform:rotate(-2deg);box-shadow:3px 3px 0 #333;">
-                    <div style="font-size:11px;color:#333;font-weight:700;">DEKI'S SILK SHOP</div>
-                    <div style="font-size:10px;color:var(--teal);margin-top:4px;">📱 Digital payments<br>coming soon!</div>
-                </div>
-            </div>
-        </div>
-        <div class="caption bottom-left" style="background:var(--teal);">She puts up a sign. The first one in the market.</div>
-    </div>
-
-    <!-- Panel 6 — One month later text -->
-    <div class="panel" style="background:var(--ink);display:flex;align-items:center;justify-content:center;">
-        <div style="text-align:center;padding:24px;">
-            <div style="font-family:'Bangers',cursive;font-size:clamp(32px,4vw,52px);color:var(--gold);line-height:1;letter-spacing:2px;margin-bottom:12px;">ONE MONTH<br>LATER...</div>
-            <div style="font-family:'Noto Serif',serif;font-style:italic;font-size:13px;color:rgba(255,255,255,0.6);line-height:1.8;">She kept learning.<br>She kept asking.<br>She kept shifting.</div>
-            <div style="margin-top:20px;font-size:40px;">🕐➡️🌟</div>
-        </div>
-    </div>
-
-</div>
-<div class="page-num">6</div>
-</div>
-</div>
-
-<!-- ══════ PAGE 7 — THE MOMENT ══════ -->
-<div class="page" id="page-7">
-<div class="panel-page" style="background:var(--paper);">
-<div class="page-bg-halftone"></div>
-<div class="chapter-title" style="position:relative;border:none;margin-bottom:0;background:var(--teal);">
-    <div class="chapter-num" style="color:var(--white);">CHAPTER 05</div>
-    <div class="chapter-name" style="color:var(--white);">THE PAYMENT THAT CHANGED EVERYTHING</div>
-</div>
-
-<!-- Full dramatic spread -->
-<div style="flex:1;display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr;min-height:calc(100vh - 60px);">
-
-    <!-- BIG panel — the moment -->
-    <div class="panel" style="grid-row:1/3;min-height:400px;">
-        <div class="panel-art panel-joy">
-            <div class="panel-art-bg" style="flex-direction:column;gap:20px;">
-                <div style="display:flex;gap:24px;align-items:flex-end;">
-                    <div style="font-size:80px;">🧕</div>
-                    <div style="font-size:80px;">🧑‍💼</div>
-                </div>
-                <div style="display:flex;gap:16px;align-items:center;">
-                    <div style="font-size:50px;">📱</div>
-                    <div style="font-size:30px;">→</div>
-                    <div style="font-size:50px;">📱</div>
-                </div>
-                <div style="background:rgba(42,157,143,0.2);border:3px solid var(--teal);border-radius:12px;padding:12px 20px;text-align:center;">
-                    <div style="font-family:'Bangers',cursive;font-size:24px;color:var(--teal);letter-spacing:2px;">PAYMENT RECEIVED</div>
-                    <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">✅ Nu. 2,400 · Confirmed</div>
-                </div>
-            </div>
-            <div class="speed-lines" style="opacity:0.2;"></div>
-        </div>
-        <div class="sfx" style="font-size:40px;color:var(--teal);top:20px;text-shadow:3px 3px 0 var(--ink);">KA-CHING! 💫</div>
-        <div class="bubble shout" style="bottom:80px;left:50%;transform:translateX(-50%);background:var(--teal);color:white;font-size:14px;">
-            PAYMENT RECEIVED! 🎉
-        </div>
-    </div>
-
-    <!-- Panel — Tourist amazed -->
-    <div class="panel">
-        <div class="panel-art" style="background:linear-gradient(160deg,#1a3a2a,#2a6a4a);">
-            <div class="panel-art-bg">
-                <div style="font-size:70px;">🧑‍💼😲</div>
-            </div>
-        </div>
-        <div class="bubble bottom" style="top:12px;left:12px;max-width:150px;">
-            "Wait — you accept crypto NOW?! Amazing!"
-        </div>
-    </div>
-
-    <!-- Panel — Deki smiles -->
-    <div class="panel">
-        <div class="panel-art panel-hope">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:80px;">🧕😊</div>
-                <div style="font-family:'Bangers',cursive;font-size:20px;color:white;letter-spacing:2px;text-shadow:1px 1px 0 var(--ink);">SHIFT FORWARD</div>
-            </div>
-        </div>
-        <div class="caption bottom-right" style="background:var(--teal);">The first crypto payment in Paro market.</div>
-    </div>
-
-</div>
-<div class="page-num">7</div>
-</div>
-</div>
-
-<!-- ══════ PAGE 8 — THE RIPPLE ══════ -->
-<div class="page" id="page-8">
-<div class="panel-page">
-<div class="page-bg-halftone"></div>
-<div class="chapter-title" style="position:relative;border:none;margin-bottom:0;">
-    <div class="chapter-num">CHAPTER 06</div>
-    <div class="chapter-name">THE RIPPLE EFFECT</div>
-</div>
-<div class="panel-grid" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 0.6fr;flex:1;min-height:calc(100vh - 60px);">
-
-    <!-- Panel — Women gathering -->
-    <div class="panel wide">
-        <div class="panel-art" style="background:linear-gradient(160deg,#2a3a1a,#4a6a3a);">
-            <div class="panel-art-bg" style="gap:12px;">
-                <div style="font-size:55px;">🧕</div>
-                <div style="font-size:55px;">👩</div>
-                <div style="font-size:55px;">👩‍🦱</div>
-                <div style="font-size:55px;">👩‍🦳</div>
-            </div>
-        </div>
-        <div class="sfx" style="font-size:20px;color:var(--gold);top:8px;left:auto;right:20px;transform:none;">THAT EVENING...</div>
-        <div class="bubble shout" style="bottom:60px;left:50%;transform:translateX(-50%);">
-            "Come see this — DrukShift! Free quiz. It tells you YOUR readiness!"
-        </div>
-        <div class="caption bottom-left">She shares it with her neighbours. All of them.</div>
-    </div>
-
-    <!-- Panel — Nephew at school -->
-    <div class="panel">
-        <div class="panel-art panel-blue">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:50px;">👦📱</div>
-                <div style="font-size:30px;">👨‍🎓👩‍🎓</div>
-            </div>
-        </div>
-        <div class="bubble" style="top:12px;left:12px;max-width:150px;">
-            "My aunt's project — try it! It's actually for us!"
-        </div>
-        <div class="caption bottom-left">Her nephew shares it at college.</div>
-    </div>
-
-    <!-- Panel — Farmer in field -->
-    <div class="panel">
-        <div class="panel-art panel-market">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;">
-                <div style="font-size:50px;">👨‍🌾📱</div>
-                <div style="background:rgba(0,0,0,0.4);padding:8px;border-radius:4px;font-size:10px;color:white;text-align:center;">
-                    DrukShift Quiz<br>Question 6 of 10...
-                </div>
-            </div>
-        </div>
-        <div class="caption bottom-left">A farmer in Bumthang takes the quiz.</div>
-    </div>
-
-    <!-- Panel — Admin dashboard filling up -->
-    <div class="panel wide" style="min-height:120px;">
-        <div class="panel-art" style="background:#05070f;">
-            <div class="panel-art-bg" style="flex-direction:column;gap:8px;padding:16px;">
-                <div style="background:#0a1a0a;border:2px solid var(--teal);border-radius:8px;padding:12px;width:100%;max-width:400px;">
-                    <div style="font-family:'Bangers',cursive;font-size:16px;color:var(--teal);letter-spacing:2px;margin-bottom:8px;">DRUKSHIFT ADMIN DASHBOARD</div>
-                    <div style="display:flex;gap:16px;flex-wrap:wrap;">
-                        <div style="text-align:center;"><div style="font-family:'Bangers',cursive;font-size:28px;color:var(--gold);" id="rippleCount">9</div><div style="font-size:9px;color:#888;">total users</div></div>
-                        <div style="text-align:center;"><div style="font-family:'Bangers',cursive;font-size:28px;color:var(--teal);">74%</div><div style="font-size:9px;color:#888;">avg score</div></div>
-                        <div style="text-align:center;"><div style="font-family:'Bangers',cursive;font-size:28px;color:#e9c46a;">🇧🇹</div><div style="font-size:9px;color:#888;">bhutan</div></div>
-                    </div>
-                    <div style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;" id="rippleDots"></div>
-                </div>
-            </div>
-        </div>
-        <div class="caption top" style="background:var(--teal);">The admin dashboard fills with real Bhutanese voices. One by one.</div>
-    </div>
-
-</div>
-<div class="page-num">8</div>
-</div>
-</div>
-
-<!-- ══════ PAGE 9 — FINALE ══════ -->
-<div class="page" id="page-9">
-<div class="final-page">
-    <div class="final-stars" id="finalStars"></div>
-
-    <div class="final-dragon">🐉</div>
-
-    <div style="font-family:'Bangers',cursive;font-size:clamp(14px,2vw,18px);letter-spacing:6px;color:var(--teal);margin-bottom:16px;text-transform:uppercase;">The End · But Also The Beginning</div>
-
-    <div class="final-title">SHIFT<br>FORWARD<br>BHUTAN</div>
-
-    <div class="final-sub">
-        "Deki's story is not a fantasy.<br>
-        It is what happens when one curious person<br>
-        gets the right information — in their own language,<br>
-        about their own life, aligned with their own values.<br>
-        <em>This is why DrukShift was built.</em>"
-    </div>
-
-    <div class="final-stats">
-        <div class="final-stat">
-            <div class="final-stat-num">113</div>
-            <div class="final-stat-lbl">Bhutanese<br>Voices Surveyed</div>
-        </div>
-        <div class="final-stat">
-            <div class="final-stat-num">80%</div>
-            <div class="final-stat-lbl">Overall<br>Readiness</div>
-        </div>
-        <div class="final-stat">
-            <div class="final-stat-num">10</div>
-            <div class="final-stat-lbl">Questions That<br>Listen</div>
-        </div>
-        <div class="final-stat">
-            <div class="final-stat-num">1</div>
-            <div class="final-stat-lbl">Bhutanese<br>Student</div>
-        </div>
-    </div>
-
-    <a href="https://kinzang7066.github.io/Cryptocurrency_Readiness_In_Bhutan/" target="_blank" class="final-btn">
-        🇧🇹 TAKE THE QUIZ NOW
-    </a>
-
-    <div class="final-credit">
-        Story · Research · Website by Kinzang Choden<br>
-        BDS Internship 2026 · Bhutan Data Scientists Pvt. Ltd<br>
-        <span style="color:var(--teal);">Druk = Thunder Dragon · Shift = The Future</span>
-    </div>
-
-    <!-- Back to start -->
-    <button onclick="goToPage(1)" style="margin-top:24px;background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.4);padding:8px 20px;border-radius:50px;cursor:pointer;font-size:12px;font-family:'Outfit',sans-serif;">↩ Read Again</button>
-</div>
-<div class="page-num" style="color:var(--gold);">9</div>
+<div class="pnum" style="color:#e9c46a;">10</div>
 </div>
 
 </div><!-- end comic -->
 
-<!-- NAVIGATION -->
-<div class="comic-nav" id="comicNav" style="display:none;">
-    <button class="nav-btn" id="prevBtn" onclick="prevPage()" disabled>◀</button>
-    <div class="page-indicator" id="pageIndicator">1 / 9</div>
-    <button class="nav-btn" id="nextBtn" onclick="nextPage()">▶</button>
+<!-- NAV -->
+<div class="nav" id="nav" style="display:none;">
+    <button class="nav-btn" id="prevBtn" onclick="prev()">◀</button>
+    <div class="nav-ind" id="navInd">1 / 10</div>
+    <button class="nav-btn" id="nextBtn" onclick="next()">▶</button>
 </div>
 
 <script>
-var currentPage = 1;
-var totalPages  = 9;
-
-// Generate stars
-function makeStars(containerId, count) {
-    var c = document.getElementById(containerId);
-    if (!c) return;
-    for (var i = 0; i < count; i++) {
-        var s = document.createElement('div');
-        s.className = 'star';
-        s.style.left  = Math.random() * 100 + '%';
-        s.style.top   = Math.random() * 100 + '%';
-        s.style.animationDelay = Math.random() * 3 + 's';
-        s.style.fontSize = (Math.random() * 8 + 8) + 'px';
-        s.textContent = '✦';
-        c.appendChild(s);
-    }
-}
-makeStars('coverStars', 30);
-makeStars('finalStars', 50);
-
-// Ripple dots
-function makeRippleDots() {
-    var c = document.getElementById('rippleDots');
-    if (!c) return;
-    var names = ['Deki','Sonam','Karma','Tenzin','Pema','Dorji','Rinzin','Ugyen','Chimi'];
-    names.forEach(function(n) {
-        var d = document.createElement('div');
-        d.style.cssText = 'background:rgba(42,157,143,0.3);border:1px solid var(--teal);border-radius:50px;padding:2px 8px;font-size:9px;color:#aaa;';
-        d.textContent = '● ' + n;
-        c.appendChild(d);
-    });
-}
-makeRippleDots();
+var cur = 1, total = 10;
 
 function startComic() {
-    var splash = document.getElementById('splash');
-    splash.style.opacity = '0';
+    document.getElementById('splash').style.opacity = '0';
     setTimeout(function() {
-        splash.style.display = 'none';
+        document.getElementById('splash').style.display = 'none';
         document.getElementById('comic').style.display = 'block';
-        document.getElementById('comicNav').style.display = 'flex';
+        document.getElementById('nav').style.display = 'flex';
         updateNav();
-    }, 600);
+    }, 500);
 }
 
-function goToPage(n) {
-    var swipe = document.getElementById('swipe');
-    swipe.classList.remove('animate');
-    void swipe.offsetWidth;
-    swipe.classList.add('animate');
-
-    setTimeout(function() {
-        document.getElementById('page-' + currentPage).classList.remove('active');
-        currentPage = n;
-        var newPage = document.getElementById('page-' + currentPage);
-        newPage.classList.add('active');
-        window.scrollTo(0, 0);
-        updateNav();
-    }, 160);
+function goTo(n) {
+    document.getElementById('p' + cur).classList.remove('active');
+    cur = n;
+    document.getElementById('p' + cur).classList.add('active');
+    document.getElementById('p' + cur).scrollTop = 0;
+    updateNav();
 }
 
-function nextPage() {
-    if (currentPage < totalPages) goToPage(currentPage + 1);
-}
-
-function prevPage() {
-    if (currentPage > 1) goToPage(currentPage - 1);
-}
+function next() { if (cur < total) goTo(cur + 1); }
+function prev() { if (cur > 1) goTo(cur - 1); }
 
 function updateNav() {
-    document.getElementById('prevBtn').disabled = currentPage === 1;
-    document.getElementById('nextBtn').disabled = currentPage === totalPages;
-    document.getElementById('pageIndicator').textContent = currentPage + ' / ' + totalPages;
-    var pct = ((currentPage - 1) / (totalPages - 1)) * 100;
-    document.getElementById('progress').style.width = pct + '%';
+    document.getElementById('prevBtn').disabled = cur === 1;
+    document.getElementById('nextBtn').disabled = cur === total;
+    document.getElementById('navInd').textContent = cur + ' / ' + total;
+    document.getElementById('prog').style.width = ((cur - 1) / (total - 1) * 100) + '%';
 }
 
-// Keyboard navigation
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' || e.key === ' ') nextPage();
-    if (e.key === 'ArrowLeft') prevPage();
+    if (e.key === 'ArrowRight' || e.key === ' ') next();
+    if (e.key === 'ArrowLeft') prev();
 });
 
-// Touch swipe
-var touchStartX = 0;
-document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
+var tx = 0;
+document.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; });
 document.addEventListener('touchend', function(e) {
-    var diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) { if (diff > 0) nextPage(); else prevPage(); }
+    var diff = tx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { if (diff > 0) next(); else prev(); }
 });
 </script>
 </body>
