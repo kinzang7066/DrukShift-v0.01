@@ -966,7 +966,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
             <div class="gnh-pill">🤝 Community Vitality</div>
             <div class="gnh-pill">⏰ Time Use</div>
         </div>
-        <button class="btn-gnh" onclick="openGNHModal()">🇧🇹 View GNH Story →</button>
+        <button class="btn-gnh" onclick="openGNHModal()">🇧🇹 View GNH Story on Tableau ↗</button>
         <span class="btn-note">Opens interactive GNH story — no download required</span>
     </div>
 </section>
@@ -984,7 +984,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
             <div class="solution-card solution-card-wide"><div class="solution-num">05</div><div class="solution-icon">🤝</div><h3>Start With Communities — Let Adoption Grow Naturally</h3><p>The majority said Maybe — not No. These undecided people are waiting to see crypto work in real life. Encourage local shops and small businesses to accept crypto as payment. When people see their favorite restaurant using crypto safely — it becomes real, relatable and trustworthy.</p></div>
         </div>
         <div style="text-align:center;margin-top:48px;">
-            <button class="btn-solutions" onclick="openSolutionsModal()">💡 View Full Solutions Story →</button>
+            <a href="https://public.tableau.com/app/profile/kinzang.choden5860/viz/Tableaucryptoreadiness/Story4?publish=yes" target="_blank" class="btn-solutions">💡 View Solutions on Tableau ↗</a>
             <span class="btn-note" style="display:block;margin-top:12px;color:var(--muted)">Opens interactive Tableau story — no download required</span>
         </div>
     </div>
@@ -1001,7 +1001,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
             <div class="readiness-pill">⚠️ 55+ score lowest at 7.83</div>
             <div class="readiness-pill">📚 Education is the key gap</div>
         </div>
-        <button class="btn-readiness" onclick="openReadinessModal()">📈 View Readiness Story →</button>
+        <button class="btn-readiness" onclick="openReadinessModal()">📈 View Readiness on Tableau ↗</button>
         <span class="btn-note">Opens interactive story — no download required</span>
     </div>
 </section>
@@ -1056,10 +1056,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
                 </div>
             </div>
         </div>
-        <div style="text-align:center;margin-top:48px;">
-            <button onclick="openFindingsModal()" style="display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--mid),#1a3a6a);color:var(--white);font-size:15px;font-weight:700;padding:18px 48px;border-radius:10px;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 8px 30px rgba(26,74,122,0.3);">📊 View Full Findings Story →</button>
-            <span style="display:block;margin-top:12px;font-size:12px;color:var(--muted);">Opens interactive Tableau findings — no download required</span>
-        </div>
+
     </div>
 </section>
 
@@ -1392,21 +1389,21 @@ async function fetchHistory(score) {
     } catch (err) { console.error('Could not fetch history', err); }
 }
 
-// MODALS
-function openViz(overlayId,bodyId,src){var overlay=document.getElementById(overlayId),body=document.getElementById(bodyId);if(!body.querySelector('tableau-viz')){var viz=document.createElement('tableau-viz');viz.setAttribute('src',src);viz.setAttribute('width','100%');viz.setAttribute('height','900');viz.setAttribute('hide-tabs','false');viz.setAttribute('toolbar','bottom');body.appendChild(viz);}overlay.style.display='flex';document.body.style.overflow='hidden';setTimeout(function(){overlay.classList.add('active');},10);}
-function closeViz(overlayId){var overlay=document.getElementById(overlayId);overlay.classList.remove('active');setTimeout(function(){overlay.style.display='none';document.body.style.overflow='';},300);}
-function openFindingsModal(){openViz('findingsModalOverlay','findingsModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Findings');}
-function closeFindingsModal(){closeViz('findingsModalOverlay');}
-function closeGNHModal(){closeViz('gnhModalOverlay');}
-function openReadinessModal(){openViz('readinessModalOverlay','readinessModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Readinesss');}
-function closeReadinessModal(){closeViz('readinessModalOverlay');}
-function openScamModal(){openViz('scamModalOverlay','scamModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story4');}
-function closeScamModal(){closeViz('scamModalOverlay');}
-function openSolutionsModal(){openViz('solutionsModalOverlay','solutionsModalBody','https://public.tableau.com/views/Tableaucryptoreadiness/Story4');}
-function closeSolutionsModal(){closeViz('solutionsModalOverlay');}
-function closeModal(){closeViz('modalOverlay');}
-function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeGNHModal();closeReadinessModal();closeScamModal();closeSolutionsModal();closeModal();closeFindingsModal();}});
+// MODALS — ALL OPEN IN NEW TAB
+function openGNHModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story2?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
+function openReadinessModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story1?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
+function openSolutionsModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story4?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
+function openFindingsModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story4?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
+function openScamModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story4?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
+function closeGNHModal(){}
+function closeReadinessModal(){}
+function closeScamModal(){}
+function closeSolutionsModal(){}
+function closeModal(){}
+function closeFindingsModal(){}
+function closeViz(){}
+function handleOverlayClick(){}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeGNHModal();closeReadinessModal();closeScamModal();closeSolutionsModal();closeModal();}});
 
 // QUIZ
 var qQuestions=[
