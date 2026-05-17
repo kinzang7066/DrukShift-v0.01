@@ -398,6 +398,78 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     .q-compare-val{font-size:20px;}
 }
 
+
+/* ═══════════════════════════════════════
+   BREADCRUMB / SECTION NAV
+═══════════════════════════════════════ */
+#breadcrumb{
+    position:fixed;top:64px;left:0;right:0;z-index:98;
+    background:rgba(8,25,45,0.95);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    padding:0 32px;overflow-x:auto;
+    display:flex;align-items:center;gap:0;
+    scrollbar-width:none;-ms-overflow-style:none;
+    transition:transform 0.3s ease,opacity 0.3s ease;
+}
+#breadcrumb::-webkit-scrollbar{display:none;}
+#breadcrumb.hidden{transform:translateY(-100%);opacity:0;}
+.bc-item{
+    display:flex;align-items:center;gap:0;
+    flex-shrink:0;
+}
+.bc-link{
+    font-size:11px;font-weight:500;color:rgba(255,255,255,0.4);
+    text-decoration:none;padding:10px 14px;
+    letter-spacing:0.5px;white-space:nowrap;
+    transition:all 0.2s;border-bottom:2px solid transparent;
+    cursor:pointer;background:none;border-top:none;
+    border-left:none;border-right:none;font-family:'Outfit',sans-serif;
+}
+.bc-link:hover{color:rgba(255,255,255,0.8);}
+.bc-link.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
+.bc-sep{color:rgba(255,255,255,0.15);font-size:10px;padding:0 2px;}
+
+/* ── MOBILE BREADCRUMB ── */
+@media(max-width:768px){
+    #breadcrumb{top:56px;padding:0 16px;gap:0;}
+    .bc-link{font-size:10px;padding:8px 10px;}
+}
+
+/* ═══════════════════════════════════════
+   BETTER MOBILE OPTIMISATION
+═══════════════════════════════════════ */
+@media(max-width:768px){
+    /* sections padding */
+    .gnh-section,.story-section{padding:60px 20px;}
+    .stats-section{padding:40px 20px;}
+    /* hero */
+    .hero{padding:120px 20px 60px;}
+    .hero h1{font-size:clamp(32px,8vw,52px);}
+    /* cards */
+    .gnh-grid{grid-template-columns:1fr;}
+    .res-tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;}
+    /* quiz */
+    .q-options-grid{grid-template-columns:1fr;}
+    /* results */
+    .result-domains{grid-template-columns:1fr;}
+    .badge-row{flex-direction:column;align-items:center;}
+    /* reports */
+    .reports-grid{grid-template-columns:1fr;}
+    /* XP sidebar */
+    #xp-sidebar{display:none;}
+    /* game button */
+    #dsGameBtn{width:48px;height:48px;font-size:16px;}
+    /* floating quiz btn */
+    #floatingQuizBtn{bottom:80px;right:16px;}
+}
+@media(max-width:480px){
+    .hero h1{font-size:28px;}
+    .q-likert-btn{font-size:11px;height:34px;min-width:32px;}
+    .quiz-card{padding:20px 16px;}
+    nav{padding:12px 16px;}
+    .btn-primary,.btn-secondary{font-size:13px;padding:12px 20px;}
+}
+
 /* ═══════════════════════════════════════
    LOADING SCREEN
 ═══════════════════════════════════════ */
@@ -417,6 +489,7 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
    SCROLL ANIMATIONS
 ═══════════════════════════════════════ */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease;}
+section{scroll-margin-top:100px;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 .reveal-left{opacity:0;transform:translateX(-40px);transition:opacity 0.7s ease,transform 0.7s ease;}
 .reveal-left.visible{opacity:1;transform:translateX(0);}
@@ -786,6 +859,20 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
     <a href="#quiz" class="lc-share">✨ Take the Quiz →</a>
 </div>
 <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb">
+    <div class="bc-item"><button class="bc-link active" onclick="bcGo('home')">🏠 Home</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('about')">About</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('gnh')">GNH Story</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('solutions')">Solutions</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('readiness')">Readiness</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('findings')">Findings</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('reports')">Reports</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('quiz')">Quiz</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('resources')">Resources</button></div>
+</div>
 
 <section class="hero" id="home">
     <div class="hero-slides">
@@ -2351,6 +2438,50 @@ window.addEventListener('load', function() {
             });
         }
     });
+});
+
+
+// ── BREADCRUMB ──
+var bcSections = ['home','about','stats','story','gnh','solutions','readiness','findings','reports','quiz','resources'];
+var bcLabels   = {home:'Home',about:'About',stats:'About',story:'About',gnh:'GNH Story',solutions:'Solutions',readiness:'Readiness',findings:'Findings',reports:'Reports',quiz:'Quiz',resources:'Resources'};
+
+function bcGo(id){
+    var el = document.getElementById(id);
+    if(el){
+        var offset = 64 + 36;
+        var top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({top:top, behavior:'smooth'});
+    }
+}
+
+function bcUpdate(){
+    var scrollY = window.scrollY + 120;
+    var current = 'home';
+    bcSections.forEach(function(id){
+        var el = document.getElementById(id);
+        if(el && el.offsetTop <= scrollY) current = id;
+    });
+    document.querySelectorAll('.bc-link').forEach(function(btn){
+        btn.classList.remove('active');
+    });
+    var label = bcLabels[current] || current;
+    document.querySelectorAll('.bc-link').forEach(function(btn){
+        if(btn.textContent.trim().replace('🏠 ','') === label || btn.textContent.trim() === label){
+            btn.classList.add('active');
+        }
+    });
+    // hide breadcrumb at very top
+    var bc = document.getElementById('breadcrumb');
+    if(bc){
+        if(window.scrollY < 80){bc.classList.add('hidden');}
+        else{bc.classList.remove('hidden');}
+    }
+}
+
+window.addEventListener('scroll', bcUpdate, {passive:true});
+window.addEventListener('load', function(){
+    bcUpdate();
+    document.getElementById('breadcrumb').classList.add('hidden');
 });
 
 </script>
