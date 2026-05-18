@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DrukShift Pay — Crypto Payment Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#08192d;--deep:#0f2a45;--teal:#2a9d8f;--gold:#e9c46a;
+  --accent:#f4a261;--red:#e63946;--white:#ffffff;--muted:#7a9bb5;
+  --light:#eef2f7;--text:#2d4a5a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:#f0f4f8;color:var(--text);min-height:100vh;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--navy);padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.topbar-logo{font-size:18px;font-weight:700;color:white;}
+.topbar-logo span{color:var(--accent);}
+.topbar-tag{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.topbar-back{font-size:12px;color:var(--accent);text-decoration:none;
+  border:1px solid rgba(244,162,97,0.3);padding:6px 14px;border-radius:50px;
+  transition:all 0.2s;}
+.topbar-back:hover{background:rgba(244,162,97,0.1);}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(160deg,#04101e,#08192d,#0f2a45);
+  padding:60px 32px;text-align:center;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(42,157,143,0.1);border:1px solid rgba(42,157,143,0.3);
+  color:var(--teal);font-size:11px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;padding:8px 20px;border-radius:50px;margin-bottom:20px;}
+.hero h1{font-size:clamp(28px,5vw,48px);font-weight:700;color:white;
+  line-height:1.1;margin-bottom:12px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:15px;color:var(--muted);max-width:520px;margin:0 auto 32px;line-height:1.8;}
+.hero-note{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(233,196,106,0.1);border:1px solid rgba(233,196,106,0.3);
+  color:var(--gold);font-size:12px;padding:8px 16px;border-radius:8px;}
+
+/* ── MAIN LAYOUT ── */
+.main{max-width:1000px;margin:40px auto;padding:0 24px 80px;}
+
+/* ── STEPS INDICATOR ── */
+.steps{display:flex;align-items:center;justify-content:center;
+  gap:0;margin-bottom:40px;}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;
+  position:relative;}
+.step-circle{width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;transition:all 0.3s;}
+.step-circle.done{background:var(--teal);color:white;}
+.step-circle.active{background:var(--accent);color:var(--navy);}
+.step-circle.pending{background:#dce6f0;color:#aaa;}
+.step-label{font-size:10px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;color:var(--muted);}
+.step-line{width:60px;height:2px;background:#dce6f0;margin-bottom:20px;}
+.step-line.done{background:var(--teal);}
+
+/* ── SCREENS ── */
+.screen{display:none;animation:fadeIn 0.4s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── SHOP CARD ── */
+.shop-card{
+  background:white;border-radius:20px;
+  box-shadow:0 4px 40px rgba(8,25,45,0.08);
+  overflow:hidden;max-width:480px;margin:0 auto;
+}
+.shop-header{
+  background:linear-gradient(135deg,#08192d,#0f2a45);
+  padding:28px 24px;text-align:center;position:relative;
+}
+.shop-flag{font-size:32px;margin-bottom:8px;}
+.shop-name{font-size:20px;font-weight:700;color:white;margin-bottom:4px;}
+.shop-sub{font-size:12px;color:var(--muted);}
+.shop-verified{display:inline-flex;align-items:center;gap:6px;
+  background:rgba(42,157,143,0.2);border:1px solid rgba(42,157,143,0.4);
+  color:var(--teal);font-size:10px;font-weight:600;letter-spacing:1px;
+  padding:4px 12px;border-radius:50px;margin-top:10px;}
+.shop-body{padding:28px 24px;}
+.amount-box{
+  background:#f8fafc;border:2px solid #e4eaf2;border-radius:14px;
+  padding:20px;text-align:center;margin-bottom:20px;
+}
+.amount-label{font-size:11px;color:var(--muted);font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.amount-ngultrum{font-size:36px;font-weight:700;color:var(--navy);line-height:1;}
+.amount-crypto{font-size:13px;color:var(--teal);margin-top:6px;font-weight:600;}
+.amount-rate{font-size:11px;color:var(--muted);margin-top:4px;}
+.item-list{margin-bottom:20px;}
+.item-row{display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;}
+.item-row:last-child{border-bottom:none;}
+.item-name{color:var(--text);}
+.item-price{font-weight:600;color:var(--navy);}
+
+/* ── QR CODE ── */
+.qr-container{text-align:center;margin:20px 0;}
+.qr-box{
+  display:inline-block;background:white;
+  border:3px solid var(--navy);border-radius:12px;
+  padding:16px;position:relative;
+}
+.qr-inner{width:160px;height:160px;position:relative;}
+.qr-corner{position:absolute;width:28px;height:28px;border-color:var(--navy);border-style:solid;}
+.qr-corner.tl{top:0;left:0;border-width:4px 0 0 4px;border-radius:4px 0 0 0;}
+.qr-corner.tr{top:0;right:0;border-width:4px 4px 0 0;border-radius:0 4px 0 0;}
+.qr-corner.bl{bottom:0;left:0;border-width:0 0 4px 4px;border-radius:0 0 0 4px;}
+.qr-corner.br{bottom:0;right:0;border-width:0 4px 4px 0;border-radius:0 0 4px 0;}
+.qr-dots{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;padding:8px;}
+.qr-dot{width:12px;height:12px;border-radius:1px;}
+.qr-logo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:white;border:2px solid #e4eaf2;border-radius:8px;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;}
+.qr-label{font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:1px;}
+.wallet-address{
+  background:#f8fafc;border:1px solid #e4eaf2;border-radius:8px;
+  padding:10px 14px;font-size:10px;color:var(--muted);
+  font-family:monospace;word-break:break-all;text-align:center;
+  margin:12px 0;
+}
+
+/* ── BUTTONS ── */
+.btn-pay{
+  width:100%;padding:16px;background:linear-gradient(135deg,var(--teal),#1a7a6e);
+  color:white;font-size:15px;font-weight:700;border:none;border-radius:12px;
+  cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.btn-pay:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(42,157,143,0.3);}
+.btn-secondary{
+  width:100%;padding:14px;background:transparent;
+  color:var(--muted);font-size:13px;font-weight:500;
+  border:1px solid #e4eaf2;border-radius:12px;
+  cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;
+  margin-top:10px;
+}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal);}
+
+/* ── SCANNING SCREEN ── */
+.scan-card{
+  background:white;border-radius:20px;
+  box-shadow:0 4px 40px rgba(8,25,45,0.08);
+  padding:40px 32px;text-align:center;
+  max-width:400px;margin:0 auto;
+}
+.scan-animation{
+  width:120px;height:120px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(42,157,143,0.1),rgba(42,157,143,0.2));
+  border:3px solid var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;font-size:48px;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(42,157,143,0.3);}
+  50%{transform:scale(1.05);box-shadow:0 0 0 20px rgba(42,157,143,0);}}
+.scan-title{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.scan-sub{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+.progress-bar{height:4px;background:#e4eaf2;border-radius:2px;overflow:hidden;margin-bottom:12px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));
+  border-radius:2px;width:0%;transition:width 0.1s linear;}
+.progress-text{font-size:11px;color:var(--muted);text-align:center;}
+.blockchain-steps{text-align:left;margin:20px 0;}
+.bc-step{display:flex;align-items:center;gap:12px;padding:10px 0;
+  border-bottom:1px solid #f0f4f8;font-size:13px;}
+.bc-step:last-child{border-bottom:none;}
+.bc-step-icon{width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  flex-shrink:0;}
+.bc-step-icon.done{background:rgba(42,157,143,0.1);}
+.bc-step-icon.loading{background:rgba(233,196,106,0.1);animation:spin 1s linear infinite;}
+.bc-step-icon.pending{background:#f0f4f8;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);};}
+.bc-step-text{flex:1;}
+.bc-step-label{font-weight:600;color:var(--navy);}
+.bc-step-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.bc-step-status{font-size:11px;font-weight:600;}
+.bc-step-status.done{color:var(--teal);}
+.bc-step-status.loading{color:var(--gold);}
+.bc-step-status.pending{color:#ccc;}
+
+/* ── SUCCESS SCREEN ── */
+.success-card{
+  background:white;border-radius:20px;
+  box-shadow:0 4px 40px rgba(8,25,45,0.08);
+  overflow:hidden;max-width:480px;margin:0 auto;
+}
+.success-header{
+  background:linear-gradient(135deg,var(--teal),#1a7a6e);
+  padding:40px 32px;text-align:center;
+}
+.success-icon{font-size:64px;margin-bottom:16px;animation:bounce 0.6s ease;}
+@keyframes bounce{0%{transform:scale(0);}60%{transform:scale(1.2);}100%{transform:scale(1);}}
+.success-title{font-size:24px;font-weight:700;color:white;margin-bottom:8px;}
+.success-sub{font-size:13px;color:rgba(255,255,255,0.7);}
+.success-body{padding:28px 24px;}
+.receipt-row{display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px solid #f0f4f8;font-size:13px;}
+.receipt-row:last-child{border-bottom:none;}
+.receipt-label{color:var(--muted);}
+.receipt-value{font-weight:600;color:var(--navy);}
+.receipt-value.teal{color:var(--teal);}
+.receipt-value.green{color:#2d8a4e;}
+.txid{font-family:monospace;font-size:10px;color:var(--muted);
+  background:#f8fafc;border:1px solid #e4eaf2;
+  border-radius:6px;padding:6px 10px;margin-top:4px;
+  word-break:break-all;display:block;}
+.ghn-badge{
+  background:linear-gradient(135deg,rgba(42,157,143,0.08),rgba(233,196,106,0.08));
+  border:1px solid rgba(42,157,143,0.2);border-radius:12px;
+  padding:16px;margin:16px 0;text-align:center;
+}
+.gnh-title{font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+.gnh-text{font-size:13px;color:var(--text);line-height:1.7;font-style:italic;}
+.confetti{position:fixed;top:0;left:0;right:0;bottom:0;
+  pointer-events:none;z-index:999;overflow:hidden;}
+.confetti-piece{position:absolute;width:10px;height:10px;
+  border-radius:2px;animation:confettiFall linear forwards;}
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0;}
+}
+.btn-done{
+  width:100%;padding:16px;
+  background:linear-gradient(135deg,var(--accent),#e8935a);
+  color:var(--navy);font-size:15px;font-weight:700;
+  border:none;border-radius:12px;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:all 0.2s;margin-top:8px;
+}
+.btn-done:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(244,162,97,0.3);}
+
+/* ── HOW IT WORKS ── */
+.how-section{max-width:700px;margin:48px auto 0;padding:0 24px;}
+.how-title{font-size:20px;font-weight:700;color:var(--navy);
+  text-align:center;margin-bottom:8px;}
+.how-sub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:28px;}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.how-step{background:white;border-radius:14px;padding:20px;text-align:center;
+  box-shadow:0 2px 20px rgba(8,25,45,0.06);}
+.how-step-num{width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),#1a7a6e);
+  color:white;font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.how-step-icon{font-size:28px;margin-bottom:8px;}
+.how-step-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.how-step-body{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* ── DISCLAIMER ── */
+.disclaimer{
+  max-width:700px;margin:32px auto 0;padding:0 24px;
+  background:rgba(233,196,106,0.08);border:1px solid rgba(233,196,106,0.2);
+  border-radius:12px;padding:16px 20px;text-align:center;
+}
+.disclaimer p{font-size:12px;color:var(--muted);line-height:1.7;}
+.disclaimer strong{color:var(--gold);}
+
+@media(max-width:520px){
+  .topbar{padding:12px 16px;}
+  .main{padding:0 16px 60px;}
+  .how-steps{grid-template-columns:1fr;}
+  .shop-body,.success-body{padding:20px 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">Druk<span>Shift</span> Pay 🇧🇹</div>
+  <div class="topbar-tag">Crypto Payment Prototype</div>
+  <a href="index.html" class="topbar-back">← Back to Website</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🔬 Interactive Prototype</div>
+  <h1>What Would Crypto Payments<br>Look Like in <span>Bhutan?</span></h1>
+  <p>This is a prototype showing how a simple cryptocurrency payment could work for a small business in Bhutan — designed for everyday Bhutanese people.</p>
+  <div class="hero-note">⚠️ This is a demo only — no real money or crypto is involved</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- STEPS -->
+  <div class="steps" id="stepsBar">
+    <div class="step-item">
+      <div class="step-circle active" id="sc1">1</div>
+      <div class="step-label">Shop</div>
+    </div>
+    <div class="step-line" id="sl1"></div>
+    <div class="step-item">
+      <div class="step-circle pending" id="sc2">2</div>
+      <div class="step-label">Scan</div>
+    </div>
+    <div class="step-line" id="sl2"></div>
+    <div class="step-item">
+      <div class="step-circle pending" id="sc3">✓</div>
+      <div class="step-label">Done</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1 — SHOP -->
+  <div class="screen active" id="screen1">
+    <div class="shop-card">
+      <div class="shop-header">
+        <div class="shop-flag">🧵</div>
+        <div class="shop-name">Deki's Silk Shop</div>
+        <div class="shop-sub">Paro Market, Bhutan</div>
+        <div class="shop-verified">✓ Verified Merchant · DrukShift Pay</div>
+      </div>
+      <div class="shop-body">
+        <div class="item-list">
+          <div class="item-row">
+            <span class="item-name">🧣 Kishuthara Silk Scarf</span>
+            <span class="item-price">Nu. 1,800</span>
+          </div>
+          <div class="item-row">
+            <span class="item-name">🪡 Handwoven Bracelet</span>
+            <span class="item-price">Nu. 600</span>
+          </div>
+          <div class="item-row" style="font-weight:700;font-size:14px;">
+            <span class="item-name" style="color:var(--navy);">Total</span>
+            <span class="item-price" style="color:var(--teal);">Nu. 2,400</span>
+          </div>
+        </div>
+        <div class="amount-box">
+          <div class="amount-label">Amount to Pay</div>
+          <div class="amount-ngultrum">Nu. 2,400</div>
+          <div class="amount-crypto">≈ 0.0000234 BTC</div>
+          <div class="amount-rate">or ≈ 18.92 USDT · Rate updated live</div>
+        </div>
+        <div class="qr-container">
+          <div class="qr-box">
+            <div class="qr-inner" id="qrCode">
+              <div class="qr-corner tl"></div>
+              <div class="qr-corner tr"></div>
+              <div class="qr-corner bl"></div>
+              <div class="qr-corner br"></div>
+              <div class="qr-dots" id="qrDots"></div>
+              <div class="qr-logo">🇧🇹</div>
+            </div>
+          </div>
+          <div class="qr-label">Scan with your crypto wallet app</div>
+        </div>
+        <div class="wallet-address">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+        <button class="btn-pay" onclick="goToScan()">
+          📱 Simulate Scanning QR Code
+        </button>
+        <button class="btn-secondary" onclick="goToScan()">
+          I have sent the payment manually
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2 — SCANNING -->
+  <div class="screen" id="screen2">
+    <div class="scan-card">
+      <div class="scan-animation" id="scanAnim">📡</div>
+      <div class="scan-title" id="scanTitle">Connecting to Blockchain...</div>
+      <div class="scan-sub" id="scanSub">Your payment is being verified on the Bitcoin network. This usually takes a few seconds.</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progFill"></div>
+      </div>
+      <div class="progress-text" id="progText">0%</div>
+      <div class="blockchain-steps" id="bcSteps">
+        <div class="bc-step" id="bcs1">
+          <div class="bc-step-icon loading">⟳</div>
+          <div class="bc-step-text">
+            <div class="bc-step-label">Broadcasting Transaction</div>
+            <div class="bc-step-sub">Sending to Bitcoin network...</div>
+          </div>
+          <div class="bc-step-status loading">Processing</div>
+        </div>
+        <div class="bc-step" id="bcs2">
+          <div class="bc-step-icon pending">○</div>
+          <div class="bc-step-text">
+            <div class="bc-step-label">Network Confirmation</div>
+            <div class="bc-step-sub">Waiting for miners...</div>
+          </div>
+          <div class="bc-step-status pending">Waiting</div>
+        </div>
+        <div class="bc-step" id="bcs3">
+          <div class="bc-step-icon pending">○</div>
+          <div class="bc-step-text">
+            <div class="bc-step-label">Payment Verified</div>
+            <div class="bc-step-sub">Confirming with merchant...</div>
+          </div>
+          <div class="bc-step-status pending">Waiting</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3 — SUCCESS -->
+  <div class="screen" id="screen3">
+    <div class="confetti" id="confettiContainer"></div>
+    <div class="success-card">
+      <div class="success-header">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Payment Successful!</div>
+        <div class="success-sub">Deki's Silk Shop has received your payment</div>
+      </div>
+      <div class="success-body">
+        <div class="receipt-row">
+          <span class="receipt-label">Merchant</span>
+          <span class="receipt-value">Deki's Silk Shop, Paro</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Amount Paid</span>
+          <span class="receipt-value teal">Nu. 2,400</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Crypto Amount</span>
+          <span class="receipt-value">0.0000234 BTC</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Network Fee</span>
+          <span class="receipt-value">0.0000002 BTC</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Status</span>
+          <span class="receipt-value green">✓ Confirmed</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Date & Time</span>
+          <span class="receipt-value" id="txTime"></span>
+        </div>
+        <div class="receipt-row" style="flex-direction:column;align-items:flex-start;">
+          <span class="receipt-label">Transaction ID</span>
+          <span class="txid" id="txId"></span>
+        </div>
+        <div class="ghn-badge">
+          <div class="gnh-title">🇧🇹 GNH Moment</div>
+          <div class="gnh-text">"Deki just received her first ever cryptocurrency payment — at her silk shop in Paro. This is what DrukShift was built for."</div>
+        </div>
+        <button class="btn-done" onclick="resetDemo()">
+          🔄 Try Again
+        </button>
+        <button class="btn-secondary" onclick="window.location.href='index.html'">
+          ← Back to DrukShift Website
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="how-title">How Crypto Payments Work in Bhutan</div>
+  <div class="how-sub">Three simple steps — no bank needed, no cash required</div>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">1</div>
+      <div class="how-step-icon">🏪</div>
+      <div class="how-step-title">Merchant Shows QR Code</div>
+      <div class="how-step-body">The shop owner displays their unique wallet QR code with the price in Ngultrum. No special equipment needed — just a phone.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">2</div>
+      <div class="how-step-icon">📱</div>
+      <div class="how-step-title">Customer Scans and Pays</div>
+      <div class="how-step-body">The customer opens their crypto wallet app, scans the QR code, and confirms the payment. Takes less than 30 seconds.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-num">3</div>
+      <div class="how-step-icon">✅</div>
+      <div class="how-step-title">Blockchain Confirms</div>
+      <div class="how-step-body">The Bitcoin network confirms the transaction. Both parties receive instant confirmation. No middleman, no bank fees.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer" style="margin-top:24px;margin-bottom:40px;">
+  <p><strong>Prototype Notice:</strong> This is a simulated demonstration built as part of the DrukShift cryptocurrency readiness research project. No real cryptocurrency transactions are made. All amounts, wallet addresses and transaction IDs shown are fictional and for educational purposes only.</p>
+</div>
+
+<script>
+// ── QR CODE GENERATOR ──
+function generateQR() {
+    var dots = document.getElementById('qrDots');
+    if (!dots) return;
+    var pattern = [
+        1,1,0,1,0,1,1,0,1,0,
+        0,1,1,0,1,0,0,1,0,1,
+        1,0,1,0,0,1,1,0,1,0,
+        0,1,0,1,1,0,1,1,0,1,
+        1,0,0,1,0,1,0,0,1,0,
+        0,1,1,0,1,1,0,1,0,1,
+        1,1,0,0,0,0,1,0,1,0,
+        0,0,1,1,1,0,0,1,0,1,
+        1,0,0,1,0,1,1,0,0,0,
+        0,1,1,0,1,0,0,1,1,1
+    ];
+    dots.innerHTML = '';
+    pattern.forEach(function(v) {
+        var d = document.createElement('div');
+        d.className = 'qr-dot';
+        d.style.background = v ? '#08192d' : 'transparent';
+        dots.appendChild(d);
+    });
+}
+generateQR();
+
+// ── STEP TRACKER ──
+function updateSteps(step) {
+    for (var i = 1; i <= 3; i++) {
+        var sc = document.getElementById('sc' + i);
+        if (!sc) continue;
+        if (i < step) { sc.className = 'step-circle done'; sc.textContent = '✓'; }
+        else if (i === step) { sc.className = 'step-circle active'; if (i < 3) sc.textContent = i; }
+        else { sc.className = 'step-circle pending'; sc.textContent = i < 3 ? i : '✓'; }
+    }
+    for (var j = 1; j <= 2; j++) {
+        var sl = document.getElementById('sl' + j);
+        if (sl) sl.className = j < step ? 'step-line done' : 'step-line';
+    }
+}
+
+// ── NAVIGATION ──
+function showScreen(n) {
+    for (var i = 1; i <= 3; i++) {
+        var s = document.getElementById('screen' + i);
+        if (s) s.className = i === n ? 'screen active' : 'screen';
+    }
+    updateSteps(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── SCAN ANIMATION ──
+var scanInterval = null;
+function goToScan() {
+    showScreen(2);
+    var progress = 0;
+    var fill = document.getElementById('progFill');
+    var text = document.getElementById('progText');
+    var title = document.getElementById('scanTitle');
+    var sub = document.getElementById('scanSub');
+
+    // Step 1 done after 1.5s
+    setTimeout(function() {
+        var s1 = document.getElementById('bcs1');
+        if (s1) {
+            s1.querySelector('.bc-step-icon').textContent = '✓';
+            s1.querySelector('.bc-step-icon').className = 'bc-step-icon done';
+            s1.querySelector('.bc-step-status').textContent = 'Done';
+            s1.querySelector('.bc-step-status').className = 'bc-step-status done';
+        }
+        var s2 = document.getElementById('bcs2');
+        if (s2) {
+            s2.querySelector('.bc-step-icon').textContent = '⟳';
+            s2.querySelector('.bc-step-icon').className = 'bc-step-icon loading';
+            s2.querySelector('.bc-step-status').textContent = 'Processing';
+            s2.querySelector('.bc-step-status').className = 'bc-step-status loading';
+        }
+        if (title) title.textContent = 'Confirming on Network...';
+    }, 1500);
+
+    // Step 2 done after 3s
+    setTimeout(function() {
+        var s2 = document.getElementById('bcs2');
+        if (s2) {
+            s2.querySelector('.bc-step-icon').textContent = '✓';
+            s2.querySelector('.bc-step-icon').className = 'bc-step-icon done';
+            s2.querySelector('.bc-step-status').textContent = 'Done';
+            s2.querySelector('.bc-step-status').className = 'bc-step-status done';
+        }
+        var s3 = document.getElementById('bcs3');
+        if (s3) {
+            s3.querySelector('.bc-step-icon').textContent = '⟳';
+            s3.querySelector('.bc-step-icon').className = 'bc-step-icon loading';
+            s3.querySelector('.bc-step-status').textContent = 'Processing';
+            s3.querySelector('.bc-step-status').className = 'bc-step-status loading';
+        }
+        if (title) title.textContent = 'Almost there...';
+    }, 3000);
+
+    // Progress bar
+    scanInterval = setInterval(function() {
+        progress += 2;
+        if (fill) fill.style.width = progress + '%';
+        if (text) text.textContent = progress + '%';
+        if (progress >= 100) {
+            clearInterval(scanInterval);
+            goToSuccess();
+        }
+    }, 80);
+}
+
+// ── SUCCESS ──
+function goToSuccess() {
+    var now = new Date();
+    var timeEl = document.getElementById('txTime');
+    var txEl = document.getElementById('txId');
+    if (timeEl) timeEl.textContent = now.toLocaleString('en-BT', {
+        day:'numeric',month:'short',year:'numeric',
+        hour:'2-digit',minute:'2-digit'
+    });
+    if (txEl) txEl.textContent = 'btc1x' + Math.random().toString(36).substr(2,8).toUpperCase() +
+        'drukshift' + Math.random().toString(36).substr(2,8).toUpperCase() +
+        '2026BT' + Math.floor(Math.random()*9999);
+    showScreen(3);
+    launchConfetti();
+}
+
+// ── CONFETTI ──
+function launchConfetti() {
+    var container = document.getElementById('confettiContainer');
+    if (!container) return;
+    var colours = ['#2a9d8f','#e9c46a','#f4a261','#1a4a7a','#e63946','#ffffff'];
+    for (var i = 0; i < 80; i++) {
+        (function(i) {
+            setTimeout(function() {
+                var piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + 'vw';
+                piece.style.background = colours[Math.floor(Math.random() * colours.length)];
+                piece.style.width = (Math.random() * 8 + 6) + 'px';
+                piece.style.height = (Math.random() * 8 + 6) + 'px';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                piece.style.animationDelay = '0s';
+                container.appendChild(piece);
+                setTimeout(function() { piece.remove(); }, 4000);
+            }, i * 30);
+        })(i);
+    }
+}
+
+// ── RESET ──
+function resetDemo() {
+    if (scanInterval) clearInterval(scanInterval);
+    var fill = document.getElementById('progFill');
+    var text = document.getElementById('progText');
+    var title = document.getElementById('scanTitle');
+    if (fill) fill.style.width = '0%';
+    if (text) text.textContent = '0%';
+    if (title) title.textContent = 'Connecting to Blockchain...';
+    ['bcs1','bcs2','bcs3'].forEach(function(id, i) {
+        var s = document.getElementById(id);
+        if (!s) return;
+        if (i === 0) {
+            s.querySelector('.bc-step-icon').textContent = '⟳';
+            s.querySelector('.bc-step-icon').className = 'bc-step-icon loading';
+            s.querySelector('.bc-step-status').textContent = 'Processing';
+            s.querySelector('.bc-step-status').className = 'bc-step-status loading';
+        } else {
+            s.querySelector('.bc-step-icon').textContent = '○';
+            s.querySelector('.bc-step-icon').className = 'bc-step-icon pending';
+            s.querySelector('.bc-step-status').textContent = 'Waiting';
+            s.querySelector('.bc-step-status').className = 'bc-step-status pending';
+        }
+    });
+    showScreen(1);
+}
+</script>
+</body>
+</html>
