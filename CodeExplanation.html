@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DrukShift — Code Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;--accent:#f4a261;--light:#f0f4f8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--light);color:#2d4a5a;line-height:1.7;}
+nav{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{font-size:18px;font-weight:700;color:white;}.nav-logo span{color:var(--accent);}
+.nav-back{font-size:12px;color:var(--accent);text-decoration:none;border:1px solid rgba(244,162,97,0.3);padding:6px 14px;border-radius:50px;}
+.hero{background:linear-gradient(160deg,#04101e,#08192d);padding:60px 32px;text-align:center;}
+.hero h1{font-size:clamp(28px,5vw,48px);font-weight:700;color:white;margin-bottom:12px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:15px;color:#7a9bb5;max-width:560px;margin:0 auto;}
+.main{max-width:900px;margin:40px auto;padding:0 24px 80px;}
+.toc{background:white;border-radius:16px;padding:28px 32px;margin-bottom:32px;box-shadow:0 2px 20px rgba(8,25,45,0.06);}
+.toc h2{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:16px;}
+.toc-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;list-style:none;}
+.toc-list a{font-size:13px;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:8px;padding:6px 0;}
+.toc-list a:hover{color:var(--navy);}
+.section{background:white;border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 2px 20px rgba(8,25,45,0.06);}
+.section-tag{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px;}
+.section h2{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.section-sub{font-size:13px;color:#7a9bb5;margin-bottom:20px;border-bottom:1px solid #e4eaf2;padding-bottom:16px;}
+.code-block{background:#0d1117;border-radius:10px;padding:16px 20px;margin:16px 0;overflow-x:auto;}
+.code-block pre{font-family:'Fira Code',monospace;font-size:12px;color:#e6edf3;line-height:1.8;white-space:pre-wrap;}
+.code-block .comment{color:#8b949e;}
+.code-block .tag{color:#7ee787;}
+.code-block .attr{color:#79c0ff;}
+.code-block .val{color:#a5d6ff;}
+.code-block .css-prop{color:#79c0ff;}
+.code-block .css-val{color:#a5d6ff;}
+.code-block .js-key{color:#ff7b72;}
+.code-block .js-fn{color:#d2a8ff;}
+.code-block .js-str{color:#a5d6ff;}
+.explain{font-size:14px;color:#2d4a5a;line-height:1.8;margin:12px 0;}
+.explain strong{color:var(--navy);font-weight:600;}
+.highlight{background:rgba(42,157,143,0.08);border-left:3px solid var(--teal);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px;color:#2d4a5a;line-height:1.7;}
+.highlight strong{color:var(--teal);}
+.warn{background:rgba(244,162,97,0.08);border-left:3px solid var(--accent);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px;color:#2d4a5a;}
+.warn strong{color:var(--accent);}
+h3{font-size:16px;font-weight:700;color:var(--navy);margin:20px 0 8px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Druk<span>Shift</span> — Code Explanation</div>
+  <a href="index.html" class="nav-back">← Back to Website</a>
+</nav>
+
+<div class="hero">
+  <h1>index.html — <span>Line by Line</span></h1>
+  <p>A complete explanation of every section of the DrukShift website code — written so you can explain it confidently to your sir.</p>
+</div>
+
+<div class="main">
+
+<!-- TOC -->
+<div class="toc">
+  <h2>Sections in this file</h2>
+  <ul class="toc-list">
+    <li><a href="#s1">01 — DOCTYPE and Head</a></li>
+    <li><a href="#s2">02 — CSS Variables and Reset</a></li>
+    <li><a href="#s3">03 — Navigation Bar</a></li>
+    <li><a href="#s4">04 — Breadcrumb</a></li>
+    <li><a href="#s5">05 — Hero Section</a></li>
+    <li><a href="#s6">06 — About and Stats</a></li>
+    <li><a href="#s7">07 — GNH Story Section</a></li>
+    <li><a href="#s8">08 — Solutions Section</a></li>
+    <li><a href="#s9">09 — Readiness Section</a></li>
+    <li><a href="#s10">10 — Findings Section</a></li>
+    <li><a href="#s11">11 — Reports Section</a></li>
+    <li><a href="#s12">12 — Quiz Section</a></li>
+    <li><a href="#s13">13 — Resources Section</a></li>
+    <li><a href="#s14">14 — Footer</a></li>
+    <li><a href="#s15">15 — JavaScript</a></li>
+    <li><a href="#s16">16 — Mini Games</a></li>
+  </ul>
+</div>
+
+<!-- 01 DOCTYPE -->
+<div class="section" id="s1">
+  <span class="section-tag">01</span>
+  <h2>DOCTYPE and Head Section</h2>
+  <p class="section-sub">Lines 1 to 8 — Setup and imports</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"en"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>Cryptocurrency Readiness in Bhutan | DrukShift<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="val">"https://fonts.googleapis.com/css2?family=Outfit..."</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="val">"https://public.tableau.com/javascripts/api/tableau.embedding..."</span><span class="tag">&gt;&lt;/script&gt;</span></pre></div>
+
+  <p class="explain"><strong>Line 1 — DOCTYPE:</strong> Tells the browser this is a modern HTML5 document. Without this the browser would use old rendering rules and the website would look broken.</p>
+  <p class="explain"><strong>Line 2 — html lang="en":</strong> Opens the HTML document and sets the language to English. This helps screen readers and search engines understand the content.</p>
+  <p class="explain"><strong>Line 3 — meta charset UTF-8:</strong> Sets the character encoding. UTF-8 supports all characters including Bhutanese text, emojis, and special symbols. Without this, characters would display as question marks.</p>
+  <p class="explain"><strong>Line 4 — viewport meta tag:</strong> This is the most important line for mobile responsiveness. It tells the browser to match the screen width of the device. Without this line, the website would appear tiny on phones and tablets.</p>
+  <p class="explain"><strong>Line 5 — title tag:</strong> Sets the text that appears in the browser tab and in Google search results.</p>
+  <p class="explain"><strong>Line 6 — Google Fonts link:</strong> Imports the Outfit and Cormorant Garamond fonts from Google's servers. Outfit is used for body text and Cormorant Garamond is used for headings.</p>
+  <p class="explain"><strong>Line 7 — Tableau script:</strong> Loads the Tableau JavaScript library which allows Tableau visualizations to be embedded on the page.</p>
+</div>
+
+<!-- 02 CSS VARIABLES -->
+<div class="section" id="s2">
+  <span class="section-tag">02</span>
+  <h2>CSS Variables and Reset</h2>
+  <p class="section-sub">Lines 9 to 20 — Brand colours and base styles</p>
+
+  <div class="code-block"><pre><span class="css-prop">:root</span> {
+  <span class="css-prop">--navy</span>: <span class="css-val">#08192d</span>;
+  <span class="css-prop">--deep</span>: <span class="css-val">#0f2a45</span>;
+  <span class="css-prop">--blue</span>: <span class="css-val">#1a4a7a</span>;
+  <span class="css-prop">--mid</span>:  <span class="css-val">#2a6aad</span>;
+  <span class="css-prop">--accent</span>: <span class="css-val">#f4a261</span>;
+  <span class="css-prop">--gold</span>:   <span class="css-val">#e9c46a</span>;
+  <span class="css-prop">--teal</span>:   <span class="css-val">#2a9d8f</span>;
+  <span class="css-prop">--red</span>:    <span class="css-val">#e63946</span>;
+  <span class="css-prop">--light</span>:  <span class="css-val">#eef2f7</span>;
+  <span class="css-prop">--white</span>:  <span class="css-val">#ffffff</span>;
+  <span class="css-prop">--muted</span>:  <span class="css-val">#7a9bb5</span>;
+}
+<span class="css-prop">*</span> { <span class="css-prop">margin</span>: <span class="css-val">0</span>; <span class="css-prop">padding</span>: <span class="css-val">0</span>; <span class="css-prop">box-sizing</span>: <span class="css-val">border-box</span>; }
+<span class="css-prop">html</span> { <span class="css-prop">scroll-behavior</span>: <span class="css-val">smooth</span>; }
+<span class="css-prop">body</span> { <span class="css-prop">font-family</span>: <span class="css-val">'Outfit', sans-serif</span>; <span class="css-prop">overflow-x</span>: <span class="css-val">hidden</span>; }</pre></div>
+
+  <p class="explain"><strong>:root variables:</strong> This block defines all the brand colours used throughout the entire website as CSS variables. The advantage is that if I want to change the teal colour, I only change it in one place here and it automatically updates everywhere on the website. --navy is the dark background, --accent is the orange, --teal is the green-blue, --gold is the yellow.</p>
+  <p class="explain"><strong>* reset:</strong> The asterisk means every single HTML element on the page. Setting margin and padding to 0 removes all default browser spacing. Box-sizing border-box means padding is included inside the element width rather than added on top of it.</p>
+  <p class="explain"><strong>scroll-behavior smooth:</strong> Makes the page scroll smoothly when you click a navigation link instead of jumping instantly.</p>
+  <p class="explain"><strong>overflow-x hidden:</strong> Prevents horizontal scrolling on the page which can happen when animations move elements slightly off screen.</p>
+</div>
+
+<!-- 03 NAV -->
+<div class="section" id="s3">
+  <span class="section-tag">03</span>
+  <h2>Navigation Bar</h2>
+  <p class="section-sub">Lines ~820 to 860 — Sticky top navigation</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;nav&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"nav-logo"</span><span class="tag">&gt;</span>DrukShift <span class="tag">&lt;span&gt;</span>🇧🇹<span class="tag">&lt;/span&gt;&lt;/div&gt;</span>
+  <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"#about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"#gnh"</span><span class="tag">&gt;</span>GNH Story<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">onclick</span>=<span class="val">"openGNHModal()"</span><span class="tag">&gt;</span>GNH Story<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"drukshift_story.html"</span> <span class="attr">target</span>=<span class="val">"_blank"</span><span class="tag">&gt;</span>🎬 Webtoon<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"Drukpay.html"</span> <span class="attr">target</span>=<span class="val">"_blank"</span><span class="tag">&gt;</span>💳 Try Pay<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="tag">&lt;/ul&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"hamburger"</span> <span class="attr">onclick</span>=<span class="val">"toggleMenu()"</span><span class="tag">&gt;</span>☰<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></pre></div>
+
+  <div class="highlight"><strong>How the nav works:</strong> The nav has position fixed in its CSS which means it stays at the top of the screen even when you scroll down. The background uses rgba with 0.92 opacity so it is slightly transparent. backdrop-filter blur makes the content behind it blurry like frosted glass.</div>
+  <p class="explain"><strong>href="#about":</strong> The hash symbol followed by a section ID scrolls the page smoothly to that section. This works because each section has a matching id attribute like id="about".</p>
+  <p class="explain"><strong>target="_blank":</strong> Opens the link in a new browser tab. Used for the Webtoon and Try Pay links so the user does not leave the main website.</p>
+  <p class="explain"><strong>onclick="toggleMenu()":</strong> Calls a JavaScript function when the hamburger button is clicked. This function shows and hides the mobile navigation overlay.</p>
+</div>
+
+<!-- 04 BREADCRUMB -->
+<div class="section" id="s4">
+  <span class="section-tag">04</span>
+  <h2>Breadcrumb Navigation</h2>
+  <p class="section-sub">Added to fix the "too much scrolling" feedback</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"breadcrumb"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"bc-item"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"bc-link active"</span> <span class="attr">onclick</span>=<span class="val">"bcGo('home')"</span><span class="tag">&gt;</span>🏠 Home<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"bc-sep"</span><span class="tag">&gt;</span>›<span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="comment">&lt;!-- ... more sections ... --&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">// JavaScript that powers it</span>
+<span class="js-key">function</span> <span class="js-fn">bcGo</span>(id) {
+  <span class="js-key">var</span> el = document.getElementById(id);
+  <span class="js-key">var</span> offset = <span class="css-val">100</span>;
+  <span class="js-key">var</span> top = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top: top, behavior: <span class="js-str">'smooth'</span> });
+}
+
+<span class="js-key">function</span> <span class="js-fn">bcUpdate</span>() {
+  <span class="comment">// Detects which section is on screen and highlights it</span>
+  <span class="js-key">var</span> scrollY = window.scrollY + <span class="css-val">120</span>;
+  bcSections.forEach(<span class="js-key">function</span>(id) {
+    <span class="js-key">var</span> el = document.getElementById(id);
+    <span class="js-key">if</span> (el &amp;&amp; el.offsetTop &lt;= scrollY) current = id;
+  });
+}</pre></div>
+
+  <p class="explain"><strong>What it does:</strong> The breadcrumb bar appears just below the main nav when you scroll past the hero section. It shows all sections as clickable buttons. When you click one it smoothly scrolls to that section.</p>
+  <p class="explain"><strong>bcGo function:</strong> Gets the element by its ID, calculates its position on the page using getBoundingClientRect, subtracts an offset of 100px so the section does not hide behind the sticky nav, then scrolls to that position smoothly.</p>
+  <p class="explain"><strong>bcUpdate function:</strong> Runs every time the user scrolls. It checks which section is currently on screen by comparing the scroll position to each section's position. The current section gets the active class which highlights it in orange.</p>
+  <div class="highlight"><strong>Why I added this:</strong> My supervisor gave feedback that the website had too much scrolling. The breadcrumb solves this by letting users jump directly to any section in one click.</div>
+</div>
+
+<!-- 05 HERO -->
+<div class="section" id="s5">
+  <span class="section-tag">05</span>
+  <h2>Hero Section</h2>
+  <p class="section-sub">Lines ~860 to 940 — The first thing visitors see</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"hero"</span> <span class="attr">id</span>=<span class="val">"home"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"hero-slides"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"hero-slide active"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"hero-slide"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="comment">&lt;!-- 5 slides total --&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"hero-content"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"hero-badge"</span><span class="tag">&gt;</span>🏛️ BHUTAN DATA SCIENTISTS — INTERNSHIP 2026<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Cryptocurrency <span class="tag">&lt;em&gt;</span>Readiness<span class="tag">&lt;/em&gt;&lt;/h1&gt;</span>
+    <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"hero-desc"</span><span class="tag">&gt;</span>in Bhutan<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="comment">&lt;!-- Live quiz counter bar --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"liveBar"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">id</span>=<span class="val">"liveCount"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/span&gt;</span> Bhutanese have taken the quiz
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre></div>
+
+  <p class="explain"><strong>Hero slides:</strong> There are 5 div elements each with a background image set in CSS using Unsplash CDN photos of Bhutan. The JavaScript adds and removes the active class every 1.5 seconds to cycle through them with a fade and zoom transition.</p>
+  <p class="explain"><strong>hero-slide::after overlay:</strong> Each slide has a CSS pseudo-element that adds a dark gradient on top of the photo. This makes the white text readable over the image.</p>
+  <p class="explain"><strong>live quiz counter bar:</strong> The div with id liveBar makes a fetch request to my backend API at drukshift-vakend.onrender.com/api/admin/results when the page loads. It counts the total responses in MongoDB and displays the live number. This updates every time a new person takes the quiz.</p>
+  <div class="highlight"><strong>Key technique — hero-slide CSS:</strong> position absolute makes all slides stack on top of each other. Only the one with class active has opacity 1 — the others have opacity 0 so they are invisible. The transition property makes the fade smooth.</div>
+</div>
+
+<!-- 06 ABOUT AND STATS -->
+<div class="section" id="s6">
+  <span class="section-tag">06</span>
+  <h2>About and Stats Section</h2>
+  <p class="section-sub">Animated counter cards</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"stats-section"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"stat-item"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"stat-num"</span> <span class="attr">data-target</span>=<span class="val">"113"</span><span class="tag">&gt;</span>0<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"stat-lbl"</span><span class="tag">&gt;</span>Adults Surveyed<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span>
+
+<span class="comment">// JavaScript counter animation</span>
+<span class="js-key">function</span> <span class="js-fn">animateCounter</span>(el) {
+  <span class="js-key">var</span> target = parseFloat(el.getAttribute(<span class="js-str">'data-target'</span>));
+  <span class="js-key">var</span> duration = <span class="css-val">1500</span>;
+  <span class="js-key">var</span> start = performance.now();
+  <span class="js-key">function</span> <span class="js-fn">update</span>(time) {
+    <span class="js-key">var</span> progress = Math.min((time - start) / duration, <span class="css-val">1</span>);
+    el.textContent = Math.floor(progress * target);
+    <span class="js-key">if</span> (progress &lt; <span class="css-val">1</span>) requestAnimationFrame(update);
+    <span class="js-key">else</span> el.textContent = target;
+  }
+  requestAnimationFrame(update);
+}</pre></div>
+
+  <p class="explain"><strong>data-target attribute:</strong> Each stat card stores its final number in a custom HTML attribute called data-target. The JavaScript reads this value and counts up to it.</p>
+  <p class="explain"><strong>IntersectionObserver:</strong> The counter only starts when the stats section scrolls into view. An IntersectionObserver watches each stat element and calls animateCounter when it becomes visible on screen.</p>
+  <p class="explain"><strong>requestAnimationFrame:</strong> This is a browser function that runs a callback on every animation frame — about 60 times per second. It is used instead of setInterval because it is smoother and pauses automatically when the user switches tabs.</p>
+</div>
+
+<!-- 07 GNH -->
+<div class="section" id="s7">
+  <span class="section-tag">07</span>
+  <h2>GNH Story Section</h2>
+  <p class="section-sub">Dark background section with GNH domain pills</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"gnh-section"</span> <span class="attr">id</span>=<span class="val">"gnh"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"gnh-domains"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"gnh-pill"</span><span class="tag">&gt;</span>🎓 Education<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"gnh-pill"</span><span class="tag">&gt;</span>🏠 Living Standards<span class="tag">&lt;/span&gt;</span>
+    <span class="comment">&lt;!-- 6 GNH domains total --&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">onclick</span>=<span class="val">"openGNHModal()"</span><span class="tag">&gt;</span>🇧🇹 View GNH Story on Tableau ↗<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/section&gt;</span>
+
+<span class="comment">// Tableau button function</span>
+<span class="js-key">function</span> <span class="js-fn">openGNHModal</span>() {
+  window.open(
+    <span class="js-str">'https://public.tableau.com/views/Tableaucryptoreadiness/Story2?...'</span>,
+    <span class="js-str">'_blank'</span>
+  );
+}</pre></div>
+
+  <p class="explain"><strong>gnh-section background:</strong> Uses a CSS linear-gradient from dark navy to slightly lighter navy, combined with a grid pattern using background-image with two gradients creating horizontal and vertical lines.</p>
+  <p class="explain"><strong>openGNHModal function:</strong> I originally built this to open a modal popup with an embedded Tableau viz. But Tableau Public does not allow embedding in iframes on external sites. So I changed it to use window.open which opens the Tableau link directly in a new browser tab. This is the most reliable approach.</p>
+</div>
+
+<!-- 08 SOLUTIONS -->
+<div class="section" id="s8">
+  <span class="section-tag">08</span>
+  <h2>Solutions Section</h2>
+  <p class="section-sub">5 evidence-based recommendation cards</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"solutions-section"</span> <span class="attr">id</span>=<span class="val">"solutions"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"solutions-grid"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"solution-card reveal"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"solution-num"</span><span class="tag">&gt;</span>01<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"solution-icon"</span><span class="tag">&gt;</span>🎓<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;h3&gt;</span>Close the Education Gap<span class="tag">&lt;/h3&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Young people need digital-first platforms...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="comment">&lt;!-- 4 more cards --&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://public.tableau.com/..."</span> <span class="attr">target</span>=<span class="val">"_blank"</span> <span class="attr">class</span>=<span class="val">"btn-solutions"</span><span class="tag">&gt;</span>
+    💡 View Solutions on Tableau ↗
+  <span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre></div>
+
+  <p class="explain"><strong>solutions-grid CSS:</strong> Uses CSS Grid with grid-template-columns repeat 2 1fr which creates two equal columns. The fifth card has grid-column 1/-1 which makes it span the full width across both columns.</p>
+  <p class="explain"><strong>solution-card border-top colours:</strong> Each card has a different coloured top border — navy, teal, red, gold, accent — set using nth-child selectors in CSS. This makes each card visually distinct without needing extra HTML.</p>
+  <p class="explain"><strong>reveal class:</strong> Every card has a reveal class. In CSS this means opacity 0 and transform translateY 40px — invisible and shifted down. When the IntersectionObserver detects the card entering the viewport it adds the visible class which sets opacity to 1 and transform to none, making it fade and slide up into view.</p>
+  <p class="explain"><strong>Tableau link — changed to direct link:</strong> The Solutions button was originally a button calling openSolutionsModal. I changed it to a direct anchor tag with href pointing to the Tableau URL. This prevents popup blocking by browsers.</p>
+</div>
+
+<!-- 09 READINESS -->
+<div class="section" id="s9">
+  <span class="section-tag">09</span>
+  <h2>Readiness Section</h2>
+  <p class="section-sub">Animated progress bars by age group</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"readiness-bar-row"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"readiness-bar-label"</span><span class="tag">&gt;</span>25–34 Age Group<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"readiness-bar-track"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"readiness-bar-fill"</span>
+         <span class="attr">data-width</span>=<span class="val">"86"</span>
+         <span class="attr">style</span>=<span class="val">"width:0%;background:#2a9d8f"</span><span class="tag">&gt;
+    &lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;span&gt;</span>86%<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">// JavaScript that animates the bars</span>
+<span class="js-key">var</span> observer = <span class="js-key">new</span> IntersectionObserver(<span class="js-key">function</span>(entries) {
+  entries.forEach(<span class="js-key">function</span>(entry) {
+    <span class="js-key">if</span> (entry.isIntersecting) {
+      <span class="js-key">var</span> fill = entry.target;
+      fill.style.width = fill.getAttribute(<span class="js-str">'data-width'</span>) + <span class="js-str">'%'</span>;
+    }
+  });
+});</pre></div>
+
+  <p class="explain"><strong>data-width attribute:</strong> Each bar's target width is stored in a custom data-width attribute. The bar starts at width 0% in the inline style. When it scrolls into view JavaScript reads the data-width and sets the width to that value.</p>
+  <p class="explain"><strong>CSS transition:</strong> The bar fill element has transition width 0.8s ease in CSS. This means when the width changes from 0% to 86% it animates smoothly over 0.8 seconds instead of snapping instantly.</p>
+  <p class="explain"><strong>IntersectionObserver:</strong> This is a modern browser API that watches elements and fires a callback when they enter or exit the visible area of the screen. It is much better than using scroll events because it does not run on every single scroll movement.</p>
+</div>
+
+<!-- 10 FINDINGS -->
+<div class="section" id="s10">
+  <span class="section-tag">10</span>
+  <h2>Findings Section</h2>
+  <p class="section-sub">7 key research findings as cards</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"findings-section"</span> <span class="attr">id</span>=<span class="val">"findings"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"findings-grid"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"finding-card reveal"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"finding-num"</span><span class="tag">&gt;</span>01<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"finding-icon"</span><span class="tag">&gt;</span>🏆<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;h3&gt;</span>Bhutan is 80% Ready Overall<span class="tag">&lt;/h3&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Average readiness score was 12.75 out of 16...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre></div>
+
+  <p class="explain"><strong>findings-grid:</strong> Uses CSS Grid with two columns. Cards animate in using the reveal class system described in the Solutions section.</p>
+  <p class="explain"><strong>finding-num:</strong> The large background number like 01, 02 is positioned absolute top right in CSS with a very light colour #e8eef4. It gives depth to the card without distracting from the content.</p>
+  <p class="explain"><strong>finding-card::before:</strong> Each card has a 4px coloured line at the top using a CSS pseudo-element. Each card gets a different colour using nth-child selectors — blue, orange, teal, gold — making them visually distinct.</p>
+</div>
+
+<!-- 11 REPORTS -->
+<div class="section" id="s11">
+  <span class="section-tag">11</span>
+  <h2>Reports Section</h2>
+  <p class="section-sub">Links to Tableau stories and BusinessReport</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"reports-section"</span> <span class="attr">id</span>=<span class="val">"reports"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"reports-grid"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"report-card"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"report-icon"</span><span class="tag">&gt;</span>🇧🇹<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"report-info"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;h3&gt;</span>GNH Story<span class="tag">&lt;/h3&gt;</span>
+        <span class="tag">&lt;p&gt;</span>How readiness maps to happiness...<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onclick</span>=<span class="val">"openGNHModal()"</span><span class="tag">&gt;</span>View on Tableau ↗<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"BusinessReport.html"</span> <span class="attr">class</span>=<span class="val">"btn-report"</span><span class="tag">&gt;</span>
+      📋 Read Full Business Report
+    <span class="tag">&lt;/a&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre></div>
+
+  <p class="explain"><strong>reports-grid:</strong> A 2-column CSS Grid. Each card has a dark navy background using rgba white 0.05 — slightly lighter than the section background — creating a subtle card effect.</p>
+  <p class="explain"><strong>BusinessReport.html link:</strong> A simple anchor tag pointing to the BusinessReport.html file in the same folder. When clicked it opens the full business report page.</p>
+</div>
+
+<!-- 12 QUIZ -->
+<div class="section" id="s12">
+  <span class="section-tag">12</span>
+  <h2>Quiz Section</h2>
+  <p class="section-sub">The most complex section — 10 question interactive quiz with personalised results</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"quiz-section"</span> <span class="attr">id</span>=<span class="val">"quiz"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"quiz-card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"q-progress-bar"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"q-progress-fill"</span> <span class="attr">id</span>=<span class="val">"qProgress"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"q-text"</span> <span class="attr">id</span>=<span class="val">"qText"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"q-likert-row"</span> <span class="attr">id</span>=<span class="val">"qButtons"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">id</span>=<span class="val">"qNext"</span> <span class="attr">onclick</span>=<span class="val">"qNextQ()"</span><span class="tag">&gt;</span>Next →<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span>
+
+<span class="comment">// Quiz questions array</span>
+<span class="js-key">var</span> qQuestions = [
+  { q: <span class="js-str">"How familiar are you with cryptocurrency?"</span>, domain: <span class="js-str">"Knowledge"</span> },
+  { q: <span class="js-str">"How confident using a crypto wallet?"</span>, domain: <span class="js-str">"Technical Skill"</span> },
+  <span class="comment">// ... 10 questions total</span>
+];
+<span class="js-key">var</span> qAnswers = [];
+<span class="js-key">var</span> qCurrent = <span class="css-val">0</span>;
+
+<span class="js-key">function</span> <span class="js-fn">qRender</span>() {
+  <span class="js-key">var</span> q = qQuestions[qCurrent];
+  document.getElementById(<span class="js-str">'qText'</span>).textContent = q.q;
+  <span class="comment">// Build 10 numbered buttons dynamically</span>
+  <span class="js-key">var</span> html = <span class="js-str">''</span>;
+  <span class="js-key">for</span> (<span class="js-key">var</span> i = <span class="css-val">1</span>; i &lt;= <span class="css-val">10</span>; i++) {
+    html += <span class="js-str">'&lt;button class="q-likert-btn" onclick="qSelect('</span> + i + <span class="js-str">')"&gt;'</span> + i + <span class="js-str">'&lt;/button&gt;'</span>;
+  }
+  document.getElementById(<span class="js-str">'qButtons'</span>).innerHTML = html;
+}</pre></div>
+
+  <p class="explain"><strong>Quiz structure:</strong> The quiz card is a single HTML element that gets updated dynamically by JavaScript. Instead of having 10 separate HTML sections for each question I use one card and change its content using JavaScript.</p>
+  <p class="explain"><strong>qAnswers array:</strong> Every time a user clicks a number button their answer is pushed into the qAnswers array. After all 10 questions qAnswers holds 10 numbers like [7,5,8,6,3,9,7,4,8,6].</p>
+  <p class="explain"><strong>qRender function:</strong> This function updates the quiz card to show the current question. It reads from qQuestions array at position qCurrent and sets the question text. It also builds the 10 numbered buttons using a for loop and innerHTML.</p>
+  <p class="explain"><strong>Progress bar:</strong> The progress fill width is updated on every question — (qCurrent / 10) * 100 percent — so it grows as the user moves through the quiz.</p>
+  <div class="highlight"><strong>Personalised results:</strong> When all 10 questions are answered the qShowResults function calculates the total score, compares it to the 80% Bhutan average, assigns a badge, and generates a personalised solution for each question where the user scored low. For example if Q5 is 3 out of 10 the results show "Because you rated your Personal Readiness as 3/10, your next step is..."</div>
+</div>
+
+<!-- 13 RESOURCES -->
+<div class="section" id="s13">
+  <span class="section-tag">13</span>
+  <h2>Resources Section</h2>
+  <p class="section-sub">Tabbed resource library with 18 curated links</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"resources-section"</span> <span class="attr">id</span>=<span class="val">"resources"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"res-tabs"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"res-tab active"</span> <span class="attr">onclick</span>=<span class="val">"switchTab('individuals')"</span><span class="tag">&gt;</span>
+      For Individuals
+    <span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"res-tab"</span> <span class="attr">onclick</span>=<span class="val">"switchTab('business')"</span><span class="tag">&gt;</span>
+      For Small Businesses
+    <span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"tab-individuals"</span> <span class="attr">class</span>=<span class="val">"res-content active"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"res-grid"</span><span class="tag">&gt;</span>
+      <span class="comment">&lt;!-- Resource cards --&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span>
+
+<span class="js-key">function</span> <span class="js-fn">switchTab</span>(tab) {
+  document.querySelectorAll(<span class="js-str">'.res-tab'</span>).forEach(<span class="js-key">function</span>(t) {
+    t.classList.remove(<span class="js-str">'active'</span>);
+  });
+  document.querySelectorAll(<span class="js-str">'.res-content'</span>).forEach(<span class="js-key">function</span>(c) {
+    c.classList.remove(<span class="js-str">'active'</span>);
+  });
+  document.getElementById(<span class="js-str">'tab-'</span> + tab).classList.add(<span class="js-str">'active'</span>);
+}</pre></div>
+
+  <p class="explain"><strong>Tab system:</strong> Two tabs — For Individuals and For Small Businesses. Clicking a tab calls switchTab which removes active from all tabs and content divs then adds active to the clicked tab and its matching content div.</p>
+  <p class="explain"><strong>res-content display:</strong> In CSS the res-content class has display none. The res-content.active class has display block. So only the active tab's content is visible at any time.</p>
+  <p class="explain"><strong>Resource cards:</strong> Each card has a type — video, guide, or link — which determines its colour scheme using CSS classes. All links open in a new tab using target blank.</p>
+</div>
+
+<!-- 14 FOOTER -->
+<div class="section" id="s14">
+  <span class="section-tag">14</span>
+  <h2>Footer</h2>
+  <p class="section-sub">Bottom section with branding and credits</p>
+
+  <div class="code-block"><pre><span class="tag">&lt;footer&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"footer-logo"</span><span class="tag">&gt;</span>Druk<span class="tag">&lt;span&gt;</span>Shift<span class="tag">&lt;/span&gt;</span> 🇧🇹<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"footer-tagline"</span><span class="tag">&gt;</span>
+    Druk = Thunder Dragon · Shift = The Future
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"footer-info"</span><span class="tag">&gt;</span>
+    Kinzang Choden · BDS Internship 2026
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/footer&gt;</span></pre></div>
+
+  <p class="explain"><strong>footer-logo span:</strong> The word Shift inside the logo is wrapped in a span tag so it can be coloured differently — orange -- using CSS. This is a common technique for styling part of a word differently.</p>
+</div>
+
+<!-- 15 JAVASCRIPT -->
+<div class="section" id="s15">
+  <span class="section-tag">15</span>
+  <h2>Main JavaScript Block</h2>
+  <p class="section-sub">All the interactive functionality</p>
+
+  <div class="code-block"><pre><span class="comment">// ── HERO SLIDESHOW ──</span>
+<span class="js-key">var</span> slides = document.querySelectorAll(<span class="js-str">'.hero-slide'</span>);
+<span class="js-key">var</span> current = <span class="css-val">0</span>;
+<span class="js-key">function</span> <span class="js-fn">nextSlide</span>() {
+  slides[current].classList.remove(<span class="js-str">'active'</span>);
+  current = (current + <span class="css-val">1</span>) % slides.length;
+  slides[current].classList.add(<span class="js-str">'active'</span>);
+}
+<span class="js-key">var</span> slideshowInterval = setInterval(nextSlide, <span class="css-val">1500</span>);
+
+<span class="comment">// ── DARK/LIGHT MODE ──</span>
+<span class="js-key">function</span> <span class="js-fn">toggleDark</span>() {
+  document.body.classList.toggle(<span class="js-str">'dark'</span>);
+  localStorage.setItem(<span class="js-str">'theme'</span>,
+    document.body.classList.contains(<span class="js-str">'dark'</span>) ? <span class="js-str">'dark'</span> : <span class="js-str">'light'</span>
+  );
+}
+
+<span class="comment">// ── LIVE QUIZ COUNTER ──</span>
+<span class="js-key">fetch</span>(<span class="js-str">'https://drukshift-vakend.onrender.com/api/admin/results'</span>)
+  .then(<span class="js-key">function</span>(r) { <span class="js-key">return</span> r.json(); })
+  .then(<span class="js-key">function</span>(data) {
+    document.getElementById(<span class="js-str">'liveCount'</span>).textContent = data.length;
+  });
+
+<span class="comment">// ── SCROLL REVEAL ──</span>
+<span class="js-key">var</span> revealObserver = <span class="js-key">new</span> IntersectionObserver(<span class="js-key">function</span>(entries) {
+  entries.forEach(<span class="js-key">function</span>(entry) {
+    <span class="js-key">if</span> (entry.isIntersecting) {
+      entry.target.classList.add(<span class="js-str">'visible'</span>);
+    }
+  });
+}, { threshold: <span class="css-val">0.1</span> });
+document.querySelectorAll(<span class="js-str">'.reveal'</span>).forEach(<span class="js-key">function</span>(el) {
+  revealObserver.observe(el);
+});</pre></div>
+
+  <p class="explain"><strong>Slideshow:</strong> setInterval calls nextSlide every 1500 milliseconds — 1.5 seconds. nextSlide removes the active class from the current slide, increases the current index by 1, and adds active to the new slide. The modulo operator % makes it loop back to 0 after the last slide.</p>
+  <p class="explain"><strong>Dark/Light mode:</strong> toggleDark adds or removes the dark class on the body element. All dark mode CSS rules are written under body.dark in the stylesheet. localStorage.setItem saves the user's preference so it is remembered when they come back to the website.</p>
+  <p class="explain"><strong>Live quiz counter:</strong> The fetch function makes a GET request to the backend API. The API returns an array of all quiz results from MongoDB. The length of the array is the total number of people who have taken the quiz. This number is displayed in the hero section.</p>
+  <p class="explain"><strong>Scroll reveal:</strong> An IntersectionObserver watches every element with the reveal class. When an element becomes 10% visible — threshold 0.1 — it adds the visible class. In CSS the visible class sets opacity to 1 and transform to none creating the fade-in animation.</p>
+</div>
+
+<!-- 16 MINI GAMES -->
+<div class="section" id="s16">
+  <span class="section-tag">16</span>
+  <h2>Mini Games Engine</h2>
+  <p class="section-sub">3 educational games embedded directly in the page</p>
+
+  <div class="code-block"><pre><span class="comment">// ── GAME PANEL TOGGLE ──</span>
+<span class="js-key">function</span> <span class="js-fn">dsToggleGame</span>() {
+  <span class="js-key">var</span> panel = document.getElementById(<span class="js-str">'dsGamePanel'</span>);
+  panel.style.display = panel.style.display === <span class="js-str">'none'</span> ? <span class="js-str">'flex'</span> : <span class="js-str">'none'</span>;
+}
+
+<span class="comment">// ── GAME CARD CLICK EVENTS ──</span>
+window.addEventListener(<span class="js-str">'load'</span>, <span class="js-key">function</span>() {
+  <span class="js-key">var</span> cards = {
+    <span class="js-str">'mg-card-blitz'</span>:  <span class="js-str">'blitz'</span>,
+    <span class="js-str">'mg-card-scam'</span>:   <span class="js-str">'scam'</span>,
+    <span class="js-str">'mg-card-memory'</span>: <span class="js-str">'memory'</span>
+  };
+  Object.keys(cards).forEach(<span class="js-key">function</span>(id) {
+    <span class="js-key">var</span> el = document.getElementById(id);
+    <span class="js-key">if</span> (el) el.addEventListener(<span class="js-str">'click'</span>, <span class="js-key">function</span>() {
+      mgStart(cards[id]);
+    });
+  });
+});
+
+<span class="comment">// ── GAME 1: CRYPTO QUIZ BLITZ ──</span>
+<span class="js-key">function</span> <span class="js-fn">mgInitBlitz</span>() {
+  mgBState = {
+    qs: mgShuffle(mgBlitzQs).slice(<span class="css-val">0</span>, <span class="css-val">10</span>),
+    cur: <span class="css-val">0</span>, score: <span class="css-val">0</span>, timeLeft: <span class="css-val">30</span>
+  };
+  mgBlitzRender();
+  mgBlitzTimer();
+}
+
+<span class="comment">// ── GAME 2: SCAM SPOTTER ──</span>
+<span class="js-key">function</span> <span class="js-fn">mgScamAns</span>(ans) {
+  <span class="js-key">var</span> m = mgSState.msgs[mgSState.cur];
+  <span class="js-key">var</span> correct = (ans === <span class="js-str">'scam'</span>) === m.isScam;
+  <span class="js-key">if</span> (correct) mgSState.score++;
+}
+
+<span class="comment">// ── GAME 3: MEMORY MATCH ──</span>
+<span class="js-key">function</span> <span class="js-fn">mgMemFlip</span>(idx) {
+  mgMState.flipped.push(idx);
+  <span class="js-key">if</span> (mgMState.flipped.length === <span class="css-val">2</span>) {
+    <span class="js-key">var</span> c1 = mgMState.cards[mgMState.flipped[<span class="css-val">0</span>]];
+    <span class="js-key">var</span> c2 = mgMState.cards[mgMState.flipped[<span class="css-val">1</span>]];
+    <span class="js-key">if</span> (c1.pairId === c2.pairId) {
+      mgMState.matched.push(c1.pairId); <span class="comment">// Match found!</span>
+    }
+  }
+}</pre></div>
+
+  <p class="explain"><strong>Why addEventListener instead of onclick:</strong> The game cards use addEventListener attached after the page fully loads using window.addEventListener load. This was the fix for the mgStart error shown in the console. If onclick was used directly in HTML the function would be called before the JavaScript was ready.</p>
+  <p class="explain"><strong>Game 1 — Crypto Quiz Blitz:</strong> 10 true/false questions are randomly shuffled using mgShuffle which is a Fisher-Yates shuffle algorithm. A 30 second timer runs using setInterval. When time runs out or all questions are answered mgShowResult is called.</p>
+  <p class="explain"><strong>Game 2 — Scam Spotter:</strong> 8 real and fake messages are shown one by one. Each has isScam true or false. The mgScamAns function compares the user's choice with the correct answer and increments the score. Each message has a 10 second timer.</p>
+  <p class="explain"><strong>Game 3 — Memory Match:</strong> Cards are stored in an array with pairId values. When two cards are flipped the function checks if their pairId matches. If yes they stay face up and are added to the matched array. If no they flip back after 800 milliseconds using setTimeout.</p>
+  <p class="explain"><strong>XP system:</strong> All three games call mgAddXP after they finish. This adds points to mgXP which is stored in localStorage. The XP bar in the sidebar is updated using mgUpdateXP which calculates the fill percentage and sets the bar width.</p>
+  <div class="highlight"><strong>Key design decision:</strong> All three games are embedded directly inside index.html rather than in separate files or iframes. This means they load instantly with the page and can access the same XP system and gamification variables as the rest of the website.</div>
+</div>
+
+</div><!-- end main -->
+
+<footer style="background:#08192d;padding:32px;text-align:center;">
+  <div style="font-size:18px;font-weight:700;color:white;">Druk<span style="color:#f4a261;">Shift</span> 🇧🇹</div>
+  <div style="font-size:12px;color:#7a9bb5;margin-top:8px;">Code Explanation · Kinzang Choden · BDS Internship 2026</div>
+</footer>
+
+</body>
+</html>
