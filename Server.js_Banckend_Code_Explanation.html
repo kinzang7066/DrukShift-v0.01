@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>server.js — Full Code Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;--accent:#f4a261;--red:#e63946;--light:#f0f4f8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--light);color:#2d4a5a;line-height:1.7;}
+.topbar{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-size:18px;font-weight:700;color:white;}.topbar-logo span{color:var(--accent);}
+.topbar-tag{font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;}
+.hero{background:linear-gradient(160deg,#04101e,#08192d);padding:48px 32px;text-align:center;}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;color:white;margin-bottom:8px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:14px;color:#7a9bb5;max-width:600px;margin:0 auto;}
+.file-badge{display:inline-block;background:rgba(255,165,0,0.15);border:1px solid rgba(255,165,0,0.4);color:#ffa500;font-size:12px;font-weight:700;padding:6px 16px;border-radius:50px;margin-top:12px;letter-spacing:1px;}
+.main{max-width:960px;margin:32px auto;padding:0 24px 80px;}
+.toc{background:white;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 16px rgba(8,25,45,0.06);}
+.toc h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;border-bottom:2px solid var(--light);padding-bottom:10px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.toc-link{font-size:12px;color:var(--teal);text-decoration:none;padding:5px 8px;border-radius:6px;display:block;}
+.toc-link:hover{background:var(--light);}
+.part{margin-bottom:32px;}
+.part-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 20px;border-radius:10px;background:#fff8e1;border-left:4px solid #ffa500;}
+.part-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border-radius:50px;background:#ffa500;color:white;}
+.part-title{font-size:16px;font-weight:700;color:var(--navy);}
+.card{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 12px rgba(8,25,45,0.05);}
+.card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--light);}
+.code{background:#0d1117;border-radius:8px;padding:12px 16px;margin:10px 0;overflow-x:auto;}
+.code pre{font-family:'Fira Code',monospace;font-size:11.5px;color:#e6edf3;line-height:1.8;white-space:pre-wrap;}
+.explain{font-size:13px;color:#2d4a5a;line-height:1.8;margin:8px 0;}
+.explain strong{color:var(--navy);font-weight:600;}
+.note{background:rgba(42,157,143,0.07);border-left:3px solid var(--teal);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;line-height:1.7;}
+.warn{background:rgba(244,162,97,0.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;}
+.def{display:inline-block;background:#e8f0fa;color:#1a4a7a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;margin:2px 0;}
+.divider{height:1px;background:#e4eaf2;margin:24px 0;}
+.route-badge{display:inline-block;font-family:'Fira Code',monospace;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;margin-right:8px;}
+.get{background:#e1f5ee;color:#085041;}
+.post{background:#e3f2fd;color:#1a4a7a;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Druk<span>Shift</span></div>
+  <div class="topbar-tag">server.js — Code Explanation</div>
+</div>
+
+<div class="hero">
+  <h1><span>server.js</span> — Full Code Explanation</h1>
+  <p>The Node.js and Express backend server that powers DrukShift — handling quiz results, user data, email OTP, and all API routes connected to MongoDB Atlas.</p>
+  <div class="file-badge">📄 FILE 4 OF 10 — server.js (169 lines) · Node.js Backend</div>
+</div>
+
+<div class="main">
+
+<div class="toc">
+  <h2>Contents of this explanation</h2>
+  <div class="toc-grid">
+    <a class="toc-link" href="#s1">Imports and Setup</a>
+    <a class="toc-link" href="#s2">CORS Middleware</a>
+    <a class="toc-link" href="#s3">MongoDB Connection</a>
+    <a class="toc-link" href="#s4">Database Models</a>
+    <a class="toc-link" href="#s5">Email Transporter</a>
+    <a class="toc-link" href="#s6">OTP Store</a>
+    <a class="toc-link" href="#s7">Test Route GET /</a>
+    <a class="toc-link" href="#s8">POST /api/send-otp</a>
+    <a class="toc-link" href="#s9">POST /api/verify-otp</a>
+    <a class="toc-link" href="#s10">POST /api/quiz</a>
+    <a class="toc-link" href="#s11">GET /api/quiz/:email</a>
+    <a class="toc-link" href="#s12">GET /api/admin/users</a>
+    <a class="toc-link" href="#s13">GET /api/admin/results</a>
+    <a class="toc-link" href="#s14">Start Server</a>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<div class="part" id="s1">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">Imports and App Setup</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Imports and Setup</div>
+    <div class="code"><pre>const express    = require("express");
+const mongoose   = require("mongoose");
+const nodemailer = require("nodemailer");
+
+const app = express();</pre></div>
+    <p class="explain"><strong>require()</strong> — <span class="def">Node.js import</span> — Node.js way of importing external packages. Like import in Python. Each package must be installed using npm install before it can be required.</p>
+    <p class="explain"><strong>express</strong> — <span class="def">Web framework</span> — Express is the most popular Node.js framework for building web servers and APIs. It makes it easy to define routes and handle HTTP requests and responses.</p>
+    <p class="explain"><strong>mongoose</strong> — <span class="def">MongoDB library</span> — Mongoose is an ODM (Object Data Modelling) library for MongoDB. It lets you define schemas, create models, and interact with MongoDB using JavaScript objects instead of raw database queries.</p>
+    <p class="explain"><strong>nodemailer</strong> — <span class="def">Email library</span> — Nodemailer is a Node.js library for sending emails. Used here to send OTP verification codes to users via Gmail.</p>
+    <p class="explain"><strong>const app = express()</strong> — <span class="def">App instance</span> — Creates the Express application instance. All routes, middleware and settings are attached to this app object. app.listen() at the bottom starts the server.</p>
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="part" id="s2">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">CORS Middleware</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — CORS Middleware</div>
+    <div class="code"><pre>app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin",  "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
+app.use(express.json());</pre></div>
+    <p class="explain"><strong>app.use()</strong> — <span class="def">Middleware registration</span> — Registers a middleware function that runs on every request before it reaches the route handlers. Middleware can modify the request or response or pass control to the next function.</p>
+    <p class="explain"><strong>CORS — Cross-Origin Resource Sharing</strong> — <span class="def">Security policy</span> — By default browsers block requests from one domain to another for security. Our frontend is on github.io but the backend is on onrender.com — different domains. CORS headers tell the browser this is allowed.</p>
+    <p class="explain"><strong>Access-Control-Allow-Origin: *</strong> — <span class="def">Allow all origins</span> — The * means any website can make requests to this backend. In production a specific domain like kinzang7066.github.io would be used for security.</p>
+    <p class="explain"><strong>OPTIONS method check</strong> — <span class="def">Preflight request</span> — Before making a real request browsers first send an OPTIONS preflight request to check if CORS is allowed. This code immediately responds with 200 OK to those preflight requests.</p>
+    <p class="explain"><strong>next()</strong> — <span class="def">Pass to next middleware</span> — Tells Express to continue to the next middleware or route handler. Without calling next() the request would hang and never get a response.</p>
+    <p class="explain"><strong>express.json()</strong> — <span class="def">JSON parser</span> — Built-in Express middleware that parses incoming requests with JSON bodies. Without this req.body would be undefined when the frontend sends JSON data.</p>
+  </div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="part" id="s3">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">MongoDB Connection</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — MongoDB Atlas Connection</div>
+    <div class="code"><pre>mongoose
+  .connect("mongodb+srv://admin:Oracle2025@cluster0.4mebvxb.mongodb.net/?appName=Cluster0")
+  .then(() => console.log("MongoDB connected ✅"))
+  .catch((err) => console.log("MongoDB connection error ❌", err));</pre></div>
+    <p class="explain"><strong>mongoose.connect()</strong> — <span class="def">Database connection</span> — Establishes a connection to the MongoDB Atlas cloud database. Returns a Promise — .then runs if successful, .catch runs if it fails.</p>
+    <p class="explain"><strong>Connection string format</strong> — <span class="def">MongoDB URI</span> — mongodb+srv:// is the protocol for MongoDB Atlas cloud. admin is the username, Oracle2025 is the password, cluster0.4mebvxb.mongodb.net is the cluster address.</p>
+    <p class="explain"><strong>.then() and .catch()</strong> — <span class="def">Promise handling</span> — These handle the result of the async connection. .then runs the success callback when connected. .catch runs the error callback if connection fails.</p>
+    <p class="explain"><strong>console.log()</strong> — <span class="def">Server logging</span> — Prints messages to the server terminal. Useful for debugging — when the server starts you can see in the Render logs whether MongoDB connected successfully.</p>
+    <div class="warn"><strong>Security note:</strong> The connection string contains the database password. In a production application this would be stored in an environment variable (process.env.MONGO_URI) not hardcoded in the file.</div>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="part" id="s4">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">Database Models</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Mongoose Models</div>
+    <div class="code"><pre>const User       = require('./models/User');
+const QuizResult = require('./models/QuizResult');
+
+// ── User model (models/User.js) ──
+// {
+//   name:      String,
+//   email:     String (unique),
+//   createdAt: Date
+// }
+
+// ── QuizResult model (models/QuizResult.js) ──
+// {
+//   userId:  ObjectId (reference to User),
+//   score:   Number,
+//   answers: [Number],   // array of 10 answers
+//   takenAt: Date
+// }</pre></div>
+    <p class="explain"><strong>require('./models/User')</strong> — <span class="def">Local file import</span> — The ./ means import from a local folder. The models folder contains Mongoose schema definitions for the database collections.</p>
+    <p class="explain"><strong>User model</strong> — <span class="def">Users collection</span> — Represents the users MongoDB collection. Each document stores a user's name, email and when they registered. The email field is unique — one user per email address.</p>
+    <p class="explain"><strong>QuizResult model</strong> — <span class="def">Quiz results collection</span> — Represents the quizresults MongoDB collection. Each document stores the userId (linking to the User), their score percentage, their 10 individual answers as an array, and the timestamp.</p>
+    <p class="explain"><strong>userId: ObjectId reference</strong> — <span class="def">Database relationship</span> — Links each quiz result to a user. Like a foreign key in SQL databases. This allows fetching all quiz results for a specific user.</p>
+    <p class="explain"><strong>answers: [Number]</strong> — <span class="def">Array field</span> — Stores all 10 quiz answers as an array of numbers. answers[0] is the Q1 answer, answers[9] is Q10. This allows the admin dashboard to calculate domain averages.</p>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="part" id="s5">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">Email Transporter</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Nodemailer Email Setup</div>
+    <div class="code"><pre>var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'chodenkinzang829@gmail.com',
+        pass: 'tdwivmgiwykkfemw'
+    }
+});</pre></div>
+    <p class="explain"><strong>nodemailer.createTransport()</strong> — <span class="def">Email sender setup</span> — Creates an email transport object configured to send emails through Gmail. This transporter is reused every time an email needs to be sent.</p>
+    <p class="explain"><strong>service: 'gmail'</strong> — <span class="def">Email provider</span> — Tells nodemailer to use Gmail's SMTP server. Nodemailer has built-in configurations for popular email providers so only the service name is needed.</p>
+    <p class="explain"><strong>pass: app password</strong> — <span class="def">Gmail App Password</span> — This is not the Gmail account password. It is a special App Password generated in Google Account security settings. Required when two-factor authentication is enabled on the Gmail account.</p>
+    <div class="note"><strong>How it works:</strong> When a user enters their email and clicks Get OTP, the backend generates a 4-digit code, stores it in memory with a 10-minute expiry, then uses this transporter to send a styled HTML email containing the code to the user's inbox.</div>
+  </div>
+</div>
+
+<!-- SECTION 6 -->
+<div class="part" id="s6">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">OTP Store</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — In-Memory OTP Storage</div>
+    <div class="code"><pre>// { email: { otp: '1234', expires: timestamp } }
+var otpStore = {};
+
+// Example of what it looks like when populated:
+// {
+//   'user@example.com': {
+//     otp: '4729',
+//     expires: 1715432800000  // Unix timestamp
+//   }
+// }</pre></div>
+    <p class="explain"><strong>otpStore object</strong> — <span class="def">In-memory store</span> — A plain JavaScript object used as a temporary key-value store. The email address is the key and the OTP data is the value.</p>
+    <p class="explain"><strong>In-memory storage</strong> — <span class="def">RAM storage</span> — Stored in the server's RAM not in MongoDB. This means OTPs are lost if the server restarts. Acceptable for short-lived OTPs but not for persistent data.</p>
+    <p class="explain"><strong>expires: Date.now() + 10 * 60 * 1000</strong> — <span class="def">Expiry timestamp</span> — Date.now() returns current time in milliseconds. Adding 10 * 60 * 1000 (10 minutes in milliseconds) gives the expiry time. When verifying the OTP Date.now() is compared to this value.</p>
+    <p class="explain"><strong>delete otpStore[email]</strong> — <span class="def">Cleanup</span> — After the OTP is verified or expires it is deleted from the store. This prevents old OTPs from being reused and keeps the store small.</p>
+  </div>
+</div>
+
+<!-- SECTION 7 -->
+<div class="part" id="s7">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">Test Route</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Test Route GET /</div>
+    <div class="code"><pre>app.get("/", (req, res) => {
+    res.send("Backend is running 🚀");
+});</pre></div>
+    <p class="explain"><strong>app.get("/")</strong> — <span class="def">GET route</span> — Defines a route that responds to HTTP GET requests at the root URL /. When someone visits https://drukshift-vakend.onrender.com/ in a browser they see this message.</p>
+    <p class="explain"><strong>(req, res)</strong> — <span class="def">Request and Response</span> — req is the incoming request object containing headers, body, params etc. res is the response object used to send back data to the client.</p>
+    <p class="explain"><strong>res.send()</strong> — <span class="def">Send text response</span> — Sends a plain text response. Used here just to confirm the server is running. All other routes use res.json() to send JSON data.</p>
+    <div class="note"><strong>How to test:</strong> Open https://drukshift-vakend.onrender.com/ in a browser. If you see "Backend is running 🚀" the server is working correctly.</div>
+  </div>
+</div>
+
+<!-- SECTION 8 -->
+<div class="part" id="s8">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">POST /api/send-otp</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Send OTP Route</div>
+    <div class="code"><pre><span class="route-badge post">POST</span>/api/send-otp
+
+app.post('/api/send-otp', async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) return res.status(400).json({ error: 'Email is required' });
+
+        // Generate 4-digit OTP
+        var otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+        // Store with 10 minute expiry
+        otpStore[email] = {
+            otp:     otp,
+            expires: Date.now() + 10 * 60 * 1000
+        };
+
+        // Send email using nodemailer
+        await transporter.sendMail({
+            from:    '"DrukShift 🇧🇹" &lt;chodenkinzang829@gmail.com&gt;',
+            to:      email,
+            subject: 'Your DrukShift Quiz Verification Code',
+            html:    `&lt;div&gt;...styled HTML with ${otp}...&lt;/div&gt;`
+        });
+
+        res.json({ success: true, message: 'OTP sent successfully' });
+
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to send OTP.' });
+    }
+});</pre></div>
+    <p class="explain"><strong>app.post()</strong> — <span class="def">POST route</span> — Handles HTTP POST requests. POST is used when sending data to the server (as opposed to GET which just retrieves data).</p>
+    <p class="explain"><strong>async (req, res)</strong> — <span class="def">Async route handler</span> — The async keyword allows using await inside the function. Needed because sending an email is an asynchronous operation that takes time.</p>
+    <p class="explain"><strong>const { email } = req.body</strong> — <span class="def">Destructuring</span> — Extracts the email property from req.body. Same as writing const email = req.body.email.</p>
+    <p class="explain"><strong>res.status(400).json()</strong> — <span class="def">Error response</span> — 400 is the HTTP status code for Bad Request. Returned when required data is missing. The .json() sends the error message as JSON.</p>
+    <p class="explain"><strong>Math.floor(1000 + Math.random() * 9000)</strong> — <span class="def">4-digit OTP</span> — Math.random() gives 0-1, multiplied by 9000 gives 0-9000, adding 1000 gives 1000-10000, Math.floor rounds down. Result is always a 4-digit number between 1000 and 9999.</p>
+    <p class="explain"><strong>Template literal with ${otp}</strong> — <span class="def">String interpolation</span> — Backtick strings allow embedding variables using ${} syntax. The OTP number is inserted directly into the HTML email body.</p>
+    <p class="explain"><strong>try/catch block</strong> — <span class="def">Error handling</span> — Wraps the async operations. If anything fails — network error, Gmail error etc — the catch block runs and sends a 500 Internal Server Error response instead of crashing.</p>
+  </div>
+</div>
+
+<!-- SECTION 9 -->
+<div class="part" id="s9">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">POST /api/verify-otp</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Verify OTP Route</div>
+    <div class="code"><pre><span class="route-badge post">POST</span>/api/verify-otp
+
+app.post('/api/verify-otp', (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        if (!email || !otp) return res.status(400).json({ error: 'Email and OTP required' });
+
+        var stored = otpStore[email];
+
+        // Check OTP exists
+        if (!stored) {
+            return res.status(400).json({ error: 'No OTP found. Please request a new one.' });
+        }
+
+        // Check not expired
+        if (Date.now() > stored.expires) {
+            delete otpStore[email];
+            return res.status(400).json({ error: 'OTP has expired. Please request a new one.' });
+        }
+
+        // Check OTP matches
+        if (stored.otp !== otp.toString()) {
+            return res.status(400).json({ error: 'Incorrect code. Please try again.' });
+        }
+
+        // All checks passed — clear OTP and verify
+        delete otpStore[email];
+        res.json({ success: true, message: 'Email verified successfully!' });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});</pre></div>
+    <p class="explain"><strong>Three validation checks</strong> — <span class="def">Guard clauses</span> — Each check uses an early return if something is wrong. This avoids deeply nested if/else and makes the code easy to read.</p>
+    <p class="explain"><strong>!stored check</strong> — <span class="def">OTP existence</span> — If no OTP was stored for this email the user never requested one or it was already used. Returns an error asking them to request a new one.</p>
+    <p class="explain"><strong>Date.now() > stored.expires</strong> — <span class="def">Expiry check</span> — Compares current time to the stored expiry timestamp. If current time is past the expiry the OTP has expired. The expired OTP is deleted to keep the store clean.</p>
+    <p class="explain"><strong>stored.otp !== otp.toString()</strong> — <span class="def">Code comparison</span> — Compares the stored OTP string with what the user sent. .toString() ensures both are strings for proper comparison — the user might send a number but the stored value is always a string.</p>
+    <p class="explain"><strong>delete otpStore[email]</strong> — <span class="def">One-time use</span> — Deletes the OTP after successful verification. This ensures OTPs can only be used once — reusing the same code would fail because it is deleted from the store.</p>
+  </div>
+</div>
+
+<!-- SECTION 10 -->
+<div class="part" id="s10">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">POST /api/quiz</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Save Quiz Result</div>
+    <div class="code"><pre><span class="route-badge post">POST</span>/api/quiz
+
+app.post('/api/quiz', async (req, res) => {
+    try {
+        const { name, email, score, answers } = req.body;
+
+        // Find existing user or create new one
+        let user = await User.findOne({ email });
+        if (!user) {
+            user = await User.create({ name, email });
+        }
+
+        // Save quiz result linked to user
+        const result = await QuizResult.create({
+            userId:  user._id,
+            score:   score,
+            answers: answers
+        });
+
+        res.json({ success: true, userId: user._id, result });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});</pre></div>
+    <p class="explain"><strong>const { name, email, score, answers } = req.body</strong> — <span class="def">Destructuring</span> — Extracts all four fields from the request body that the frontend sends after quiz completion.</p>
+    <p class="explain"><strong>User.findOne({ email })</strong> — <span class="def">Database query</span> — Searches MongoDB for a user with the matching email address. Returns the user document if found or null if not found.</p>
+    <p class="explain"><strong>Find or create pattern</strong> — <span class="def">Upsert logic</span> — If a user already exists (returning quiz taker) use their existing record. If not found create a new user. This means the same person can take the quiz multiple times and all results are linked to one user account.</p>
+    <p class="explain"><strong>await User.create()</strong> — <span class="def">Create document</span> — Creates and saves a new document in the users MongoDB collection. Returns the newly created document including its auto-generated _id.</p>
+    <p class="explain"><strong>userId: user._id</strong> — <span class="def">Linking records</span> — Stores the user's MongoDB _id in the quiz result. This creates the relationship between the users and quizresults collections allowing quiz history to be fetched per user.</p>
+    <p class="explain"><strong>res.json({ success: true, userId, result })</strong> — <span class="def">Success response</span> — Returns the saved data back to the frontend. The frontend uses this to confirm the save was successful.</p>
+  </div>
+</div>
+
+<!-- SECTION 11 -->
+<div class="part" id="s11">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">GET /api/quiz/:email</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Get Quiz History</div>
+    <div class="code"><pre><span class="route-badge get">GET</span>/api/quiz/:email
+
+app.get('/api/quiz/:email', async (req, res) => {
+    try {
+        // Find user by email from URL parameter
+        const user = await User.findOne({ email: req.params.email });
+
+        // If user not found return empty history
+        if (!user) return res.json({ history: [] });
+
+        // Get all their quiz results sorted newest first
+        const history = await QuizResult.find({ userId: user._id })
+                                        .sort({ takenAt: -1 });
+
+        res.json({ user, history });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});</pre></div>
+    <p class="explain"><strong>:email in route path</strong> — <span class="def">URL parameter</span> — The colon makes email a dynamic parameter. When the frontend requests /api/quiz/user@example.com the value user@example.com is available as req.params.email.</p>
+    <p class="explain"><strong>req.params.email</strong> — <span class="def">URL parameter access</span> — Express automatically parses URL parameters and makes them available on req.params. The name matches whatever came after the colon in the route definition.</p>
+    <p class="explain"><strong>QuizResult.find({ userId: user._id })</strong> — <span class="def">Filter query</span> — Finds all quiz results where the userId field matches the user's _id. Returns all attempts by that user.</p>
+    <p class="explain"><strong>.sort({ takenAt: -1 })</strong> — <span class="def">Descending sort</span> — -1 means descending order (newest first). The most recent quiz attempt appears first in the array.</p>
+    <p class="explain"><strong>Used for history comparison</strong> — <span class="def">Progress tracking</span> — The frontend calls this after saving a new result to check if the user has previous attempts and show their improvement or decline compared to last time.</p>
+  </div>
+</div>
+
+<!-- SECTION 12 -->
+<div class="part" id="s12">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">GET /api/admin/users</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Admin Get All Users</div>
+    <div class="code"><pre><span class="route-badge get">GET</span>/api/admin/users
+
+app.get('/api/admin/users', async (req, res) => {
+    try {
+        const users = await User.find({}).sort({ createdAt: -1 });
+        res.json({ users });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});</pre></div>
+    <p class="explain"><strong>User.find({})</strong> — <span class="def">Find all</span> — The empty {} object means no filter — return all documents in the users collection. Same as SELECT * FROM users in SQL.</p>
+    <p class="explain"><strong>.sort({ createdAt: -1 })</strong> — <span class="def">Newest first</span> — Sorts users by creation date descending. Newest registered users appear first in the admin dashboard table.</p>
+    <p class="explain"><strong>res.json({ users })</strong> — <span class="def">JSON response</span> — Wraps the users array in an object. The admin dashboard JavaScript accesses it as data.users in the fetch response handler.</p>
+    <div class="note"><strong>No authentication:</strong> This route has no password protection — anyone who knows the URL can access all user data. For a production system this would require an authentication token. For this internship project the admin page has its own password check on the frontend.</div>
+  </div>
+</div>
+
+<!-- SECTION 13 -->
+<div class="part" id="s13">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">GET /api/admin/results</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — Admin Get All Results</div>
+    <div class="code"><pre><span class="route-badge get">GET</span>/api/admin/results
+
+app.get('/api/admin/results', async (req, res) => {
+    try {
+        const results = await QuizResult.find({}).sort({ takenAt: -1 });
+        res.json({ results });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});</pre></div>
+    <p class="explain"><strong>QuizResult.find({})</strong> — <span class="def">All results</span> — Returns every quiz result document in the database with no filtering. Includes score, answers array, userId and timestamp for every attempt.</p>
+    <p class="explain"><strong>Used by admin dashboard and live counter</strong> — <span class="def">Dual purpose</span> — This endpoint is used in two places. The admin dashboard uses it to render all charts and the table. The main website hero uses it to show the live quiz count by reading data.results.length.</p>
+    <p class="explain"><strong>answers array in results</strong> — <span class="def">Domain analysis</span> — Each result includes the full answers array. The admin dashboard uses this to calculate average scores per domain by reading answers[0] through answers[9] across all results.</p>
+  </div>
+</div>
+
+<!-- SECTION 14 -->
+<div class="part" id="s14">
+  <div class="part-header">
+    <span class="part-label">Node.js</span>
+    <span class="part-title">Start Server</span>
+  </div>
+  <div class="card">
+    <div class="card-title">server.js — app.listen()</div>
+    <div class="code"><pre>const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} 🚀`);
+});</pre></div>
+    <p class="explain"><strong>PORT = 5000</strong> — <span class="def">Port number</span> — Port 5000 is used when running locally. When deployed on Render the platform overrides this with its own port via the PORT environment variable.</p>
+    <p class="explain"><strong>app.listen()</strong> — <span class="def">Start server</span> — This is the last line that actually starts the server and makes it listen for incoming HTTP requests. Everything above just sets up the configuration — this line activates it.</p>
+    <p class="explain"><strong>Callback function</strong> — <span class="def">Ready confirmation</span> — The arrow function runs once when the server successfully starts. The console.log message appears in the terminal (or Render logs) confirming the server is ready to accept requests.</p>
+    <p class="explain"><strong>Template literal with PORT</strong> — <span class="def">Dynamic message</span> — The backtick string with ${PORT} inserts the actual port number into the message. Shows "Server running on port 5000 🚀" in the terminal.</p>
+    <div class="note"><strong>Full API summary:</strong>
+      GET / — Test route, confirms server is running.
+      POST /api/send-otp — Send OTP email to user.
+      POST /api/verify-otp — Verify OTP code.
+      POST /api/quiz — Save quiz result to MongoDB.
+      GET /api/quiz/:email — Get quiz history for a user.
+      GET /api/admin/users — Get all users (admin).
+      GET /api/admin/results — Get all quiz results (admin + live counter).
+    </div>
+  </div>
+</div>
+
+</div>
+
+<footer style="background:#08192d;padding:32px;text-align:center;margin-top:40px;">
+  <div style="font-size:18px;font-weight:700;color:white;margin-bottom:6px;">Druk<span style="color:#f4a261;">Shift</span> 🇧🇹</div>
+  <div style="font-size:12px;color:#7a9bb5;">server.js Explanation · Kinzang Choden · BDS Internship 2026</div>
+  <div style="font-size:11px;color:#4a6a8a;margin-top:6px;">Next file → drukshift_story.html (Webtoon)</div>
+</footer>
+
+</body>
+</html>
