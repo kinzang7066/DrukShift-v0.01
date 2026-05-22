@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>index.html — Full Code Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;--accent:#f4a261;--red:#e63946;--light:#f0f4f8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--light);color:#2d4a5a;line-height:1.7;}
+.topbar{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-size:18px;font-weight:700;color:white;}.topbar-logo span{color:var(--accent);}
+.topbar-tag{font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;}
+.hero{background:linear-gradient(160deg,#04101e,#08192d);padding:48px 32px;text-align:center;}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;color:white;margin-bottom:8px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:14px;color:#7a9bb5;max-width:600px;margin:0 auto;}
+.file-badge{display:inline-block;background:rgba(42,157,143,0.15);border:1px solid rgba(42,157,143,0.4);color:var(--teal);font-size:12px;font-weight:700;padding:6px 16px;border-radius:50px;margin-top:12px;letter-spacing:1px;}
+.main{max-width:960px;margin:32px auto;padding:0 24px 80px;}
+.toc{background:white;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 16px rgba(8,25,45,0.06);}
+.toc h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;border-bottom:2px solid var(--light);padding-bottom:10px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.toc-link{font-size:12px;color:var(--teal);text-decoration:none;padding:5px 8px;border-radius:6px;display:block;transition:background 0.2s;}
+.toc-link:hover{background:var(--light);}
+.part{margin-bottom:32px;}
+.part-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 20px;border-radius:10px;}
+.part-header.html{background:#fff3e0;border-left:4px solid #f4a261;}
+.part-header.css{background:#e3f2fd;border-left:4px solid #2196f3;}
+.part-header.js{background:#f3e5f5;border-left:4px solid #9c27b0;}
+.part-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border-radius:50px;}
+.part-label.html{background:#f4a261;color:white;}
+.part-label.css{background:#2196f3;color:white;}
+.part-label.js{background:#9c27b0;color:white;}
+.part-title{font-size:16px;font-weight:700;color:var(--navy);}
+.card{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 12px rgba(8,25,45,0.05);}
+.card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--light);}
+.code{background:#0d1117;border-radius:8px;padding:12px 16px;margin:10px 0;overflow-x:auto;}
+.code pre{font-family:'Fira Code',monospace;font-size:11.5px;color:#e6edf3;line-height:1.8;white-space:pre-wrap;}
+.explain{font-size:13px;color:#2d4a5a;line-height:1.8;margin:8px 0;}
+.explain strong{color:var(--navy);font-weight:600;}
+.note{background:rgba(42,157,143,0.07);border-left:3px solid var(--teal);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;line-height:1.7;}
+.warn{background:rgba(244,162,97,0.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;}
+.def{display:inline-block;background:#e8f0fa;color:#1a4a7a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;margin:2px 0;}
+h3{font-size:14px;font-weight:700;color:var(--navy);margin:14px 0 6px;}
+.divider{height:1px;background:#e4eaf2;margin:24px 0;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Druk<span>Shift</span></div>
+  <div class="topbar-tag">index.html — Code Explanation</div>
+</div>
+
+<div class="hero">
+  <h1><span>index.html</span> — Full Code Explanation</h1>
+  <p>Every section of the main website file explained — HTML structure, CSS styles, and JavaScript functions — with definitions and simple descriptions.</p>
+  <div class="file-badge">📄 FILE 1 OF 10 — index.html (2639 lines)</div>
+</div>
+
+<div class="main">
+
+<!-- TOC -->
+<div class="toc">
+  <h2>Contents of this explanation</h2>
+  <div class="toc-grid">
+    <a class="toc-link" href="#html1">HTML — DOCTYPE & Head</a>
+    <a class="toc-link" href="#html2">HTML — Navigation</a>
+    <a class="toc-link" href="#html3">HTML — Breadcrumb</a>
+    <a class="toc-link" href="#html4">HTML — Hero Section</a>
+    <a class="toc-link" href="#html5">HTML — About & Stats</a>
+    <a class="toc-link" href="#html6">HTML — GNH Section</a>
+    <a class="toc-link" href="#html7">HTML — Solutions</a>
+    <a class="toc-link" href="#html8">HTML — Findings</a>
+    <a class="toc-link" href="#html9">HTML — Quiz Section</a>
+    <a class="toc-link" href="#html10">HTML — Resources</a>
+    <a class="toc-link" href="#html11">HTML — Footer</a>
+    <a class="toc-link" href="#css1">CSS — Variables & Reset</a>
+    <a class="toc-link" href="#css2">CSS — Navigation</a>
+    <a class="toc-link" href="#css3">CSS — Hero</a>
+    <a class="toc-link" href="#css4">CSS — Buttons</a>
+    <a class="toc-link" href="#css5">CSS — Cards & Sections</a>
+    <a class="toc-link" href="#css6">CSS — Quiz Styles</a>
+    <a class="toc-link" href="#css7">CSS — Animations</a>
+    <a class="toc-link" href="#css8">CSS — Mobile Responsive</a>
+    <a class="toc-link" href="#js1">JS — Hero Slideshow</a>
+    <a class="toc-link" href="#js2">JS — Email Validation</a>
+    <a class="toc-link" href="#js3">JS — Quiz Engine</a>
+    <a class="toc-link" href="#js4">JS — Tableau Functions</a>
+    <a class="toc-link" href="#js5">JS — Live Counter</a>
+    <a class="toc-link" href="#js6">JS — Scroll Reveal</a>
+    <a class="toc-link" href="#js7">JS — Dark Mode</a>
+    <a class="toc-link" href="#js8">JS — Breadcrumb</a>
+    <a class="toc-link" href="#js9">JS — Mini Games</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     HTML SECTION
+═══════════════════════════ -->
+<div class="part" id="html1">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">DOCTYPE and Head Section</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">index.html — HTML — DOCTYPE and Head</div>
+    <div class="code"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Cryptocurrency Readiness in Bhutan | DrukShift&lt;/title&gt;
+  &lt;link href="https://fonts.googleapis.com/css2?family=Outfit..." rel="stylesheet"&gt;
+  &lt;script src="https://public.tableau.com/.../tableau.embedding...min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;</pre></div>
+    <p class="explain"><strong>&lt;!DOCTYPE html&gt;</strong> — <span class="def">Declaration</span> — Tells the browser this is a modern HTML5 document. Without this line the browser uses old rendering rules and the layout breaks.</p>
+    <p class="explain"><strong>&lt;html lang="en"&gt;</strong> — <span class="def">Root element</span> — Opens the HTML document. lang="en" tells search engines and screen readers the page is in English.</p>
+    <p class="explain"><strong>meta charset="UTF-8"</strong> — <span class="def">Character encoding</span> — Supports all characters including emojis, Bhutanese text and special symbols. Without this, characters show as question marks.</p>
+    <p class="explain"><strong>meta viewport</strong> — <span class="def">Mobile responsiveness</span> — Makes the website fit the screen width of any device. Without this, the site appears tiny on phones.</p>
+    <p class="explain"><strong>title tag</strong> — <span class="def">Browser tab title</span> — Sets the text shown in the browser tab and in Google search results.</p>
+    <p class="explain"><strong>Google Fonts link</strong> — <span class="def">External font import</span> — Imports Outfit and Cormorant Garamond fonts from Google's servers. Outfit is used for body text, Cormorant for headings.</p>
+    <p class="explain"><strong>Tableau script</strong> — <span class="def">Third party library</span> — Loads the Tableau JavaScript API. This is needed for Tableau visualizations to work on the page.</p>
+  </div>
+</div>
+
+<div class="part" id="html2">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Navigation Bar</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Navigation</div>
+    <div class="code"><pre>&lt;nav&gt;
+  &lt;div class="nav-logo"&gt;DrukShift &lt;span&gt;🇧🇹&lt;/span&gt;&lt;/div&gt;
+  &lt;ul class="nav-links"&gt;
+    &lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#gnh"&gt;GNH Story&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#solutions"&gt;Solutions&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#readiness"&gt;Readiness&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#findings"&gt;Findings&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#reports"&gt;Reports&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="drukshift_story.html" target="_blank"&gt;🎬 Webtoon&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="Drukpay.html" target="_blank"&gt;💳 Try Pay&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;button class="hamburger" onclick="toggleMenu()"&gt;☰&lt;/button&gt;
+&lt;/nav&gt;</pre></div>
+    <p class="explain"><strong>&lt;nav&gt;</strong> — <span class="def">Navigation element</span> — HTML5 semantic tag for the navigation area. Screen readers and search engines recognise this as the navigation section.</p>
+    <p class="explain"><strong>href="#about"</strong> — <span class="def">Anchor link</span> — The # symbol followed by a section ID scrolls the page smoothly to that section. Each section has a matching id="about" attribute.</p>
+    <p class="explain"><strong>target="_blank"</strong> — <span class="def">New tab</span> — Opens the link in a new browser tab. Used for Webtoon and Try Pay so users do not leave the main website.</p>
+    <p class="explain"><strong>onclick="toggleMenu()"</strong> — <span class="def">Event handler</span> — Calls the JavaScript function toggleMenu when the hamburger button is clicked. This shows and hides the mobile navigation menu.</p>
+    <div class="note"><strong>Why nav is fixed:</strong> In CSS, nav has position:fixed which means it stays at the top of the screen while you scroll. backdrop-filter:blur gives it the frosted glass effect.</div>
+  </div>
+</div>
+
+<div class="part" id="html3">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Breadcrumb Navigation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Breadcrumb</div>
+    <div class="code"><pre>&lt;div id="breadcrumb"&gt;
+  &lt;div class="bc-item"&gt;
+    &lt;button class="bc-link active" onclick="bcGo('home')"&gt;🏠 Home&lt;/button&gt;
+    &lt;span class="bc-sep"&gt;›&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="bc-item"&gt;
+    &lt;button class="bc-link" onclick="bcGo('gnh')"&gt;GNH Story&lt;/button&gt;
+    &lt;span class="bc-sep"&gt;›&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;!-- more sections... --&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>id="breadcrumb"</strong> — <span class="def">Element ID</span> — Gives this div a unique name so JavaScript can find it using document.getElementById and show or hide it based on scroll position.</p>
+    <p class="explain"><strong>class="bc-link active"</strong> — <span class="def">CSS classes</span> — bc-link applies the button styling. active applies the orange highlight colour. JavaScript adds and removes active as the user scrolls.</p>
+    <p class="explain"><strong>onclick="bcGo('home')"</strong> — <span class="def">Click event</span> — Calls the JavaScript bcGo function with the section ID. The function smoothly scrolls to that section.</p>
+    <p class="explain"><strong>bc-sep ›</strong> — <span class="def">Separator</span> — The › arrow character between each breadcrumb link. It is just a visual separator with no functionality.</p>
+    <div class="note"><strong>Why this was added:</strong> Added to fix the supervisor feedback that the website had too much scrolling. Now users can jump to any section with one click.</div>
+  </div>
+</div>
+
+<div class="part" id="html4">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Hero Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Hero Section</div>
+    <div class="code"><pre>&lt;section class="hero" id="home"&gt;
+  &lt;!-- 5 background image slides --&gt;
+  &lt;div class="hero-slides"&gt;
+    &lt;div class="hero-slide active"&gt;&lt;/div&gt;
+    &lt;div class="hero-slide"&gt;&lt;/div&gt;
+    &lt;div class="hero-slide"&gt;&lt;/div&gt;
+    &lt;div class="hero-slide"&gt;&lt;/div&gt;
+    &lt;div class="hero-slide"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Grid overlay and glow orbs --&gt;
+  &lt;div class="hero-grid"&gt;&lt;/div&gt;
+  &lt;div class="hero-orb hero-orb-1"&gt;&lt;/div&gt;
+  &lt;div class="hero-orb hero-orb-2"&gt;&lt;/div&gt;
+  &lt;!-- Main content --&gt;
+  &lt;div class="hero-content"&gt;
+    &lt;div class="hero-badge"&gt;🏛️ BHUTAN DATA SCIENTISTS — INTERNSHIP 2026&lt;/div&gt;
+    &lt;p class="hero-intro"&gt;Hi, I am &lt;strong&gt;Kinzang Choden&lt;/strong&gt;...&lt;/p&gt;
+    &lt;h1&gt;Cryptocurrency &lt;em&gt;Readiness&lt;/em&gt;&lt;/h1&gt;
+    &lt;p class="hero-desc"&gt;in Bhutan&lt;/p&gt;
+    &lt;div class="hero-buttons"&gt;
+      &lt;a href="#quiz" class="btn-primary"&gt;Take the Quiz&lt;/a&gt;
+      &lt;a href="drukshift_story.html" class="btn-secondary"&gt;Read Our Story&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Navigation dots for slideshow --&gt;
+  &lt;div class="hero-dots"&gt;
+    &lt;button class="hero-dot active" onclick="goToSlide(0)"&gt;&lt;/button&gt;
+    &lt;button class="hero-dot" onclick="goToSlide(1)"&gt;&lt;/button&gt;
+    &lt;button class="hero-dot" onclick="goToSlide(2)"&gt;&lt;/button&gt;
+    &lt;button class="hero-dot" onclick="goToSlide(3)"&gt;&lt;/button&gt;
+    &lt;button class="hero-dot" onclick="goToSlide(4)"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;!-- Live quiz counter --&gt;
+  &lt;div id="liveBar"&gt;
+    &lt;span id="liveCount"&gt;...&lt;/span&gt; Bhutanese have taken the quiz
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>hero-slides</strong> — <span class="def">Slideshow container</span> — Contains 5 div elements. Each has a background image set in CSS from Unsplash. JavaScript cycles through them by adding and removing the active class.</p>
+    <p class="explain"><strong>hero-grid</strong> — <span class="def">Decorative element</span> — A div with a CSS grid pattern background creating faint horizontal and vertical lines over the hero for a tech aesthetic.</p>
+    <p class="explain"><strong>hero-orb</strong> — <span class="def">Glow effect</span> — Two decorative circles with radial gradient backgrounds that pulse using CSS animation. They create the glowing light effect on left and right of the hero.</p>
+    <p class="explain"><strong>hero-badge</strong> — <span class="def">Label element</span> — The small pill-shaped label at the top showing the internship information. Styled with a semi-transparent orange border.</p>
+    <p class="explain"><strong>&lt;em&gt;</strong> — <span class="def">Emphasis tag</span> — Makes the word Readiness italic and colours it orange using CSS. em means emphasis in HTML.</p>
+    <p class="explain"><strong>hero-dots</strong> — <span class="def">Slideshow indicators</span> — Small circular buttons at the bottom of the hero. Clicking them calls goToSlide with the slide number to jump to that image.</p>
+    <p class="explain"><strong>id="liveCount"</strong> — <span class="def">Dynamic counter</span> — JavaScript makes a fetch request to the MongoDB backend and puts the live number of quiz responses inside this span element.</p>
+  </div>
+</div>
+
+<div class="part" id="html5">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">About and Stats Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — About and Stats</div>
+    <div class="code"><pre>&lt;section class="about-section" id="about"&gt;
+  &lt;div class="about-inner-simple"&gt;
+    &lt;h2&gt;About &lt;em&gt;DrukShift&lt;/em&gt;&lt;/h2&gt;
+    &lt;p&gt;...project description...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class="stats-section"&gt;
+  &lt;div class="stat-item"&gt;
+    &lt;div class="stat-num" data-target="113"&gt;0&lt;/div&gt;
+    &lt;div class="stat-lbl"&gt;Adults Surveyed&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="stat-item"&gt;
+    &lt;div class="stat-num" data-target="80"&gt;0&lt;/div&gt;
+    &lt;div class="stat-lbl"&gt;% Overall Readiness&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- more stat items --&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>data-target="113"</strong> — <span class="def">Custom data attribute</span> — Stores the final number the counter should count up to. JavaScript reads this using getAttribute('data-target') and animates from 0 to that number.</p>
+    <p class="explain"><strong>stat-num starts at 0</strong> — <span class="def">Initial value</span> — The number starts at 0 in the HTML. JavaScript replaces it with the animated count when the section scrolls into view.</p>
+    <p class="explain"><strong>id="about"</strong> — <span class="def">Section anchor</span> — This ID matches the href="#about" in the navigation links so clicking About in the nav scrolls to this section.</p>
+  </div>
+</div>
+
+<div class="part" id="html6">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">GNH Story Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — GNH Section</div>
+    <div class="code"><pre>&lt;section class="gnh-section" id="gnh"&gt;
+  &lt;div class="gnh-inner"&gt;
+    &lt;span class="section-tag"&gt;GNH Alignment&lt;/span&gt;
+    &lt;h2&gt;Readiness as a &lt;em&gt;Happiness Story&lt;/em&gt;&lt;/h2&gt;
+    &lt;p&gt;...description...&lt;/p&gt;
+    &lt;div class="gnh-domains"&gt;
+      &lt;span class="gnh-pill"&gt;🎓 Education&lt;/span&gt;
+      &lt;span class="gnh-pill"&gt;🏠 Living Standards&lt;/span&gt;
+      &lt;span class="gnh-pill"&gt;🧠 Psychological Wellbeing&lt;/span&gt;
+      &lt;span class="gnh-pill"&gt;🏛️ Governance&lt;/span&gt;
+      &lt;span class="gnh-pill"&gt;🤝 Community Vitality&lt;/span&gt;
+      &lt;span class="gnh-pill"&gt;⏰ Time Use&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;button class="btn-gnh" onclick="openGNHModal()"&gt;
+      🇧🇹 View GNH Story on Tableau ↗
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>gnh-pill</strong> — <span class="def">Tag/badge element</span> — Each GNH domain is displayed as a pill-shaped tag using span elements with CSS border-radius 50px to make them rounded.</p>
+    <p class="explain"><strong>onclick="openGNHModal()"</strong> — <span class="def">Click event</span> — Calls the JavaScript function which opens the Tableau GNH Story in a new browser tab using window.open.</p>
+    <p class="explain"><strong>section-tag</strong> — <span class="def">Section label</span> — Small uppercase orange text label above the heading. Used consistently across all sections to identify what area of the project each section covers.</p>
+  </div>
+</div>
+
+<div class="part" id="html7">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Solutions Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Solutions Section</div>
+    <div class="code"><pre>&lt;section class="solutions-section" id="solutions"&gt;
+  &lt;div class="solutions-grid"&gt;
+    &lt;div class="solution-card reveal"&gt;
+      &lt;div class="solution-num"&gt;01&lt;/div&gt;
+      &lt;div class="solution-icon"&gt;🎓&lt;/div&gt;
+      &lt;h3&gt;Close the Education Gap&lt;/h3&gt;
+      &lt;p&gt;Young people need digital-first platforms...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;!-- 4 more solution cards --&gt;
+    &lt;div class="solution-card solution-card-wide reveal"&gt;
+      &lt;!-- 5th card spans full width --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;a href="https://public.tableau.com/..." target="_blank" class="btn-solutions"&gt;
+    💡 View Solutions on Tableau ↗
+  &lt;/a&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>class="reveal"</strong> — <span class="def">Animation trigger</span> — Cards with this class start invisible and shifted down. JavaScript adds visible class when they scroll into view making them fade and slide up.</p>
+    <p class="explain"><strong>solution-num</strong> — <span class="def">Background number</span> — The large light grey number 01, 02 etc. positioned absolute top right of each card. Decorative only, gives visual depth.</p>
+    <p class="explain"><strong>solution-card-wide</strong> — <span class="def">Full width card</span> — In CSS this has grid-column:1/-1 which makes it span across both columns of the grid. Used for the 5th solution card.</p>
+    <p class="explain"><strong>Solutions Tableau link</strong> — <span class="def">Direct link</span> — Changed from a button with onclick to a direct anchor tag href pointing to the Tableau URL. This prevents popup blocking by browsers.</p>
+  </div>
+</div>
+
+<div class="part" id="html8">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Findings Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Key Findings</div>
+    <div class="code"><pre>&lt;section class="findings-section" id="findings"&gt;
+  &lt;div class="section-header"&gt;
+    &lt;span class="section-tag"&gt;Key Findings&lt;/span&gt;
+    &lt;h2&gt;7 Critical Insights&lt;/h2&gt;
+    &lt;div class="accent-line"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="findings-grid"&gt;
+    &lt;div class="finding-card reveal"&gt;
+      &lt;div class="finding-num"&gt;01&lt;/div&gt;
+      &lt;div class="finding-icon"&gt;🏆&lt;/div&gt;
+      &lt;h3&gt;Bhutan is 80% Ready Overall&lt;/h3&gt;
+      &lt;p&gt;Average readiness score was 12.75...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;!-- 6 more finding cards --&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>accent-line</strong> — <span class="def">Decorative line</span> — A 48px wide, 3px tall orange horizontal line below the heading. Created with a simple div and CSS border-radius.</p>
+    <p class="explain"><strong>finding-card::before</strong> — <span class="def">CSS pseudo-element</span> — Each card has a 4px coloured top border added using CSS ::before. No extra HTML needed — CSS handles it using nth-child selectors.</p>
+    <p class="explain"><strong>findings-grid</strong> — <span class="def">CSS Grid layout</span> — A 2-column grid layout. On mobile screens this collapses to 1 column using a media query.</p>
+  </div>
+</div>
+
+<div class="part" id="html9">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Quiz Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Quiz Section</div>
+    <div class="code"><pre>&lt;section class="quiz-section" id="quiz"&gt;
+  &lt;!-- User info form --&gt;
+  &lt;div id="userInfoWrap"&gt;
+    &lt;input type="text" id="userName" placeholder="Your name"&gt;
+    &lt;input type="email" id="userEmail" placeholder="Your email"&gt;
+    &lt;div id="emailError"&gt;Please enter a valid email&lt;/div&gt;
+    &lt;button onclick="startQuiz()"&gt;Start Quiz →&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;!-- Quiz questions (shown after email validation) --&gt;
+  &lt;div id="quizWrap" style="display:none"&gt;
+    &lt;div class="quiz-card"&gt;
+      &lt;div class="q-progress-bar"&gt;
+        &lt;div class="q-progress-fill" id="qProgress"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="q-domain" id="qDomain"&gt;&lt;/div&gt;
+      &lt;div class="q-text" id="qText"&gt;&lt;/div&gt;
+      &lt;div class="q-likert-labels"&gt;
+        &lt;span&gt;Not at all&lt;/span&gt;
+        &lt;span&gt;Extremely&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="q-likert-row" id="qButtons"&gt;&lt;/div&gt;
+      &lt;div class="q-nav-row"&gt;
+        &lt;button id="qPrev" onclick="qPrevQ()"&gt;← Back&lt;/button&gt;
+        &lt;button id="qNext" onclick="qNextQ()" disabled&gt;Next →&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Results (shown after quiz completion) --&gt;
+  &lt;div id="resultWrap" style="display:none"&gt;
+    &lt;div class="q-score-circle" id="qScoreCircle"&gt;
+      &lt;div class="q-score-num" id="qScoreNum"&gt;&lt;/div&gt;
+      &lt;div class="q-score-denom"&gt;/ 100&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id="qHistoryBox"&gt;&lt;/div&gt;
+    &lt;div id="qResultTitle"&gt;&lt;/div&gt;
+    &lt;div id="qResultDesc"&gt;&lt;/div&gt;
+    &lt;!-- Personalised solutions --&gt;
+    &lt;div class="qs-sol-list" id="qSolList"&gt;&lt;/div&gt;
+    &lt;button onclick="qRestart()"&gt;Take Quiz Again&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>style="display:none"</strong> — <span class="def">Hidden element</span> — quizWrap and resultWrap start hidden. JavaScript shows them at the right time by changing display to block.</p>
+    <p class="explain"><strong>id="qButtons"</strong> — <span class="def">Dynamic container</span> — This div is empty in HTML. JavaScript fills it with 10 numbered buttons (1-10) for each question using innerHTML.</p>
+    <p class="explain"><strong>disabled on Next button</strong> — <span class="def">Button state</span> — The Next button starts disabled so users cannot proceed without selecting an answer. JavaScript removes disabled when a number is clicked.</p>
+    <p class="explain"><strong>q-progress-fill</strong> — <span class="def">Progress bar fill</span> — Starts at 0% width. JavaScript updates its width to (current question / 10 * 100)% as user moves through the quiz.</p>
+    <p class="explain"><strong>id="qSolList"</strong> — <span class="def">Solutions container</span> — Filled by JavaScript after quiz completion with personalised solutions based on the user's specific low-scoring answers.</p>
+  </div>
+</div>
+
+<div class="part" id="html10">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Resources Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Resources Section</div>
+    <div class="code"><pre>&lt;section class="resources-section" id="resources"&gt;
+  &lt;!-- Tab buttons --&gt;
+  &lt;div class="res-tabs"&gt;
+    &lt;button class="res-tab active" onclick="resTab('individuals',this)"&gt;
+      👤 For Individuals
+    &lt;/button&gt;
+    &lt;button class="res-tab" onclick="resTab('businesses',this)"&gt;
+      🏢 For Small Businesses
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;!-- Tab content 1 --&gt;
+  &lt;div class="res-content active" id="res-individuals"&gt;
+    &lt;div class="res-grid"&gt;
+      &lt;div class="res-card video"&gt;
+        &lt;div class="res-type video"&gt;🎥 Video&lt;/div&gt;
+        &lt;div class="res-card-title"&gt;Blockchain Explained...&lt;/div&gt;
+        &lt;div class="res-card-desc"&gt;...description...&lt;/div&gt;
+        &lt;a href="https://youtube.com/..." target="_blank" class="res-card-btn video"&gt;
+          ▶ Watch Video →
+        &lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Tab content 2 --&gt;
+  &lt;div class="res-content" id="res-businesses"&gt;
+    &lt;!-- business resources --&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>res-tab and res-content</strong> — <span class="def">Tab system</span> — Two tab buttons switch between two content panels. JavaScript removes active from all and adds it to the clicked tab and its matching content div.</p>
+    <p class="explain"><strong>class="res-card video"</strong> — <span class="def">Multiple classes</span> — res-card applies general card styling. video applies the red top border and red button colour specific to video resources.</p>
+    <p class="explain"><strong>18 total resources</strong> — <span class="def">Curated links</span> — All resources are hardcoded in HTML as anchor tags. They cover crypto basics, scam awareness, wallet setup, business acceptance and regulatory guidance. All verified for 2025/2026.</p>
+  </div>
+</div>
+
+<div class="part" id="html11">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Footer</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — HTML — Footer</div>
+    <div class="code"><pre>&lt;footer&gt;
+  &lt;div class="footer-logo"&gt;Druk&lt;span&gt;Shift&lt;/span&gt; 🇧🇹&lt;/div&gt;
+  &lt;div class="footer-tagline"&gt;Shift Forward, Bhutan&lt;/div&gt;
+  &lt;div class="footer-divider"&gt;&lt;/div&gt;
+  &lt;div class="footer-info"&gt;
+    Druk = The Land of the Thunder Dragon · Shift = Digital Future&lt;br&gt;
+    Kinzang Choden · BDS Internship 2026 · Bhutan Data Scientists Pvt. Ltd
+  &lt;/div&gt;
+&lt;/footer&gt;</pre></div>
+    <p class="explain"><strong>&lt;footer&gt;</strong> — <span class="def">Semantic tag</span> — HTML5 semantic element for the footer area. Search engines and screen readers recognise this as the bottom section of the page.</p>
+    <p class="explain"><strong>footer-logo span</strong> — <span class="def">Partial colour</span> — Wrapping Shift in a span allows CSS to colour just that word orange using span color:var(--accent) while the rest stays white.</p>
+    <p class="explain"><strong>&lt;br&gt;</strong> — <span class="def">Line break</span> — Creates a new line inside the footer-info paragraph without starting a new paragraph element.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════
+     CSS SECTION
+═══════════════════════════ -->
+<div class="part" id="css1">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Variables and Reset</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Variables and Reset</div>
+    <div class="code"><pre>:root {
+  --navy:   #08192d;
+  --deep:   #0f2a45;
+  --blue:   #1a4a7a;
+  --mid:    #2a6aad;
+  --accent: #f4a261;
+  --gold:   #e9c46a;
+  --teal:   #2a9d8f;
+  --red:    #e63946;
+  --light:  #eef2f7;
+  --white:  #ffffff;
+  --muted:  #7a9bb5;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Outfit',sans-serif; overflow-x:hidden; }</pre></div>
+    <p class="explain"><strong>:root</strong> — <span class="def">CSS pseudo-class</span> — Targets the root element of the document (html). Variables defined here are available everywhere in the CSS file.</p>
+    <p class="explain"><strong>--navy: #08192d</strong> — <span class="def">CSS custom property</span> — A CSS variable. The double dash prefix defines a custom property. Used throughout as var(--navy) instead of repeating the hex code.</p>
+    <p class="explain"><strong>Why variables?</strong> — If the brand colour needs to change, it only needs changing once here and it updates everywhere automatically. This is a professional best practice.</p>
+    <p class="explain"><strong>* selector</strong> — <span class="def">Universal selector</span> — Applies to every single HTML element. margin:0 and padding:0 remove default browser spacing. box-sizing:border-box includes padding in the element width calculation.</p>
+    <p class="explain"><strong>scroll-behavior:smooth</strong> — <span class="def">Scroll property</span> — Makes anchor link scrolling animated and smooth instead of instantly jumping.</p>
+    <p class="explain"><strong>overflow-x:hidden</strong> — <span class="def">Overflow property</span> — Prevents horizontal scrollbar from appearing when animations move elements slightly off screen.</p>
+  </div>
+</div>
+
+<div class="part" id="css2">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Navigation Bar Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Navigation</div>
+    <div class="code"><pre>nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 48px;
+  background: rgba(8,25,45,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo { font-family:'Cormorant Garamond',serif; color:var(--white); }
+.nav-logo span { color: var(--accent); }
+.nav-links { display:flex; gap:32px; list-style:none; }
+.nav-links a { color:var(--muted); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(--white); }</pre></div>
+    <p class="explain"><strong>position:fixed</strong> — <span class="def">Positioning</span> — Removes the element from document flow and fixes it to the browser window. The nav stays at the top even when scrolling.</p>
+    <p class="explain"><strong>z-index:100</strong> — <span class="def">Stack order</span> — Controls which element appears on top when elements overlap. Higher number = appears on top. 100 ensures nav is above all page content.</p>
+    <p class="explain"><strong>display:flex</strong> — <span class="def">Flexbox layout</span> — Makes the nav a flex container. Children (logo, links, button) are arranged in a row automatically.</p>
+    <p class="explain"><strong>justify-content:space-between</strong> — <span class="def">Flex alignment</span> — Pushes the first child to the left and last child to the right with space between them.</p>
+    <p class="explain"><strong>rgba(8,25,45,0.92)</strong> — <span class="def">Semi-transparent colour</span> — Same as --navy but with 0.92 opacity (92% visible). Makes the nav slightly see-through.</p>
+    <p class="explain"><strong>backdrop-filter:blur(12px)</strong> — <span class="def">Glass effect</span> — Blurs the content behind the nav creating a frosted glass appearance. Modern browsers support this.</p>
+    <p class="explain"><strong>transition:color 0.2s</strong> — <span class="def">Animation</span> — Makes the colour change on hover animate smoothly over 0.2 seconds instead of switching instantly.</p>
+  </div>
+</div>
+
+<div class="part" id="css3">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Hero Section Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Hero Styles</div>
+    <div class="code"><pre>.hero { min-height:100vh; position:relative; display:flex;
+        align-items:center; justify-content:center; overflow:hidden; }
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.08);
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1),
+              transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.hero-slide.active { opacity:1; transform:scale(1); }
+.hero-slide:nth-child(1) { background-image: url('https://images.unsplash.com/...'); }
+.hero-slide:nth-child(2) { background-image: url('https://images.unsplash.com/...'); }
+
+.hero-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(8,25,45,0.80) 0%,
+              rgba(15,42,69,0.72) 50%, rgba(10,31,56,0.82) 100%);
+}
+
+@keyframes pulse {
+  0%,100% { transform:scale(1); opacity:0.6; }
+  50%     { transform:scale(1.1); opacity:1; }
+}</pre></div>
+    <p class="explain"><strong>min-height:100vh</strong> — <span class="def">Viewport height</span> — vh means viewport height. 100vh means the hero is at least as tall as the full browser window height.</p>
+    <p class="explain"><strong>position:absolute; inset:0</strong> — <span class="def">Full coverage</span> — inset:0 is shorthand for top:0; right:0; bottom:0; left:0. Makes the slide fill its parent completely.</p>
+    <p class="explain"><strong>transform:scale(1.08)</strong> — <span class="def">Scale transform</span> — Slides start slightly zoomed in at 108% size. When active they scale to 100% creating a gentle zoom-out effect.</p>
+    <p class="explain"><strong>opacity:0 / opacity:1</strong> — <span class="def">Visibility</span> — Non-active slides are invisible (opacity 0). The active slide is fully visible (opacity 1). JavaScript switches which one has the active class.</p>
+    <p class="explain"><strong>cubic-bezier(0.4,0,0.2,1)</strong> — <span class="def">Easing function</span> — Custom timing curve for the transition animation. Creates a smooth ease-in-out effect that feels natural.</p>
+    <p class="explain"><strong>::after pseudo-element</strong> — <span class="def">CSS overlay</span> — Creates a dark gradient overlay on top of each background image without needing extra HTML. Makes white text readable over bright photos.</p>
+    <p class="explain"><strong>nth-child selector</strong> — <span class="def">Specific child targeting</span> — .hero-slide:nth-child(1) targets only the first slide, :nth-child(2) the second etc. Each gets a different background image URL from Unsplash.</p>
+    <p class="explain"><strong>@keyframes pulse</strong> — <span class="def">CSS animation</span> — Defines a custom animation called pulse. The glow orbs use this to scale up and down continuously creating a breathing glow effect.</p>
+  </div>
+</div>
+
+<div class="part" id="css4">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Button Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Buttons</div>
+    <div class="code"><pre>.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.btn-primary:hover {
+  background: #e8935a;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(244,162,97,0.35);
+}
+.btn-solutions { background:linear-gradient(135deg,var(--teal),#1a7a6e); }
+.btn-gnh       { background:linear-gradient(135deg,var(--gold),#d4a017); }
+.btn-readiness { background:linear-gradient(135deg,var(--accent),#e8935a); }</pre></div>
+    <p class="explain"><strong>display:inline-flex</strong> — <span class="def">Flex display</span> — Makes the button a flex container so the icon and text inside it align perfectly in a row with gap between them.</p>
+    <p class="explain"><strong>border-radius:8px</strong> — <span class="def">Rounded corners</span> — Rounds the corners of the button by 8 pixels. Larger values like 50px create pill shapes.</p>
+    <p class="explain"><strong>cursor:pointer</strong> — <span class="def">Mouse cursor</span> — Changes the cursor to a hand when hovering over the button, signalling it is clickable.</p>
+    <p class="explain"><strong>text-decoration:none</strong> — <span class="def">Link styling</span> — Removes the default underline that browsers add to anchor tags used as buttons.</p>
+    <p class="explain"><strong>transform:translateY(-2px)</strong> — <span class="def">Hover lift effect</span> — Moves the button 2px upward on hover creating a subtle lift effect. Combined with box-shadow it looks like the button is floating.</p>
+    <p class="explain"><strong>linear-gradient(135deg,...)</strong> — <span class="def">Gradient background</span> — Creates a diagonal gradient background on section buttons. 135deg is the angle, going from top-left to bottom-right.</p>
+  </div>
+</div>
+
+<div class="part" id="css5">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Cards and Section Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Cards and Grid Layouts</div>
+    <div class="code"><pre>.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.solution-card-wide { grid-column: 1 / -1; }
+
+.solution-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 32px 28px;
+  box-shadow: 0 2px 24px rgba(8,25,45,0.06);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.solution-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(8,25,45,0.12);
+}
+.solution-card:nth-child(1) { border-top: 4px solid var(--mid); }
+.solution-card:nth-child(2) { border-top: 4px solid var(--teal); }
+.solution-card:nth-child(3) { border-top: 4px solid #e63946; }
+
+.finding-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 4px;
+}
+.finding-card:nth-child(1)::before { background: var(--mid); }
+.finding-card:nth-child(2)::before { background: var(--accent); }</pre></div>
+    <p class="explain"><strong>grid-template-columns:repeat(2,1fr)</strong> — <span class="def">CSS Grid</span> — Creates 2 equal columns. repeat(2,1fr) means repeat 2 times with 1 fraction unit each. gap:20px adds space between grid items.</p>
+    <p class="explain"><strong>grid-column:1/-1</strong> — <span class="def">Full width span</span> — Makes the 5th solution card span from column 1 to the last column (-1). This makes it fill the full width.</p>
+    <p class="explain"><strong>box-shadow</strong> — <span class="def">Shadow effect</span> — Creates a soft shadow under each card. The last value is colour with low opacity (0.06) creating a very subtle shadow on hover it becomes stronger (0.12).</p>
+    <p class="explain"><strong>position:relative; overflow:hidden</strong> — <span class="def">Clipping</span> — position:relative makes the card a positioning context for absolute children. overflow:hidden clips any content that extends beyond the card edges.</p>
+    <p class="explain"><strong>nth-child selectors</strong> — <span class="def">Targeted styling</span> — Applies different border-top colours to each card based on its position in the grid without needing different class names for each card.</p>
+    <p class="explain"><strong>::before on finding-card</strong> — <span class="def">Pseudo-element</span> — Instead of adding an extra HTML div for the coloured top border, CSS ::before creates a virtual element positioned at the top of each card.</p>
+  </div>
+</div>
+
+<div class="part" id="css6">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Quiz Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Quiz Styles</div>
+    <div class="code"><pre>.quiz-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+}
+.q-progress-bar  { height:4px; background:#dce6f0; border-radius:2px; overflow:hidden; }
+.q-progress-fill { height:100%; background:var(--teal); transition:width 0.4s ease; }
+
+.q-likert-btn {
+  flex: 1;
+  height: 42px;
+  border: 1px solid #dce6f0;
+  border-radius: 8px;
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.q-likert-btn:hover   { border-color:var(--teal); background:#e1f5ee; }
+.q-likert-btn.selected { background:var(--teal); color:var(--white); }
+
+.q-score-circle      { width:120px; height:120px; border-radius:50%; }
+.q-score-circle.high { background:#e1f5ee; }
+.q-score-circle.mid  { background:#faeeda; }
+.q-score-circle.low  { background:#fcebeb; }</pre></div>
+    <p class="explain"><strong>q-progress-fill transition:width</strong> — <span class="def">Animated progress</span> — When JavaScript changes the width from 10% to 20% to 30% etc, the transition:width 0.4s makes it animate smoothly rather than jumping.</p>
+    <p class="explain"><strong>flex:1 on likert buttons</strong> — <span class="def">Flexible sizing</span> — Each of the 10 number buttons takes an equal share of available space. flex:1 means each gets one equal fraction of the row width.</p>
+    <p class="explain"><strong>.selected class</strong> — <span class="def">State styling</span> — When a user clicks a number button JavaScript adds the selected class. This changes the background to teal and text to white indicating the chosen answer.</p>
+    <p class="explain"><strong>border-radius:50%</strong> — <span class="def">Circle</span> — 50% border-radius on a square element creates a perfect circle. Used for the score result circle at the end of the quiz.</p>
+    <p class="explain"><strong>Conditional classes (high/mid/low)</strong> — <span class="def">Dynamic styling</span> — JavaScript adds high, mid, or low class to the score circle based on the score. Green background for high scores, yellow for mid, red for low.</p>
+  </div>
+</div>
+
+<div class="part" id="css7">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Animations</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Keyframe Animations</div>
+    <div class="code"><pre>@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes scrollPulse {
+  0%,100% { opacity:0.3; }
+  50%     { opacity:1; }
+}
+.hero h1   { animation: fadeUp 0.6s 0.1s ease both; }
+.hero-desc { animation: fadeUp 0.6s 0.2s ease both; }
+.hero-buttons { animation: fadeUp 0.6s 0.3s ease both; }
+
+.reveal { opacity:0; transform:translateY(40px); transition:opacity 0.7s, transform 0.7s; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+.stat-item { animation: fadeUp 0.5s ease both; }
+.stat-item:nth-child(1) { animation-delay: 0.05s; }
+.stat-item:nth-child(2) { animation-delay: 0.10s; }
+.stat-item:nth-child(3) { animation-delay: 0.15s; }</pre></div>
+    <p class="explain"><strong>@keyframes</strong> — <span class="def">Animation definition</span> — Defines the start and end states of a CSS animation. from is the start state, to is the end state.</p>
+    <p class="explain"><strong>translateY(24px)</strong> — <span class="def">Vertical movement</span> — Moves the element 24px downward from its normal position. The animation moves it back to 0 creating an upward slide-in effect.</p>
+    <p class="explain"><strong>animation: fadeUp 0.6s 0.1s ease both</strong> — <span class="def">Animation shorthand</span> — fadeUp is the name, 0.6s is duration, 0.1s is delay, ease is timing function, both means apply animation states to both start and end.</p>
+    <p class="explain"><strong>Staggered delays on hero elements</strong> — <span class="def">Sequential animation</span> — h1 starts at 0.1s, desc at 0.2s, buttons at 0.3s. This creates a cascading appear effect rather than everything appearing at once.</p>
+    <p class="explain"><strong>reveal class</strong> — <span class="def">Scroll animation</span> — Cards start invisible and shifted down. When JavaScript detects them entering the viewport it adds visible class. CSS transition makes the change animated.</p>
+    <p class="explain"><strong>animation-delay on stat items</strong> — <span class="def">Stagger effect</span> — Each stat card appears with a slight delay after the previous one creating a sequential reveal effect.</p>
+  </div>
+</div>
+
+<div class="part" id="css8">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Mobile Responsive Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — CSS — Media Queries</div>
+    <div class="code"><pre>@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { gap: 12px; }
+  .hero { padding: 100px 24px 60px; }
+  .btn-primary, .btn-secondary { width:100%; justify-content:center; }
+  .stats-section { display:grid; grid-template-columns:repeat(2,1fr); }
+  .solutions-grid, .findings-grid,
+  .reports-grid, .res-grid { grid-template-columns: 1fr; }
+  .quiz-card { padding: 24px 20px; }
+  .q-likert-btn { font-size:12px; height:38px; }
+  .modal-overlay { padding: 0; }
+  footer { padding: 40px 20px; }
+}
+@media (max-width: 480px) {
+  .stat-num { font-size: 28px; }
+  .q-compare-val { font-size: 20px; }
+}</pre></div>
+    <p class="explain"><strong>@media (max-width:768px)</strong> — <span class="def">Media query</span> — CSS rules inside here only apply when the screen width is 768px or less. This is the tablet/mobile breakpoint. Most phones are under 480px.</p>
+    <p class="explain"><strong>grid-template-columns:1fr</strong> — <span class="def">Single column</span> — Changes 2-column grids to single column on mobile. Cards stack vertically instead of side by side.</p>
+    <p class="explain"><strong>width:100% on buttons</strong> — <span class="def">Full width</span> — Makes buttons span the full width of their container on mobile for easier tapping on small screens.</p>
+    <p class="explain"><strong>Two breakpoints</strong> — <span class="def">Responsive tiers</span> — 768px handles tablets and most phones. 480px handles very small phones with additional font size reductions for the smallest screens.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════
+     JAVASCRIPT SECTION
+═══════════════════════════ -->
+<div class="part" id="js1">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Hero Slideshow</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Hero Slideshow</div>
+    <div class="code"><pre>var slideCaptions = ['Bhutan · Mountains','Blockchain · Future',...];
+var currentSlide = 0, totalSlides = 5, slideTimer = null;
+
+function goToSlide(n) {
+  var slides = document.querySelectorAll('.hero-slide');
+  var dots   = document.querySelectorAll('.hero-dot');
+
+  // Outgoing slide — fade out and scale up
+  slides[currentSlide].style.opacity   = '0';
+  slides[currentSlide].style.transform = 'scale(1.12)';
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+
+  // Calculate next slide (loops back to 0 after last)
+  currentSlide = (n + totalSlides) % totalSlides;
+
+  // Incoming slide — reset then animate in
+  setTimeout(function() {
+    slides[currentSlide].style.opacity   = '1';
+    slides[currentSlide].style.transform = 'scale(1)';
+    slides[currentSlide].classList.add('active');
+  }, 30);
+
+  dots[currentSlide].classList.add('active');
+}
+function nextSlide()     { goToSlide(currentSlide + 1); }
+function startSlideshow(){ slideTimer = setInterval(nextSlide, 4500); }
+function stopSlideshow() { clearInterval(slideTimer); slideTimer = null; }
+startSlideshow();
+
+// Pause on hover
+hero.addEventListener('mouseenter', stopSlideshow);
+hero.addEventListener('mouseleave', startSlideshow);</pre></div>
+    <p class="explain"><strong>var currentSlide = 0</strong> — <span class="def">State variable</span> — Tracks which slide is currently showing. Starts at 0 (first slide).</p>
+    <p class="explain"><strong>document.querySelectorAll</strong> — <span class="def">DOM selection</span> — Gets all elements matching the CSS selector and returns them as a NodeList array. Used to access all slides and dots at once.</p>
+    <p class="explain"><strong>(n + totalSlides) % totalSlides</strong> — <span class="def">Modulo loop</span> — The % (modulo) operator returns the remainder of division. When n exceeds totalSlides it wraps back to 0. This makes the slideshow loop infinitely.</p>
+    <p class="explain"><strong>setInterval(nextSlide, 4500)</strong> — <span class="def">Timer</span> — Calls nextSlide every 4500 milliseconds (4.5 seconds) repeatedly. clearInterval stops it.</p>
+    <p class="explain"><strong>setTimeout with 30ms delay</strong> — <span class="def">Animation trick</span> — Resets the incoming slide instantly then waits 30ms before animating it in. This tiny gap allows the browser to register the reset before starting the transition.</p>
+    <p class="explain"><strong>mouseenter/mouseleave events</strong> — <span class="def">Hover pause</span> — Stops the automatic slideshow when the user hovers over the hero and restarts it when they move away.</p>
+  </div>
+</div>
+
+<div class="part" id="js2">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Email Validation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Email Validation</div>
+    <div class="code"><pre>var currentUser = { name: '', email: '' };
+
+function startQuiz() {
+  var name  = document.getElementById('userName').value.trim();
+  var email = document.getElementById('userEmail').value.trim();
+  var emailError = document.getElementById('emailError');
+
+  // Check name is not empty
+  if (!name) { alert('Please enter your name.'); return; }
+
+  // Validate email format using regex
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email)) {
+    emailError.style.display = 'block';
+    document.getElementById('userEmail').style.borderColor = 'var(--red)';
+    return;
+  }
+
+  // Email valid — store user and show quiz
+  emailError.style.display = 'none';
+  currentUser.name  = name;
+  currentUser.email = email;
+  document.getElementById('userInfoWrap').style.display = 'none';
+  document.getElementById('quizWrap').style.display     = 'block';
+  qRender();
+}</pre></div>
+    <p class="explain"><strong>currentUser object</strong> — <span class="def">Data storage</span> — A JavaScript object that stores the user's name and email. Used later when saving quiz results to MongoDB.</p>
+    <p class="explain"><strong>.value.trim()</strong> — <span class="def">Input reading</span> — .value gets the text typed in the input. .trim() removes any accidental spaces at the start or end.</p>
+    <p class="explain"><strong>emailRegex</strong> — <span class="def">Regular expression</span> — A pattern used to validate email format. /^[^\s@]+@[^\s@]+\.[^\s@]+$/ means: characters before @, then @, then characters, then dot, then more characters. If the email does not match this pattern it is invalid.</p>
+    <p class="explain"><strong>return</strong> — <span class="def">Early exit</span> — Stops the function from continuing. If name is empty or email is invalid, return prevents the quiz from starting.</p>
+    <p class="explain"><strong>style.display = 'none' / 'block'</strong> — <span class="def">Show/hide</span> — Hides the user info form and shows the quiz card by changing CSS display property directly from JavaScript.</p>
+  </div>
+</div>
+
+<div class="part" id="js3">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Quiz Engine</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Quiz Engine</div>
+    <div class="code"><pre>var qQuestions = [
+  { text:"How familiar are you with cryptocurrency?", area:"Knowledge" },
+  { text:"How confident using a crypto wallet?",      area:"Technical Skill" },
+  // ... 10 questions total
+];
+var qAnswers = [], qCurrent = 0;
+
+function qRender() {
+  var q = qQuestions[qCurrent];
+  document.getElementById('qDomain').textContent = q.area;
+  document.getElementById('qText').textContent   = q.text;
+  document.getElementById('qProgress').style.width =
+    (qCurrent / qQuestions.length * 100) + '%';
+
+  // Build 10 numbered buttons dynamically
+  var html = '';
+  for (var i = 1; i <= 10; i++) {
+    var sel = qAnswers[qCurrent] === i ? ' selected' : '';
+    html += '&lt;button class="q-likert-btn' + sel +
+            '" onclick="qSelect(' + i + ')"&gt;' + i + '&lt;/button&gt;';
+  }
+  document.getElementById('qButtons').innerHTML = html;
+  document.getElementById('qNext').disabled = !qAnswers[qCurrent];
+}
+
+function qSelect(val) {
+  qAnswers[qCurrent] = val;
+  document.getElementById('qNext').disabled = false;
+  qRender();
+}
+
+function qNextQ() {
+  if (qCurrent < qQuestions.length - 1) {
+    qCurrent++;
+    qRender();
+  } else {
+    qShowResults();
+  }
+}
+
+function qShowResults() {
+  var total = qAnswers.reduce(function(s,a){ return s+a; }, 0);
+  var score = Math.round(total / (qQuestions.length * 10) * 100);
+  // Save to MongoDB backend
+  saveQuizResult(score, qAnswers);
+  fetchHistory(score);
+  // Show badge based on score
+  var badge = score >= 90 ? '💎 Crypto Champion' :
+              score >= 70 ? '🥇 Crypto Ready'    :
+              score >= 50 ? '🥈 Crypto Aware'     :
+                            '🥉 Crypto Curious';
+  // ... display results
+}</pre></div>
+    <p class="explain"><strong>qQuestions array</strong> — <span class="def">Data array</span> — An array of 10 objects. Each object has a text (the question) and area (the domain name). JavaScript reads from this to display each question.</p>
+    <p class="explain"><strong>qAnswers array</strong> — <span class="def">Answer storage</span> — Stores the user's answers as they go. qAnswers[0] = 7 means question 1 was answered as 7.</p>
+    <p class="explain"><strong>qCurrent variable</strong> — <span class="def">Question index</span> — Tracks which question number is currently showing. Starts at 0, increments to 9 then triggers results.</p>
+    <p class="explain"><strong>innerHTML with for loop</strong> — <span class="def">Dynamic HTML</span> — Builds 10 button elements as an HTML string using a loop and inserts them all at once into qButtons. More efficient than creating elements one by one.</p>
+    <p class="explain"><strong>reduce function</strong> — <span class="def">Array method</span> — Adds all values in the qAnswers array together to get the total score. s is the running total, a is each answer value.</p>
+    <p class="explain"><strong>Score calculation</strong> — <span class="def">Formula</span> — total / (10 questions * 10 max each) * 100 = percentage. If all answered 10 the score is 100%. If all answered 5 the score is 50%.</p>
+    <p class="explain"><strong>Badge logic</strong> — <span class="def">Conditional</span> — Ternary operator chain checks score ranges. 90+ = Diamond, 70-89 = Gold, 50-69 = Silver, below 50 = Bronze.</p>
+  </div>
+</div>
+
+<div class="part" id="js4">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Tableau Functions</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Tableau Modal Functions</div>
+    <div class="code"><pre>function openGNHModal() {
+  window.open(
+    'https://public.tableau.com/views/Tableaucryptoreadiness/Story2?:language=en-GB&...',
+    '_blank'
+  );
+}
+function openReadinessModal() {
+  window.open(
+    'https://public.tableau.com/views/Tableaucryptoreadiness/Story1?...',
+    '_blank'
+  );
+}
+function openSolutionsModal() {
+  window.open(
+    'https://public.tableau.com/views/Tableaucryptoreadiness/Story4?...',
+    '_blank'
+  );
+}
+// Empty close functions — modals no longer used
+function closeGNHModal()      {}
+function closeReadinessModal(){}
+function closeScamModal()     {}
+function closeSolutionsModal(){}
+function closeModal()         {}</pre></div>
+    <p class="explain"><strong>window.open(url, '_blank')</strong> — <span class="def">Open new tab</span> — Opens the given URL in a new browser tab. _blank is the target parameter meaning new tab.</p>
+    <p class="explain"><strong>Why changed from iframe modals?</strong> — Tableau Public does not allow embedding in iframes on external websites due to their Content Security Policy. window.open is the reliable alternative that always works.</p>
+    <p class="explain"><strong>Empty close functions</strong> — <span class="def">Stub functions</span> — These functions do nothing (empty body {}) but are kept so that HTML onclick="closeGNHModal()" calls in the old modal HTML do not throw errors.</p>
+    <p class="explain"><strong>URL parameters (?:language=en-GB...)</strong> — <span class="def">Tableau URL params</span> — Parameters added to the Tableau URL that control the display language, hide the count display, and set the origin to viz_share_link for proper loading.</p>
+  </div>
+</div>
+
+<div class="part" id="js5">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Live Quiz Counter</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Live Counter and MongoDB</div>
+    <div class="code"><pre>var API_BASE = 'https://drukshift-vakend.onrender.com';
+
+// Fetch total quiz responses from MongoDB
+fetch(API_BASE + '/api/admin/results')
+  .then(function(response) { return response.json(); })
+  .then(function(data) {
+    var count = document.getElementById('liveCount');
+    if (count) count.textContent = data.length;
+  })
+  .catch(function(err) { console.log('Could not load count', err); });
+
+// Save quiz result to MongoDB
+async function saveQuizResult(score, answers) {
+  try {
+    await fetch(API_BASE + '/api/quiz', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:    currentUser.name,
+        email:   currentUser.email,
+        score:   score,
+        answers: answers
+      })
+    });
+  } catch (err) { console.error('Could not save result', err); }
+}
+
+// Fetch quiz history for returning user
+async function fetchHistory(score) {
+  var res  = await fetch(API_BASE + '/api/quiz/' + encodeURIComponent(currentUser.email));
+  var data = await res.json();
+  if (data.history && data.history.length > 1) {
+    var prev = data.history[1].score;
+    var diff = score - prev;
+    // Show improvement comparison
+  }
+}</pre></div>
+    <p class="explain"><strong>API_BASE variable</strong> — <span class="def">Base URL</span> — The backend server URL stored in a variable so it only needs changing once if the server URL changes.</p>
+    <p class="explain"><strong>fetch()</strong> — <span class="def">HTTP request</span> — JavaScript's built-in function for making HTTP requests to a server. Like asking a server for data over the internet.</p>
+    <p class="explain"><strong>.then().then()</strong> — <span class="def">Promise chain</span> — fetch returns a Promise. The first .then converts the response to JSON. The second .then receives the actual data array. This is called chaining.</p>
+    <p class="explain"><strong>data.length</strong> — <span class="def">Array count</span> — The backend returns an array of all quiz results. .length gives the number of items in the array which is the total number of people who have taken the quiz.</p>
+    <p class="explain"><strong>async/await</strong> — <span class="def">Async syntax</span> — A cleaner way to write asynchronous code. await pauses the function until the fetch completes. async on the function declaration enables using await inside it.</p>
+    <p class="explain"><strong>method:'POST', body:JSON.stringify</strong> — <span class="def">POST request</span> — Sends data to the server. method POST means we are sending data (not just retrieving). body contains the data as a JSON string.</p>
+    <p class="explain"><strong>encodeURIComponent</strong> — <span class="def">URL encoding</span> — Converts special characters in the email like @ and . into URL-safe format before putting them in the URL.</p>
+  </div>
+</div>
+
+<div class="part" id="js6">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Scroll Reveal Animation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Scroll Reveal</div>
+    <div class="code"><pre>// Reveal cards on scroll
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target); // Stop watching once revealed
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(function(el) {
+  revealObserver.observe(el);
+});
+
+// Animate progress bars when they scroll into view
+var barObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      var fill = entry.target;
+      fill.style.width = fill.getAttribute('data-width') + '%';
+    }
+  });
+});
+document.querySelectorAll('.readiness-bar-fill').forEach(function(bar) {
+  barObserver.observe(bar);
+});
+
+// Animate stat counters when they scroll into view
+var counterObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+    }
+  });
+});
+document.querySelectorAll('.stat-num').forEach(function(el) {
+  counterObserver.observe(el);
+});
+
+function animateCounter(el) {
+  var target   = parseFloat(el.getAttribute('data-target'));
+  var duration = 1500;
+  var start    = performance.now();
+  function update(time) {
+    var progress = Math.min((time - start) / duration, 1);
+    el.textContent = Math.floor(progress * target);
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(update);
+}</pre></div>
+    <p class="explain"><strong>IntersectionObserver</strong> — <span class="def">Modern browser API</span> — Watches elements and fires a callback when they enter or exit the visible screen area. Much better than scroll events because it does not run on every scroll pixel.</p>
+    <p class="explain"><strong>entry.isIntersecting</strong> — <span class="def">Visibility check</span> — Returns true when the observed element has entered the viewport. False when it has left.</p>
+    <p class="explain"><strong>threshold:0.1</strong> — <span class="def">Visibility amount</span> — The callback fires when 10% of the element is visible. 0 would fire as soon as one pixel appears, 1 would wait until fully visible.</p>
+    <p class="explain"><strong>unobserve()</strong> — <span class="def">Stop watching</span> — Once the reveal animation has played there is no need to keep watching the element. unobserve saves browser performance.</p>
+    <p class="explain"><strong>requestAnimationFrame</strong> — <span class="def">Animation loop</span> — Browser function that runs a callback on the next animation frame (about 60 times per second). Smoother than setInterval for animations and pauses automatically on inactive tabs.</p>
+    <p class="explain"><strong>performance.now()</strong> — <span class="def">Timestamp</span> — Returns the current time in milliseconds with high precision. Used to calculate animation progress based on elapsed time.</p>
+  </div>
+</div>
+
+<div class="part" id="js7">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Dark Mode</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Dark / Light Mode</div>
+    <div class="code"><pre>// Toggle dark mode
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  var isDark = document.body.classList.contains('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  var btn = document.getElementById('darkToggle');
+  if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+}
+
+// Apply saved theme on page load
+window.addEventListener('DOMContentLoaded', function() {
+  var saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.body.classList.add('dark');
+    var btn = document.getElementById('darkToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+});</pre></div>
+    <p class="explain"><strong>classList.toggle('dark')</strong> — <span class="def">Class toggle</span> — Adds dark class if it is not there, removes it if it is. One function handles both switching on and off.</p>
+    <p class="explain"><strong>classList.contains('dark')</strong> — <span class="def">Class check</span> — Returns true if the element has that class, false if not. Used to determine if dark mode is currently active after toggling.</p>
+    <p class="explain"><strong>localStorage.setItem</strong> — <span class="def">Browser storage</span> — Saves the theme preference in the browser's local storage. This persists even after the browser is closed and reopened.</p>
+    <p class="explain"><strong>localStorage.getItem</strong> — <span class="def">Read from storage</span> — Reads the saved theme preference when the page loads so the user's choice is remembered.</p>
+    <p class="explain"><strong>DOMContentLoaded event</strong> — <span class="def">Page ready event</span> — Fires when the HTML document has been fully parsed. Used to apply saved theme before the page becomes visible to avoid a flash of the wrong theme.</p>
+  </div>
+</div>
+
+<div class="part" id="js8">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Breadcrumb</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Breadcrumb Navigation</div>
+    <div class="code"><pre>var bcSections = ['home','about','gnh','solutions','readiness','findings','reports','quiz','resources'];
+
+function bcGo(id) {
+  var el     = document.getElementById(id);
+  var offset = 100; // Height of nav + breadcrumb bar
+  var top    = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
+function bcUpdate() {
+  var scrollY  = window.scrollY + 120;
+  var current  = 'home';
+
+  bcSections.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollY) current = id;
+  });
+
+  // Update active class on breadcrumb buttons
+  document.querySelectorAll('.bc-link').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  // Find and highlight matching button
+  document.querySelectorAll('.bc-link').forEach(function(btn) {
+    if (btn.textContent.trim().includes(current)) {
+      btn.classList.add('active');
+    }
+  });
+
+  // Hide breadcrumb at top of page
+  var bc = document.getElementById('breadcrumb');
+  if (bc) {
+    if (window.scrollY < 80) bc.classList.add('hidden');
+    else bc.classList.remove('hidden');
+  }
+}
+window.addEventListener('scroll', bcUpdate, { passive: true });</pre></div>
+    <p class="explain"><strong>getBoundingClientRect().top</strong> — <span class="def">Element position</span> — Returns the element's position relative to the current viewport. Adding window.scrollY converts it to an absolute position on the page.</p>
+    <p class="explain"><strong>offset = 100</strong> — <span class="def">Scroll offset</span> — Subtracts 100px from the scroll position so the section does not disappear behind the sticky nav and breadcrumb bar when jumping to it.</p>
+    <p class="explain"><strong>window.scrollTo with behavior smooth</strong> — <span class="def">Smooth scroll</span> — Scrolls to the calculated position with a smooth animation instead of jumping instantly.</p>
+    <p class="explain"><strong>el.offsetTop</strong> — <span class="def">Element offset</span> — The distance between the element and the top of the page. Used to check whether the user has scrolled past each section.</p>
+    <p class="explain"><strong>passive:true</strong> — <span class="def">Performance hint</span> — Tells the browser this scroll listener will not call preventDefault. The browser can optimise scrolling performance because it does not need to wait for the listener.</p>
+  </div>
+</div>
+
+<div class="part" id="js9">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Mini Games Engine</span>
+  </div>
+  <div class="card">
+    <div class="card-title">index.html — JavaScript — Mini Games</div>
+    <div class="code"><pre>// ── GAME PANEL TOGGLE ──
+function dsToggleGame() {
+  var panel = document.getElementById('dsGamePanel');
+  panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+}
+
+// ── ATTACH CLICKS AFTER PAGE LOADS ──
+window.addEventListener('load', function() {
+  var cards = {
+    'mg-card-blitz':  'blitz',
+    'mg-card-scam':   'scam',
+    'mg-card-memory': 'memory'
+  };
+  Object.keys(cards).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', function() {
+      mgStart(cards[id]);
+    });
+  });
+});
+
+// ── GAME 1: CRYPTO QUIZ BLITZ ──
+var mgBlitzQs = [
+  { q:"Bitcoin was created in 2009.", a:true,  f:"Satoshi Nakamoto released Bitcoin in January 2009." },
+  { q:"Crypto transactions are 100% anonymous.", a:false, f:"They are pseudonymous — addresses are public." },
+  // ... 12 questions shuffled to show 10
+];
+
+function mgInitBlitz() {
+  mgBState = {
+    qs:       mgShuffle([].concat(mgBlitzQs)).slice(0,10),
+    cur:      0,
+    score:    0,
+    timeLeft: 30
+  };
+  mgBlitzRender();
+  mgBlitzTimer();
+}
+
+// ── GAME 2: SCAM SPOTTER ──
+function mgScamAns(ans) {
+  var m       = mgSState.msgs[mgSState.cur];
+  var correct = (ans === 'scam') === m.isScam;
+  if (correct) mgSState.score++;
+  // Show feedback then move to next message
+}
+
+// ── GAME 3: MEMORY MATCH ──
+function mgMemFlip(idx) {
+  mgMState.flipped.push(idx);
+  if (mgMState.flipped.length === 2) {
+    var c1 = mgMState.cards[mgMState.flipped[0]];
+    var c2 = mgMState.cards[mgMState.flipped[1]];
+    if (c1.pairId === c2.pairId && c1.type !== c2.type) {
+      // Match found!
+      mgMState.matched.push(c1.pairId);
+    } else {
+      // No match — flip back after 800ms
+      setTimeout(function() {
+        mgMState.flipped = [];
+        mgMemRender();
+      }, 800);
+    }
+  }
+}
+
+// ── XP SYSTEM ──
+var mgXP = parseInt(localStorage.getItem('mg-xp') || '0');
+function mgAddXP(pts) {
+  mgXP += pts;
+  localStorage.setItem('mg-xp', mgXP);
+  mgUpdateXP();
+  if (typeof updateXP === 'function') updateXP(pts); // connects to main XP bar
+}
+
+// ── FISHER-YATES SHUFFLE ──
+function mgShuffle(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+  }
+  return arr;
+}</pre></div>
+    <p class="explain"><strong>window.addEventListener('load')</strong> — <span class="def">Page load event</span> — Fires after everything on the page has fully loaded including images. Used instead of onclick in HTML to avoid the mgStart is not defined error that occurs when onclick runs before JS is ready.</p>
+    <p class="explain"><strong>Object.keys(cards).forEach</strong> — <span class="def">Object iteration</span> — Gets all keys from the cards object (the element IDs) and loops through each one to attach click events.</p>
+    <p class="explain"><strong>mgShuffle — Fisher-Yates algorithm</strong> — <span class="def">Random shuffle</span> — A standard algorithm for randomising an array. Loops from the end backwards and swaps each element with a random earlier element.</p>
+    <p class="explain"><strong>.slice(0,10)</strong> — <span class="def">Array slice</span> — Takes only the first 10 items from the shuffled questions array. This means 10 random questions are shown each time from a larger pool.</p>
+    <p class="explain"><strong>(ans === 'scam') === m.isScam</strong> — <span class="def">Logic comparison</span> — Compares whether the player said scam and whether the message actually is a scam. Both sides are boolean so this is true only when both match.</p>
+    <p class="explain"><strong>pairId check in memory match</strong> — <span class="def">Match detection</span> — Each card has a pairId. When two flipped cards have the same pairId AND different types (term vs definition) it counts as a match.</p>
+    <p class="explain"><strong>localStorage for XP</strong> — <span class="def">Persistent storage</span> — XP is saved in localStorage so it persists between browser sessions. The player's XP is never reset when they close the browser.</p>
+    <p class="explain"><strong>typeof updateXP === 'function'</strong> — <span class="def">Safety check</span> — Before calling updateXP checks it exists as a function. This prevents errors if the function is not available in some contexts.</p>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<footer style="background:#08192d;padding:32px;text-align:center;margin-top:40px;">
+  <div style="font-size:18px;font-weight:700;color:white;margin-bottom:6px;">Druk<span style="color:#f4a261;">Shift</span> 🇧🇹</div>
+  <div style="font-size:12px;color:#7a9bb5;">index.html Explanation · Kinzang Choden · BDS Internship 2026</div>
+  <div style="font-size:11px;color:#4a6a8a;margin-top:6px;">Next file → admin.html</div>
+</footer>
+
+</body>
+</html>
