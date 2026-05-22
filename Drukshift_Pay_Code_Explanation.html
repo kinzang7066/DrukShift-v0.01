@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>drukshift_pay.html — Full Code Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;--accent:#f4a261;--red:#e63946;--light:#f0f4f8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--light);color:#2d4a5a;line-height:1.7;}
+.topbar{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-size:18px;font-weight:700;color:white;}.topbar-logo span{color:var(--accent);}
+.topbar-tag{font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;}
+.hero{background:linear-gradient(160deg,#04101e,#08192d);padding:48px 32px;text-align:center;}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;color:white;margin-bottom:8px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:14px;color:#7a9bb5;max-width:600px;margin:0 auto;}
+.file-badge{display:inline-block;background:rgba(42,157,143,0.15);border:1px solid rgba(42,157,143,0.4);color:var(--teal);font-size:12px;font-weight:700;padding:6px 16px;border-radius:50px;margin-top:12px;letter-spacing:1px;}
+.main{max-width:960px;margin:32px auto;padding:0 24px 80px;}
+.toc{background:white;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 16px rgba(8,25,45,0.06);}
+.toc h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;border-bottom:2px solid var(--light);padding-bottom:10px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.toc-link{font-size:12px;color:var(--teal);text-decoration:none;padding:5px 8px;border-radius:6px;display:block;}
+.toc-link:hover{background:var(--light);}
+.part{margin-bottom:32px;}
+.part-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 20px;border-radius:10px;}
+.part-header.html{background:#fff3e0;border-left:4px solid #f4a261;}
+.part-header.css{background:#e3f2fd;border-left:4px solid #2196f3;}
+.part-header.js{background:#f3e5f5;border-left:4px solid #9c27b0;}
+.part-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border-radius:50px;}
+.part-label.html{background:#f4a261;color:white;}
+.part-label.css{background:#2196f3;color:white;}
+.part-label.js{background:#9c27b0;color:white;}
+.part-title{font-size:16px;font-weight:700;color:var(--navy);}
+.card{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 12px rgba(8,25,45,0.05);}
+.card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--light);}
+.code{background:#0d1117;border-radius:8px;padding:12px 16px;margin:10px 0;overflow-x:auto;}
+.code pre{font-family:'Fira Code',monospace;font-size:11.5px;color:#e6edf3;line-height:1.8;white-space:pre-wrap;}
+.explain{font-size:13px;color:#2d4a5a;line-height:1.8;margin:8px 0;}
+.explain strong{color:var(--navy);font-weight:600;}
+.note{background:rgba(42,157,143,0.07);border-left:3px solid var(--teal);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;line-height:1.7;}
+.warn{background:rgba(244,162,97,0.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;}
+.def{display:inline-block;background:#e8f0fa;color:#1a4a7a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;margin:2px 0;}
+.divider{height:1px;background:#e4eaf2;margin:24px 0;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Druk<span>Shift</span></div>
+  <div class="topbar-tag">drukshift_pay.html — Code Explanation</div>
+</div>
+
+<div class="hero">
+  <h1><span>drukshift_pay.html</span> — Full Code Explanation</h1>
+  <p>The interactive crypto payment prototype showing how a cryptocurrency payment would work at Deki's Silk Shop in Paro, Bhutan.</p>
+  <div class="file-badge">📄 FILE 3 OF 10 — drukshift_pay.html (674 lines)</div>
+</div>
+
+<div class="main">
+
+<div class="toc">
+  <h2>Contents of this explanation</h2>
+  <div class="toc-grid">
+    <a class="toc-link" href="#html1">HTML — Top Bar and Hero</a>
+    <a class="toc-link" href="#html2">HTML — Steps Indicator</a>
+    <a class="toc-link" href="#html3">HTML — Screen 1 Shop</a>
+    <a class="toc-link" href="#html4">HTML — QR Code</a>
+    <a class="toc-link" href="#html5">HTML — Screen 2 Scanning</a>
+    <a class="toc-link" href="#html6">HTML — Screen 3 Success</a>
+    <a class="toc-link" href="#html7">HTML — How It Works</a>
+    <a class="toc-link" href="#css1">CSS — Layout and Hero</a>
+    <a class="toc-link" href="#css2">CSS — Steps Indicator</a>
+    <a class="toc-link" href="#css3">CSS — Shop Card</a>
+    <a class="toc-link" href="#css4">CSS — QR Code</a>
+    <a class="toc-link" href="#css5">CSS — Scanning Screen</a>
+    <a class="toc-link" href="#css6">CSS — Success Screen</a>
+    <a class="toc-link" href="#css7">CSS — Confetti</a>
+    <a class="toc-link" href="#js1">JS — QR Code Generator</a>
+    <a class="toc-link" href="#js2">JS — Step Tracker</a>
+    <a class="toc-link" href="#js3">JS — Scan Animation</a>
+    <a class="toc-link" href="#js4">JS — Success Screen</a>
+    <a class="toc-link" href="#js5">JS — Confetti</a>
+    <a class="toc-link" href="#js6">JS — Reset Demo</a>
+  </div>
+</div>
+
+<!-- ══ HTML ══ -->
+<div class="part" id="html1">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Top Bar and Hero</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — HTML — Top Bar and Hero</div>
+    <div class="code"><pre>&lt;div class="topbar"&gt;
+  &lt;div class="topbar-logo"&gt;Druk&lt;span&gt;Shift&lt;/span&gt; Pay 🇧🇹&lt;/div&gt;
+  &lt;div class="topbar-tag"&gt;Crypto Payment Prototype&lt;/div&gt;
+  &lt;a href="index.html" class="topbar-back"&gt;← Back to Website&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class="hero"&gt;
+  &lt;div class="hero-tag"&gt;🔬 Interactive Prototype&lt;/div&gt;
+  &lt;h1&gt;What Would Crypto Payments&lt;br&gt;
+      Look Like in &lt;span&gt;Bhutan?&lt;/span&gt;&lt;/h1&gt;
+  &lt;p&gt;This is a prototype showing how a simple cryptocurrency
+     payment could work for a small business in Bhutan.&lt;/p&gt;
+  &lt;div class="hero-note"&gt;
+    ⚠️ This is a demo only — no real money or crypto is involved
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>topbar</strong> — <span class="def">Sticky header</span> — Stays at the top of the screen while scrolling. Contains the DrukShift Pay logo, a label identifying it as a prototype, and a back button to the main website.</p>
+    <p class="explain"><strong>topbar-back href="index.html"</strong> — <span class="def">Navigation link</span> — Simple anchor tag pointing back to the main website file. No JavaScript needed — pure HTML link.</p>
+    <p class="explain"><strong>hero-tag</strong> — <span class="def">Label badge</span> — Small pill-shaped label saying Interactive Prototype so users immediately know this is a simulation not a real payment system.</p>
+    <p class="explain"><strong>hero-note</strong> — <span class="def">Disclaimer badge</span> — Important notice in gold colour telling users no real money is involved. Displayed prominently so there is no confusion.</p>
+    <p class="explain"><strong>&lt;br&gt; in h1</strong> — <span class="def">Line break</span> — Forces the heading onto two lines at a specific point for better visual presentation on all screen sizes.</p>
+  </div>
+</div>
+
+<div class="part" id="html2">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Steps Indicator</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — HTML — Steps Indicator</div>
+    <div class="code"><pre>&lt;div class="steps" id="stepsBar"&gt;
+  &lt;div class="step-item"&gt;
+    &lt;div class="step-circle active" id="sc1"&gt;1&lt;/div&gt;
+    &lt;div class="step-label"&gt;Shop&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="step-line" id="sl1"&gt;&lt;/div&gt;
+
+  &lt;div class="step-item"&gt;
+    &lt;div class="step-circle pending" id="sc2"&gt;2&lt;/div&gt;
+    &lt;div class="step-label"&gt;Scan&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="step-line" id="sl2"&gt;&lt;/div&gt;
+
+  &lt;div class="step-item"&gt;
+    &lt;div class="step-circle pending" id="sc3"&gt;✓&lt;/div&gt;
+    &lt;div class="step-label"&gt;Done&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>Three step-circle elements</strong> — <span class="def">Progress indicators</span> — Show the user which step they are on. Step 1 starts as active (orange), steps 2 and 3 start as pending (grey).</p>
+    <p class="explain"><strong>step-line dividers</strong> — <span class="def">Connecting lines</span> — Horizontal lines between the steps showing the flow from one to the next. JavaScript adds the done class to colour them teal when a step is completed.</p>
+    <p class="explain"><strong>id="sc1", id="sc2", id="sc3"</strong> — <span class="def">Unique IDs</span> — JavaScript finds each circle using these IDs and changes their class and text content as the user moves through the payment flow.</p>
+    <p class="explain"><strong>id="sl1", id="sl2"</strong> — <span class="def">Line IDs</span> — JavaScript finds each line using these IDs and adds the done class to colour them teal when the preceding step is completed.</p>
+    <div class="note"><strong>User flow:</strong> Step 1 Shop → Step 2 Scan → Step 3 Done. Each step circle shows the current step in orange, completed steps in teal with a checkmark, and future steps in grey.</div>
+  </div>
+</div>
+
+<div class="part" id="html3">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Screen 1 — Shop</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — HTML — Shop Screen</div>
+    <div class="code"><pre>&lt;div class="screen active" id="screen1"&gt;
+  &lt;div class="shop-card"&gt;
+    &lt;!-- Shop header --&gt;
+    &lt;div class="shop-header"&gt;
+      &lt;div class="shop-flag"&gt;🧵&lt;/div&gt;
+      &lt;div class="shop-name"&gt;Deki's Silk Shop&lt;/div&gt;
+      &lt;div class="shop-sub"&gt;Paro Market, Bhutan&lt;/div&gt;
+      &lt;div class="shop-verified"&gt;✓ Verified Merchant · DrukShift Pay&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="shop-body"&gt;
+      &lt;!-- Items list --&gt;
+      &lt;div class="item-list"&gt;
+        &lt;div class="item-row"&gt;
+          &lt;span class="item-name"&gt;🧣 Kishuthara Silk Scarf&lt;/span&gt;
+          &lt;span class="item-price"&gt;Nu. 1,800&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="item-row"&gt;
+          &lt;span class="item-name"&gt;🪡 Handwoven Bracelet&lt;/span&gt;
+          &lt;span class="item-price"&gt;Nu. 600&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="item-row"&gt;
+          &lt;span&gt;Total&lt;/span&gt;
+          &lt;span style="color:var(--teal);"&gt;Nu. 2,400&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- Amount box --&gt;
+      &lt;div class="amount-box"&gt;
+        &lt;div class="amount-label"&gt;Amount to Pay&lt;/div&gt;
+        &lt;div class="amount-ngultrum"&gt;Nu. 2,400&lt;/div&gt;
+        &lt;div class="amount-crypto"&gt;≈ 0.0000234 BTC&lt;/div&gt;
+        &lt;div class="amount-rate"&gt;or ≈ 18.92 USDT · Rate updated live&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;button class="btn-pay" onclick="goToScan()"&gt;
+        📱 Simulate Scanning QR Code
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>class="screen active" id="screen1"</strong> — <span class="def">Visible screen</span> — Screen 1 starts visible because it has the active class. Screens 2 and 3 start hidden. JavaScript switches which screen has active.</p>
+    <p class="explain"><strong>shop-verified badge</strong> — <span class="def">Trust indicator</span> — Shows the shop is a verified DrukShift Pay merchant. In a real system this would link to a verified merchant database.</p>
+    <p class="explain"><strong>item-list with rows</strong> — <span class="def">Receipt list</span> — Shows the items being purchased like a real payment receipt. Each item-row has the item name on the left and price on the right using flexbox justify-content space-between.</p>
+    <p class="explain"><strong>amount-box</strong> — <span class="def">Payment summary</span> — Shows the total in three formats: Ngultrum (Nu. 2,400), Bitcoin (0.0000234 BTC), and USDT (18.92). This is how real crypto payment apps show amounts.</p>
+    <p class="explain"><strong>onclick="goToScan()"</strong> — <span class="def">Button action</span> — Calls JavaScript function to move to Screen 2 and start the blockchain simulation animation.</p>
+  </div>
+</div>
+
+<div class="part" id="html4">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">QR Code</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — HTML — QR Code Element</div>
+    <div class="code"><pre>&lt;div class="qr-container"&gt;
+  &lt;div class="qr-box"&gt;
+    &lt;div class="qr-inner" id="qrCode"&gt;
+      &lt;!-- Four corner markers --&gt;
+      &lt;div class="qr-corner tl"&gt;&lt;/div&gt;
+      &lt;div class="qr-corner tr"&gt;&lt;/div&gt;
+      &lt;div class="qr-corner bl"&gt;&lt;/div&gt;
+      &lt;div class="qr-corner br"&gt;&lt;/div&gt;
+      &lt;!-- Grid of dark/light dots filled by JavaScript --&gt;
+      &lt;div class="qr-dots" id="qrDots"&gt;&lt;/div&gt;
+      &lt;!-- Bhutan flag in centre --&gt;
+      &lt;div class="qr-logo"&gt;🇧🇹&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="qr-label"&gt;Scan with your crypto wallet app&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="wallet-address"&gt;
+  bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>qr-corner elements</strong> — <span class="def">QR positioning squares</span> — Real QR codes have three square corner markers (top-left, top-right, bottom-left) that scanners use to identify orientation. These are recreated using CSS borders.</p>
+    <p class="explain"><strong>qr-dots id="qrDots"</strong> — <span class="def">Dot grid container</span> — Empty in HTML. JavaScript fills this with 100 small divs — dark or transparent — using a hardcoded pattern to simulate a real QR code appearance.</p>
+    <p class="explain"><strong>qr-logo 🇧🇹</strong> — <span class="def">Centre logo</span> — Real QR codes can have a logo in the centre — the data is redundant enough to still scan. The Bhutan flag is positioned absolute in the centre using transform translate(-50%,-50%).</p>
+    <p class="explain"><strong>wallet-address</strong> — <span class="def">Bitcoin address</span> — Shows a realistic looking Bitcoin address in monospace font. This is a fictional address for demo purposes only — no real funds are associated with it.</p>
+  </div>
+</div>
+
+<div class="part" id="html5">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Screen 2 — Scanning</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — HTML — Scanning Screen</div>
+    <div class="code"><pre>&lt;div class="screen" id="screen2"&gt;
+  &lt;div class="scan-card"&gt;
+    &lt;div class="scan-animation" id="scanAnim"&gt;📡&lt;/div&gt;
+    &lt;div class="scan-title" id="scanTitle"&gt;Connecting to Blockchain...&lt;/div&gt;
+    &lt;div class="scan-sub" id="scanSub"&gt;Your payment is being verified...&lt;/div&gt;
+    &lt;div class="progress-bar"&gt;
+      &lt;div class="progress-fill" id="progFill"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="progress-text" id="progText"&gt;0%&lt;/div&gt;
+    &lt;div class="blockchain-steps"&gt;
+      &lt;div class="bc-step" id="bcs1"&gt;
+        &lt;div class="bc-step-icon loading"&gt;⟳&lt;/div&gt;
+        &lt;div class="bc-step-text"&gt;
+          &lt;div class="bc-step-label"&gt;Broadcasting Transaction&lt;/div&gt;
+          &lt;div class="bc-step-sub"&gt;Sending to Bitcoin network...&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="bc-step-status loading"&gt;Processing&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="bc-step" id="bcs2"&gt;
+        &lt;!-- Step 2: Network Confirmation --&gt;
+      &lt;/div&gt;
+      &lt;div class="bc-step" id="bcs3"&gt;
+        &lt;!-- Step 3: Payment Verified --&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>scan-animation</strong> — <span class="def">Pulsing icon</span> — A circular div with the 📡 emoji that pulses using CSS animation. Visually indicates that the app is communicating with the blockchain.</p>
+    <p class="explain"><strong>id="scanTitle" and id="scanSub"</strong> — <span class="def">Dynamic text</span> — JavaScript changes these texts at different stages: Connecting to Blockchain → Confirming on Network → Almost there...</p>
+    <p class="explain"><strong>progress-fill id="progFill"</strong> — <span class="def">Progress bar</span> — Starts at 0% width. JavaScript increases it by 2% every 80 milliseconds until it reaches 100%. A gradient from teal to gold makes it visually interesting.</p>
+    <p class="explain"><strong>Three bc-step elements</strong> — <span class="def">Blockchain steps</span> — Show the three stages of a real blockchain transaction: Broadcasting, Network Confirmation, Payment Verified. JavaScript updates each step icon and status text in sequence.</p>
+    <p class="explain"><strong>bc-step-icon loading class</strong> — <span class="def">Spinning icon</span> — The loading class applies the spin CSS animation making the ⟳ icon rotate continuously.</p>
+    <div class="note"><strong>Educational value:</strong> These three steps reflect how real Bitcoin transactions actually work — broadcast to network, confirmed by miners, verified by recipient. This teaches users about blockchain in a visual way.</div>
+  </div>
+</div>
+
+<div class="part" id="html6">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Screen 3 — Success</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — HTML — Success Screen</div>
+    <div class="code"><pre>&lt;div class="screen" id="screen3"&gt;
+  &lt;div class="confetti" id="confettiContainer"&gt;&lt;/div&gt;
+  &lt;div class="success-card"&gt;
+    &lt;div class="success-header"&gt;
+      &lt;div class="success-icon"&gt;✅&lt;/div&gt;
+      &lt;div class="success-title"&gt;Payment Successful!&lt;/div&gt;
+      &lt;div class="success-sub"&gt;Deki's Silk Shop has received your payment&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="success-body"&gt;
+      &lt;div class="receipt-row"&gt;
+        &lt;span class="receipt-label"&gt;Amount Paid&lt;/span&gt;
+        &lt;span class="receipt-value teal"&gt;Nu. 2,400&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="receipt-row"&gt;
+        &lt;span class="receipt-label"&gt;Date &amp; Time&lt;/span&gt;
+        &lt;span class="receipt-value" id="txTime"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="receipt-row"&gt;
+        &lt;span class="receipt-label"&gt;Transaction ID&lt;/span&gt;
+        &lt;span class="txid" id="txId"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="ghn-badge"&gt;
+        &lt;div class="gnh-title"&gt;🇧🇹 GNH Moment&lt;/div&gt;
+        &lt;div class="gnh-text"&gt;"Deki just received her first ever
+          cryptocurrency payment..."&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;button class="btn-done" onclick="resetDemo()"&gt;🔄 Try Again&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>confettiContainer</strong> — <span class="def">Confetti overlay</span> — Empty div that JavaScript fills with 80 coloured squares on payment success. Fixed position covers the whole screen but pointer-events:none means it does not block clicks.</p>
+    <p class="explain"><strong>id="txTime"</strong> — <span class="def">Dynamic timestamp</span> — Empty in HTML. JavaScript inserts the current real date and time when the success screen appears making each demo unique.</p>
+    <p class="explain"><strong>id="txId"</strong> — <span class="def">Dynamic transaction ID</span> — Empty in HTML. JavaScript generates a random realistic looking Bitcoin transaction ID using Math.random and inserts it here.</p>
+    <p class="explain"><strong>ghn-badge GNH Moment</strong> — <span class="def">Story connection</span> — Connects the payment prototype back to the DrukShift research story. Reminds users this is what the project is trying to enable for real Bhutanese businesses.</p>
+    <p class="explain"><strong>&amp; in Date &amp; Time</strong> — <span class="def">HTML entity</span> — The & character must be written as &amp; in HTML to avoid being interpreted as the start of an HTML entity code.</p>
+  </div>
+</div>
+
+<div class="part" id="html7">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">How It Works Section</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — HTML — How It Works</div>
+    <div class="code"><pre>&lt;div class="how-section"&gt;
+  &lt;div class="how-title"&gt;How Crypto Payments Work in Bhutan&lt;/div&gt;
+  &lt;div class="how-sub"&gt;Three simple steps — no bank needed&lt;/div&gt;
+  &lt;div class="how-steps"&gt;
+    &lt;div class="how-step"&gt;
+      &lt;div class="how-step-num"&gt;1&lt;/div&gt;
+      &lt;div class="how-step-icon"&gt;🏪&lt;/div&gt;
+      &lt;div class="how-step-title"&gt;Merchant Shows QR Code&lt;/div&gt;
+      &lt;div class="how-step-body"&gt;The shop owner displays their unique
+        wallet QR code...&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="how-step"&gt;&lt;!-- Step 2 --&gt;&lt;/div&gt;
+    &lt;div class="how-step"&gt;&lt;!-- Step 3 --&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="disclaimer"&gt;
+  &lt;p&gt;&lt;strong&gt;Prototype Notice:&lt;/strong&gt; This is a simulated
+    demonstration...No real cryptocurrency transactions are made.&lt;/p&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>how-steps grid</strong> — <span class="def">Three column layout</span> — CSS Grid with repeat(3,1fr) shows the three steps side by side on desktop. On mobile it collapses to one column via media query.</p>
+    <p class="explain"><strong>how-step-num circle</strong> — <span class="def">Numbered badge</span> — A 36px circle with teal gradient background and white number. Created with border-radius:50% and gradient background.</p>
+    <p class="explain"><strong>disclaimer section</strong> — <span class="def">Legal notice</span> — Important notice at the bottom making it absolutely clear this is not a real payment system. Required for any financial prototype to avoid confusion.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ CSS ══ -->
+<div class="part" id="css1">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Layout and Hero</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — CSS — Layout and Hero</div>
+    <div class="code"><pre>.topbar {
+  background: var(--navy);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.hero {
+  background: linear-gradient(160deg, #04101e, #08192d, #0f2a45);
+  padding: 60px 32px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.hero-tag {
+  display: inline-flex;
+  background: rgba(42,157,143,0.1);
+  border: 1px solid rgba(42,157,143,0.3);
+  color: var(--teal);
+  border-radius: 50px;
+  padding: 8px 20px;
+}
+.hero-note {
+  background: rgba(233,196,106,0.1);
+  border: 1px solid rgba(233,196,106,0.3);
+  color: var(--gold);
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+.main { max-width:1000px; margin:40px auto; padding:0 24px 80px; }</pre></div>
+    <p class="explain"><strong>position:sticky top:0</strong> — <span class="def">Sticky topbar</span> — Stays fixed at the top of the browser window while scrolling unlike position:fixed it scrolls with the page until it reaches the top then sticks.</p>
+    <p class="explain"><strong>Three colour gradient hero</strong> — <span class="def">Deep blue gradient</span> — Goes from very dark #04101e through navy #08192d to slightly lighter #0f2a45 creating a rich deep background.</p>
+    <p class="explain"><strong>hero-tag teal semi-transparent</strong> — <span class="def">Glass badge</span> — Low opacity teal background with a subtle teal border creates a glass-like badge effect over the dark hero background.</p>
+    <p class="explain"><strong>hero-note gold colour</strong> — <span class="def">Warning colour</span> — Gold is used for the disclaimer badge instead of red because it needs to be noticeable but not alarming — it is not a warning about danger just a clarification.</p>
+    <p class="explain"><strong>max-width:1000px margin:auto</strong> — <span class="def">Centred container</span> — Limits content width to 1000px. margin:40px auto centres it horizontally on wide screens.</p>
+  </div>
+</div>
+
+<div class="part" id="css2">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Steps Indicator</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — CSS — Steps Indicator</div>
+    <div class="code"><pre>.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 40px;
+}
+.step-circle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+.step-circle.done    { background:var(--teal);   color:white; }
+.step-circle.active  { background:var(--accent);  color:var(--navy); }
+.step-circle.pending { background:#dce6f0;        color:#aaa; }
+.step-line      { width:60px; height:2px; background:#dce6f0; margin-bottom:20px; }
+.step-line.done { background:var(--teal); }</pre></div>
+    <p class="explain"><strong>Three circle states</strong> — <span class="def">Visual states</span> — done is teal with checkmark, active is orange with number (current step), pending is grey (future step). JavaScript switches these by changing the class attribute.</p>
+    <p class="explain"><strong>transition:all 0.3s</strong> — <span class="def">Smooth state change</span> — When JavaScript changes the class the background and text colour transition smoothly over 0.3 seconds rather than switching instantly.</p>
+    <p class="explain"><strong>step-line.done background:teal</strong> — <span class="def">Completed connector</span> — The grey connecting line between steps turns teal when the step before it is completed showing visual progress through the payment flow.</p>
+    <p class="explain"><strong>margin-bottom:20px on step-line</strong> — <span class="def">Vertical alignment</span> — Shifts the line down slightly to align with the centre of the step circles above it creating proper visual connection between steps.</p>
+  </div>
+</div>
+
+<div class="part" id="css3">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Shop Card</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — CSS — Shop Card Styles</div>
+    <div class="code"><pre>.screen        { display:none; animation:fadeIn 0.4s ease; }
+.screen.active { display:block; }
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.shop-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 40px rgba(8,25,45,0.08);
+  max-width: 480px;
+  margin: 0 auto;
+}
+.shop-header {
+  background: linear-gradient(135deg, #08192d, #0f2a45);
+  padding: 28px 24px;
+  text-align: center;
+}
+.shop-verified {
+  background: rgba(42,157,143,0.2);
+  border: 1px solid rgba(42,157,143,0.4);
+  color: var(--teal);
+  border-radius: 50px;
+  padding: 4px 12px;
+}
+.amount-box {
+  background: #f8fafc;
+  border: 2px solid #e4eaf2;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f4f8;
+  padding: 10px 0;
+}</pre></div>
+    <p class="explain"><strong>screen display:none / screen.active display:block</strong> — <span class="def">Screen switching</span> — All three screens are hidden by default. Only the one with the active class is visible. JavaScript adds and removes active to switch between screens.</p>
+    <p class="explain"><strong>fadeIn animation on screen</strong> — <span class="def">Screen transition</span> — Every time a screen becomes active it fades in and slides up 16px. The animation plays whenever the active class is applied.</p>
+    <p class="explain"><strong>shop-card max-width:480px margin:0 auto</strong> — <span class="def">Card centering</span> — Limits the card width to 480px (mobile app width) and centres it on wider screens to simulate a mobile payment app.</p>
+    <p class="explain"><strong>shop-verified glass badge</strong> — <span class="def">Trust signal</span> — Semi-transparent teal background with border creates a verified merchant badge that looks like those in real payment apps like PayPal or Stripe.</p>
+    <p class="explain"><strong>item-row justify-content:space-between</strong> — <span class="def">Two column row</span> — Pushes the item name to the left and price to the right exactly like a real receipt or invoice layout.</p>
+  </div>
+</div>
+
+<div class="part" id="css4">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">QR Code</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — CSS — QR Code Styles</div>
+    <div class="code"><pre>.qr-box {
+  display: inline-block;
+  background: white;
+  border: 3px solid var(--navy);
+  border-radius: 12px;
+  padding: 16px;
+}
+.qr-inner { width:160px; height:160px; position:relative; }
+
+/* Corner markers of the QR code */
+.qr-corner { position:absolute; width:28px; height:28px;
+              border-color:var(--navy); border-style:solid; }
+.qr-corner.tl { top:0;    left:0;  border-width:4px 0 0 4px; border-radius:4px 0 0 0; }
+.qr-corner.tr { top:0;    right:0; border-width:4px 4px 0 0; border-radius:0 4px 0 0; }
+.qr-corner.bl { bottom:0; left:0;  border-width:0 0 4px 4px; border-radius:0 0 0 4px; }
+.qr-corner.br { bottom:0; right:0; border-width:0 4px 4px 0; border-radius:0 0 4px 0; }
+
+.qr-dots { display:grid; grid-template-columns:repeat(10,1fr); gap:2px; padding:8px; }
+.qr-dot  { width:12px; height:12px; border-radius:1px; }
+
+.qr-logo {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px; height: 36px;
+  background: white;
+  border: 2px solid #e4eaf2;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.wallet-address {
+  font-family: monospace;
+  font-size: 10px;
+  word-break: break-all;
+  background: #f8fafc;
+}</pre></div>
+    <p class="explain"><strong>qr-corner border-width trick</strong> — <span class="def">L-shaped borders</span> — Each corner uses selective border-width to create an L-shape. For top-left (tl): border-width:4px 0 0 4px means only top and left borders are 4px, right and bottom are 0. Combined with border-radius this creates the QR code corner marker shape.</p>
+    <p class="explain"><strong>qr-dots grid-template-columns:repeat(10,1fr)</strong> — <span class="def">10x10 dot grid</span> — Creates a 10 column grid. With 100 dot divs this makes a 10x10 grid of dots that together look like a QR code pattern.</p>
+    <p class="explain"><strong>qr-dot border-radius:1px</strong> — <span class="def">Slightly rounded squares</span> — Very slight rounding on the dots makes them look like real QR code pixels which are square with just a tiny rounding.</p>
+    <p class="explain"><strong>qr-logo absolute centre transform</strong> — <span class="def">Perfect centering</span> — position:absolute with top:50% left:50% places the top-left corner of the logo at centre. transform:translate(-50%,-50%) then shifts it back by half its own width and height to perfectly centre it.</p>
+    <p class="explain"><strong>word-break:break-all on wallet address</strong> — <span class="def">Long text wrapping</span> — Bitcoin addresses are very long strings with no spaces. word-break:break-all forces the browser to break the text at any character so it fits within the container.</p>
+  </div>
+</div>
+
+<div class="part" id="css5">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Scanning Screen</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — CSS — Scanning Animation</div>
+    <div class="code"><pre>.scan-animation {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,
+    rgba(42,157,143,0.1), rgba(42,157,143,0.2));
+  border: 3px solid var(--teal);
+  margin: 0 auto 24px;
+  font-size: 48px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(42,157,143,0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 20px rgba(42,157,143,0);
+  }
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  width: 0%;
+  transition: width 0.1s linear;
+}
+.bc-step-icon.loading { animation: spin 1s linear infinite; }
+@keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }</pre></div>
+    <p class="explain"><strong>pulse animation with box-shadow</strong> — <span class="def">Ripple effect</span> — The pulse animation scales the circle up slightly and simultaneously expands a box-shadow from 0px to 20px. The shadow fades to transparent as it expands creating a ripple/sonar effect.</p>
+    <p class="explain"><strong>progress gradient teal to gold</strong> — <span class="def">Gradient fill</span> — The progress bar uses a left-to-right gradient from teal to gold. As it fills from 0 to 100% the colour appears to progress from teal at the start to gold at completion.</p>
+    <p class="explain"><strong>transition:width 0.1s linear</strong> — <span class="def">Smooth increment</span> — JavaScript adds 2% every 80ms. The 0.1s transition smooths each 2% increment so the bar appears to move continuously rather than stepping.</p>
+    <p class="explain"><strong>spin animation on loading icon</strong> — <span class="def">Continuous rotation</span> — Rotates the ⟳ icon from 0 to 360 degrees infinitely at 1 second per rotation. Combined with the pulse of the scan animation creates a busy but purposeful loading state.</p>
+  </div>
+</div>
+
+<div class="part" id="css6">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Success Screen</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — CSS — Success Screen</div>
+    <div class="code"><pre>.success-header {
+  background: linear-gradient(135deg, var(--teal), #1a7a6e);
+  padding: 40px 32px;
+  text-align: center;
+}
+.success-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: bounce 0.6s ease;
+}
+@keyframes bounce {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f4f8;
+  padding: 12px 0;
+}
+.txid {
+  font-family: monospace;
+  font-size: 10px;
+  background: #f8fafc;
+  border-radius: 6px;
+  padding: 6px 10px;
+  word-break: break-all;
+  display: block;
+}
+.ghn-badge {
+  background: linear-gradient(135deg,
+    rgba(42,157,143,0.08), rgba(233,196,106,0.08));
+  border: 1px solid rgba(42,157,143,0.2);
+  border-radius: 12px;
+  padding: 16px;
+}</pre></div>
+    <p class="explain"><strong>bounce animation on success icon</strong> — <span class="def">Celebratory animation</span> — The ✅ icon starts at scale(0) invisible then overshoots to scale(1.2) before settling at scale(1). This bouncy entrance feels celebratory and satisfying.</p>
+    <p class="explain"><strong>receipt-row layout</strong> — <span class="def">Receipt format</span> — Each row uses flexbox space-between to put the label on the left and value on the right just like a real payment receipt or bank statement.</p>
+    <p class="explain"><strong>txid monospace font</strong> — <span class="def">Code-style text</span> — Transaction IDs use monospace (fixed width) font as that is the standard for cryptographic hashes and IDs in all crypto applications.</p>
+    <p class="explain"><strong>ghn-badge dual gradient</strong> — <span class="def">Blend of brand colours</span> — Uses both teal and gold at very low opacity to create a subtle gradient that blends both DrukShift brand colours together.</p>
+  </div>
+</div>
+
+<div class="part" id="css7">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Confetti Animation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — CSS — Confetti</div>
+    <div class="code"><pre>.confetti {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}</pre></div>
+    <p class="explain"><strong>position:fixed inset:0</strong> — <span class="def">Full screen overlay</span> — The confetti container covers the entire browser window so pieces can fall anywhere on screen.</p>
+    <p class="explain"><strong>pointer-events:none</strong> — <span class="def">Click-through</span> — The confetti layer does not block mouse clicks or touches. Users can still interact with buttons underneath the falling confetti.</p>
+    <p class="explain"><strong>z-index:999</strong> — <span class="def">On top of everything</span> — Very high z-index ensures confetti appears above all other page content.</p>
+    <p class="explain"><strong>confettiFall animation</strong> — <span class="def">Falling effect</span> — Starts just above the screen at -20px, falls to 100vh (bottom of screen). Rotates 720 degrees (two full rotations) while falling. Fades from opacity 1 to 0 as it falls.</p>
+    <p class="explain"><strong>linear forwards</strong> — <span class="def">Animation settings</span> — linear means constant speed (no easing). forwards means the element stays in its final state after the animation ends rather than snapping back to start.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ JAVASCRIPT ══ -->
+<div class="part" id="js1">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">QR Code Generator</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — JavaScript — QR Code Generator</div>
+    <div class="code"><pre>function generateQR() {
+  var dots = document.getElementById('qrDots');
+  if (!dots) return;
+
+  // Hardcoded pattern of 1s and 0s
+  // 1 = dark dot, 0 = transparent dot
+  var pattern = [
+    1,1,0,1,0,1,1,0,1,0,
+    0,1,1,0,1,0,0,1,0,1,
+    1,0,1,0,0,1,1,0,1,0,
+    0,1,0,1,1,0,1,1,0,1,
+    1,0,0,1,0,1,0,0,1,0,
+    0,1,1,0,1,1,0,1,0,1,
+    1,1,0,0,0,0,1,0,1,0,
+    0,0,1,1,1,0,0,1,0,1,
+    1,0,0,1,0,1,1,0,0,0,
+    0,1,1,0,1,0,0,1,1,1
+  ];
+
+  dots.innerHTML = '';
+  pattern.forEach(function(v) {
+    var d = document.createElement('div');
+    d.className = 'qr-dot';
+    d.style.background = v ? '#08192d' : 'transparent';
+    dots.appendChild(d);
+  });
+}
+generateQR();</pre></div>
+    <p class="explain"><strong>pattern array of 1s and 0s</strong> — <span class="def">Binary pattern</span> — 100 values representing a 10x10 grid. 1 means dark dot (navy colour), 0 means transparent. This simulates the look of a real QR code.</p>
+    <p class="explain"><strong>document.createElement('div')</strong> — <span class="def">Create element</span> — Creates a new div element in memory. It is not visible until it is added to the page with appendChild.</p>
+    <p class="explain"><strong>d.style.background = v ? '#08192d' : 'transparent'</strong> — <span class="def">Ternary assignment</span> — If v is 1 (truthy) set background to navy, if v is 0 (falsy) set to transparent. This colours each dot based on its pattern value.</p>
+    <p class="explain"><strong>dots.appendChild(d)</strong> — <span class="def">Add to DOM</span> — Inserts the created div into the qrDots container on the page. After all 100 divs are appended the QR code pattern is complete.</p>
+    <p class="explain"><strong>generateQR() called immediately</strong> — <span class="def">Auto-run</span> — The function is called right after it is defined so the QR code is generated as soon as the page loads.</p>
+  </div>
+</div>
+
+<div class="part" id="js2">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Step Tracker and Screen Navigation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — JavaScript — Navigation</div>
+    <div class="code"><pre>function updateSteps(step) {
+  for (var i = 1; i <= 3; i++) {
+    var sc = document.getElementById('sc' + i);
+    if (!sc) continue;
+    if (i < step) {
+      sc.className = 'step-circle done';
+      sc.textContent = '✓';
+    } else if (i === step) {
+      sc.className = 'step-circle active';
+      if (i < 3) sc.textContent = i;
+    } else {
+      sc.className = 'step-circle pending';
+      sc.textContent = i < 3 ? i : '✓';
+    }
+  }
+  for (var j = 1; j <= 2; j++) {
+    var sl = document.getElementById('sl' + j);
+    if (sl) sl.className = j < step ? 'step-line done' : 'step-line';
+  }
+}
+
+function showScreen(n) {
+  for (var i = 1; i <= 3; i++) {
+    var s = document.getElementById('screen' + i);
+    if (s) s.className = i === n ? 'screen active' : 'screen';
+  }
+  updateSteps(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}</pre></div>
+    <p class="explain"><strong>updateSteps loop</strong> — <span class="def">State update</span> — Loops through all 3 step circles. For each one: if its number is less than current step it is done (teal + checkmark), if equal it is active (orange), if greater it is pending (grey).</p>
+    <p class="explain"><strong>sc.textContent = '✓'</strong> — <span class="def">Change content</span> — Replaces the number inside the circle with a checkmark when the step is completed.</p>
+    <p class="explain"><strong>j < step ? 'step-line done' : 'step-line'</strong> — <span class="def">Line colouring</span> — Line 1 turns teal when step 2 or 3 is active (j=1 < step=2). Line 2 turns teal only when step 3 is active.</p>
+    <p class="explain"><strong>showScreen changes all screens</strong> — <span class="def">Screen switch</span> — Loops through all 3 screens. The one matching n gets class "screen active" (visible), all others get "screen" (hidden). Then updates the step indicators.</p>
+    <p class="explain"><strong>window.scrollTo top:0</strong> — <span class="def">Scroll to top</span> — Scrolls back to the top of the page when switching screens so the user always sees the new screen from the beginning.</p>
+  </div>
+</div>
+
+<div class="part" id="js3">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Scan Animation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — JavaScript — Blockchain Simulation</div>
+    <div class="code"><pre>var scanInterval = null;
+
+function goToScan() {
+  showScreen(2);
+  var progress = 0;
+  var fill  = document.getElementById('progFill');
+  var text  = document.getElementById('progText');
+  var title = document.getElementById('scanTitle');
+
+  // Step 1 completes after 1.5 seconds
+  setTimeout(function() {
+    var s1 = document.getElementById('bcs1');
+    s1.querySelector('.bc-step-icon').textContent   = '✓';
+    s1.querySelector('.bc-step-icon').className     = 'bc-step-icon done';
+    s1.querySelector('.bc-step-status').textContent = 'Done';
+    s1.querySelector('.bc-step-status').className   = 'bc-step-status done';
+    // Activate step 2
+    var s2 = document.getElementById('bcs2');
+    s2.querySelector('.bc-step-icon').textContent   = '⟳';
+    s2.querySelector('.bc-step-icon').className     = 'bc-step-icon loading';
+    title.textContent = 'Confirming on Network...';
+  }, 1500);
+
+  // Step 2 completes after 3 seconds
+  setTimeout(function() {
+    // ... mark step 2 done, activate step 3
+    title.textContent = 'Almost there...';
+  }, 3000);
+
+  // Progress bar fills over ~4 seconds
+  // 2% every 80ms = 100% in 4000ms
+  scanInterval = setInterval(function() {
+    progress += 2;
+    fill.style.width  = progress + '%';
+    text.textContent  = progress + '%';
+    if (progress >= 100) {
+      clearInterval(scanInterval);
+      goToSuccess();
+    }
+  }, 80);
+}</pre></div>
+    <p class="explain"><strong>Two setTimeout calls</strong> — <span class="def">Timed events</span> — setTimeout fires a function once after a delay. First fires at 1500ms to complete step 1 and start step 2. Second fires at 3000ms to complete step 2 and start step 3.</p>
+    <p class="explain"><strong>querySelector('.bc-step-icon')</strong> — <span class="def">Child selection</span> — Finds the first element with class bc-step-icon inside the bcs1 element. More specific than getElementById because we are searching within a parent element.</p>
+    <p class="explain"><strong>setInterval 2% every 80ms</strong> — <span class="def">Progress increment</span> — 80ms x 50 increments = 4000ms = 4 seconds to reach 100%. This timing was chosen to match the two setTimeout delays for a satisfying progression.</p>
+    <p class="explain"><strong>clearInterval when 100%</strong> — <span class="def">Stop timer</span> — Once the progress reaches 100% the interval is stopped with clearInterval and goToSuccess is called to show the success screen.</p>
+    <p class="explain"><strong>scanInterval = null initialisation</strong> — <span class="def">Variable scope</span> — Declared outside the function so it can be accessed by the resetDemo function to clear the interval if the user resets mid-animation.</p>
+  </div>
+</div>
+
+<div class="part" id="js4">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Success Screen</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — JavaScript — Success</div>
+    <div class="code"><pre>function goToSuccess() {
+  var now = new Date();
+
+  // Set real current date and time
+  var timeEl = document.getElementById('txTime');
+  if (timeEl) timeEl.textContent = now.toLocaleString('en-BT', {
+    day: 'numeric', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+
+  // Generate random transaction ID
+  var txEl = document.getElementById('txId');
+  if (txEl) txEl.textContent =
+    'btc1x' +
+    Math.random().toString(36).substr(2,8).toUpperCase() +
+    'drukshift' +
+    Math.random().toString(36).substr(2,8).toUpperCase() +
+    '2026BT' +
+    Math.floor(Math.random() * 9999);
+
+  showScreen(3);
+  launchConfetti();
+}</pre></div>
+    <p class="explain"><strong>new Date()</strong> — <span class="def">Current date/time</span> — Creates a Date object with the current date and time. toLocaleString then formats it into a human readable string.</p>
+    <p class="explain"><strong>toLocaleString('en-BT',...)</strong> — <span class="def">Bhutan locale</span> — en-BT is the locale code for English as used in Bhutan. The options object specifies which parts to include in the formatted string.</p>
+    <p class="explain"><strong>Math.random().toString(36).substr(2,8)</strong> — <span class="def">Random string</span> — Math.random() gives a number between 0 and 1. toString(36) converts it to base-36 (letters and numbers). substr(2,8) takes 8 characters starting from position 2 (skipping "0."). This creates a realistic looking random transaction hash segment.</p>
+    <p class="explain"><strong>toUpperCase()</strong> — <span class="def">Capitalise</span> — Bitcoin transaction IDs use uppercase letters. toUpperCase converts all lowercase letters to uppercase.</p>
+    <p class="explain"><strong>Math.floor(Math.random() * 9999)</strong> — <span class="def">Random number</span> — Generates a random integer between 0 and 9998 added to the end of the transaction ID for uniqueness.</p>
+  </div>
+</div>
+
+<div class="part" id="js5">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Confetti</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — JavaScript — Confetti Launch</div>
+    <div class="code"><pre>function launchConfetti() {
+  var container = document.getElementById('confettiContainer');
+  if (!container) return;
+
+  var colours = ['#2a9d8f','#e9c46a','#f4a261','#1a4a7a','#e63946','#ffffff'];
+
+  for (var i = 0; i < 80; i++) {
+    // IIFE to capture i in closure
+    (function(i) {
+      setTimeout(function() {
+        var piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+
+        // Random position, colour, size and duration
+        piece.style.left              = Math.random() * 100 + 'vw';
+        piece.style.background        = colours[Math.floor(Math.random() * colours.length)];
+        piece.style.width             = (Math.random() * 8 + 6) + 'px';
+        piece.style.height            = (Math.random() * 8 + 6) + 'px';
+        piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        piece.style.animationDelay    = '0s';
+
+        container.appendChild(piece);
+
+        // Remove piece after 4 seconds to clean up DOM
+        setTimeout(function() { piece.remove(); }, 4000);
+      }, i * 30); // Stagger each piece by 30ms
+    })(i);
+  }
+}</pre></div>
+    <p class="explain"><strong>80 confetti pieces</strong> — <span class="def">Loop count</span> — Creates 80 individual confetti pieces. More pieces = more impressive but slower. 80 is balanced for good visual effect without performance issues.</p>
+    <p class="explain"><strong>IIFE (function(i){...})(i)</strong> — <span class="def">Closure fix</span> — Without this, all 80 setTimeout callbacks would share the same i variable and all would run with i=80. The IIFE creates a separate scope for each iteration capturing the correct value of i.</p>
+    <p class="explain"><strong>i * 30 stagger delay</strong> — <span class="def">Sequential launch</span> — Each piece is delayed by 30ms more than the previous one. Piece 0 at 0ms, piece 1 at 30ms, piece 79 at 2370ms. This creates a shower effect rather than all pieces appearing at once.</p>
+    <p class="explain"><strong>Random left position in vw</strong> — <span class="def">Viewport width units</span> — Math.random() * 100 gives a number 0-100. Adding 'vw' makes it a viewport width percentage so pieces spread across the full width of the screen.</p>
+    <p class="explain"><strong>Random size (6-14px)</strong> — <span class="def">Size variation</span> — Math.random() * 8 + 6 gives values between 6 and 14. Mixed sizes make the confetti look more natural and varied.</p>
+    <p class="explain"><strong>piece.remove() after 4 seconds</strong> — <span class="def">DOM cleanup</span> — After the falling animation completes the piece is removed from the DOM. Without cleanup 80 invisible divs would remain wasting memory.</p>
+  </div>
+</div>
+
+<div class="part" id="js6">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Reset Demo</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_pay.html — JavaScript — Reset</div>
+    <div class="code"><pre>function resetDemo() {
+  // Stop any running progress bar interval
+  if (scanInterval) clearInterval(scanInterval);
+
+  // Reset progress bar
+  document.getElementById('progFill').style.width = '0%';
+  document.getElementById('progText').textContent = '0%';
+  document.getElementById('scanTitle').textContent = 'Connecting to Blockchain...';
+
+  // Reset all blockchain steps back to initial state
+  ['bcs1','bcs2','bcs3'].forEach(function(id, i) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    if (i === 0) {
+      // Step 1 starts in loading state
+      s.querySelector('.bc-step-icon').textContent   = '⟳';
+      s.querySelector('.bc-step-icon').className     = 'bc-step-icon loading';
+      s.querySelector('.bc-step-status').textContent = 'Processing';
+      s.querySelector('.bc-step-status').className   = 'bc-step-status loading';
+    } else {
+      // Steps 2 and 3 start in pending state
+      s.querySelector('.bc-step-icon').textContent   = '○';
+      s.querySelector('.bc-step-icon').className     = 'bc-step-icon pending';
+      s.querySelector('.bc-step-status').textContent = 'Waiting';
+      s.querySelector('.bc-step-status').className   = 'bc-step-status pending';
+    }
+  });
+
+  // Go back to screen 1
+  showScreen(1);
+}</pre></div>
+    <p class="explain"><strong>clearInterval(scanInterval)</strong> — <span class="def">Stop running timer</span> — If the user somehow triggers reset while the progress bar is still running this stops the interval to prevent it continuing in the background.</p>
+    <p class="explain"><strong>Reset progress to 0%</strong> — <span class="def">Initial state</span> — Sets the progress bar width back to 0% and the text back to 0%. Next time goToScan runs it starts fresh from zero.</p>
+    <p class="explain"><strong>forEach with index i</strong> — <span class="def">Loop with position</span> — forEach provides both the value (id) and index (i) in the callback. The index determines whether to reset to loading (i=0, step 1) or pending (i=1,2 steps 2 and 3).</p>
+    <p class="explain"><strong>showScreen(1)</strong> — <span class="def">Return to start</span> — Goes back to the shop screen so the user can try the demo again from the beginning with a fresh state.</p>
+  </div>
+</div>
+
+</div>
+
+<footer style="background:#08192d;padding:32px;text-align:center;margin-top:40px;">
+  <div style="font-size:18px;font-weight:700;color:white;margin-bottom:6px;">Druk<span style="color:#f4a261;">Shift</span> 🇧🇹</div>
+  <div style="font-size:12px;color:#7a9bb5;">drukshift_pay.html Explanation · Kinzang Choden · BDS Internship 2026</div>
+  <div style="font-size:11px;color:#4a6a8a;margin-top:6px;">Next file → server.js (Backend)</div>
+</footer>
+
+</body>
+</html>
