@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusinessReport.html — Full Code Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;--accent:#f4a261;--light:#f0f4f8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Outfit",sans-serif;background:var(--light);color:#2d4a5a;line-height:1.7;}
+.topbar{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-size:18px;font-weight:700;color:white;}.topbar-logo span{color:var(--accent);}
+.topbar-tag{font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;}
+.hero{background:linear-gradient(160deg,#04101e,#08192d);padding:48px 32px;text-align:center;}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;color:white;margin-bottom:8px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:14px;color:#7a9bb5;max-width:600px;margin:0 auto;}
+.file-badge{display:inline-block;background:rgba(244,162,97,0.15);border:1px solid rgba(244,162,97,0.4);color:var(--accent);font-size:12px;font-weight:700;padding:6px 16px;border-radius:50px;margin-top:12px;}
+.main{max-width:960px;margin:32px auto;padding:0 24px 80px;}
+.toc{background:white;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 16px rgba(8,25,45,0.06);}
+.toc h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;border-bottom:2px solid var(--light);padding-bottom:10px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.toc-link{font-size:12px;color:var(--teal);text-decoration:none;padding:5px 8px;border-radius:6px;display:block;}
+.toc-link:hover{background:var(--light);}
+.part{margin-bottom:32px;}
+.part-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 20px;border-radius:10px;}
+.part-header.html{background:#fff3e0;border-left:4px solid #f4a261;}
+.part-header.css{background:#e3f2fd;border-left:4px solid #2196f3;}
+.part-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border-radius:50px;}
+.part-label.html{background:#f4a261;color:white;}
+.part-label.css{background:#2196f3;color:white;}
+.part-title{font-size:16px;font-weight:700;color:var(--navy);}
+.card{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 12px rgba(8,25,45,0.05);}
+.card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--light);}
+.code{background:#0d1117;border-radius:8px;padding:12px 16px;margin:10px 0;overflow-x:auto;}
+.code pre{font-family:"Fira Code",monospace;font-size:11.5px;color:#e6edf3;line-height:1.8;white-space:pre-wrap;}
+.explain{font-size:13px;color:#2d4a5a;line-height:1.8;margin:8px 0;}
+.explain strong{color:var(--navy);font-weight:600;}
+.note{background:rgba(42,157,143,0.07);border-left:3px solid var(--teal);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;line-height:1.7;}
+.def{display:inline-block;background:#e8f0fa;color:#1a4a7a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;}
+.divider{height:1px;background:#e4eaf2;margin:24px 0;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Druk<span>Shift</span></div>
+  <div class="topbar-tag">BusinessReport.html — Code Explanation</div>
+</div>
+
+<div class="hero">
+  <h1><span>BusinessReport.html</span> — Full Code Explanation</h1>
+  <p>The professional 8-section business report covering the full DrukShift research project with methodology, findings, GNH alignment, solutions and web development.</p>
+  <div class="file-badge">FILE 6 OF 10 — BusinessReport.html (797 lines)</div>
+</div>
+
+<div class="main">
+
+<div class="toc">
+  <h2>Contents of this explanation</h2>
+  <div class="toc-grid">
+    <a class="toc-link" href="#html1">HTML — Navigation</a>
+    <a class="toc-link" href="#html2">HTML — Cover Page</a>
+    <a class="toc-link" href="#html3">HTML — Table of Contents</a>
+    <a class="toc-link" href="#html4">HTML — Report Sections</a>
+    <a class="toc-link" href="#html5">HTML — Stat Cards</a>
+    <a class="toc-link" href="#html6">HTML — Data Tables</a>
+    <a class="toc-link" href="#html7">HTML — Solution Cards</a>
+    <a class="toc-link" href="#html8">HTML — Finding Cards</a>
+    <a class="toc-link" href="#html9">HTML — GNH Grid</a>
+    <a class="toc-link" href="#html10">HTML — Tech Stack</a>
+    <a class="toc-link" href="#html11">HTML — Conclusion</a>
+    <a class="toc-link" href="#html12">HTML — Footer</a>
+    <a class="toc-link" href="#css1">CSS — Variables and Nav</a>
+    <a class="toc-link" href="#css2">CSS — Cover Page</a>
+    <a class="toc-link" href="#css3">CSS — TOC and Sections</a>
+    <a class="toc-link" href="#css4">CSS — Cards and Tables</a>
+    <a class="toc-link" href="#css5">CSS — Highlight Boxes</a>
+    <a class="toc-link" href="#css6">CSS — Conclusion and Footer</a>
+    <a class="toc-link" href="#css7">CSS — Responsive Design</a>
+  </div>
+</div>
+
+<!-- HTML SECTIONS -->
+<div class="part" id="html1">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Navigation Bar</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Navigation</div>
+    <div class="code"><pre>&lt;nav&gt;
+  &lt;div class="nav-logo"&gt;Druk&lt;span&gt;Shift&lt;/span&gt; &lt;/div&gt;
+  &lt;ul class="nav-links"&gt;
+    &lt;li&gt;&lt;a href="#overview"&gt;Overview&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#problem"&gt;Problem&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#methodology"&gt;Methodology&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#findings"&gt;Findings&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#gnh"&gt;GNH&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#solutions"&gt;Solutions&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#web"&gt;Website&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;a href="index.html" class="nav-back"&gt;Back to Website&lt;/a&gt;
+&lt;/nav&gt;</pre></div>
+    <p class="explain"><strong>Eight nav links</strong> — <span class="def">Section anchors</span> — Each link uses href="#sectionid" to jump directly to that section of the report. This is the in-page anchor system — the # tells the browser to scroll to the element with that ID on the same page.</p>
+    <p class="explain"><strong>Cormorant Garamond on nav-logo</strong> — <span class="def">Report font</span> — The business report uses the serif Cormorant Garamond font for the logo and all headings. This gives it a formal academic publication look different from the main website which uses Outfit sans-serif.</p>
+    <p class="explain"><strong>nav-back href="index.html"</strong> — <span class="def">Back button</span> — Simple anchor tag back to the main website. Styled as a pill-shaped button with an orange border. Reports and sub-pages always have a way back to the main site.</p>
+    <p class="explain"><strong>position:fixed backdrop-filter:blur</strong> — <span class="def">Sticky nav</span> — Same pattern as all other DrukShift pages. rgba(8,25,45,0.97) is 97% opacity — nearly solid giving the report a more formal appearance than the 92% used on the main site.</p>
+  </div>
+</div>
+
+<div class="part" id="html2">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Cover Page</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Cover Page</div>
+    <div class="code"><pre>&lt;section class="cover"&gt;
+  &lt;div class="cover-orb cover-orb-1"&gt;&lt;/div&gt;
+  &lt;div class="cover-orb cover-orb-2"&gt;&lt;/div&gt;
+  &lt;div class="cover-content"&gt;
+    &lt;div class="cover-tag"&gt;Business Report · BDS Internship 2026&lt;/div&gt;
+    &lt;h1 class="cover-h1"&gt;Cryptocurrency&lt;br&gt;&lt;em&gt;Readiness&lt;/em&gt;&lt;br&gt;in Bhutan&lt;/h1&gt;
+    &lt;p class="cover-sub"&gt;A data-driven research project...&lt;/p&gt;
+    &lt;div class="cover-meta"&gt;
+      &lt;div class="cover-meta-item"&gt;
+        &lt;div class="cover-meta-n"&gt;113&lt;/div&gt;
+        &lt;div class="cover-meta-l"&gt;Survey Responses&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- 80% 10 7 --&gt;
+    &lt;/div&gt;
+    &lt;div class="cover-author"&gt;
+      &lt;div class="cover-avatar"&gt;K&lt;/div&gt;
+      &lt;div class="cover-author-info"&gt;
+        &lt;div class="cover-author-name"&gt;Kinzang Choden&lt;/div&gt;
+        &lt;div class="cover-author-role"&gt;3rd Year BI Student · BDS Internship 2026&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="cover-scroll"&gt;
+    &lt;div class="scroll-line"&gt;&lt;/div&gt;SCROLL
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>cover-orb decorative divs</strong> — <span class="def">Glow orbs</span> — Two circular divs with radial-gradient backgrounds creating soft blue and orange glow effects behind the cover content. pointer-events:none means they do not block any clicks.</p>
+    <p class="explain"><strong>cover::before grid pattern</strong> — <span class="def">CSS grid background</span> — A pseudo-element adds a faint 60px grid using two overlapping gradients. The lines are only 2% white opacity — barely visible. Adds a subtle technical/data feel to the cover without distracting.</p>
+    <p class="explain"><strong>cover-h1 with em tag</strong> — <span class="def">Styled word</span> — The word Readiness is inside an em tag. In CSS cover-h1 em gets color:var(--accent) making it orange and italic while the rest of the heading stays white. This draws attention to the key research word.</p>
+    <p class="explain"><strong>Four key stats in cover-meta</strong> — <span class="def">Instant summary</span> — 113 respondents, 80% readiness, 10 questions, 7 findings shown right on the cover. A reader instantly knows the scale of the project before reading a single word.</p>
+    <p class="explain"><strong>cover-avatar letter K</strong> — <span class="def">Initial avatar</span> — A circular gradient div showing the letter K for Kinzang. More professional than leaving it blank and more personal than a generic icon.</p>
+    <p class="explain"><strong>scroll-line gradient hint</strong> — <span class="def">Scroll indicator</span> — A 1px vertical line that fades from white to transparent positioned at the bottom of the cover page. Points the reader downward toward the report content.</p>
+  </div>
+</div>
+
+<div class="part" id="html3">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Table of Contents</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Table of Contents</div>
+    <div class="code"><pre>&lt;section class="toc-section" id="toc"&gt;
+  &lt;div class="toc-inner"&gt;
+    &lt;span class="sec-tag"&gt;Table of Contents&lt;/span&gt;
+    &lt;h2 class="toc-h"&gt;Report Structure&lt;/h2&gt;
+    &lt;div class="toc-grid"&gt;
+      &lt;a href="#overview" class="toc-item"&gt;
+        &lt;div class="toc-num"&gt;01&lt;/div&gt;
+        &lt;div class="toc-item-text"&gt;
+          &lt;h4&gt;Project Overview&lt;/h4&gt;
+          &lt;p&gt;Background, context and the DrukShift name&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/a&gt;
+      &lt;!-- 7 more items --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>toc-item as anchor tag</strong> — <span class="def">Clickable card</span> — The entire card is an anchor tag not just the text. Clicking anywhere on the card jumps to that section. This is better UX than a small clickable text link.</p>
+    <p class="explain"><strong>toc-num light grey numbers</strong> — <span class="def">Section order</span> — Large 22px Cormorant Garamond numbers in very light blue-grey (#c8d8f0). They indicate order without competing with the section title. Decorative but functional.</p>
+    <p class="explain"><strong>toc-item:hover translateX(4px)</strong> — <span class="def">Right slide</span> — The card slides 4px right on hover. This direction subtly communicates going forward into the report — like turning a page to the right.</p>
+    <p class="explain"><strong>sec-tag orange uppercase label</strong> — <span class="def">Section identifier</span> — Small orange uppercase spaced text above each section heading. Used consistently on every section throughout the report as a visual identifier system.</p>
+  </div>
+</div>
+
+<div class="part" id="html4">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Report Sections Structure</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Section Pattern</div>
+    <div class="code"><pre>&lt;section class="report-section" id="overview"&gt;
+  &lt;div class="section-inner"&gt;
+    &lt;span class="sec-tag"&gt;01 — Project Overview&lt;/span&gt;
+    &lt;h2 class="section-h"&gt;What is &lt;em&gt;DrukShift?&lt;/em&gt;&lt;/h2&gt;
+    &lt;div class="accent-line"&gt;&lt;/div&gt;
+    &lt;p class="body-text"&gt;
+      I am &lt;strong&gt;Kinzang Choden&lt;/strong&gt;, a 3rd year
+      Business Intelligence student...
+    &lt;/p&gt;
+    &lt;div class="pull-quote"&gt;
+      "Cryptocurrency readiness in Bhutan is not just
+       a technology question..."
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>report-section:nth-child(odd/even)</strong> — <span class="def">Alternating backgrounds</span> — Odd sections get white background, even sections get light grey. This creates a visual rhythm as you scroll making it clear when one section ends and another begins without any visible dividers.</p>
+    <p class="explain"><strong>section-inner max-width:800px</strong> — <span class="def">Reading width</span> — Content limited to 800px centred on the page. This is the optimal reading width for long paragraphs — wide enough to be comfortable but not so wide the eye has to travel too far across each line.</p>
+    <p class="explain"><strong>accent-line orange div</strong> — <span class="def">Visual separator</span> — A 48px wide, 3px tall orange horizontal line sits between the heading and first paragraph. Adds structure and reinforces brand colour consistently across all sections.</p>
+    <p class="explain"><strong>pull-quote left border style</strong> — <span class="def">Editorial quote</span> — A gradient background card with a left accent border and italic Cormorant Garamond text. Classic magazine and academic report styling for highlighted quotes.</p>
+    <p class="explain"><strong>First person writing throughout</strong> — <span class="def">Personal voice</span> — All body-text is written as I designed, I collected, I found. This makes the report feel personal and authentic showing it is real original work not copied from somewhere.</p>
+  </div>
+</div>
+
+<div class="part" id="html5">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Stat Cards</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Stat Cards</div>
+    <div class="code"><pre>&lt;div class="stat-row"&gt;
+  &lt;div class="stat-card"&gt;
+    &lt;div class="stat-card-n"&gt;113&lt;/div&gt;
+    &lt;div class="stat-card-l"&gt;Real Survey Responses&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="stat-card"&gt;
+    &lt;div class="stat-card-n"&gt;18&lt;/div&gt;
+    &lt;div class="stat-card-l"&gt;Tableau Visualizations&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="stat-card"&gt;
+    &lt;div class="stat-card-n"&gt;10&lt;/div&gt;
+    &lt;div class="stat-card-l"&gt;Quiz Questions&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>Dark navy background stat cards</strong> — <span class="def">Contrast cards</span> — The dark cards inside a white section create strong contrast making the numbers stand out as the most visually important elements in the section.</p>
+    <p class="explain"><strong>stat-card-n 40px Cormorant Garamond gold</strong> — <span class="def">Display numbers</span> — Large serif gold numbers. The combination of serif font and gold colour gives the numbers a premium editorial quality seen in annual reports and academic publications.</p>
+    <p class="explain"><strong>stat-card-l uppercase letter-spaced label</strong> — <span class="def">Caption style</span> — Small uppercase text with letter spacing below each number. This typographic treatment for labels is standard in professional data publications.</p>
+  </div>
+</div>
+
+<div class="part" id="html6">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Data Tables</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Data Tables with Inline Charts</div>
+    <div class="code"><pre>&lt;table class="data-table"&gt;
+  &lt;thead&gt;&lt;tr&gt;
+    &lt;th&gt;Age Group&lt;/th&gt;
+    &lt;th&gt;Average Score (/16)&lt;/th&gt;
+    &lt;th&gt;Readiness %&lt;/th&gt;
+    &lt;th&gt;Visual&lt;/th&gt;
+  &lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;18-24&lt;/td&gt;&lt;td&gt;12.91&lt;/td&gt;&lt;td&gt;81%&lt;/td&gt;
+      &lt;td&gt;
+        &lt;div class="bar-cell"&gt;
+          &lt;div class="bar-track"&gt;
+            &lt;div class="bar-fill" style="width:81%;background:#2a6aad;"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;span&gt;81%&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div>
+    <p class="explain"><strong>thead tbody semantic table</strong> — <span class="def">Proper HTML table</span> — Using correct semantic table elements makes the table accessible to screen readers. thead marks column headers, tbody marks data rows. This is the correct HTML way to present tabular data.</p>
+    <p class="explain"><strong>th vs td</strong> — <span class="def">Header vs data</span> — th (table header) cells get navy background white bold text. td (table data) cells get alternating row backgrounds and regular text. Browsers and screen readers treat them differently.</p>
+    <p class="explain"><strong>bar-fill inline style width and colour</strong> — <span class="def">Inline mini chart</span> — The Visual column contains a mini progress bar inside the table cell. Each bar has its percentage width and colour set as inline styles since they are unique per row. This adds a visual dimension directly in the table.</p>
+    <p class="explain"><strong>Different colours per age group</strong> — <span class="def">Colour encoding</span> — Blue for 18-24, teal for 25-34, gold for 35-44, orange for 45-54, red for 55+. The warm-to-cool colour shift visually encodes the readiness decline from young to old age groups.</p>
+  </div>
+</div>
+
+<div class="part" id="html7">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Solution Cards</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Solution Cards</div>
+    <div class="code"><pre>&lt;div class="solution-grid"&gt;
+  &lt;div class="solution-card"&gt;
+    &lt;div class="sol-num"&gt;01&lt;/div&gt;
+    &lt;div class="sol-icon"&gt;&lt;/div&gt;
+    &lt;div class="sol-title"&gt;Close the Education Gap&lt;/div&gt;
+    &lt;div class="sol-body"&gt;Young people aged 18-34 need digital-first platforms...&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Solutions 02 03 04 --&gt;
+  &lt;div class="solution-card"&gt;
+    &lt;!-- Solution 5 spans full width --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>sol-num large decorative number</strong> — <span class="def">Background counter</span> — Positioned absolute top-right in a very light colour. Indicates the solution number without competing with the actual content.</p>
+    <p class="explain"><strong>solution-card border-top via nth-child</strong> — <span class="def">Colour coding</span> — Each card gets a 4px coloured top border via nth-child CSS selector. Blue, teal, red, gold, orange for solutions 1-5. Quick visual identification with no extra HTML attributes.</p>
+    <p class="explain"><strong>5th card full width</strong> — <span class="def">Emphasis layout</span> — Solution 5 — Start With Communities — is the most human and actionable solution. Making it span the full grid width gives it more visual weight and importance than the others.</p>
+  </div>
+</div>
+
+<div class="part" id="html8">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Finding Cards</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Finding Cards</div>
+    <div class="code"><pre>&lt;div class="finding-grid"&gt;
+  &lt;div class="finding-card"&gt;
+    &lt;div class="finding-n"&gt;01&lt;/div&gt;
+    &lt;div class="finding-icon"&gt;&lt;/div&gt;
+    &lt;div class="finding-title"&gt;Bhutan is 80% Ready Overall&lt;/div&gt;
+    &lt;div class="finding-body"&gt;The average readiness score was 12.73 out of 16...&lt;/div&gt;
+    &lt;div class="finding-stat"&gt;80%&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- 6 more finding cards --&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>finding-stat bottom number</strong> — <span class="def">Key metric</span> — Each finding ends with a large teal number — 80%, 96%, the group name, or a symbol. Gives readers a quick at-a-glance takeaway from each finding without reading the full body text.</p>
+    <p class="explain"><strong>finding-card::before coloured line</strong> — <span class="def">Pseudo-element border</span> — Each card gets a different coloured 4px top line added by CSS ::before with no extra HTML. nth-child(1) through nth-child(7) each get their own colour.</p>
+    <p class="explain"><strong>Seven findings in two columns</strong> — <span class="def">Odd number layout</span> — 7 cards in a 2-column grid leaves the last card alone in the bottom row. CSS Grid handles this automatically — the lone card just occupies the first column of the last row.</p>
+  </div>
+</div>
+
+<div class="part" id="html9">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">GNH Domain Grid</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — GNH Domains</div>
+    <div class="code"><pre>&lt;div class="gnh-grid"&gt;
+  &lt;div class="gnh-card"&gt;
+    &lt;div class="gnh-icon"&gt;&lt;/div&gt;
+    &lt;div class="gnh-title"&gt;Education&lt;/div&gt;
+    &lt;div class="gnh-body"&gt;Crypto knowledge gaps directly correspond to GNH education domain deficits...&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="gnh-card"&gt;
+    &lt;div class="gnh-icon"&gt;&lt;/div&gt;
+    &lt;div class="gnh-title"&gt;Living Standards&lt;/div&gt;
+    &lt;div class="gnh-body"&gt;Internet access is a living standards issue...&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- 4 more GNH cards --&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>Six GNH cards in dark navy</strong> — <span class="def">Dark contrast section</span> — The GNH section uses a dark section background. The dark navy cards create a deep layered look — dark section with even darker cards on top. This visually separates the GNH section from the rest of the report.</p>
+    <p class="explain"><strong>gnh-title in gold colour</strong> — <span class="def">Royal colour</span> — Gold connects to Bhutanese royal symbolism and the concept of national happiness as something precious and aspirational.</p>
+    <p class="explain"><strong>Three column grid layout</strong> — <span class="def">Six in two rows</span> — Six GNH domains in three columns creates two rows of three. Compact and readable. On mobile collapses to one column showing all six stacked vertically.</p>
+  </div>
+</div>
+
+<div class="part" id="html10">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Technology Stack Grid</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Tech Stack and Feature Tags</div>
+    <div class="code"><pre>&lt;div class="tech-grid"&gt;
+  &lt;div class="tech-card"&gt;
+    &lt;div class="tech-icon"&gt;&lt;/div&gt;
+    &lt;div class="tech-name"&gt;HTML / CSS / JS&lt;/div&gt;
+    &lt;div class="tech-role"&gt;Frontend · GitHub Pages&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="tech-card"&gt;
+    &lt;div class="tech-name"&gt;Node.js + Express&lt;/div&gt;
+    &lt;div class="tech-role"&gt;Backend · Render&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- 6 more tech cards --&gt;
+&lt;/div&gt;
+&lt;div class="feature-tags"&gt;
+  &lt;span class="feat-tag"&gt;REST API&lt;/span&gt;
+  &lt;span class="feat-tag teal"&gt;Real-time MongoDB&lt;/span&gt;
+  &lt;span class="feat-tag gold"&gt;XP Gamification&lt;/span&gt;
+  &lt;!-- more tags --&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>Eight tech cards in four columns</strong> — <span class="def">Tech showcase</span> — All project technologies shown as individual cards. Each has an emoji icon, tool name and deployment role. Four columns on desktop fits neatly showing all eight at once.</p>
+    <p class="explain"><strong>tech-card:hover border-color:teal</strong> — <span class="def">Interactive highlight</span> — Hovering shows a teal border and lifts the card slightly. This encourages exploration of the tech stack and feels interactive rather than static.</p>
+    <p class="explain"><strong>feature-tags pill badges</strong> — <span class="def">Feature list</span> — Pill-shaped tags listing specific features like REST API, Email Validation, Dark Mode. Three colour variants — default blue, teal and gold — group them loosely by category.</p>
+  </div>
+</div>
+
+<div class="part" id="html11">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Conclusion Section</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Conclusion</div>
+    <div class="code"><pre>&lt;section class="conclusion" id="conclusion"&gt;
+  &lt;div class="conclusion-inner"&gt;
+    &lt;span class="sec-tag" style="color:var(--gold);"&gt;08 — Conclusion&lt;/span&gt;
+    &lt;h2&gt;Shift Forward, &lt;em&gt;Bhutan&lt;/em&gt;&lt;/h2&gt;
+    &lt;p&gt;Through DrukShift I demonstrated that Bhutan has a strong foundation...&lt;/p&gt;
+    &lt;!-- Four final stats --&gt;
+    &lt;div style="display:flex;gap:32px;justify-content:center;"&gt;
+      &lt;div&gt;&lt;div style="font-size:48px;color:var(--gold);"&gt;113&lt;/div&gt;
+           &lt;div&gt;Voices Captured&lt;/div&gt;&lt;/div&gt;
+      &lt;!-- 80%, 1st, flag --&gt;
+    &lt;/div&gt;
+    &lt;a href="index.html" class="conclusion-cta"&gt;
+      Visit the Live Website
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre></div>
+    <p class="explain"><strong>Dark navy gradient conclusion</strong> — <span class="def">Visual bookend</span> — Same dark gradient as the cover page. The report starts and ends with the same dark dramatic background creating a visual frame around all the light sections in between.</p>
+    <p class="explain"><strong>sec-tag gold colour override</strong> — <span class="def">Inline colour change</span> — The sec-tag on the conclusion uses inline style to change from orange to gold. On the dark background gold is more visible and appropriate than orange.</p>
+    <p class="explain"><strong>em on Bhutan in heading</strong> — <span class="def">National emphasis</span> — Making Bhutan italic and gold in the final heading emphasises this conclusion belongs specifically to Bhutan — it is a direct call to action for the country.</p>
+    <p class="explain"><strong>conclusion-cta orange button</strong> — <span class="def">Final call to action</span> — The solid orange button is the most visible element on the dark conclusion background. Natural endpoint — after reading the full report context readers are invited to visit the live website.</p>
+  </div>
+</div>
+
+<div class="part" id="html12">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Footer</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — HTML — Footer</div>
+    <div class="code"><pre>&lt;footer&gt;
+  &lt;div class="footer-logo"&gt;Druk&lt;span&gt;Shift&lt;/span&gt; &lt;/div&gt;
+  &lt;div class="footer-info"&gt;
+    Business Report · Cryptocurrency Readiness in Bhutan&lt;br&gt;
+    Kinzang Choden · BDS Internship 2026 · Bhutan Data Scientists Pvt. Ltd&lt;br&gt;
+    &lt;span style="color:rgba(255,255,255,0.2);"&gt;
+      Druk = Thunder Dragon · Shift = The Future
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;</pre></div>
+    <p class="explain"><strong>Three lines of footer info</strong> — <span class="def">Publication credits</span> — Report title on line one, author and organisation on line two, DrukShift name meaning on line three at 20% opacity — very faint as a quiet attribution.</p>
+    <p class="explain"><strong>footer-logo span orange</strong> — <span class="def">Brand split</span> — Wrapping Shift in a span colours just that word orange. Classic DrukShift brand treatment applied consistently across all pages.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CSS SECTIONS -->
+<div class="part" id="css1">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">CSS Variables and Navigation</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — CSS — Variables and Nav</div>
+    <div class="code"><pre>:root {
+  --navy:#08192d; --deep:#0f2a45; --blue:#1a4a7a; --mid:#2a6aad;
+  --accent:#f4a261; --gold:#e9c46a; --teal:#2a9d8f; --red:#e63946;
+  --light:#eef2f7; --white:#ffffff; --muted:#7a9bb5; --text:#2d4a5a;
+}
+body { background:#f8f9fc; font-family:"Outfit",sans-serif; }
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(8,25,45,0.97);
+  backdrop-filter:blur(12px);
+  padding:14px 48px;
+}
+.nav-logo { font-family:"Cormorant Garamond",serif; }
+.nav-links a { color:var(--muted); transition:color 0.2s; }
+.nav-links a:hover { color:var(--white); }
+.nav-back { border:1px solid rgba(244,162,97,0.3); border-radius:50px; }</pre></div>
+    <p class="explain"><strong>Same CSS variables as main website</strong> — <span class="def">Brand consistency</span> — Identical colour variables ensure the business report looks visually connected to the DrukShift website. Same brand regardless of which page you are on.</p>
+    <p class="explain"><strong>body background:#f8f9fc</strong> — <span class="def">Warm off-white</span> — Very slightly warm off-white for the report background. More comfortable for extended reading than pure #ffffff which can feel harsh.</p>
+    <p class="explain"><strong>Cormorant Garamond serif on nav-logo</strong> — <span class="def">Formal identity</span> — The business report uses a serif font for its logo differentiating it from the main website. Serif fonts have long been associated with formality and academic publications.</p>
+    <p class="explain"><strong>0.97 opacity on nav background</strong> — <span class="def">Nearly solid</span> — 97% opacity versus 92% on the main website. Nearly solid background gives the report a more formal appearance where clarity of content takes priority over stylistic transparency.</p>
+  </div>
+</div>
+
+<div class="part" id="css2">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Cover Page CSS</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — CSS — Cover Page Styles</div>
+    <div class="code"><pre>.cover {
+  min-height:100vh;
+  background:linear-gradient(160deg,#04101e 0%,#08192d 40%,#0f2a45 100%);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:100px 48px 60px;
+}
+.cover::before {
+  content:""; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+.cover-h1 {
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(40px,7vw,72px);
+  letter-spacing:-0.5px;
+}
+.cover-orb-1 {
+  top:15%;right:8%;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(42,106,173,0.15) 0%,transparent 70%);
+}</pre></div>
+    <p class="explain"><strong>cover::before grid pattern</strong> — <span class="def">Technical backdrop</span> — Two linear-gradients overlaid at 0 and 90 degrees create a 60px grid. Lines are 1px at just 2% white opacity — barely perceptible but adds a data/technology texture to the cover without distracting from the title.</p>
+    <p class="explain"><strong>letter-spacing:-0.5px on heading</strong> — <span class="def">Tight tracking</span> — Slightly negative letter spacing on large display headings is standard professional typography. Large text naturally looks too spaced without this correction.</p>
+    <p class="explain"><strong>clamp(40px,7vw,72px)</strong> — <span class="def">Fluid sizing</span> — The heading scales smoothly from 40px on small screens, through 7% of viewport width on medium screens, to a maximum of 72px on large screens. Always perfectly sized.</p>
+    <p class="explain"><strong>cover-orb radial-gradient</strong> — <span class="def">Ambient glow</span> — A large circle with a radial gradient from semi-transparent blue at the centre fading to fully transparent. Creates a soft glow effect behind the content without needing actual light or images.</p>
+  </div>
+</div>
+
+<div class="part" id="css3">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">TOC and Section Styles</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — CSS — TOC and Report Sections</div>
+    <div class="code"><pre>.toc-item {
+  display:flex; align-items:center; gap:14px;
+  background:var(--light); border-radius:10px;
+  text-decoration:none; transition:all 0.2s;
+}
+.toc-item:hover { transform:translateX(4px); border-color:#c8d8f0; }
+
+.report-section { padding:80px 48px; border-bottom:1px solid #e4eaf2; }
+.report-section:nth-child(odd)  { background:var(--white); }
+.report-section:nth-child(even) { background:var(--light); }
+
+.section-inner { max-width:800px; margin:0 auto; }
+.section-h { font-family:"Cormorant Garamond",serif; line-height:1.2; }
+.section-h em { color:var(--mid); }
+.accent-line { width:48px; height:3px; background:var(--accent); border-radius:2px; }
+.body-text { font-size:15px; line-height:1.9; margin-bottom:20px; }
+.pull-quote {
+  border-left:4px solid var(--mid);
+  border-radius:0 12px 12px 0;
+  font-family:"Cormorant Garamond",serif;
+  font-size:18px; font-style:italic;
+}</pre></div>
+    <p class="explain"><strong>toc-item translateX(4px) on hover</strong> — <span class="def">Forward motion</span> — The rightward slide on hover mimics a right-arrow motion communicating going forward into the section. Subtle but effective directional cue.</p>
+    <p class="explain"><strong>nth-child odd/even alternating</strong> — <span class="def">Striped sections</span> — White and light blue alternating backgrounds create visual separation between report sections. The reader can see where each section ends and another begins without explicit dividers.</p>
+    <p class="explain"><strong>line-height:1.9 on body-text</strong> — <span class="def">Report reading comfort</span> — Nearly double the font size spacing. This generous line height is specifically chosen for long-form report reading where readers spend significant time with each paragraph.</p>
+    <p class="explain"><strong>pull-quote border-radius 0 12px 12px 0</strong> — <span class="def">One-sided rounding</span> — Left side square (0) to flush with the left accent border. Right side rounded (12px). This specific combination is a classic magazine-style callout quote treatment.</p>
+  </div>
+</div>
+
+<div class="part" id="css4">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Cards and Tables</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — CSS — Cards and Data Tables</div>
+    <div class="code"><pre>.solution-card { transition:transform 0.25s, box-shadow 0.25s; }
+.solution-card:hover { transform:translateY(-4px); }
+.solution-card:nth-child(1) { border-top:4px solid var(--mid); }
+.solution-card:nth-child(5) { grid-column:1/-1; }
+
+.data-table { border-collapse:collapse; border-radius:12px; overflow:hidden; }
+.data-table th {
+  background:var(--navy); color:var(--white);
+  font-size:11px; text-transform:uppercase; letter-spacing:1.5px;
+}
+.data-table tr:nth-child(even) td { background:#f5f8fc; }
+
+.bar-track { flex:1; height:6px; background:#e4eaf2; border-radius:3px; overflow:hidden; }
+.bar-fill  { height:100%; border-radius:3px; }</pre></div>
+    <p class="explain"><strong>solution-card:hover translateY(-4px)</strong> — <span class="def">Lift effect</span> — Cards lift 4px upward on hover with an increased shadow. Creates a floating sensation that encourages interaction and makes the report feel dynamic not static.</p>
+    <p class="explain"><strong>border-collapse:collapse</strong> — <span class="def">Remove cell gaps</span> — By default browser tables have spacing between cells. collapse removes those gaps so table borders between cells are shared and the table looks clean and unified.</p>
+    <p class="explain"><strong>th uppercase letter-spacing:1.5px</strong> — <span class="def">Column header style</span> — Small caps with letter spacing for table headers is a standard data table design convention seen in dashboards, reports and data journalism worldwide.</p>
+    <p class="explain"><strong>tr:nth-child(even) zebra striping</strong> — <span class="def">Row readability</span> — Alternating row backgrounds make it easier to track horizontally across each row especially in wide tables. Classic data table readability pattern.</p>
+    <p class="explain"><strong>bar-track flex:1</strong> — <span class="def">Flexible bar width</span> — The bar track uses flex:1 to take all remaining space after the label. This ensures bars always align consistently in the Visual column regardless of label width differences between rows.</p>
+  </div>
+</div>
+
+<div class="part" id="css5">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Highlight Boxes</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — CSS — Highlight Boxes</div>
+    <div class="code"><pre>.highlight-box         { background:linear-gradient(135deg,#e1f5ee,#d4f0e8); border-radius:12px; }
+.highlight-box.orange  { background:linear-gradient(135deg,#fff3e8,#fde9d4); }
+.highlight-box.blue    { background:linear-gradient(135deg,#e8f0fa,#d4e4f7); }
+.highlight-box.red     { background:linear-gradient(135deg,#fceaea,#f8d7d7); }
+.highlight-box h4 { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:10px; }
+.highlight-box p  { font-size:13px; line-height:1.7; }
+.highlight-box ul { font-size:13px; line-height:1.9; padding-left:20px; }</pre></div>
+    <p class="explain"><strong>Four colour variants</strong> — <span class="def">Semantic colour</span> — Default green for positive findings, orange for important/caution info, blue for neutral context, red for problems or concerns. The colour communicates the emotional tone before the reader even reads the text.</p>
+    <p class="explain"><strong>Subtle gradient backgrounds</strong> — <span class="def">Soft depth</span> — Two similar shades at 135 degrees create a very subtle diagonal gradient. More visually interesting than flat colour but still soft enough that the text remains the focus.</p>
+    <p class="explain"><strong>No explicit border</strong> — <span class="def">Background containment</span> — Unlike cards which have visible borders these boxes use only background colour for containment. Creates a softer look — the box feels embedded in the page rather than floating above it.</p>
+  </div>
+</div>
+
+<div class="part" id="css6">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Conclusion and Footer</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — CSS — Conclusion and Footer</div>
+    <div class="code"><pre>.conclusion {
+  background:linear-gradient(160deg,#08192d,#0f2a45);
+  padding:80px 48px; text-align:center;
+}
+.conclusion-inner { max-width:700px; margin:0 auto; }
+.conclusion h2 {
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(32px,5vw,52px);
+  color:var(--white);
+}
+.conclusion h2 em { color:var(--gold); }
+.conclusion p { color:var(--muted); line-height:1.9; }
+.conclusion-cta {
+  background:var(--accent); color:var(--navy);
+  border-radius:8px; padding:16px 40px;
+}
+.conclusion-cta:hover { transform:translateY(-2px); }
+footer {
+  background:var(--navy); padding:48px; text-align:center;
+  border-top:1px solid rgba(255,255,255,0.06);
+}</pre></div>
+    <p class="explain"><strong>Same gradient as cover</strong> — <span class="def">Visual bookend</span> — The conclusion uses the identical dark gradient as the cover page. The report opens dark, goes through light sections, and closes dark again. Visually frames the entire document.</p>
+    <p class="explain"><strong>conclusion-inner max-width:700px</strong> — <span class="def">Narrower conclusion</span> — 100px narrower than the 800px used in report sections. The conclusion is a final focused statement so the narrower column feels more intimate and conclusive.</p>
+    <p class="explain"><strong>conclusion h2 em color:gold</strong> — <span class="def">Country emphasis</span> — The word Bhutan in gold on the dark background is the most visible text on the conclusion page. Every design decision in the conclusion points to Bhutan as the ultimate subject of all the research.</p>
+    <p class="explain"><strong>muted colour on paragraphs</strong> — <span class="def">Restrained tone</span> — Using var(--muted) light blue-grey rather than white for conclusion body text. The softer colour feels contemplative and reflective which matches the tone of a research conclusion.</p>
+  </div>
+</div>
+
+<div class="part" id="css7">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Responsive Design</span></div>
+  <div class="card">
+    <div class="card-title">BusinessReport.html — CSS — Media Queries</div>
+    <div class="code"><pre>@media (max-width:768px) {
+  nav { padding:12px 20px; }
+  .nav-links { display:none; }
+  .cover, .report-section { padding:60px 24px; }
+  .toc-grid,
+  .solution-grid,
+  .finding-grid,
+  .gnh-grid,
+  .tech-grid { grid-template-columns:1fr; }
+  .solution-card:nth-child(5) { grid-column:1; }
+  .stat-row { grid-template-columns:1fr 1fr; }
+  footer { padding:40px 20px; }
+}</pre></div>
+    <p class="explain"><strong>nav-links display:none on mobile</strong> — <span class="def">Hidden mobile nav</span> — The report navigation links hide on mobile. No hamburger menu is needed — readers use the Table of Contents section at the top to navigate. The back button to the main website stays visible.</p>
+    <p class="explain"><strong>All grids collapse to 1fr</strong> — <span class="def">Single column</span> — TOC, solution cards, finding cards, GNH domains and tech cards all become single column on mobile. Content stacks vertically — all still readable just not side by side.</p>
+    <p class="explain"><strong>solution-card nth-child(5) grid-column:1</strong> — <span class="def">Reset full width</span> — The 5th solution card has grid-column:1/-1 for full width on desktop. On mobile this is reset to 1 because there is only one column anyway and 1/-1 could cause issues in some browsers.</p>
+    <p class="explain"><strong>stat-row stays 2 columns</strong> — <span class="def">Compact stats</span> — Unlike the other grids stat-row keeps 2 columns on mobile. Three stat cards stacked one per row would look too spread out and wasteful of space. Two columns is compact and readable.</p>
+  </div>
+</div>
+
+</div>
+
+<footer style="background:#08192d;padding:32px;text-align:center;margin-top:40px;">
+  <div style="font-size:18px;font-weight:700;color:white;margin-bottom:6px;">Druk<span style="color:#f4a261;">Shift</span></div>
+  <div style="font-size:12px;color:#7a9bb5;">BusinessReport.html Explanation · Kinzang Choden · BDS Internship 2026</div>
+  <div style="font-size:11px;color:#4a6a8a;margin-top:6px;">Next file → minigames.html</div>
+</footer>
+
+</body>
+</html>
