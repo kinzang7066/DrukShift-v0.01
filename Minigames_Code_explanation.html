@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>minigames.html — Full Code Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;--accent:#f4a261;--light:#f0f4f8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Outfit",sans-serif;background:var(--light);color:#2d4a5a;line-height:1.7;}
+.topbar{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-size:18px;font-weight:700;color:white;}.topbar-logo span{color:var(--accent);}
+.topbar-tag{font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;}
+.hero{background:linear-gradient(160deg,#04101e,#08192d);padding:48px 32px;text-align:center;}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;color:white;margin-bottom:8px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:14px;color:#7a9bb5;max-width:600px;margin:0 auto;}
+.file-badge{display:inline-block;background:rgba(233,196,106,0.15);border:1px solid rgba(233,196,106,0.4);color:var(--gold);font-size:12px;font-weight:700;padding:6px 16px;border-radius:50px;margin-top:12px;}
+.main{max-width:960px;margin:32px auto;padding:0 24px 80px;}
+.toc{background:white;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 16px rgba(8,25,45,0.06);}
+.toc h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;border-bottom:2px solid var(--light);padding-bottom:10px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.toc-link{font-size:12px;color:var(--teal);text-decoration:none;padding:5px 8px;border-radius:6px;display:block;}
+.toc-link:hover{background:var(--light);}
+.part{margin-bottom:32px;}
+.part-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 20px;border-radius:10px;}
+.part-header.html{background:#fff3e0;border-left:4px solid #f4a261;}
+.part-header.css{background:#e3f2fd;border-left:4px solid #2196f3;}
+.part-header.js{background:#f3e5f5;border-left:4px solid #9c27b0;}
+.part-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border-radius:50px;}
+.part-label.html{background:#f4a261;color:white;}
+.part-label.css{background:#2196f3;color:white;}
+.part-label.js{background:#9c27b0;color:white;}
+.part-title{font-size:16px;font-weight:700;color:var(--navy);}
+.card{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 12px rgba(8,25,45,0.05);}
+.card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--light);}
+.code{background:#0d1117;border-radius:8px;padding:12px 16px;margin:10px 0;overflow-x:auto;}
+.code pre{font-family:"Fira Code",monospace;font-size:11.5px;color:#e6edf3;line-height:1.8;white-space:pre-wrap;}
+.explain{font-size:13px;color:#2d4a5a;line-height:1.8;margin:8px 0;}
+.explain strong{color:var(--navy);font-weight:600;}
+.note{background:rgba(42,157,143,0.07);border-left:3px solid var(--teal);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;}
+.def{display:inline-block;background:#e8f0fa;color:#1a4a7a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;}
+.divider{height:1px;background:#e4eaf2;margin:24px 0;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Druk<span>Shift</span></div>
+  <div class="topbar-tag">minigames.html — Code Explanation</div>
+</div>
+
+<div class="hero">
+  <h1><span>minigames.html</span> — Full Code Explanation</h1>
+  <p>The standalone mini games page with three educational crypto games — Crypto Quiz Blitz, Scam Spotter, and Match the Term — each earning XP for the player.</p>
+  <div class="file-badge">FILE 7 OF 10 — minigames.html (918 lines)</div>
+</div>
+
+<div class="main">
+
+<div class="toc">
+  <h2>Contents of this explanation</h2>
+  <div class="toc-grid">
+    <a class="toc-link" href="#html1">HTML — Game Toggle Button</a>
+    <a class="toc-link" href="#html2">HTML — Game Panel</a>
+    <a class="toc-link" href="#html3">HTML — Game Menu Cards</a>
+    <a class="toc-link" href="#html4">HTML — Game Screen Layout</a>
+    <a class="toc-link" href="#html5">HTML — Quiz Blitz Screen</a>
+    <a class="toc-link" href="#html6">HTML — Scam Spotter Screen</a>
+    <a class="toc-link" href="#html7">HTML — Memory Match Screen</a>
+    <a class="toc-link" href="#html8">HTML — Result Screen</a>
+    <a class="toc-link" href="#css1">CSS — Game Toggle Button</a>
+    <a class="toc-link" href="#css2">CSS — Game Panel</a>
+    <a class="toc-link" href="#css3">CSS — Game Cards</a>
+    <a class="toc-link" href="#css4">CSS — Answer Buttons</a>
+    <a class="toc-link" href="#css5">CSS — Memory Cards</a>
+    <a class="toc-link" href="#css6">CSS — Feedback and Results</a>
+    <a class="toc-link" href="#js1">JS — Panel Toggle and XP</a>
+    <a class="toc-link" href="#js2">JS — Start Game and Show Result</a>
+    <a class="toc-link" href="#js3">JS — Quiz Blitz Game</a>
+    <a class="toc-link" href="#js4">JS — Scam Spotter Game</a>
+    <a class="toc-link" href="#js5">JS — Memory Match Game</a>
+    <a class="toc-link" href="#js6">JS — Utilities</a>
+  </div>
+</div>
+
+<!-- HTML -->
+<div class="part" id="html1">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Game Toggle Button</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — HTML — Toggle Button</div>
+    <div class="code"><pre>&lt;button id="gameToggle" onclick="togglePanel()"&gt;
+  &lt;span class="toggle-icon"&gt;&lt;/span&gt;
+  &lt;span class="toggle-label"&gt;GAMES&lt;/span&gt;
+  &lt;span class="toggle-xp" id="toggleXP"&gt;0 XP&lt;/span&gt;
+&lt;/button&gt;</pre></div>
+    <p class="explain"><strong>position:fixed right:0 top:50%</strong> — <span class="def">Side button</span> — Fixed to the right edge of the screen at the vertical midpoint. transform:translateY(-50%) centres it vertically. It stays visible as the player scrolls.</p>
+    <p class="explain"><strong>toggle-label vertical text</strong> — <span class="def">Rotated text</span> — writing-mode:vertical-rl rotates the text to flow top to bottom. transform:rotate(180deg) flips it so it reads bottom to top. Common pattern for side tabs.</p>
+    <p class="explain"><strong>toggle-xp id="toggleXP"</strong> — <span class="def">Live XP display</span> — Shows the current total XP earned directly on the toggle button. Updated by JavaScript whenever XP is earned so the player always sees their score.</p>
+    <p class="explain"><strong>border-radius:12px 0 0 12px</strong> — <span class="def">Left-rounded only</span> — Only the left two corners are rounded. The right side is flush with the screen edge creating a tab effect emerging from the right side of the screen.</p>
+  </div>
+</div>
+
+<div class="part" id="html2">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Game Panel</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — HTML — Slide-in Panel</div>
+    <div class="code"><pre>&lt;div id="gamePanel"&gt;
+  &lt;!-- Sticky header --&gt;
+  &lt;div class="panel-header"&gt;
+    &lt;div class="panel-header-top"&gt;
+      &lt;div class="panel-title"&gt;DrukShift Games&lt;/div&gt;
+      &lt;button class="panel-close" onclick="togglePanel()"&gt;x&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="panel-xp-row"&gt;
+      &lt;span class="panel-xp-label"&gt;Total XP&lt;/span&gt;
+      &lt;div class="panel-xp-track"&gt;
+        &lt;div class="panel-xp-fill" id="panelXpFill"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;span class="panel-xp-num" id="panelXpNum"&gt;0&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Menu screen --&gt;
+  &lt;div id="menuScreen" class="game-screen active"&gt;...&lt;/div&gt;
+
+  &lt;!-- Game screens --&gt;
+  &lt;div id="blitzScreen" class="game-screen"&gt;...&lt;/div&gt;
+  &lt;div id="scamScreen" class="game-screen"&gt;...&lt;/div&gt;
+  &lt;div id="memoryScreen" class="game-screen"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>id="gamePanel" right:-420px start</strong> — <span class="def">Off-screen start</span> — The panel starts at right:-420px hiding it completely off the right edge. When the open class is added it transitions to right:0 sliding into view.</p>
+    <p class="explain"><strong>panel-header position:sticky top:0</strong> — <span class="def">Sticky header</span> — The panel header stays at the top of the panel even when the panel content is scrolled. This keeps the XP bar and close button always accessible.</p>
+    <p class="explain"><strong>panelXpFill width updates dynamically</strong> — <span class="def">XP progress bar</span> — JavaScript sets this width as a percentage of the maximum XP (500). As XP increases the gold bar grows showing progression.</p>
+    <p class="explain"><strong>Four game screens</strong> — <span class="def">Single panel multiple screens</span> — All games share one panel. Only one screen is visible at a time via the active class. JavaScript switches which screen is active when starting or ending a game.</p>
+  </div>
+</div>
+
+<div class="part" id="html3">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Game Menu Cards</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — HTML — Game Selection Menu</div>
+    <div class="code"><pre>&lt;div id="menuScreen" class="game-screen active"&gt;
+  &lt;div class="game-menu"&gt;
+    &lt;div class="game-menu-title"&gt;CHOOSE A GAME&lt;/div&gt;
+
+    &lt;div class="game-card" onclick="startGame("blitz")"&gt;
+      &lt;div class="game-card-icon"&gt;&lt;/div&gt;
+      &lt;div class="game-card-info"&gt;
+        &lt;h3&gt;Crypto Quiz Blitz&lt;/h3&gt;
+        &lt;p&gt;10 true/false questions · 30 seconds · How many can you get?&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="game-card-badge"&gt;
+        &lt;span class="game-card-xp"&gt;+50 XP&lt;/span&gt;
+        &lt;span class="game-card-hs" id="hs-blitz"&gt;Best: 0&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="game-card" onclick="startGame("scam")"&gt;
+      &lt;h3&gt;Scam Spotter&lt;/h3&gt;
+      &lt;span class="game-card-xp"&gt;+60 XP&lt;/span&gt;
+      &lt;span class="game-card-hs" id="hs-scam"&gt;Best: 0&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class="game-card" onclick="startGame("memory")"&gt;
+      &lt;h3&gt;Match the Term&lt;/h3&gt;
+      &lt;span class="game-card-xp"&gt;+40 XP&lt;/span&gt;
+      &lt;span class="game-card-hs" id="hs-memory"&gt;Best: 0&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>onclick="startGame('blitz')"</strong> — <span class="def">Game launcher</span> — Each card directly calls startGame with the game name as a string parameter. JavaScript uses this string to determine which game to initialise.</p>
+    <p class="explain"><strong>id="hs-blitz" Best: 0</strong> — <span class="def">High score display</span> — Shows the player's personal best score for each game. JavaScript reads from localStorage and updates this text on page load and after each game.</p>
+    <p class="explain"><strong>game-card-xp pill badge</strong> — <span class="def">XP reward preview</span> — Shows how many XP points the game awards before the player starts. Motivates playing each game and helps players decide which to play.</p>
+  </div>
+</div>
+
+<div class="part" id="html4">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Game Screen Layout</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — HTML — Game Screen Common Elements</div>
+    <div class="code"><pre>&lt;div id="blitzScreen" class="game-screen"&gt;
+  &lt;!-- Back button and title --&gt;
+  &lt;div class="game-header"&gt;
+    &lt;button class="game-back" onclick="goToMenu()"&gt;&lt;/button&gt;
+    &lt;div class="game-title-wrap"&gt;
+      &lt;h2&gt;Crypto Quiz Blitz&lt;/h2&gt;
+      &lt;p&gt;10 true/false questions · 30 seconds&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Stats row: score, question, timer --&gt;
+  &lt;div class="game-stats"&gt;
+    &lt;div class="game-stat-box"&gt;
+      &lt;div class="gsb-val" id="blitz-score"&gt;0&lt;/div&gt;
+      &lt;div class="gsb-lbl"&gt;Score&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="game-stat-box timer-wrap"&gt;
+      &lt;div class="gsb-val" id="blitz-time"&gt;30&lt;/div&gt;
+      &lt;div class="gsb-lbl"&gt;Seconds&lt;/div&gt;
+      &lt;div class="timer-bar"&gt;
+        &lt;div class="timer-fill" id="blitz-timer-fill" style="width:100%"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="game-stat-box"&gt;
+      &lt;div class="gsb-val" id="blitz-q"&gt;1&lt;/div&gt;
+      &lt;div class="gsb-lbl"&gt;Question&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Progress dots --&gt;
+  &lt;div class="progress-dots" id="blitz-dots"&gt;&lt;/div&gt;
+
+  &lt;!-- Question card --&gt;
+  &lt;div class="q-card"&gt;
+    &lt;div class="q-card-num" id="blitz-qnum"&gt;Question 1&lt;/div&gt;
+    &lt;div class="q-card-text" id="blitz-qtext"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Feedback --&gt;
+  &lt;div class="feedback-box" id="blitz-feedback"&gt;&lt;/div&gt;
+
+  &lt;!-- Answer area (filled by JavaScript) --&gt;
+  &lt;div id="blitz-answers"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>game-back onclick="goToMenu()"</strong> — <span class="def">Back navigation</span> — Round button taking the player back to the game selection menu. Calls goToMenu which stops all active timers, clears the game state and shows the menu screen.</p>
+    <p class="explain"><strong>Three stat boxes</strong> — <span class="def">HUD elements</span> — Score, Timer and Question counter displayed in a row at the top of the game screen. In games these are called HUD (Heads Up Display) elements — key info always visible during play.</p>
+    <p class="explain"><strong>timer-fill style="width:100%"</strong> — <span class="def">Timer bar start</span> — Starts at 100% (full) and JavaScript decreases it proportionally as time runs down. A linear gradient red to orange to teal means as the bar shrinks the colour changes from calm to urgent.</p>
+    <p class="explain"><strong>progress-dots div empty</strong> — <span class="def">Answer tracker</span> — Empty in HTML. JavaScript fills it with small dots showing correct (teal), wrong (red) and unanswered (grey) for each question so players can track their progress.</p>
+    <p class="explain"><strong>blitz-answers div empty</strong> — <span class="def">Dynamic answer area</span> — Empty in HTML. JavaScript builds and inserts the True/False buttons for Blitz, Legit/Scam buttons for Scam Spotter, and card grid for Memory Match dynamically.</p>
+  </div>
+</div>
+
+<div class="part" id="html5">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Quiz Blitz and Scam Spotter Screens</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — HTML — Game Answer Areas</div>
+    <div class="code"><pre>&lt;!-- Quiz Blitz — True/False buttons built by JS --&gt;
+&lt;div id="blitz-answers"&gt;
+  &lt;!-- JavaScript inserts these --&gt;
+  &lt;div class="tf-grid"&gt;
+    &lt;button class="tf-btn true-btn"&gt;TRUE&lt;/button&gt;
+    &lt;button class="tf-btn false-btn"&gt;FALSE&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Scam Spotter — message and buttons --&gt;
+&lt;div class="scam-message"&gt;
+  &lt;div class="scam-sender"&gt;
+    &lt;div class="scam-sender-avatar" id="scam-avatar"&gt;&lt;/div&gt;
+    &lt;span id="scam-sender"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="scam-text" id="scam-text"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="scam-btns"&gt;
+  &lt;button class="scam-btn legit" id="scam-legit-btn"
+          onclick="answerScam("legit")"&gt;LEGIT&lt;/button&gt;
+  &lt;button class="scam-btn scam"  id="scam-scam-btn"
+          onclick="answerScam("scam")"&gt;SCAM!&lt;/button&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>tf-btn true-btn and false-btn</strong> — <span class="def">True/False buttons</span> — Two large buttons for the Quiz Blitz. They have separate classes — true-btn gets teal hover, false-btn gets red hover — making the correct colours intuitive.</p>
+    <p class="explain"><strong>scam-sender-avatar circle</strong> — <span class="def">Message sender icon</span> — A small circular avatar showing the first letter of the sender. JavaScript sets the background colour based on whether the message is a scam (red) or legitimate (teal).</p>
+    <p class="explain"><strong>scam-btn legit and scam classes</strong> — <span class="def">Decision buttons</span> — Two large buttons for the Scam Spotter. The JavaScript answerScam function receives the player choice as a string and compares it to whether the message is actually a scam.</p>
+  </div>
+</div>
+
+<div class="part" id="html6">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Memory Match Screen</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — HTML — Memory Card Grid</div>
+    <div class="code"><pre>&lt;div id="memoryScreen" class="game-screen"&gt;
+  &lt;div class="game-header"&gt;
+    &lt;button class="game-back" onclick="goToMenu()"&gt;&lt;/button&gt;
+    &lt;div class="game-title-wrap"&gt;
+      &lt;h2&gt;Match the Term&lt;/h2&gt;
+      &lt;p&gt;Flip cards · Match term to definition · 6 pairs&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="game-stats"&gt;
+    &lt;div class="game-stat-box"&gt;
+      &lt;div class="gsb-val" id="mem-matches"&gt;0&lt;/div&gt;
+      &lt;div class="gsb-lbl"&gt;Matches&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="game-stat-box"&gt;
+      &lt;div class="gsb-val" id="mem-time"&gt;0&lt;/div&gt;
+      &lt;div class="gsb-lbl"&gt;Seconds&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="game-stat-box"&gt;
+      &lt;div class="gsb-val" id="mem-moves"&gt;0&lt;/div&gt;
+      &lt;div class="gsb-lbl"&gt;Moves&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Card grid filled by JavaScript --&gt;
+  &lt;div class="memory-grid" id="memoryGrid"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>Three stats: Matches, Seconds, Moves</strong> — <span class="def">Different metrics</span> — Unlike the timed games Memory tracks time elapsed (counting up) and moves taken rather than a countdown timer. Fewer moves and faster time means better performance.</p>
+    <p class="explain"><strong>memoryGrid empty div</strong> — <span class="def">Dynamic card grid</span> — JavaScript creates all 12 card elements (6 pairs of term and definition) and inserts them into this grid on game start. The cards are shuffled so the layout is different each time.</p>
+    <p class="explain"><strong>6 pairs — 12 cards total</strong> — <span class="def">Game scale</span> — 6 pairs chosen from a pool of 8. The remaining 2 pairs are excluded randomly making each game slightly different and extending replayability.</p>
+  </div>
+</div>
+
+<div class="part" id="html7">
+  <div class="part-header html"><span class="part-label html">HTML</span><span class="part-title">Result Screen</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — HTML — Game Result Screen</div>
+    <div class="code"><pre>&lt;div id="resultScreen" class="game-screen"&gt;
+  &lt;div class="result-screen"&gt;
+    &lt;span class="result-emoji" id="result-emoji"&gt;&lt;/span&gt;
+    &lt;div class="result-score" id="result-score"&gt;&lt;/div&gt;
+    &lt;div class="result-label" id="result-label"&gt;&lt;/div&gt;
+    &lt;div class="result-xp" id="result-xp"&gt;&lt;/div&gt;
+    &lt;button class="result-btn" onclick="playAgain()"&gt;Play Again&lt;/button&gt;
+    &lt;button class="result-btn secondary" onclick="goToMenu()"&gt;
+      Back to Games
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>result-emoji id="result-emoji"</strong> — <span class="def">Dynamic emoji</span> — JavaScript sets this to trophy, gold medal, silver or bronze based on score percentage. Large 72px emoji with a bounce animation makes the result feel celebratory.</p>
+    <p class="explain"><strong>result-score id="result-score"</strong> — <span class="def">Score display</span> — Shows score like 7/10 or 5/8. JavaScript inserts the final score in this format. Large 56px Cormorant Garamond gold font makes it feel like a final grade.</p>
+    <p class="explain"><strong>result-xp id="result-xp"</strong> — <span class="def">XP earned display</span> — Shows how many XP were earned this game. JavaScript calculates XP based on score and inserts it here in the format +35 XP earned.</p>
+    <p class="explain"><strong>playAgain and goToMenu buttons</strong> — <span class="def">Post-game choices</span> — Two options after a game ends. Play Again restarts the same game with a new shuffle. Back to Games returns to the menu to choose a different game.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CSS -->
+<div class="part" id="css1">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Game Toggle Button</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — CSS — Toggle Button Styles</div>
+    <div class="code"><pre>#gameToggle {
+  position: fixed;
+  right: 0; top: 50%;
+  transform: translateY(-50%);
+  z-index: 800;
+  background: linear-gradient(135deg, var(--teal), #1a7a6e);
+  padding: 16px 10px;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -4px 0 20px rgba(42,157,143,0.3);
+  transition: all 0.3s;
+}
+#gameToggle:hover { padding-right: 14px; }
+.toggle-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 9px; letter-spacing: 1.5px;
+  text-transform: uppercase;
+}</pre></div>
+    <p class="explain"><strong>z-index:800</strong> — <span class="def">Layer order</span> — 800 places the toggle above most page content but below the game panel (z-index:799 + higher priority). Both stay above regular content at z-index 100.</p>
+    <p class="explain"><strong>padding-right:14px on hover</strong> — <span class="def">Expand hover</span> — Adds extra right padding on hover making the button appear to grow toward the right edge. Combines with box-shadow creating a subtle pull-out effect.</p>
+    <p class="explain"><strong>writing-mode:vertical-rl</strong> — <span class="def">Vertical text</span> — Makes text flow from top to bottom in a vertical column. rotate(180deg) then flips it so it reads from bottom to top — the standard orientation for side tab labels.</p>
+    <p class="explain"><strong>box-shadow:-4px 0 20px</strong> — <span class="def">Left shadow</span> — The negative x-value (-4px) casts the shadow to the left side of the button. Since the button is on the right edge this creates a shadow falling onto the page content giving the button depth.</p>
+  </div>
+</div>
+
+<div class="part" id="css2">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Game Panel Slide</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — CSS — Panel Slide Animation</div>
+    <div class="code"><pre>#gamePanel {
+  position: fixed;
+  right: -420px;   /* hidden off-screen */
+  top: 0; bottom: 0;
+  width: 420px;
+  background: linear-gradient(160deg, #08192d 0%, #0f2a45 100%);
+  z-index: 799;
+  overflow-y: auto;
+  box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+  transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+#gamePanel.open { right: 0; }
+
+.panel-header {
+  background: linear-gradient(90deg, var(--teal), #1a7a6e);
+  padding: 20px;
+  position: sticky; top: 0; z-index: 10;
+}
+.panel-close:hover { transform: rotate(90deg); }</pre></div>
+    <p class="explain"><strong>right:-420px to right:0 transition</strong> — <span class="def">Slide animation</span> — The panel starts 420px off the right edge of the screen (its full width). Adding the open class changes right to 0 sliding it fully into view. The cubic-bezier creates a smooth deceleration.</p>
+    <p class="explain"><strong>cubic-bezier(0.4,0,0.2,1)</strong> — <span class="def">Custom easing</span> — Material Design standard easing curve. Starts fast and decelerates to a stop. Feels natural and polished compared to linear or standard ease.</p>
+    <p class="explain"><strong>overflow-y:auto</strong> — <span class="def">Scrollable panel</span> — If the game content exceeds the panel height (especially on small screens) the panel becomes independently scrollable without affecting the main page scroll.</p>
+    <p class="explain"><strong>panel-close rotate(90deg) on hover</strong> — <span class="def">X rotation</span> — The close button (showing x) rotates 90 degrees on hover giving it an animated spin. The transition makes it smooth. Classic close button interaction pattern.</p>
+  </div>
+</div>
+
+<div class="part" id="css3">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Game Card Styles</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — CSS — Game Selection Cards</div>
+    <div class="code"><pre>.game-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 16px;
+  transition: all 0.25s;
+}
+.game-card:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateX(-4px);
+  border-color: var(--teal);
+}
+.game-stat-box {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px; padding: 12px;
+  text-align: center;
+}
+.timer-fill {
+  background: linear-gradient(90deg, var(--red), var(--accent), var(--teal));
+  transition: width 0.1s linear;
+}</pre></div>
+    <p class="explain"><strong>game-card:hover translateX(-4px)</strong> — <span class="def">Left slide</span> — Cards slide 4px to the LEFT on hover. This is the opposite of the report TOC which slides right. Here the panel is on the right side of the screen so sliding left feels like pulling the card toward the page content.</p>
+    <p class="explain"><strong>rgba backgrounds at low opacity</strong> — <span class="def">Glass cards</span> — 5% white overlay on a dark navy background creates a barely-visible frosted glass card. The hover increases to 10% making the highlight noticeable but not jarring.</p>
+    <p class="explain"><strong>timer-fill three-colour gradient</strong> — <span class="def">Urgency indicator</span> — Red to orange to teal gradient runs left to right across the full timer bar. As the bar shrinks from right to left the remaining bar shifts from teal (calm, plenty of time) toward red (urgent, almost out of time).</p>
+  </div>
+</div>
+
+<div class="part" id="css4">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Answer Button States</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — CSS — Answer Buttons</div>
+    <div class="code"><pre>.ans-btn {
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  transition: all 0.2s;
+}
+.ans-btn:hover:not(:disabled) { background:rgba(42,157,143,0.2); border-color:var(--teal); }
+.ans-btn.correct { background:rgba(42,157,143,0.3); border-color:var(--teal); color:var(--teal); }
+.ans-btn.wrong   { background:rgba(230,57,70,0.3);  border-color:var(--red);  color:var(--red);  }
+.ans-btn:disabled { cursor:not-allowed; }
+
+.tf-btn.correct { background:rgba(42,157,143,0.3); border-color:var(--teal); }
+.tf-btn.wrong   { background:rgba(230,57,70,0.3);  border-color:var(--red);  }
+
+.scam-btn.correct { background:rgba(42,157,143,0.3); }
+.scam-btn.wrong   { background:rgba(230,57,70,0.3);  }</pre></div>
+    <p class="explain"><strong>:not(:disabled) on hover</strong> — <span class="def">Conditional hover</span> — The :not(:disabled) selector means the hover effect only applies when the button is not disabled. After answering all buttons are disabled so they should not show hover effects.</p>
+    <p class="explain"><strong>Three button states</strong> — <span class="def">Visual feedback</span> — Default (neutral), correct (teal), wrong (red). JavaScript adds the correct or wrong class after the player answers. These classes override the default styling to show immediately whether the answer was right or wrong.</p>
+    <p class="explain"><strong>cursor:not-allowed on disabled</strong> — <span class="def">Disabled cursor</span> — Shows a blocked cursor icon when the player tries to click disabled buttons. Clear communication that the buttons are no longer active.</p>
+  </div>
+</div>
+
+<div class="part" id="css5">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Memory Card Animations</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — CSS — Memory Card States</div>
+    <div class="code"><pre>.mem-card {
+  aspect-ratio: 1;
+  color: transparent;   /* text invisible when face down */
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.mem-card.flipped { color: var(--white); }
+.mem-card.matched {
+  background: rgba(42,157,143,0.3);
+  color: var(--teal);
+  cursor: default;
+  animation: matchPop 0.3s ease;
+}
+.mem-card.wrong-match { animation: wrongShake 0.3s ease; }
+
+@keyframes matchPop {
+  0%   { transform: scale(0.9); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+@keyframes wrongShake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-4px); }
+  75%     { transform: translateX(4px); }
+}</pre></div>
+    <p class="explain"><strong>color:transparent on unflipped</strong> — <span class="def">Hidden text</span> — Cards start with transparent text colour making the term/definition invisible. When flipped JavaScript adds the flipped class changing color to white making the text appear. No display:none is needed — the text is always there just invisible.</p>
+    <p class="explain"><strong>aspect-ratio:1</strong> — <span class="def">Square cards</span> — Forces each card to always be a perfect square regardless of the grid width. This keeps the memory card grid visually clean and consistent.</p>
+    <p class="explain"><strong>matchPop keyframe</strong> — <span class="def">Match celebration</span> — When a pair is matched the cards quickly shrink to 90% then bounce to 105% before settling at 100%. This satisfying pop animation rewards the player for finding a match.</p>
+    <p class="explain"><strong>wrongShake keyframe</strong> — <span class="def">Wrong feedback</span> — Mismatched cards shake horizontally — classic video game wrong answer feedback. The rapid left-right movement (0 to -4 to 0 to +4 to 0) mimics a physical shake indicating no match.</p>
+  </div>
+</div>
+
+<div class="part" id="css6">
+  <div class="part-header css"><span class="part-label css">CSS</span><span class="part-title">Feedback and Results</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — CSS — Feedback Box and Result Screen</div>
+    <div class="code"><pre>.feedback-box { display:none; padding:14px; border-radius:10px; font-size:13px; }
+.feedback-box.correct { background:rgba(42,157,143,0.15); border:1px solid var(--teal); color:var(--teal); }
+.feedback-box.wrong   { background:rgba(230,57,70,0.15);  border:1px solid var(--red);  color:#ff8a8a; }
+
+.result-emoji { font-size:72px; animation:resultPop 0.5s ease; }
+@keyframes resultPop {
+  0%   { transform: scale(0); }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.result-score { font-family:"Cormorant Garamond",serif; font-size:56px; color:var(--gold); }
+.result-xp    { font-size:20px; font-weight:700; color:var(--teal); }</pre></div>
+    <p class="explain"><strong>feedback-box display:none</strong> — <span class="def">Hidden by default</span> — The feedback box is invisible until the player answers. JavaScript sets display:block and adds correct or wrong class after answering to show the coloured explanation.</p>
+    <p class="explain"><strong>resultPop animation</strong> — <span class="def">Emoji bounce</span> — The result emoji starts at scale(0) completely invisible. It grows to scale(1.1) overshooting slightly then settles at scale(1). The overshoot creates a satisfying bouncy pop entrance.</p>
+    <p class="explain"><strong>result-score 56px Cormorant gold</strong> — <span class="def">Trophy display</span> — Large serif font in gold for the final score feels like a trophy inscription. The combination of size, font choice and colour makes the result feel significant.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- JAVASCRIPT -->
+<div class="part" id="js1">
+  <div class="part-header js"><span class="part-label js">JavaScript</span><span class="part-title">Panel Toggle and XP System</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — JavaScript — Panel Toggle and XP</div>
+    <div class="code"><pre>var totalXP = parseInt(localStorage.getItem("mg-xp") || "0");
+
+function togglePanel() {
+  var panel = document.getElementById("gamePanel");
+  panel.classList.toggle("open");
+}
+
+function updateXP(earned) {
+  totalXP += earned;
+  localStorage.setItem("mg-xp", totalXP);
+  var pct = Math.min((totalXP / 500) * 100, 100);
+  document.getElementById("panelXpFill").style.width = pct + "%";
+  document.getElementById("panelXpNum").textContent  = totalXP;
+  document.getElementById("toggleXP").textContent    = totalXP + " XP";
+}
+
+function updateHighScores() {
+  ["blitz","scam","memory"].forEach(function(g) {
+    var hs = localStorage.getItem("mg-hs-" + g) || "0";
+    var el = document.getElementById("hs-" + g);
+    if (el) el.textContent = "Best: " + hs;
+  });
+}
+window.addEventListener("load", updateHighScores);</pre></div>
+    <p class="explain"><strong>localStorage.getItem with fallback</strong> — <span class="def">Persistent XP</span> — Reads saved XP from localStorage on page load. The || "0" provides a fallback of "0" if no XP has been saved yet. parseInt converts the string to a number.</p>
+    <p class="explain"><strong>panel.classList.toggle("open")</strong> — <span class="def">Toggle class</span> — Adds open if it is not there, removes it if it is. One function handles both opening and closing the panel.</p>
+    <p class="explain"><strong>Math.min(totalXP/500*100, 100)</strong> — <span class="def">Capped percentage</span> — Calculates XP as a percentage of 500 maximum. Math.min caps it at 100 so the bar never overflows even if the player earns more than 500 XP.</p>
+    <p class="explain"><strong>Three elements updated simultaneously</strong> — <span class="def">Sync updates</span> — When XP changes three elements are updated together: the panel fill bar, the panel number, and the toggle button XP display. All three always show the same value.</p>
+    <p class="explain"><strong>updateHighScores on load</strong> — <span class="def">Restore scores</span> — Reads saved high scores from localStorage and updates the Best: display on each game card when the page loads so returning players see their previous best scores immediately.</p>
+  </div>
+</div>
+
+<div class="part" id="js2">
+  <div class="part-header js"><span class="part-label js">JavaScript</span><span class="part-title">Start Game and Show Result</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — JavaScript — Game Management</div>
+    <div class="code"><pre>var currentGame = "";
+var activeTimers = [];
+
+function showScreen(id) {
+  document.querySelectorAll(".game-screen").forEach(function(s) {
+    s.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
+function startGame(game) {
+  currentGame = game;
+  clearAllTimers();
+  if (game === "blitz")  { showScreen("blitzScreen");  initBlitz();  }
+  if (game === "scam")   { showScreen("scamScreen");   initScam();   }
+  if (game === "memory") { showScreen("memoryScreen"); initMemory(); }
+}
+
+function goToMenu() {
+  clearAllTimers();
+  showScreen("menuScreen");
+}
+
+function clearAllTimers() {
+  activeTimers.forEach(function(t) { clearInterval(t); clearTimeout(t); });
+  activeTimers = [];
+}
+
+function showResult(score, max, xp, game) {
+  var pct = max > 0 ? Math.round((score/max)*100) : 0;
+  var emoji = pct >= 80 ? "trophy" : pct >= 60 ? "gold medal" : pct >= 40 ? "silver medal" : "bronze medal";
+  var saved = parseInt(localStorage.getItem("mg-hs-" + game) || "0");
+  if (score > saved) localStorage.setItem("mg-hs-" + game, score);
+  document.getElementById("result-emoji").textContent = pct >= 80 ? "trophy" : "medal";
+  document.getElementById("result-score").textContent = score + "/" + max;
+  document.getElementById("result-xp").textContent    = "+" + xp + " XP earned!";
+  updateXP(xp);
+  updateHighScores();
+  showScreen("resultScreen");
+}</pre></div>
+    <p class="explain"><strong>activeTimers array</strong> — <span class="def">Timer registry</span> — All setInterval and setTimeout IDs are stored here. clearAllTimers loops through and clears every one. This prevents timers from a previous game continuing to run in the background.</p>
+    <p class="explain"><strong>showScreen removes all active then adds one</strong> — <span class="def">Exclusive screen</span> — First removes active from all screens then adds it to only the target screen. This guarantees exactly one screen is visible at any time.</p>
+    <p class="explain"><strong>currentGame variable</strong> — <span class="def">State tracking</span> — Stores which game is currently active. Used by the playAgain function to restart the correct game without needing to pass parameters.</p>
+    <p class="explain"><strong>High score comparison on result</strong> — <span class="def">Save best only</span> — Compares the current score to the saved high score. Only saves if the new score is better. This ensures the Best: display always shows the all-time high score not the most recent score.</p>
+    <p class="explain"><strong>updateXP and updateHighScores called after result</strong> — <span class="def">Post-game sync</span> — Both functions are called after every game result to keep the XP bar and high score displays up to date immediately after the game ends.</p>
+  </div>
+</div>
+
+<div class="part" id="js3">
+  <div class="part-header js"><span class="part-label js">JavaScript</span><span class="part-title">Quiz Blitz Game</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — JavaScript — Game 1 Crypto Quiz Blitz</div>
+    <div class="code"><pre>var blitzQuestions = [
+  { q:"Bitcoin was created in 2009.", a:true,
+    f:"Satoshi Nakamoto released Bitcoin in January 2009." },
+  { q:"Bhutan mines Bitcoin using hydropower.", a:true,
+    f:"Bhutan built one of Asia largest Bitcoin mining operations." },
+  { q:"Crypto transactions are 100% anonymous.", a:false,
+    f:"They are pseudonymous — wallet addresses are public." },
+  // ... 12 questions total, 10 shown randomly
+];
+
+var blitzState = {};
+var blitzTimerInterval = null;
+
+function initBlitz() {
+  blitzState = {
+    questions: shuffleArray([...blitzQuestions]).slice(0, 10),
+    current: 0, score: 0, answered: [], timeLeft: 30, running: true
+  };
+  renderBlitzQ();
+  startBlitzTimer();
+}
+
+function renderBlitzQ() {
+  if (blitzState.current >= blitzState.questions.length) {
+    var xp = blitzState.score * 5;
+    showResult(blitzState.score, 10, xp, "blitz");
+    return;
+  }
+  var q = blitzState.questions[blitzState.current];
+  document.getElementById("blitz-qtext").textContent = q.q;
+  document.getElementById("blitz-qnum").textContent  = "Question " + (blitzState.current + 1);
+  document.getElementById("blitz-score").textContent = blitzState.score;
+  document.getElementById("blitz-q").textContent     = blitzState.current + 1;
+}
+
+function answerBlitz(ans) {
+  if (!blitzState.running) return;
+  var q = blitzState.questions[blitzState.current];
+  var correct = (ans === q.a);
+  if (correct) blitzState.score++;
+  blitzState.answered.push(correct);
+  updateBlitzDots();
+  var fb = document.getElementById("blitz-feedback");
+  fb.className = "feedback-box " + (correct ? "correct" : "wrong");
+  fb.textContent = (correct ? "Correct! " : "Wrong! ") + q.f;
+  fb.style.display = "block";
+  blitzState.current++;
+  setTimeout(renderBlitzQ, 1400);
+}
+
+function startBlitzTimer() {
+  blitzTimerInterval = setInterval(function() {
+    blitzState.timeLeft--;
+    document.getElementById("blitz-time").textContent = blitzState.timeLeft;
+    document.getElementById("blitz-timer-fill").style.width =
+      (blitzState.timeLeft / 30 * 100) + "%";
+    if (blitzState.timeLeft <= 0) {
+      clearInterval(blitzTimerInterval);
+      blitzState.running = false;
+      showResult(blitzState.score, 10, blitzState.score * 5, "blitz");
+    }
+  }, 1000);
+  activeTimers.push(blitzTimerInterval);
+}</pre></div>
+    <p class="explain"><strong>blitzQuestions array of objects</strong> — <span class="def">Question bank</span> — Each question is an object with three properties: q (question text), a (correct answer true/false), f (explanation fact shown after answering). 12 questions shuffled to 10 each game.</p>
+    <p class="explain"><strong>blitzState object</strong> — <span class="def">Game state</span> — All current game data in one object: shuffled questions, current index, score, answered history, time left, running flag. Resetting the game just means creating a new blitzState object.</p>
+    <p class="explain"><strong>ans === q.a comparison</strong> — <span class="def">Answer check</span> — The player passes true or false. q.a is the correct answer. Strict equality === checks both value and type so true === true is correct and false === true is wrong.</p>
+    <p class="explain"><strong>setTimeout(renderBlitzQ, 1400)</strong> — <span class="def">Feedback delay</span> — After answering there is a 1400ms pause showing the feedback before the next question renders. This gives the player time to read the explanation.</p>
+    <p class="explain"><strong>setInterval 1000ms timer</strong> — <span class="def">Countdown</span> — Decrements timeLeft every 1000ms (1 second). Updates the display and timer bar proportionally. When time reaches 0 the interval stops and the result is shown regardless of progress.</p>
+  </div>
+</div>
+
+<div class="part" id="js4">
+  <div class="part-header js"><span class="part-label js">JavaScript</span><span class="part-title">Scam Spotter Game</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — JavaScript — Game 2 Scam Spotter</div>
+    <div class="code"><pre>var scamMessages = [
+  { sender:"CryptoKing2026", avatar:"C", isScam:true,
+    msg:"URGENT! Send 0.01 BTC and receive 0.1 BTC back in 24 hours!",
+    reason:"Guaranteed returns are the #1 sign of a crypto scam." },
+  { sender:"RMA Bhutan Official", avatar:"R", isScam:false,
+    msg:"Crypto transactions above Nu.50,000 must be reported to RMA.",
+    reason:"Legitimate regulatory communication from a government body." },
+  // ... 8 messages total
+];
+
+var scamState = {};
+var scamTimerInterval = null;
+
+function initScam() {
+  scamState = {
+    messages: shuffleArray([...scamMessages]),
+    current: 0, score: 0, answered: [],
+    timeLeft: 10, running: true
+  };
+  renderScamQ();
+  startScamTimer();
+}
+
+function answerScam(ans) {
+  if (!scamState.running) return;
+  clearScamTimer();
+  var m = scamState.messages[scamState.current];
+  var correct = (ans === "scam") === m.isScam;
+  // ...show feedback, advance to next
+}</pre></div>
+    <p class="explain"><strong>isScam boolean on each message</strong> — <span class="def">Truth value</span> — Each message has isScam:true or isScam:false. The player chooses scam or legit. The correct answer check compares (ans === "scam") === m.isScam — both sides must match.</p>
+    <p class="explain"><strong>Real Bhutanese scam scenarios</strong> — <span class="def">Educational content</span> — The messages are based on real scam patterns relevant to Bhutan — celebrity giveaways, fake Binance support, return-doubling scams, and fake government messages. Each comes with a reason explaining why it is or is not a scam.</p>
+    <p class="explain"><strong>10 second timer per message</strong> — <span class="def">Pressure element</span> — Each message has only 10 seconds unlike Quiz Blitz which has 30 seconds total. The shorter per-question time creates urgency simulating real-world scam pressure where decisions must be made quickly.</p>
+    <p class="explain"><strong>clearScamTimer on answer</strong> — <span class="def">Stop timer on answer</span> — When the player answers the timer immediately stops. This prevents the timer from expiring after the player has already answered which would cause double-counting.</p>
+  </div>
+</div>
+
+<div class="part" id="js5">
+  <div class="part-header js"><span class="part-label js">JavaScript</span><span class="part-title">Memory Match Game</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — JavaScript — Game 3 Memory Match</div>
+    <div class="code"><pre>var memoryPairs = [
+  { term:"Bitcoin",    def:"First cryptocurrency, created in 2009" },
+  { term:"Blockchain", def:"Decentralised digital ledger" },
+  { term:"Wallet",     def:"Stores your private keys" },
+  { term:"Seed Phrase",def:"12-24 words to recover wallet" },
+  { term:"Mining",     def:"Creating new coins by solving puzzles" },
+  { term:"DeFi",       def:"Decentralised financial services" },
+  { term:"NFT",        def:"Unique digital ownership token" },
+  { term:"GNH",        def:"Bhutan s happiness measure" }
+];
+
+function initMemory() {
+  var pairs = shuffleArray([...memoryPairs]).slice(0, 6);
+  var cards = [];
+  pairs.forEach(function(p, i) {
+    cards.push({ type:"term", text:p.term, pairId:i });
+    cards.push({ type:"def",  text:p.def,  pairId:i });
+  });
+  memState = {
+    cards: shuffleArray(cards),
+    flipped: [], matched: [],
+    moves: 0, timeElapsed: 0,
+    running: true, canFlip: true
+  };
+  renderMemory();
+  startMemTimer();
+}
+
+function flipMemCard(idx) {
+  if (!memState.canFlip || !memState.running) return;
+  if (memState.flipped.indexOf(idx) !== -1) return;
+  if (memState.matched.indexOf(memState.cards[idx].pairId) !== -1) return;
+  if (memState.flipped.length >= 2) return;
+
+  memState.flipped.push(idx);
+  renderMemory();
+
+  if (memState.flipped.length === 2) {
+    memState.moves++;
+    memState.canFlip = false;
+    var c1 = memState.cards[memState.flipped[0]];
+    var c2 = memState.cards[memState.flipped[1]];
+    if (c1.pairId === c2.pairId && c1.type !== c2.type) {
+      // Match found
+      setTimeout(function() {
+        memState.matched.push(c1.pairId);
+        memState.flipped = [];
+        memState.canFlip = true;
+        renderMemory();
+        if (memState.matched.length === 6) {
+          memState.running = false;
+          var xp = Math.max(10, 40 - memState.moves);
+          showResult(memState.matched.length, 6, xp, "memory");
+        }
+      }, 500);
+    } else {
+      // No match
+      setTimeout(function() {
+        memState.flipped = [];
+        memState.canFlip = true;
+        renderMemory();
+      }, 800);
+    }
+  }
+}</pre></div>
+    <p class="explain"><strong>Eight pairs sliced to six</strong> — <span class="def">Random subset</span> — All 8 pairs are shuffled and only the first 6 are used. This means each game presents different pairs making it feel fresh on replay.</p>
+    <p class="explain"><strong>pairId matching logic</strong> — <span class="def">Pair identification</span> — Each card has a pairId matching its partner. c1.pairId === c2.pairId checks they are from the same pair. c1.type !== c2.type ensures one is the term and one is the definition — prevents matching two terms.</p>
+    <p class="explain"><strong>canFlip flag</strong> — <span class="def">Prevent spam clicking</span> — Set to false when two cards are flipped and the match check is pending. Prevents the player from flipping more cards during the animation. Set back to true after the cards are matched or reset.</p>
+    <p class="explain"><strong>XP formula Math.max(10, 40-moves)</strong> — <span class="def">Performance-based XP</span> — Fewer moves = more XP. 40 minus moves used. Math.max ensures a minimum of 10 XP even if the player takes many moves. Rewards efficiency and memory skill.</p>
+    <p class="explain"><strong>renderMemory on every flip</strong> — <span class="def">Full re-render</span> — The entire card grid is rebuilt on every flip. This is simpler than updating individual cards. Each card checks memState.flipped and memState.matched to determine its current visual state.</p>
+  </div>
+</div>
+
+<div class="part" id="js6">
+  <div class="part-header js"><span class="part-label js">JavaScript</span><span class="part-title">Utilities — Shuffle Array</span></div>
+  <div class="card">
+    <div class="card-title">minigames.html — JavaScript — shuffleArray()</div>
+    <div class="code"><pre>function shuffleArray(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  return arr;
+}</pre></div>
+    <p class="explain"><strong>Fisher-Yates shuffle algorithm</strong> — <span class="def">Standard randomisation</span> — The most reliable way to randomly shuffle an array. Loops from the end to the beginning. For each position picks a random earlier position and swaps them. Guarantees every permutation is equally likely.</p>
+    <p class="explain"><strong>Loops from length-1 down to 1</strong> — <span class="def">Reverse loop</span> — Going backwards means each element is swapped with an element in the already-processed section. This prevents elements from being swapped back to their original position.</p>
+    <p class="explain"><strong>Math.floor(Math.random() * (i+1))</strong> — <span class="def">Random index</span> — Math.random() gives 0 to 0.999. Multiplying by (i+1) gives 0 to i.999. Math.floor rounds down to give an integer from 0 to i inclusive. This picks a random index from the unprocessed portion of the array.</p>
+    <p class="explain"><strong>Called with spread [...]</strong> — <span class="def">Non-destructive</span> — All calls to shuffleArray use [...array] to create a copy first. This shuffles the copy not the original so the question bank is never permanently reordered between games.</p>
+  </div>
+</div>
+
+</div>
+
+<footer style="background:#08192d;padding:32px;text-align:center;margin-top:40px;">
+  <div style="font-size:18px;font-weight:700;color:white;margin-bottom:6px;">Druk<span style="color:#f4a261;">Shift</span></div>
+  <div style="font-size:12px;color:#7a9bb5;">minigames.html Explanation · Kinzang Choden · BDS Internship 2026</div>
+  <div style="font-size:11px;color:#4a6a8a;margin-top:6px;">Files 1-7 complete. Remaining: clean_survey_data.py, CodeExplanation.html, web.html</div>
+</footer>
+
+</body>
+</html>
