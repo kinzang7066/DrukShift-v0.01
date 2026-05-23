@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>drukshift_story.html — Full Code Explanation</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;--accent:#f4a261;--red:#e63946;--light:#f0f4f8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--light);color:#2d4a5a;line-height:1.7;}
+.topbar{background:var(--navy);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-size:18px;font-weight:700;color:white;}.topbar-logo span{color:var(--accent);}
+.topbar-tag{font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;}
+.hero{background:linear-gradient(160deg,#04101e,#08192d);padding:48px 32px;text-align:center;}
+.hero h1{font-size:clamp(24px,4vw,40px);font-weight:700;color:white;margin-bottom:8px;}
+.hero h1 span{color:var(--accent);}
+.hero p{font-size:14px;color:#7a9bb5;max-width:600px;margin:0 auto;}
+.file-badge{display:inline-block;background:rgba(42,157,143,0.15);border:1px solid rgba(42,157,143,0.4);color:var(--teal);font-size:12px;font-weight:700;padding:6px 16px;border-radius:50px;margin-top:12px;letter-spacing:1px;}
+.main{max-width:960px;margin:32px auto;padding:0 24px 80px;}
+.toc{background:white;border-radius:14px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 16px rgba(8,25,45,0.06);}
+.toc h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;border-bottom:2px solid var(--light);padding-bottom:10px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.toc-link{font-size:12px;color:var(--teal);text-decoration:none;padding:5px 8px;border-radius:6px;display:block;}
+.toc-link:hover{background:var(--light);}
+.part{margin-bottom:32px;}
+.part-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 20px;border-radius:10px;}
+.part-header.html{background:#fff3e0;border-left:4px solid #f4a261;}
+.part-header.css{background:#e3f2fd;border-left:4px solid #2196f3;}
+.part-header.js{background:#f3e5f5;border-left:4px solid #9c27b0;}
+.part-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 10px;border-radius:50px;}
+.part-label.html{background:#f4a261;color:white;}
+.part-label.css{background:#2196f3;color:white;}
+.part-label.js{background:#9c27b0;color:white;}
+.part-title{font-size:16px;font-weight:700;color:var(--navy);}
+.card{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 12px rgba(8,25,45,0.05);}
+.card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--light);}
+.code{background:#0d1117;border-radius:8px;padding:12px 16px;margin:10px 0;overflow-x:auto;}
+.code pre{font-family:'Fira Code',monospace;font-size:11.5px;color:#e6edf3;line-height:1.8;white-space:pre-wrap;}
+.explain{font-size:13px;color:#2d4a5a;line-height:1.8;margin:8px 0;}
+.explain strong{color:var(--navy);font-weight:600;}
+.note{background:rgba(42,157,143,0.07);border-left:3px solid var(--teal);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;line-height:1.7;}
+.warn{background:rgba(244,162,97,0.08);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#2d4a5a;margin:10px 0;}
+.def{display:inline-block;background:#e8f0fa;color:#1a4a7a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;margin:2px 0;}
+.divider{height:1px;background:#e4eaf2;margin:24px 0;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">Druk<span>Shift</span></div>
+  <div class="topbar-tag">drukshift_story.html — Code Explanation</div>
+</div>
+
+<div class="hero">
+  <h1><span>drukshift_story.html</span> — Full Code Explanation</h1>
+  <p>The 10-page interactive webtoon telling the story of Deki, a silk weaver from Paro, who discovers DrukShift and transforms her business to accept crypto payments.</p>
+  <div class="file-badge">📄 FILE 5 OF 10 — drukshift_story.html (1058 lines) · Webtoon</div>
+</div>
+
+<div class="main">
+
+<div class="toc">
+  <h2>Contents of this explanation</h2>
+  <div class="toc-grid">
+    <a class="toc-link" href="#html1">HTML — Fonts and Head</a>
+    <a class="toc-link" href="#html2">HTML — Splash Screen</a>
+    <a class="toc-link" href="#html3">HTML — Progress Bar</a>
+    <a class="toc-link" href="#html4">HTML — Comic Container</a>
+    <a class="toc-link" href="#html5">HTML — Cover Page (Page 1)</a>
+    <a class="toc-link" href="#html6">HTML — Panel Pages (2-9)</a>
+    <a class="toc-link" href="#html7">HTML — Speech Bubbles</a>
+    <a class="toc-link" href="#html8">HTML — Captions and SFX</a>
+    <a class="toc-link" href="#html9">HTML — Finale Page (Page 10)</a>
+    <a class="toc-link" href="#html10">HTML — Bottom Navigation</a>
+    <a class="toc-link" href="#css1">CSS — Splash Screen</a>
+    <a class="toc-link" href="#css2">CSS — Progress Bar</a>
+    <a class="toc-link" href="#css3">CSS — Bottom Nav</a>
+    <a class="toc-link" href="#css4">CSS — Pages and Panels</a>
+    <a class="toc-link" href="#css5">CSS — Speech Bubbles</a>
+    <a class="toc-link" href="#css6">CSS — Captions</a>
+    <a class="toc-link" href="#css7">CSS — Cover Page</a>
+    <a class="toc-link" href="#css8">CSS — Finale Page</a>
+    <a class="toc-link" href="#js1">JS — Start Comic</a>
+    <a class="toc-link" href="#js2">JS — Page Navigation</a>
+    <a class="toc-link" href="#js3">JS — Progress Update</a>
+    <a class="toc-link" href="#js4">JS — Keyboard Navigation</a>
+    <a class="toc-link" href="#js5">JS — Touch Swipe</a>
+  </div>
+</div>
+
+<!-- ══ HTML ══ -->
+<div class="part" id="html1">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Fonts and Head Setup</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Fonts</div>
+    <div class="code"><pre>&lt;link href="https://fonts.googleapis.com/css2?
+  family=Bangers
+  &family=Comic+Neue:ital,wght@0,400;0,700;1,400
+  &family=Noto+Serif:ital,wght@0,400;0,700;1,400
+  &family=Outfit:wght@400;600;700
+  &display=swap" rel="stylesheet"&gt;</pre></div>
+    <p class="explain"><strong>Bangers</strong> — <span class="def">Comic title font</span> — A bold display font that looks like classic American comic book lettering. Used for chapter titles, the DrukShift logo on the splash screen, and all large headings throughout the webtoon.</p>
+    <p class="explain"><strong>Comic Neue</strong> — <span class="def">Speech bubble font</span> — A clean handwritten-style font designed specifically for comics. Used inside all speech bubbles for Deki, Tenzin, Tourist and Narrator text to give an authentic comic feel.</p>
+    <p class="explain"><strong>Noto Serif</strong> — <span class="def">Narrative font</span> — A classic serif font used for narrator captions and pull quotes. The serif style gives a literary, storytelling quality to the narrator voice.</p>
+    <p class="explain"><strong>Outfit</strong> — <span class="def">UI font</span> — The same clean sans-serif used across all DrukShift pages. Used for labels, page numbers, and interface text.</p>
+    <p class="explain"><strong>Four different fonts</strong> — <span class="def">Typography system</span> — Using different fonts for different purposes (titles, speech, narration, UI) is a key technique in comics and webtoons. Each font has its own personality and role.</p>
+  </div>
+</div>
+
+<div class="part" id="html2">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Splash Screen</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Splash Screen</div>
+    <div class="code"><pre>&lt;div id="splash"&gt;
+  &lt;div class="sp-dragon"&gt;🐉&lt;/div&gt;
+  &lt;div class="sp-logo"&gt;DRUK&lt;br&gt;SHIFT&lt;/div&gt;
+  &lt;div class="sp-sub"&gt;A Webtoon · Bhutan 2026&lt;/div&gt;
+  &lt;p class="sp-desc"&gt;
+    "One quiz. One woman. One village.&lt;br&gt;
+     This is how Bhutan shifts."
+  &lt;/p&gt;
+  &lt;button class="sp-btn" onclick="startComic()"&gt;
+    ▶ READ THE STORY
+  &lt;/button&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>id="splash"</strong> — <span class="def">Full screen intro</span> — The splash screen covers the entire page when it first loads using position:fixed and z-index:9999. It is the first thing readers see before the webtoon starts.</p>
+    <p class="explain"><strong>sp-dragon 🐉</strong> — <span class="def">Animated mascot</span> — The Thunder Dragon emoji with a CSS animation that rocks left and right. The dragon is Bhutan's national symbol — using it connects the webtoon to Bhutanese identity.</p>
+    <p class="explain"><strong>sp-logo DRUK SHIFT</strong> — <span class="def">Comic title</span> — Displayed in the Bangers font with a distinctive text-shadow using two colours — orange and teal — creating a 3D comic shadow effect.</p>
+    <p class="explain"><strong>onclick="startComic()"</strong> — <span class="def">Entry point</span> — The single button the reader clicks to begin. Calls the JavaScript startComic function which fades out the splash and reveals the first webtoon page.</p>
+    <p class="explain"><strong>sp-desc italic quote</strong> — <span class="def">Story tagline</span> — Sets the emotional tone for the story before it begins. Written in italic Noto Serif to feel like a book opening quote.</p>
+  </div>
+</div>
+
+<div class="part" id="html3">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Progress Bar</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Reading Progress Bar</div>
+    <div class="code"><pre>&lt;div id="prog"&gt;&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>id="prog"</strong> — <span class="def">Reading progress</span> — A thin 4px bar at the very top of the page. It starts at 0% width and grows to 100% as the reader moves through all 10 pages. JavaScript calculates the width as (current page - 1) / (total pages - 1) * 100%.</p>
+    <p class="explain"><strong>Multi-colour gradient</strong> — <span class="def">Rainbow progress</span> — In CSS the progress bar uses a gradient: orange → teal → gold. As it fills across the screen it shows all three brand colours. This makes the reading progress feel like a journey.</p>
+    <p class="explain"><strong>position:fixed</strong> — <span class="def">Always visible</span> — Fixed to the very top of the browser window so it is always visible regardless of scroll position within a page.</p>
+  </div>
+</div>
+
+<div class="part" id="html4">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Comic Container</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Comic and Page Structure</div>
+    <div class="code"><pre>&lt;div id="comic"&gt;
+
+  &lt;!-- Page 1 --&gt;
+  &lt;div class="wt-page active" id="p1"&gt;
+    &lt;!-- cover page content --&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Page 2 --&gt;
+  &lt;div class="wt-page" id="p2"&gt;
+    &lt;!-- chapter 1 panels --&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ... pages 3 through 9 ... --&gt;
+
+  &lt;!-- Page 10 --&gt;
+  &lt;div class="wt-page" id="p10"&gt;
+    &lt;!-- finale --&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;&lt;!-- end comic --&gt;</pre></div>
+    <p class="explain"><strong>id="comic" display:none</strong> — <span class="def">Hidden until started</span> — The entire comic container starts hidden. JavaScript shows it after the splash screen fades out.</p>
+    <p class="explain"><strong>10 wt-page divs</strong> — <span class="def">10 webtoon pages</span> — Each page is a separate div. All start hidden except page 1 which has the active class. JavaScript switches active between pages when navigating.</p>
+    <p class="explain"><strong>id="p1" through id="p10"</strong> — <span class="def">Page IDs</span> — JavaScript finds each page using these IDs. goTo(n) removes active from current page and adds it to getElementById('p' + n).</p>
+    <p class="explain"><strong>class="wt-page active" on p1</strong> — <span class="def">First page visible</span> — Page 1 starts with active class so it is visible immediately when the comic loads. All others start hidden.</p>
+  </div>
+</div>
+
+<div class="part" id="html5">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Cover Page — Page 1</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Cover Page</div>
+    <div class="code"><pre>&lt;div class="wt-page active" id="p1"&gt;
+&lt;div class="cover-wt"&gt;
+  &lt;!-- Top orange bar --&gt;
+  &lt;div class="cover-top-bar"&gt;
+    &lt;span&gt;DRUKSHIFT COMICS · VOL.1&lt;/span&gt;
+    &lt;span&gt;🇧🇹 BHUTAN · 2026&lt;/span&gt;
+    &lt;span&gt;ISSUE #01&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;!-- Hero image --&gt;
+  &lt;div class="cover-img"&gt;
+    &lt;img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85"
+         alt="Tiger's Nest Bhutan" loading="eager"&gt;
+    &lt;div class="cover-img-overlay"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Cover text --&gt;
+  &lt;div class="cover-text"&gt;
+    &lt;div class="cover-pub"&gt;Bhutan Data Scientists Pvt. Ltd · BDS Internship 2026&lt;/div&gt;
+    &lt;div class="cover-h1"&gt;THE WOMAN&lt;br&gt;WHO SHIFTED&lt;br&gt;BHUTAN&lt;/div&gt;
+    &lt;div class="cover-tagline"&gt;A story about Deki — a silk weaver from Paro...&lt;/div&gt;
+    &lt;div class="cover-feat"&gt;
+      🧵 Deki — Kishuthara silk weaver, Paro&lt;br&gt;
+      💻 DrukShift — Crypto Readiness Quiz&lt;br&gt;
+      🇧🇹 Based on 113 real Bhutanese voices
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="cover-bottom"&gt;
+    &lt;span&gt;FREE · 2026&lt;/span&gt;
+    &lt;span&gt;DRUK = THUNDER DRAGON&lt;/span&gt;
+    &lt;span&gt;SHIFT = THE FUTURE&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="pn"&gt;— PAGE 1 —&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>cover-top-bar</strong> — <span class="def">Comic header strip</span> — A classic comic book design element — the orange strip at the very top showing the series name, country and issue number. Styled exactly like real comics.</p>
+    <p class="explain"><strong>loading="eager"</strong> — <span class="def">Priority loading</span> — Tells the browser to load this image immediately rather than lazily. Used on the cover image because it is the first thing the reader sees.</p>
+    <p class="explain"><strong>cover-img-overlay</strong> — <span class="def">Gradient overlay</span> — A div positioned absolute over the image with a gradient from transparent at top to near-white at bottom. This blends the photo smoothly into the white cover text area below it.</p>
+    <p class="explain"><strong>cover-h1 THE WOMAN WHO SHIFTED BHUTAN</strong> — <span class="def">Story title</span> — The main title of the webtoon. Written in the Bangers font with a text-shadow using the accent orange colour creating the classic comics drop shadow effect.</p>
+    <p class="explain"><strong>cover-feat box</strong> — <span class="def">Story summary</span> — Lists the main character, the tool, and the research foundation. Gives the reader context before they start the story.</p>
+    <p class="explain"><strong>pn class</strong> — <span class="def">Page number</span> — Each page ends with a small page number div. Consistent positioning at the bottom of every page like a real printed comic.</p>
+  </div>
+</div>
+
+<div class="part" id="html6">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Panel Pages — Pages 2 to 9</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Comic Panels Structure</div>
+    <div class="code"><pre>&lt;div class="wt-page" id="p2"&gt;
+  &lt;!-- Chapter banner --&gt;
+  &lt;div class="ch-banner"&gt;
+    &lt;span class="ch-num"&gt;CH.01&lt;/span&gt;
+    &lt;span class="ch-title"&gt;THE MORNING THAT CHANGED EVERYTHING&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Full width panel --&gt;
+  &lt;div class="panel p-full"&gt;
+    &lt;img src="https://images.unsplash.com/photo-1506905925346..."
+         alt="Paro valley morning" loading="lazy"&gt;
+    &lt;div class="p-overlay" style="background:linear-gradient(...);"&gt;&lt;/div&gt;
+    &lt;div class="cap cap-top cap-dark"&gt;PARO, BHUTAN. TUESDAY MORNING. 6:14 AM.&lt;/div&gt;
+    &lt;div class="cap cap-bl cap-gold"&gt;Deki has opened her silk shop every day for twelve years.&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Two panels side by side --&gt;
+  &lt;div class="p-row p-row-2"&gt;
+    &lt;div class="panel p-half"&gt;
+      &lt;img src="..." loading="lazy"&gt;
+      &lt;div class="bub bub-info bub-dl" style="top:14px;left:12px;"&gt;
+        NARRATOR: Her hands know every thread...
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="panel p-half"&gt;
+      &lt;img src="..." loading="lazy"&gt;
+      &lt;div class="bub bub-shout bub-dl" style="top:14px;left:12px;"&gt;
+        TOURIST: "Can I pay with Bitcoin?"
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>ch-banner</strong> — <span class="def">Chapter divider</span> — Dark bar with orange borders showing the chapter number and name. Appears at the start of each new story chapter to help readers track story progression.</p>
+    <p class="explain"><strong>p-full, p-half, p-third</strong> — <span class="def">Panel size classes</span> — CSS classes that set the minimum height of each panel. p-full is 480px for dramatic establishing shots, p-half is 320px for dialogue scenes, p-third is 240px for quick reaction shots.</p>
+    <p class="explain"><strong>p-row and p-row-2</strong> — <span class="def">Side by side panels</span> — p-row makes a CSS grid container. p-row-2 sets two equal columns. This creates classic two-panel side-by-side comic layouts.</p>
+    <p class="explain"><strong>loading="lazy"</strong> — <span class="def">Lazy loading</span> — Unlike the cover page cover image, all other panel images use lazy loading. The browser only loads them when they are about to become visible saving bandwidth and speeding up initial load.</p>
+    <p class="explain"><strong>p-overlay with inline gradient</strong> — <span class="def">Panel darkening</span> — Each panel has an overlay div with a CSS gradient applied as inline style. This darkens the photo so white text and speech bubbles are readable over it.</p>
+  </div>
+</div>
+
+<div class="part" id="html7">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Speech Bubbles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Speech Bubble Types</div>
+    <div class="code"><pre>&lt;!-- Regular speech bubble — tail down-left --&gt;
+&lt;div class="bub bub-dl" style="top:20px;left:20px;max-width:200px;"&gt;
+  DEKI: &lt;em&gt;"Bitcoin? I only take cash."&lt;/em&gt;
+&lt;/div&gt;
+
+&lt;!-- Shout bubble — tourist speaking excitedly --&gt;
+&lt;div class="bub bub-shout bub-dl" style="top:14px;left:12px;"&gt;
+  TOURIST: "Can I pay with Bitcoin?"
+&lt;/div&gt;
+
+&lt;!-- Thought bubble — internal thinking --&gt;
+&lt;div class="bub bub-thought bub-dr" style="bottom:60px;right:20px;"&gt;
+  &lt;em&gt;I have heard that word before... What IS it?&lt;/em&gt;
+&lt;/div&gt;
+
+&lt;!-- Narrator info bubble — blue background --&gt;
+&lt;div class="bub bub-info bub-dl" style="top:60px;left:20px;"&gt;
+  NARRATOR: Her hands know every thread of Kishuthara silk.
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>Four bubble types</strong> — <span class="def">Character voices</span> — Regular white bubble for Deki and others, shout bubble (orange) for excited speech, thought bubble (pale blue rounded) for internal thoughts, info bubble (navy) for narrator text.</p>
+    <p class="explain"><strong>bub-dl, bub-dr, bub-ul, bub-ur</strong> — <span class="def">Tail direction</span> — dl = down-left (tail points to character below-left), dr = down-right, ul = up-left, ur = up-right. These are combined with bub to position the speech tail pointing toward the correct character.</p>
+    <p class="explain"><strong>Inline style positioning</strong> — <span class="def">Manual placement</span> — Each bubble is positioned using inline top/bottom/left/right values. This gives full control over where each bubble appears within each specific panel since every panel has a different composition.</p>
+    <p class="explain"><strong>max-width on bubbles</strong> — <span class="def">Text wrapping</span> — Limits bubble width so text wraps rather than stretching across the panel. Typical comic bubbles are narrow and tall rather than wide.</p>
+    <p class="explain"><strong>&lt;em&gt; for dialogue</strong> — <span class="def">Italic speech</span> — Deki's dialogue is wrapped in em tags making it italic. This differentiates her actual spoken words from character labels like DEKI: in the bubble.</p>
+  </div>
+</div>
+
+<div class="part" id="html8">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Captions and SFX</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Captions and Sound Effects</div>
+    <div class="code"><pre>&lt;!-- Narrator caption at top of panel --&gt;
+&lt;div class="cap cap-top cap-dark"&gt;
+  PARO, BHUTAN. TUESDAY MORNING. 6:14 AM.
+&lt;/div&gt;
+
+&lt;!-- Gold caption at bottom left --&gt;
+&lt;div class="cap cap-bl cap-gold"&gt;
+  Deki has opened her shop every day for twelve years.
+&lt;/div&gt;
+
+&lt;!-- Teal caption --&gt;
+&lt;div class="cap cap-tl cap-teal"&gt;WEEK 1 · Every night&lt;/div&gt;
+
+&lt;!-- Sound effect --&gt;
+&lt;div class="sfx" style="top:16px;right:24px;font-size:36px;color:#e63946;"&gt;
+  😞
+&lt;/div&gt;
+&lt;div class="sfx" style="top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:42px;color:#e63946;"&gt;
+  WHOOSH... 💨
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>cap-top, cap-bl, cap-tl, cap-br</strong> — <span class="def">Caption positions</span> — CSS classes that set absolute position. cap-top spans the full width at the top (location/time captions), cap-bl is bottom-left (story context), cap-tl is top-left (chapter labels).</p>
+    <p class="explain"><strong>cap-navy, cap-teal, cap-gold, cap-dark</strong> — <span class="def">Caption colours</span> — Different background colours signal different caption types. Dark/navy for time-location info, teal for story context, gold for important story beats, red for danger/crisis moments.</p>
+    <p class="explain"><strong>sfx class</strong> — <span class="def">Sound effects</span> — Positioned absolute with the Bangers font and text-shadow. Used for onomatopoeia like WHOOSH, KA-CHING and emojis that represent sounds or emotions visually.</p>
+    <p class="explain"><strong>transform:translate(-50%,-50%) for centred SFX</strong> — <span class="def">Perfect centering</span> — When an SFX is placed at top:50% left:50% the translate shifts it back by half its size to centre it exactly in the panel.</p>
+  </div>
+</div>
+
+<div class="part" id="html9">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Finale Page — Page 10</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Finale</div>
+    <div class="code"><pre>&lt;div class="wt-page" id="p10"&gt;
+&lt;div class="finale-wt"&gt;
+  &lt;!-- Full screen background image --&gt;
+  &lt;div class="finale-wt-bg"&gt;
+    &lt;img src="https://images.unsplash.com/photo-1506905925346...?w=1200"
+         alt="Bhutan mountains golden hour"&gt;
+  &lt;/div&gt;
+  &lt;div class="finale-inner"&gt;
+    &lt;div class="finale-dragon"&gt;🐉&lt;/div&gt;
+    &lt;div class="finale-label"&gt;The End · But Also The Beginning&lt;/div&gt;
+    &lt;div class="finale-h1"&gt;SHIFT&lt;br&gt;FORWARD&lt;br&gt;&lt;em&gt;BHUTAN&lt;/em&gt;&lt;/div&gt;
+    &lt;div class="finale-quote"&gt;"Deki's story is not a fantasy..."&lt;/div&gt;
+    &lt;!-- Four stats --&gt;
+    &lt;div class="finale-stats"&gt;
+      &lt;div class="f-s"&gt;&lt;div class="f-s-n"&gt;113&lt;/div&gt;&lt;div class="f-s-l"&gt;Voices Surveyed&lt;/div&gt;&lt;/div&gt;
+      &lt;div class="f-s"&gt;&lt;div class="f-s-n"&gt;80%&lt;/div&gt;&lt;div class="f-s-l"&gt;Overall Readiness&lt;/div&gt;&lt;/div&gt;
+      &lt;div class="f-s"&gt;&lt;div class="f-s-n"&gt;10&lt;/div&gt;&lt;div class="f-s-l"&gt;Questions That Listen&lt;/div&gt;&lt;/div&gt;
+      &lt;div class="f-s"&gt;&lt;div class="f-s-n"&gt;🇧🇹&lt;/div&gt;&lt;div class="f-s-l"&gt;Made in Bhutan&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;a href="https://kinzang7066.github.io/..." target="_blank" class="finale-cta"&gt;
+      🇧🇹 TAKE THE QUIZ NOW
+    &lt;/a&gt;
+    &lt;button onclick="goTo(1)"&gt;↩ Read Again&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>finale-wt-bg with full image</strong> — <span class="def">Cinematic ending</span> — The finale uses a full-screen Bhutan mountain photo as background with a dark overlay on top making the white text readable. Creates a dramatic cinematic ending.</p>
+    <p class="explain"><strong>finale-dragon with float animation</strong> — <span class="def">Animated mascot</span> — The dragon emoji slowly floats up and down using a CSS keyframe animation. Creates a living breathing feeling to the ending screen.</p>
+    <p class="explain"><strong>Research stats on finale</strong> — <span class="def">Real data connection</span> — The finale shows the real research numbers — 113 voices, 80%, 10 questions. This connects the fictional story back to the real research project making it clear the story is based on real findings.</p>
+    <p class="explain"><strong>finale-cta linking to main website</strong> — <span class="def">Call to action</span> — After reading Deki's story the reader is invited to take the real quiz themselves. Opens the main DrukShift website in a new tab.</p>
+    <p class="explain"><strong>goTo(1) Read Again button</strong> — <span class="def">Restart</span> — Calls the JavaScript navigation function with page 1 as the argument. Jumps back to the cover page so the reader can start over.</p>
+  </div>
+</div>
+
+<div class="part" id="html10">
+  <div class="part-header html">
+    <span class="part-label html">HTML</span>
+    <span class="part-title">Bottom Navigation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — HTML — Navigation Bar</div>
+    <div class="code"><pre>&lt;div id="cnav"&gt;
+  &lt;button class="cnav-btn" id="prevBtn" onclick="prev()" disabled&gt;◀&lt;/button&gt;
+  &lt;div class="cnav-ind" id="ind"&gt;1 / 10&lt;/div&gt;
+  &lt;button class="cnav-btn" id="nextBtn" onclick="next()"&gt;▶&lt;/button&gt;
+&lt;/div&gt;</pre></div>
+    <p class="explain"><strong>position:fixed bottom</strong> — <span class="def">Floating nav</span> — The navigation floats at the bottom centre of the screen. Fixed positioning keeps it visible while scrolling within long pages.</p>
+    <p class="explain"><strong>disabled on prevBtn</strong> — <span class="def">First page state</span> — The back button starts disabled on page 1 because there is no page 0. JavaScript enables it when the reader moves to page 2.</p>
+    <p class="explain"><strong>id="ind" showing 1 / 10</strong> — <span class="def">Page indicator</span> — Shows the current page and total pages. JavaScript updates this text every time the page changes.</p>
+    <p class="explain"><strong>backdrop-filter:blur on cnav</strong> — <span class="def">Glass effect</span> — The nav background uses blur filter creating a frosted glass appearance over the comic panels below it.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ CSS ══ -->
+<div class="part" id="css1">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Splash Screen Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Splash</div>
+    <div class="code"><pre>#splash {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #08192d 0%, #0a1f38 50%, #0f2a45 100%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease;
+}
+.sp-dragon { animation: dragonWave 2s ease-in-out infinite; }
+@keyframes dragonWave {
+  0%,100% { transform: rotate(-4deg) scale(1); }
+  50%     { transform: rotate(4deg) scale(1.05); }
+}
+.sp-logo {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(56px, 10vw, 96px);
+  text-shadow: 4px 4px 0 #f4a261, -2px -2px 0 #2a9d8f;
+}
+.sp-btn {
+  box-shadow: 5px 5px 0 #c0603a, -2px -2px 0 rgba(255,255,255,0.1);
+}
+.sp-btn:hover  { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 #c0603a; }
+.sp-btn:active { transform: translate(2px, 2px);   box-shadow: 3px 3px 0 #c0603a; }</pre></div>
+    <p class="explain"><strong>z-index:9999</strong> — <span class="def">Maximum layer</span> — 9999 ensures the splash is above absolutely everything else on the page. Nothing can appear on top of it until JavaScript hides it.</p>
+    <p class="explain"><strong>transition:opacity 0.8s</strong> — <span class="def">Fade out</span> — When JavaScript sets opacity to 0 this transition makes it fade over 0.8 seconds rather than instantly disappearing.</p>
+    <p class="explain"><strong>dragonWave animation</strong> — <span class="def">Rocking effect</span> — Rotates the dragon emoji between -4 and +4 degrees while slightly scaling up at the midpoint. Creates a gentle rocking/breathing animation.</p>
+    <p class="explain"><strong>Double text-shadow on logo</strong> — <span class="def">3D comic effect</span> — Two shadows are applied: 4px 4px orange (bottom-right) and -2px -2px teal (top-left). This creates a classic pop-art 3D extruded text effect from two directions.</p>
+    <p class="explain"><strong>Button 3D effect</strong> — <span class="def">Press effect</span> — Default state has a 5px shadow offset. On hover the button moves -3px -3px (up-left) and shadow grows to 8px giving a floating effect. On :active it moves +2px +2px (down-right) and shadow shrinks to 3px simulating being pressed.</p>
+  </div>
+</div>
+
+<div class="part" id="css2">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Progress Bar</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Reading Progress Bar</div>
+    <div class="code"><pre>#prog {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f4a261, #2a9d8f, #e9c46a);
+  z-index: 1000;
+  transition: width 0.4s ease;
+  width: 0%;
+}</pre></div>
+    <p class="explain"><strong>height:4px</strong> — <span class="def">Thin bar</span> — Just 4px tall — noticeable but not intrusive. Sits right at the top edge of the screen.</p>
+    <p class="explain"><strong>linear-gradient 90deg</strong> — <span class="def">Horizontal gradient</span> — 90 degrees means left to right. The full gradient orange→teal→gold is applied to the entire bar but only the leftmost portion is visible based on the current width. As the bar grows more of the gradient reveals.</p>
+    <p class="explain"><strong>transition:width 0.4s</strong> — <span class="def">Animated growth</span> — When JavaScript changes the width from 30% to 40% the transition makes it animate smoothly rather than jumping.</p>
+  </div>
+</div>
+
+<div class="part" id="css3">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Bottom Navigation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Navigation</div>
+    <div class="code"><pre>#cnav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  background: rgba(5,10,20,0.92);
+  backdrop-filter: blur(16px);
+  padding: 12px 24px;
+  border-radius: 60px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.cnav-btn:hover { background:#e9c46a; color:#08192d; transform:scale(1.1); }
+.cnav-btn:disabled { opacity:0.25; cursor:not-allowed; transform:none; }</pre></div>
+    <p class="explain"><strong>left:50% transform:translateX(-50%)</strong> — <span class="def">Horizontal centering</span> — left:50% positions the left edge at centre. translateX(-50%) shifts it back by half its own width to perfectly centre the nav horizontally.</p>
+    <p class="explain"><strong>border-radius:60px</strong> — <span class="def">Pill shape</span> — Very large border-radius on a short element creates a fully rounded pill shape.</p>
+    <p class="explain"><strong>display:none initially</strong> — <span class="def">Hidden at start</span> — The navigation is hidden when the splash screen is showing. JavaScript changes it to display:flex after startComic is called.</p>
+    <p class="explain"><strong>cnav-btn:disabled opacity:0.25</strong> — <span class="def">Disabled state</span> — Reduces opacity to 25% making the disabled button appear greyed out. cursor:not-allowed shows a blocked cursor when hovering.</p>
+  </div>
+</div>
+
+<div class="part" id="css4">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Pages and Panel Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Pages and Panels</div>
+    <div class="code"><pre>.wt-page        { display:none; max-width:720px; margin:0 auto; padding-bottom:100px; }
+.wt-page.active { display:block; animation:pageIn 0.45s ease; }
+@keyframes pageIn {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.panel {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 4px solid #111;
+  background: #0a0a14;
+}
+.panel img {
+  width: 100%;
+  display: block;
+  transition: transform 6s ease;
+  filter: brightness(0.9) contrast(1.05) saturate(1.1);
+}
+.panel:hover img { transform: scale(1.03); }
+.p-full  { min-height: 480px; }
+.p-half  { min-height: 320px; }
+.p-third { min-height: 240px; }
+.p-row-2 { grid-template-columns: 1fr 1fr; }
+.p-row-3 { grid-template-columns: 1fr 1fr 1fr; }</pre></div>
+    <p class="explain"><strong>max-width:720px on wt-page</strong> — <span class="def">Mobile-style width</span> — Limits each page to 720px width and centres it. This creates the vertical scroll webtoon format popular on phones — tall and narrow like a Korean webtoon.</p>
+    <p class="explain"><strong>pageIn animation</strong> — <span class="def">Page transition</span> — Every time a new page becomes active it fades in and slides up slightly. The 0.45s duration feels fast and responsive.</p>
+    <p class="explain"><strong>border-bottom:4px solid #111</strong> — <span class="def">Panel gutters</span> — Black borders between panels mimic the classic comic book gutter — the white (here black) space between panels that separates different moments in the story.</p>
+    <p class="explain"><strong>filter brightness contrast saturation</strong> — <span class="def">Photo enhancement</span> — brightness(0.9) slightly darkens, contrast(1.05) slightly increases contrast, saturation(1.1) makes colours more vivid. This processing makes Unsplash photos feel more like comic book art.</p>
+    <p class="explain"><strong>transition:transform 6s on img hover</strong> — <span class="def">Ken Burns effect</span> — When hovering over a panel the image slowly zooms in over 6 seconds. This subtle motion gives panels a cinematic breathing quality even on a static image.</p>
+  </div>
+</div>
+
+<div class="part" id="css5">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Speech Bubble CSS Tricks</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Speech Bubbles</div>
+    <div class="code"><pre>.bub {
+  position: absolute;
+  background: #fff;
+  border: 3px solid #111;
+  border-radius: 18px;
+  font-family: 'Comic Neue', cursive;
+  font-size: 13px;
+  max-width: 210px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  z-index: 30;
+}
+
+/* Tail pointing DOWN-LEFT using pseudo-elements */
+.bub-dl::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: 20px;
+  border: 10px solid transparent;
+  border-top-color: #111;       /* black triangle */
+}
+.bub-dl::before {
+  content: '';
+  position: absolute;
+  bottom: -15px; left: 21px;
+  border: 9px solid transparent;
+  border-top-color: #fff;       /* white triangle on top */
+  z-index: 1;
+}
+
+/* Thought bubble — no tail, very rounded */
+.bub-thought {
+  border-radius: 50px;
+  font-style: italic;
+  background: #f0f8ff;
+}
+.bub-thought::after,
+.bub-thought::before { display: none; }
+
+/* Shout bubble — orange, slightly rotated */
+.bub-shout {
+  background: #f4a261;
+  border-color: #c0603a;
+  color: #08192d;
+  border-radius: 4px;
+  transform: rotate(-1deg);
+}</pre></div>
+    <p class="explain"><strong>Speech bubble tail technique</strong> — <span class="def">CSS border trick</span> — The tail is created using two pseudo-elements (::after and ::before). A border with all sides transparent except one creates a CSS triangle. The ::after creates a slightly larger black triangle for the border, and ::before creates a slightly smaller white triangle on top creating the tail with a border outline.</p>
+    <p class="explain"><strong>::after bottom:-20px</strong> — <span class="def">Position below bubble</span> — Placing the triangle 20px below the bubble bottom makes it appear as a tail pointing downward from the bubble.</p>
+    <p class="explain"><strong>border:10px solid transparent border-top-color:#111</strong> — <span class="def">Triangle creation</span> — Setting all borders transparent except the top creates a downward-pointing triangle. The top border colour is the triangle colour. The 10px defines the triangle size.</p>
+    <p class="explain"><strong>bub-thought border-radius:50px</strong> — <span class="def">Pill shaped bubble</span> — Very large border-radius on all corners creates a rounded pill shape. display:none on both pseudo-elements hides the tail since thought bubbles float without a pointed tail.</p>
+    <p class="explain"><strong>bub-shout transform:rotate(-1deg)</strong> — <span class="def">Slight tilt</span> — A -1 degree rotation makes shout bubbles appear slightly askew like handwritten text giving urgency and energy to the speech.</p>
+  </div>
+</div>
+
+<div class="part" id="css6">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Caption Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Captions</div>
+    <div class="code"><pre>.cap {
+  position: absolute;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  z-index: 20;
+  max-width: 80%;
+}
+.cap-top  { top:0; left:0; right:0; max-width:100%; text-align:center; }
+.cap-tl   { top:12px; left:12px; }
+.cap-bl   { bottom:12px; left:12px; }
+.cap-navy   { background:#1a4a7a; color:#fff; }
+.cap-teal   { background:#2a9d8f; color:#fff; }
+.cap-gold   { background:#e9c46a; color:#0a0a0f; }
+.cap-red    { background:#e63946; color:#fff; }
+.cap-dark   { background:rgba(0,0,0,0.85); color:#fff; }
+.cap-orange { background:#f4a261; color:#0a0a0f; }
+
+.sfx {
+  position: absolute;
+  font-family: 'Bangers', cursive;
+  text-shadow: 2px 2px 0 #111;
+  z-index: 25;
+  animation: sfxPop 0.4s ease;
+}
+@keyframes sfxPop {
+  0%   { transform: scale(0.3) rotate(-10deg); }
+  70%  { transform: scale(1.1) rotate(2deg); }
+  100% { transform: scale(1)   rotate(0deg); }
+}</pre></div>
+    <p class="explain"><strong>Six caption colour classes</strong> — <span class="def">Colour coding</span> — Each colour communicates something different. Navy for location and time, teal for context, gold for important story info, red for danger, dark for neutral narration, orange for key moments.</p>
+    <p class="explain"><strong>z-index:20 on captions</strong> — <span class="def">Layer order</span> — Captions at z-index 20, speech bubbles at z-index 30. Bubbles always appear above captions if they overlap ensuring dialogue is always readable.</p>
+    <p class="explain"><strong>sfxPop animation</strong> — <span class="def">Comic pop effect</span> — Sound effects start very small and rotated (-10 degrees) then overshoot slightly (+2 degrees at 70%) before settling at normal size and rotation. This classic bounce-pop feel matches the energy of comic SFX.</p>
+  </div>
+</div>
+
+<div class="part" id="css7">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Cover Page Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Cover Page</div>
+    <div class="code"><pre>.cover-wt { background:#f5f0e8; border-bottom:6px solid #111; }
+
+.cover-top-bar {
+  background: #f4a261;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 4px solid #111;
+}
+.cover-img { position:relative; height:55vw; max-height:420px; }
+.cover-img img { width:100%; height:100%; object-fit:cover; }
+.cover-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(245,240,232,0.95) 100%);
+}
+.cover-h1 {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(48px, 8vw, 80px);
+  color: #111;
+  text-shadow: 3px 3px 0 #f4a261;
+}
+.cover-pub {
+  border-left: 4px solid #f4a261;
+  padding-left: 10px;
+}</pre></div>
+    <p class="explain"><strong>background:#f5f0e8</strong> — <span class="def">Paper colour</span> — A warm off-white slightly yellowed colour to simulate the look of comic book paper rather than pure white.</p>
+    <p class="explain"><strong>height:55vw max-height:420px</strong> — <span class="def">Responsive image height</span> — 55vw makes the cover image 55% of the viewport width tall creating a portrait proportion. max-height:420px prevents it becoming too tall on very wide screens.</p>
+    <p class="explain"><strong>object-fit:cover</strong> — <span class="def">Image cropping</span> — Makes the image fill its container completely while maintaining aspect ratio. The image is cropped to fit rather than being distorted or showing empty space.</p>
+    <p class="explain"><strong>cover-img-overlay gradient</strong> — <span class="def">Photo to paper blend</span> — Gradient from transparent at the top (showing full photo) to near paper-white at the bottom (95% opacity). This blends the photo smoothly into the white cover text section below it.</p>
+    <p class="explain"><strong>cover-pub border-left</strong> — <span class="def">Publisher label style</span> — The left border on the publisher label is a classic magazine and comic book design convention for credit lines.</p>
+  </div>
+</div>
+
+<div class="part" id="css8">
+  <div class="part-header css">
+    <span class="part-label css">CSS</span>
+    <span class="part-title">Finale Page Styles</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — CSS — Finale</div>
+    <div class="code"><pre>.finale-wt {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.finale-wt-bg { position:absolute; inset:0; }
+.finale-wt-bg img { width:100%; height:100%; object-fit:cover; }
+.finale-wt-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg,
+    rgba(5,10,20,0.93) 0%,
+    rgba(8,25,45,0.88) 60%,
+    rgba(5,10,20,0.95) 100%);
+}
+.finale-inner { position:relative; z-index:2; max-width:560px; }
+.finale-dragon {
+  font-size: 80px;
+  animation: floatDragon 3s ease-in-out infinite;
+}
+@keyframes floatDragon {
+  0%,100% { transform: translateY(0)   rotate(-2deg); }
+  50%     { transform: translateY(-14px) rotate(2deg); }
+}
+.finale-h1 {
+  font-size: clamp(56px, 10vw, 100px);
+  text-shadow: 4px 4px 0 #f4a261;
+}</pre></div>
+    <p class="explain"><strong>min-height:100vh</strong> — <span class="def">Full viewport</span> — The finale fills at least the full browser window height creating a dramatic end card that fills the screen completely.</p>
+    <p class="explain"><strong>::after overlay on finale-wt-bg</strong> — <span class="def">Full darkening</span> — Very dark overlay (93% opacity) covers the background photo making the white and gold text readable. Slightly less dark in the middle (88%) for a subtle vignette effect.</p>
+    <p class="explain"><strong>z-index:2 on finale-inner</strong> — <span class="def">Above overlay</span> — The overlay (::after) has no explicit z-index. The content div has z-index:2 ensuring it appears above the overlay and is readable.</p>
+    <p class="explain"><strong>floatDragon animation</strong> — <span class="def">Floating effect</span> — The dragon moves up 14px and rocks slightly over 3 seconds. Combined with the rotation between -2 and +2 degrees it creates a natural floating breathing motion.</p>
+    <p class="explain"><strong>clamp(56px, 10vw, 100px) on finale-h1</strong> — <span class="def">Fluid typography</span> — clamp sets a minimum (56px), ideal (10vw = 10% of screen width), and maximum (100px) font size. The text scales fluidly with screen size staying within the defined range.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ JAVASCRIPT ══ -->
+<div class="part" id="js1">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Start Comic</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — JavaScript — startComic()</div>
+    <div class="code"><pre>var cur = 1, total = 10;
+
+function startComic() {
+  var sp = document.getElementById('splash');
+  sp.style.opacity = '0';           // fade out
+
+  setTimeout(function() {
+    sp.style.display = 'none';      // remove from layout
+    document.getElementById('comic').style.display = 'block';
+    document.getElementById('cnav').style.display  = 'flex';
+    upd();
+  }, 700);                          // wait for fade
+}</pre></div>
+    <p class="explain"><strong>cur = 1 and total = 10</strong> — <span class="def">State variables</span> — cur tracks which page is currently showing. total is the fixed total of 10 pages. Both are declared outside functions so all functions can access them.</p>
+    <p class="explain"><strong>sp.style.opacity = '0'</strong> — <span class="def">Start fade</span> — Sets opacity to 0 triggering the CSS transition:opacity 0.8s on the splash element making it fade out smoothly.</p>
+    <p class="explain"><strong>setTimeout 700ms</strong> — <span class="def">Wait for fade</span> — Waits 700ms (slightly less than the 0.8s fade) before hiding the splash and showing the comic. The fade starts, then just before it finishes the element is hidden and comic appears.</p>
+    <p class="explain"><strong>display:none after fade</strong> — <span class="def">Remove from layout</span> — Setting display:none after the fade completely removes the splash from the page layout. Just opacity:0 would still take up space — display:none removes it entirely.</p>
+    <p class="explain"><strong>cnav display:flex</strong> — <span class="def">Show navigation</span> — The navigation starts display:none. flex is used (not block) because the nav uses flexbox to align its children in a row.</p>
+  </div>
+</div>
+
+<div class="part" id="js2">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Page Navigation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — JavaScript — goTo(), next(), prev()</div>
+    <div class="code"><pre>function goTo(n) {
+  // Remove active from current page
+  document.getElementById('p' + cur).classList.remove('active');
+
+  // Update current page number
+  cur = n;
+
+  // Add active to new page — triggers pageIn animation
+  document.getElementById('p' + cur).classList.add('active');
+
+  // Scroll to top of page
+  window.scrollTo({ top:0, behavior:'smooth' });
+
+  // Update nav buttons and progress bar
+  upd();
+}
+
+function next() { if (cur < total) goTo(cur + 1); }
+function prev() { if (cur > 1)    goTo(cur - 1); }</pre></div>
+    <p class="explain"><strong>classList.remove('active')</strong> — <span class="def">Hide current page</span> — Removes the active class from the current page. In CSS wt-page without active has display:none making it invisible.</p>
+    <p class="explain"><strong>cur = n</strong> — <span class="def">Update state</span> — Updates the current page variable before adding active to the new page. This keeps the state accurate for the upd() function.</p>
+    <p class="explain"><strong>classList.add('active')</strong> — <span class="def">Show new page</span> — Adding active to the new page gives it display:block in CSS and triggers the pageIn animation making it slide and fade in.</p>
+    <p class="explain"><strong>scrollTo top:0 smooth</strong> — <span class="def">Scroll reset</span> — Scrolls back to the top of the page on each navigation. Important because some pages are very long and the reader would otherwise land in the middle of a new page.</p>
+    <p class="explain"><strong>next and prev guard conditions</strong> — <span class="def">Boundary check</span> — if (cur &lt; total) prevents going past the last page. if (cur &gt; 1) prevents going before the first page. These guard clauses avoid trying to show non-existent pages.</p>
+  </div>
+</div>
+
+<div class="part" id="js3">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Progress Bar Update</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — JavaScript — upd()</div>
+    <div class="code"><pre>function upd() {
+  // Disable prev button on page 1
+  document.getElementById('prevBtn').disabled = (cur === 1);
+
+  // Disable next button on last page
+  document.getElementById('nextBtn').disabled = (cur === total);
+
+  // Update page indicator text
+  document.getElementById('ind').textContent = cur + ' / ' + total;
+
+  // Update reading progress bar width
+  // Page 1 = 0%, Page 10 = 100%
+  document.getElementById('prog').style.width =
+    ((cur - 1) / (total - 1) * 100) + '%';
+}</pre></div>
+    <p class="explain"><strong>disabled = (cur === 1)</strong> — <span class="def">Boolean assignment</span> — cur === 1 evaluates to true or false. Assigning that to disabled sets the button as disabled on page 1 and enabled on all other pages. Clean one-liner.</p>
+    <p class="explain"><strong>Page indicator text</strong> — <span class="def">String concatenation</span> — cur + ' / ' + total builds the string e.g. "3 / 10". textContent sets the text inside the indicator div.</p>
+    <p class="explain"><strong>Progress formula (cur-1)/(total-1)*100</strong> — <span class="def">Percentage calculation</span> — Page 1: (1-1)/(10-1)*100 = 0%. Page 10: (10-1)/(10-1)*100 = 100%. Subtracting 1 from both ensures page 1 starts at 0% and page 10 ends at 100%.</p>
+  </div>
+</div>
+
+<div class="part" id="js4">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Keyboard Navigation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — JavaScript — Keyboard Events</div>
+    <div class="code"><pre>document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ') next();
+  if (e.key === 'ArrowLeft')  prev();
+});</pre></div>
+    <p class="explain"><strong>keydown event</strong> — <span class="def">Keyboard listener</span> — Fires whenever any key is pressed while the page has focus. e.key contains the name of the pressed key as a string.</p>
+    <p class="explain"><strong>ArrowRight and Space</strong> — <span class="def">Next page keys</span> — Both right arrow and spacebar go to the next page. Space is the natural reading key — used to scroll down in browsers. Here it advances the page instead.</p>
+    <p class="explain"><strong>ArrowLeft</strong> — <span class="def">Previous page key</span> — Left arrow goes back. This makes the webtoon feel like flipping pages in a real comic book or ebook reader.</p>
+    <div class="note"><strong>Result:</strong> Readers can navigate the webtoon using keyboard arrows or spacebar without needing to click buttons. This makes it accessible and comfortable for desktop users.</div>
+  </div>
+</div>
+
+<div class="part" id="js5">
+  <div class="part-header js">
+    <span class="part-label js">JavaScript</span>
+    <span class="part-title">Touch Swipe Navigation</span>
+  </div>
+  <div class="card">
+    <div class="card-title">drukshift_story.html — JavaScript — Touch Swipe</div>
+    <div class="code"><pre>var tx = 0;
+
+// Record where finger first touched the screen
+document.addEventListener('touchstart', function(e) {
+  tx = e.touches[0].clientX;
+}, { passive: true });
+
+// When finger lifts calculate swipe direction
+document.addEventListener('touchend', function(e) {
+  var d = tx - e.changedTouches[0].clientX;
+
+  if (Math.abs(d) > 50) {   // only count as swipe if moved 50px
+    if (d > 0) next();      // swiped left  → next page
+    else       prev();      // swiped right → previous page
+  }
+});</pre></div>
+    <p class="explain"><strong>tx variable</strong> — <span class="def">Touch start X</span> — Stores the X coordinate (horizontal position) where the finger first touched the screen.</p>
+    <p class="explain"><strong>e.touches[0].clientX</strong> — <span class="def">Touch position</span> — touches is an array of all active touch points. [0] is the first finger. clientX is the horizontal position in pixels from the left edge of the screen.</p>
+    <p class="explain"><strong>e.changedTouches[0].clientX</strong> — <span class="def">End position</span> — changedTouches contains touch points that changed in this event. At touchend this is where the finger lifted.</p>
+    <p class="explain"><strong>d = tx - endX</strong> — <span class="def">Swipe distance</span> — Positive d means the finger moved left (tx was further right than end position) = swiped left = next page. Negative d means swiped right = previous page.</p>
+    <p class="explain"><strong>Math.abs(d) > 50</strong> — <span class="def">Minimum swipe</span> — Only counts as a swipe if the finger moved more than 50 pixels. Prevents accidental page turns from tiny finger movements or taps.</p>
+    <p class="explain"><strong>passive:true</strong> — <span class="def">Performance hint</span> — Tells the browser this touchstart listener will not call preventDefault. Allows the browser to optimise scrolling performance.</p>
+    <div class="note"><strong>Result:</strong> On mobile phones and tablets readers can swipe left to go forward and swipe right to go back — exactly like a real comic app or ebook reader.</div>
+  </div>
+</div>
+
+</div>
+
+<footer style="background:#08192d;padding:32px;text-align:center;margin-top:40px;">
+  <div style="font-size:18px;font-weight:700;color:white;margin-bottom:6px;">Druk<span style="color:#f4a261;">Shift</span> 🇧🇹</div>
+  <div style="font-size:12px;color:#7a9bb5;">drukshift_story.html Explanation · Kinzang Choden · BDS Internship 2026</div>
+  <div style="font-size:11px;color:#4a6a8a;margin-top:6px;">Next file → BusinessReport.html</div>
+</footer>
+
+</body>
+</html>
