@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DrukShift Wallet 🇧🇹</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#08192d;--teal:#2a9d8f;--gold:#e9c46a;
+  --accent:#f4a261;--red:#e63946;--green:#2d8a4e;
+  --light:#f0f4f8;--white:#fff;--muted:#7a9bb5;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#2d4a5a;overflow:hidden;}
+
+/* ── PHONE FRAME ── */
+.frame-wrap{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;background:linear-gradient(160deg,#04101e,#0f2a45);
+  padding:20px;
+}
+.phone{
+  width:100%;max-width:390px;height:844px;
+  background:#f0f4f8;border-radius:44px;
+  overflow:hidden;position:relative;
+  box-shadow:0 40px 80px rgba(0,0,0,0.6),
+             0 0 0 2px rgba(255,255,255,0.1),
+             inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+/* ── STATUS BAR ── */
+.statusbar{
+  background:var(--navy);padding:12px 24px 8px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.statusbar-time{font-size:15px;font-weight:600;color:white;}
+.statusbar-icons{display:flex;gap:6px;align-items:center;font-size:12px;color:white;}
+
+/* ── SCREENS ── */
+.screen{
+  position:absolute;inset:0;
+  overflow-y:auto;overflow-x:hidden;
+  background:#f0f4f8;
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1),opacity 0.35s ease;
+}
+.screen.hidden{transform:translateX(100%);opacity:0;pointer-events:none;}
+.screen.slide-left{transform:translateX(-100%);opacity:0;pointer-events:none;}
+
+/* ── HOME SCREEN ── */
+.home-header{
+  background:linear-gradient(160deg,var(--navy),#0f2a45);
+  padding:16px 24px 32px;position:relative;overflow:hidden;
+}
+.home-header::before{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:20px 20px;
+}
+.wallet-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative;}
+.wallet-logo{font-size:16px;font-weight:700;color:white;}
+.wallet-logo span{color:var(--accent);}
+.notif-btn{width:36px;height:36px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;color:white;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.wallet-greeting{font-size:13px;color:var(--muted);margin-bottom:4px;position:relative;}
+.wallet-name{font-size:18px;font-weight:600;color:white;position:relative;}
+
+/* ── BALANCE CARD ── */
+.balance-card{
+  background:linear-gradient(135deg,rgba(42,157,143,0.2),rgba(42,157,143,0.05));
+  border:1px solid rgba(42,157,143,0.3);
+  border-radius:20px;padding:20px;margin:0 24px;margin-top:-16px;
+  position:relative;z-index:2;
+  backdrop-filter:blur(12px);
+}
+.balance-label{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.balance-amount{font-size:36px;font-weight:700;color:white;line-height:1;margin-bottom:4px;}
+.balance-sub{font-size:13px;color:var(--gold);margin-bottom:16px;}
+.balance-change{display:inline-flex;align-items:center;gap:4px;background:rgba(45,138,78,0.2);border:1px solid rgba(45,138,78,0.3);color:#5cb85c;font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;}
+.balance-coins{display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);}
+.coin-item{flex:1;text-align:center;}
+.coin-icon{font-size:20px;margin-bottom:4px;}
+.coin-name{font-size:10px;color:var(--muted);margin-bottom:2px;}
+.coin-val{font-size:13px;font-weight:600;color:white;}
+.coin-nu{font-size:10px;color:var(--muted);}
+
+/* ── ACTION BUTTONS ── */
+.action-row{display:flex;gap:12px;padding:20px 24px 0;}
+.action-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:8px;padding:14px 8px;background:white;
+  border:1px solid #dce6f0;border-radius:16px;
+  cursor:pointer;transition:all 0.2s;border:none;
+}
+.action-btn:active{transform:scale(0.95);}
+.action-btn .ab-icon{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
+.action-btn .ab-label{font-size:12px;font-weight:600;color:var(--navy);}
+.ab-send .ab-icon{background:rgba(42,157,143,0.12);color:var(--teal);}
+.ab-receive .ab-icon{background:rgba(42,157,143,0.12);color:var(--teal);}
+.ab-pay .ab-icon{background:rgba(244,162,97,0.15);color:var(--accent);}
+.ab-history .ab-icon{background:rgba(233,196,106,0.15);color:#b38a00;}
+.ab-add .ab-icon{background:rgba(45,138,78,0.12);color:var(--green);}
+
+/* ── SECTION TITLES ── */
+.section-header{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 12px;}
+.section-title{font-size:15px;font-weight:700;color:var(--navy);}
+.section-link{font-size:12px;color:var(--teal);font-weight:600;cursor:pointer;background:none;border:none;}
+
+/* ── TRANSACTION LIST ── */
+.tx-list{padding:0 24px;}
+.tx-item{
+  display:flex;align-items:center;gap:14px;
+  background:white;border-radius:14px;padding:14px;
+  margin-bottom:10px;border:1px solid #e8eef4;
+}
+.tx-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.tx-icon.sent{background:rgba(230,57,70,0.1);}
+.tx-icon.recv{background:rgba(42,157,143,0.1);}
+.tx-icon.pay{background:rgba(244,162,97,0.1);}
+.tx-info{flex:1;}
+.tx-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.tx-sub{font-size:11px;color:var(--muted);}
+.tx-amount{text-align:right;}
+.tx-amt{font-size:13px;font-weight:700;}
+.tx-amt.sent{color:var(--red);}
+.tx-amt.recv{color:var(--green);}
+.tx-nu{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* ── QUICK LEARN ── */
+.learn-strip{
+  margin:0 24px;padding:14px 16px;
+  background:linear-gradient(135deg,rgba(42,157,143,0.08),rgba(233,196,106,0.08));
+  border:1px solid rgba(42,157,143,0.2);border-radius:14px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+}
+.learn-icon{font-size:24px;flex-shrink:0;}
+.learn-text h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.learn-text p{font-size:11px;color:var(--muted);line-height:1.5;}
+.learn-arrow{font-size:16px;color:var(--teal);margin-left:auto;flex-shrink:0;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  position:absolute;bottom:0;left:0;right:0;
+  background:white;border-top:1px solid #e8eef4;
+  display:flex;padding:10px 0 20px;
+  box-shadow:0 -4px 20px rgba(8,25,45,0.06);
+}
+.bnav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:4px;cursor:pointer;background:none;border:none;padding:4px 0;
+}
+.bnav-icon{font-size:20px;}
+.bnav-label{font-size:10px;font-weight:500;color:var(--muted);}
+.bnav-item.active .bnav-icon{filter:none;}
+.bnav-item.active .bnav-label{color:var(--teal);font-weight:700;}
+
+/* ── SEND SCREEN ── */
+.screen-header{
+  background:var(--navy);padding:16px 24px 20px;
+  display:flex;align-items:center;gap:14px;
+}
+.back-btn{width:36px;height:36px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.screen-title{font-size:17px;font-weight:700;color:white;}
+.screen-body{padding:24px;}
+.field-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;display:block;}
+.field-input{
+  width:100%;padding:14px 16px;background:white;
+  border:1.5px solid #dce6f0;border-radius:12px;
+  font-size:14px;color:var(--navy);font-family:"Outfit",sans-serif;
+  outline:none;transition:border 0.2s;margin-bottom:16px;
+}
+.field-input:focus{border-color:var(--teal);}
+.currency-toggle{display:flex;background:#e8eef4;border-radius:10px;padding:3px;margin-bottom:16px;}
+.curr-btn{flex:1;padding:8px;text-align:center;border:none;background:none;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:8px;transition:all 0.2s;}
+.curr-btn.active{background:white;color:var(--teal);box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+.amount-display{
+  background:white;border:1.5px solid #dce6f0;border-radius:12px;
+  padding:20px;text-align:center;margin-bottom:16px;
+}
+.amount-big{font-size:40px;font-weight:700;color:var(--navy);line-height:1;}
+.amount-unit{font-size:14px;color:var(--muted);margin-top:4px;}
+.amount-equiv{font-size:12px;color:var(--teal);margin-top:6px;font-weight:600;}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.num-btn{
+  padding:16px;background:white;border:1px solid #e8eef4;
+  border-radius:12px;font-size:20px;font-weight:600;color:var(--navy);
+  cursor:pointer;transition:all 0.15s;text-align:center;
+}
+.num-btn:active{background:#e8eef4;transform:scale(0.95);}
+.num-btn.del{font-size:18px;color:var(--muted);}
+.num-btn.empty{background:transparent;border:none;cursor:default;}
+.send-btn{
+  width:100%;padding:16px;background:linear-gradient(135deg,var(--teal),#1a7a6e);
+  color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;
+  font-family:"Outfit",sans-serif;cursor:pointer;transition:all 0.2s;
+}
+.send-btn:active{transform:scale(0.98);}
+.recipient-pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
+.recipient-pills::-webkit-scrollbar{display:none;}
+.r-pill{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;}
+.r-pill-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;}
+.r-pill-name{font-size:10px;color:var(--muted);font-weight:500;}
+
+/* ── RECEIVE SCREEN ── */
+.qr-wrap{
+  background:white;border-radius:20px;padding:24px;
+  margin:0 0 20px;text-align:center;
+  box-shadow:0 2px 20px rgba(8,25,45,0.06);
+}
+.qr-svg-wrap{background:white;padding:16px;border-radius:12px;border:2px solid var(--navy);display:inline-block;margin-bottom:16px;}
+.receive-address{
+  background:#f8fafc;border:1px solid #e4eaf2;border-radius:10px;
+  padding:12px 16px;font-family:monospace;font-size:10px;
+  color:var(--muted);word-break:break-all;text-align:center;margin-bottom:12px;
+}
+.copy-btn{width:100%;padding:14px;background:var(--navy);color:white;border:none;border-radius:12px;font-size:14px;font-weight:600;font-family:"Outfit",sans-serif;cursor:pointer;}
+.share-row{display:flex;gap:10px;margin-top:10px;}
+.share-btn{flex:1;padding:12px;background:#f0f4f8;color:var(--navy);border:none;border-radius:12px;font-size:13px;font-weight:600;font-family:"Outfit",sans-serif;cursor:pointer;}
+.amount-req{background:rgba(42,157,143,0.08);border:1px solid rgba(42,157,143,0.2);border-radius:10px;padding:12px 16px;text-align:center;margin-bottom:16px;}
+.amount-req p{font-size:11px;color:var(--muted);margin-bottom:4px;}
+.amount-req strong{font-size:18px;color:var(--navy);font-weight:700;}
+
+/* ── HISTORY SCREEN ── */
+.history-filter{display:flex;gap:8px;padding:16px 24px;overflow-x:auto;scrollbar-width:none;}
+.history-filter::-webkit-scrollbar{display:none;}
+.filter-pill{flex-shrink:0;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #dce6f0;background:white;color:var(--muted);transition:all 0.2s;}
+.filter-pill.active{background:var(--teal);color:white;border-color:var(--teal);}
+.history-group{padding:0 24px;margin-bottom:8px;}
+.history-date{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:8px 0 6px;}
+
+/* ── SUCCESS OVERLAY ── */
+.success-overlay{
+  position:absolute;inset:0;background:rgba(8,25,45,0.85);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:100;opacity:0;pointer-events:none;transition:opacity 0.3s;
+  text-align:center;padding:32px;
+}
+.success-overlay.show{opacity:1;pointer-events:all;}
+.success-circle{width:100px;height:100px;background:linear-gradient(135deg,var(--teal),#1a7a6e);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:20px;animation:successPop 0.5s ease;}
+@keyframes successPop{0%{transform:scale(0);}70%{transform:scale(1.1);}100%{transform:scale(1);}}
+.success-title{font-size:22px;font-weight:700;color:white;margin-bottom:8px;}
+.success-sub{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:24px;}
+.success-txid{font-family:monospace;font-size:9px;color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05);padding:8px 12px;border-radius:8px;margin-bottom:24px;word-break:break-all;}
+.success-done{width:100%;padding:14px;background:var(--accent);color:var(--navy);border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:"Outfit",sans-serif;cursor:pointer;}
+
+/* ── LEARN SCREEN ── */
+.learn-card{background:white;border-radius:16px;padding:20px;margin-bottom:12px;border-left:4px solid var(--teal);}
+.learn-card h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.learn-card p{font-size:12px;color:#5a7a9a;line-height:1.7;}
+.learn-card .learn-emoji{font-size:24px;margin-bottom:8px;}
+.tip-box{background:rgba(42,157,143,0.06);border:1px solid rgba(42,157,143,0.2);border-radius:12px;padding:14px 16px;margin-bottom:12px;}
+.tip-box p{font-size:12px;color:#2d4a5a;line-height:1.7;}
+.tip-box strong{color:var(--teal);}
+
+
+/* ── ON-RAMP STYLES ── */
+.bank-card{background:white;border-radius:16px;padding:18px;margin-bottom:12px;border:2px solid #e8eef4;cursor:pointer;display:flex;align-items:center;gap:14px;transition:all 0.2s;}
+.bank-card.selected{border-color:var(--teal);background:rgba(42,157,143,0.04);}
+.bank-card:active{transform:scale(0.98);}
+.bank-logo{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.bank-info h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.bank-info p{font-size:11px;color:var(--muted);}
+.bank-check{margin-left:auto;width:24px;height:24px;border-radius:50%;border:2px solid #dce6f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+.bank-check.checked{background:var(--teal);border-color:var(--teal);color:white;font-size:12px;}
+
+.step-guide{display:flex;flex-direction:column;gap:0;}
+.guide-step{display:flex;gap:14px;position:relative;padding-bottom:20px;}
+.guide-step:last-child{padding-bottom:0;}
+.guide-step:last-child .step-line{display:none;}
+.step-num-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+.step-line{width:2px;flex:1;background:#e8eef4;margin-top:4px;}
+.step-content{flex:1;padding-top:4px;}
+.step-content h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.step-content p{font-size:12px;color:#5a7a9a;line-height:1.6;}
+.step-tag{display:inline-block;background:#f0f4f8;color:var(--muted);font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;margin-top:4px;}
+
+.sim-screen{background:var(--navy);border-radius:16px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;}
+.sim-screen::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:16px 16px;}
+.sim-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;}
+.sim-app-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff6b35,#f7931e);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.sim-app-name{font-size:14px;font-weight:700;color:white;}
+.sim-app-sub{font-size:10px;color:rgba(255,255,255,0.5);}
+.sim-balance-lbl{font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;position:relative;}
+.sim-balance{font-size:28px;font-weight:700;color:white;margin-bottom:16px;position:relative;}
+.sim-field{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px;position:relative;}
+.sim-field-lbl{font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px;}
+.sim-field-val{font-size:14px;color:white;font-weight:500;}
+.sim-btn-grp{display:flex;gap:8px;}
+.sim-btn{flex:1;padding:12px;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:"Outfit",sans-serif;cursor:pointer;transition:all 0.2s;}
+.sim-btn.primary{background:linear-gradient(135deg,var(--teal),#1a7a6e);color:white;}
+.sim-btn.ghost{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);}
+
+.progress-steps{display:flex;gap:6px;margin-bottom:20px;}
+.p-step{flex:1;height:4px;border-radius:2px;background:#e8eef4;transition:background 0.3s;}
+.p-step.done{background:var(--teal);}
+.p-step.active{background:var(--accent);}
+
+.rate-box{background:rgba(42,157,143,0.08);border:1px solid rgba(42,157,143,0.2);border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.rate-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+.rate-label{color:var(--muted);}
+.rate-val{font-weight:700;color:var(--navy);}
+
+.arrival-box{background:white;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(8,25,45,0.05);}
+.arrival-icon{font-size:32px;text-align:center;margin-bottom:8px;}
+.arrival-title{font-size:14px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:4px;}
+.arrival-sub{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;}
+
+.processing-anim{text-align:center;padding:24px 0;}
+.processing-spinner{width:60px;height:60px;border:4px solid #e8eef4;border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.processing-steps{text-align:left;margin-top:16px;}
+.proc-step{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f4f8;font-size:12px;color:#5a7a9a;}
+.proc-step:last-child{border-bottom:none;}
+.proc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.proc-dot.done{background:var(--teal);}
+.proc-dot.active{background:var(--accent);animation:pulse 1s ease infinite;}
+.proc-dot.pending{background:#dce6f0;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.4s ease both;}
+
+/* ── DEMO NOTE ── */
+.demo-note{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  white-space:nowrap;
+  background:rgba(8,25,45,0.9);color:white;
+  font-size:11px;padding:6px 14px;border-radius:50px;
+  pointer-events:none;opacity:0;transition:opacity 0.3s;
+}
+.demo-note.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="frame-wrap">
+<div class="phone" id="phone">
+
+<!-- ══ SCREEN 1 — HOME ══ -->
+<div class="screen" id="homeScreen">
+  <div class="statusbar">
+    <span class="statusbar-time" id="clock">10:24</span>
+    <div class="statusbar-icons">
+      <span>▲▲▲</span>
+      <span>WiFi</span>
+      <span>🔋</span>
+    </div>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 40px);padding-bottom:80px;">
+    <div class="home-header">
+      <div class="wallet-topbar">
+        <div class="wallet-logo">Druk<span>Shift</span> Wallet 🇧🇹</div>
+        <button class="notif-btn" onclick="showLearn()">📚</button>
+      </div>
+      <div class="wallet-greeting">Kuzu Zangpo, Deki 👋</div>
+      <div class="wallet-name">Deki's Silk Shop Wallet</div>
+    </div>
+
+    <div class="balance-card">
+      <div class="balance-label">Total Balance</div>
+      <div class="balance-amount">Nu. 12,450</div>
+      <div class="balance-sub">≈ 0.0001564 BTC · 98.22 USDT</div>
+      <div class="balance-change">↑ +Nu. 2,400 today</div>
+      <div class="balance-coins">
+        <div class="coin-item">
+          <div class="coin-icon">₿</div>
+          <div class="coin-name">Bitcoin</div>
+          <div class="coin-val">0.0001564</div>
+          <div class="coin-nu">Nu. 12,050</div>
+        </div>
+        <div class="coin-item">
+          <div class="coin-icon">💲</div>
+          <div class="coin-name">USDT</div>
+          <div class="coin-val">98.22</div>
+          <div class="coin-nu">Nu. 12,527</div>
+        </div>
+        <div class="coin-item">
+          <div class="coin-icon">🏦</div>
+          <div class="coin-name">Saved</div>
+          <div class="coin-val">Nu. 400</div>
+          <div class="coin-nu">Cash reserve</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-row">
+      <button class="action-btn ab-send" onclick="goTo('sendScreen')">
+        <div class="ab-icon">↗</div>
+        <span class="ab-label">Send</span>
+      </button>
+      <button class="action-btn ab-receive" onclick="goTo('receiveScreen')">
+        <div class="ab-icon">↙</div>
+        <span class="ab-label">Receive</span>
+      </button>
+      <button class="action-btn ab-pay" onclick="goTo('payScreen')">
+        <div class="ab-icon">📱</div>
+        <span class="ab-label">Pay</span>
+      </button>
+      <button class="action-btn ab-add" onclick="goTo('addMoneyScreen')"><div class="ab-icon">➕</div><span class="ab-label">Add Money</span></button>
+      <button class="action-btn ab-history" onclick="goTo('historyScreen')">
+        <div class="ab-icon">📋</div>
+        <span class="ab-label">History</span>
+      </button>
+    </div>
+
+    <!-- Learn Strip -->
+    <div style="padding:16px 24px 0;">
+      <div class="learn-strip" onclick="showLearn()">
+        <div class="learn-icon">🇧🇹</div>
+        <div class="learn-text">
+          <h4>New to crypto wallets?</h4>
+          <p>Learn how DrukShift Wallet works in simple Bhutanese terms</p>
+        </div>
+        <div class="learn-arrow">›</div>
+      </div>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="section-header">
+      <span class="section-title">Recent Transactions</span>
+      <button class="section-link" onclick="goTo('historyScreen')">See all</button>
+    </div>
+    <div class="tx-list">
+      <div class="tx-item fade-up">
+        <div class="tx-icon recv">↙</div>
+        <div class="tx-info">
+          <div class="tx-title">Payment Received</div>
+          <div class="tx-sub">From tourist · Deki's Silk Shop · Today 2:14 PM</div>
+        </div>
+        <div class="tx-amount">
+          <div class="tx-amt recv">+Nu. 2,400</div>
+          <div class="tx-nu">+0.0000234 BTC</div>
+        </div>
+      </div>
+      <div class="tx-item fade-up" style="animation-delay:0.05s;">
+        <div class="tx-icon sent">↗</div>
+        <div class="tx-info">
+          <div class="tx-title">Sent to Tenzin</div>
+          <div class="tx-sub">Transfer · Yesterday 6:30 PM</div>
+        </div>
+        <div class="tx-amount">
+          <div class="tx-amt sent">-Nu. 500</div>
+          <div class="tx-nu">-0.0000049 BTC</div>
+        </div>
+      </div>
+      <div class="tx-item fade-up" style="animation-delay:0.1s;">
+        <div class="tx-icon pay">📱</div>
+        <div class="tx-info">
+          <div class="tx-title">Paid at Thimphu Market</div>
+          <div class="tx-sub">QR payment · 22 May · 11:00 AM</div>
+        </div>
+        <div class="tx-amount">
+          <div class="tx-amt sent">-Nu. 1,200</div>
+          <div class="tx-nu">-9.46 USDT</div>
+        </div>
+      </div>
+    </div>
+    <div style="height:16px;"></div>
+  </div>
+  <div class="bottom-nav">
+    <button class="bnav-item active">
+      <span class="bnav-icon">🏠</span>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-item" onclick="goTo('historyScreen')">
+      <span class="bnav-icon">📋</span>
+      <span class="bnav-label">History</span>
+    </button>
+    <button class="bnav-item" onclick="goTo('receiveScreen')">
+      <span class="bnav-icon">📥</span>
+      <span class="bnav-label">Receive</span>
+    </button>
+    <button class="bnav-item" onclick="showLearn()">
+      <span class="bnav-icon">📚</span>
+      <span class="bnav-label">Learn</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 2 — SEND ══ -->
+<div class="screen hidden" id="sendScreen">
+  <div class="statusbar"><span class="statusbar-time" id="clock2">10:24</span><div class="statusbar-icons"><span>▲▲▲</span><span>🔋</span></div></div>
+  <div class="screen-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="screen-title">Send Crypto</span>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 108px);padding-bottom:20px;">
+    <div class="screen-body">
+      <span class="field-label">Send to</span>
+      <div class="recipient-pills">
+        <div class="r-pill" onclick="selectRecipient('Tenzin')">
+          <div class="r-pill-avatar" style="background:linear-gradient(135deg,#2a9d8f,#1a7a6e);">T</div>
+          <span class="r-pill-name">Tenzin</span>
+        </div>
+        <div class="r-pill" onclick="selectRecipient('Pema')">
+          <div class="r-pill-avatar" style="background:linear-gradient(135deg,#e9c46a,#c8a020);">P</div>
+          <span class="r-pill-name">Pema</span>
+        </div>
+        <div class="r-pill" onclick="selectRecipient('Karma')">
+          <div class="r-pill-avatar" style="background:linear-gradient(135deg,#f4a261,#e0803d);">K</div>
+          <span class="r-pill-name">Karma</span>
+        </div>
+        <div class="r-pill" onclick="selectRecipient('Sonam')">
+          <div class="r-pill-avatar" style="background:linear-gradient(135deg,#1a4a7a,#0a2a5a);">S</div>
+          <span class="r-pill-name">Sonam</span>
+        </div>
+        <div class="r-pill">
+          <div class="r-pill-avatar" style="background:#e8eef4;color:#7a9bb5;">+</div>
+          <span class="r-pill-name">New</span>
+        </div>
+      </div>
+      <input class="field-input" type="text" id="recipientInput" placeholder="Or enter wallet address / name">
+      
+      <span class="field-label">Amount</span>
+      <div class="currency-toggle">
+        <button class="curr-btn active" id="btnNu" onclick="setCurr('Nu')">Ngultrum (Nu)</button>
+        <button class="curr-btn" id="btnBTC" onclick="setCurr('BTC')">Bitcoin (BTC)</button>
+        <button class="curr-btn" id="btnUSDT" onclick="setCurr('USDT')">USDT</button>
+      </div>
+      <div class="amount-display">
+        <div class="amount-big" id="sendAmount">0</div>
+        <div class="amount-unit" id="sendUnit">Ngultrum (Nu.)</div>
+        <div class="amount-equiv" id="sendEquiv">≈ 0.0000000 BTC</div>
+      </div>
+      <div class="numpad">
+        <button class="num-btn" onclick="numPress('1')">1</button>
+        <button class="num-btn" onclick="numPress('2')">2</button>
+        <button class="num-btn" onclick="numPress('3')">3</button>
+        <button class="num-btn" onclick="numPress('4')">4</button>
+        <button class="num-btn" onclick="numPress('5')">5</button>
+        <button class="num-btn" onclick="numPress('6')">6</button>
+        <button class="num-btn" onclick="numPress('7')">7</button>
+        <button class="num-btn" onclick="numPress('8')">8</button>
+        <button class="num-btn" onclick="numPress('9')">9</button>
+        <button class="num-btn" onclick="numPress('.')">.</button>
+        <button class="num-btn" onclick="numPress('0')">0</button>
+        <button class="num-btn del" onclick="numPress('del')">⌫</button>
+      </div>
+      <div style="background:#fffbe8;border:1px solid #e9c46a;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#5a4a00;">
+        💡 <strong>Tip:</strong> Always double check the wallet address before sending. Crypto transactions cannot be reversed once confirmed.
+      </div>
+      <button class="send-btn" onclick="doSend()">Send Crypto →</button>
+    </div>
+  </div>
+  <!-- Success Overlay -->
+  <div class="success-overlay" id="sendSuccess">
+    <div class="success-circle">✅</div>
+    <div class="success-title">Sent Successfully!</div>
+    <div class="success-sub" id="successMsg">Your crypto has been sent.<br>The recipient will receive it shortly.</div>
+    <div class="success-txid" id="successTxId"></div>
+    <button class="success-done" onclick="closeSendSuccess()">Back to Wallet</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 3 — RECEIVE ══ -->
+<div class="screen hidden" id="receiveScreen">
+  <div class="statusbar"><span class="statusbar-time">10:24</span><div class="statusbar-icons"><span>▲▲▲</span><span>🔋</span></div></div>
+  <div class="screen-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="screen-title">Receive Crypto</span>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 108px);padding-bottom:20px;">
+    <div class="screen-body">
+      <div class="amount-req">
+        <p>Request specific amount (optional)</p>
+        <strong id="reqAmountDisplay">Not set</strong>
+      </div>
+      <input class="field-input" type="number" id="reqAmount" placeholder="Enter Nu. amount to request" oninput="updateReqAmount()">
+      
+      <div class="qr-wrap">
+        <div class="qr-svg-wrap" id="qrDisplay">
+          <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <!-- QR corner markers -->
+            <rect x="10" y="10" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
+            <rect x="18" y="18" width="28" height="28" fill="#08192d" rx="2"/>
+            <rect x="106" y="10" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
+            <rect x="114" y="18" width="28" height="28" fill="#08192d" rx="2"/>
+            <rect x="10" y="106" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
+            <rect x="18" y="114" width="28" height="28" fill="#08192d" rx="2"/>
+            <!-- QR data dots pattern -->
+            <rect x="62" y="10" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="74" y="10" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="86" y="10" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="22" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="86" y="22" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="34" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="74" y="34" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="10" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="22" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="34" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="46" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="74" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="98" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="110" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="134" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="146" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="10" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="34" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="86" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="98" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="122" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="146" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="10" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="22" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="46" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="74" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="86" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="110" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="134" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="98" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="86" y="98" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="98" y="98" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="122" y="98" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="134" y="98" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="110" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="74" y="110" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="98" y="110" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="110" y="110" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="146" y="110" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="122" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="86" y="122" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="110" y="122" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="134" y="122" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="134" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="74" y="134" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="98" y="134" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="122" y="134" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="146" y="134" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="62" y="146" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="86" y="146" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="110" y="146" width="8" height="8" fill="#08192d" rx="1"/>
+            <rect x="134" y="146" width="8" height="8" fill="#08192d" rx="1"/>
+            <!-- Center Bhutan flag -->
+            <rect x="64" y="64" width="32" height="32" fill="white" rx="4"/>
+            <text x="80" y="85" text-anchor="middle" font-size="18">🇧🇹</text>
+          </svg>
+        </div>
+        <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;">Deki's Silk Shop</div>
+        <div style="font-size:11px;color:var(--muted);">Scan to send crypto to this wallet</div>
+      </div>
+      <div class="receive-address">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+      <button class="copy-btn" onclick="copyAddress()">📋 Copy Wallet Address</button>
+      <div class="share-row">
+        <button class="share-btn" onclick="showNote('Shared via WhatsApp!')">📤 Share</button>
+        <button class="share-btn" onclick="showNote('Saved to Photos!')">💾 Save QR</button>
+      </div>
+      <div style="background:#fffbe8;border:1px solid #e9c46a;border-radius:10px;padding:12px 14px;margin-top:16px;font-size:12px;color:#5a4a00;">
+        💡 <strong>Tip:</strong> Share this QR code with anyone who wants to send you crypto. You do not need to share your full wallet address — the QR contains it automatically.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 4 — PAY ══ -->
+<div class="screen hidden" id="payScreen">
+  <div class="statusbar"><span class="statusbar-time">10:24</span><div class="statusbar-icons"><span>▲▲▲</span><span>🔋</span></div></div>
+  <div class="screen-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="screen-title">Pay with Crypto</span>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 108px);padding-bottom:20px;">
+    <div class="screen-body">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:60px;margin-bottom:12px;">📷</div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;">Scan to Pay</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;">Point your camera at the shop's QR code to make an instant crypto payment</div>
+        <div style="background:#e8eef4;border-radius:20px;padding:40px;margin-bottom:20px;position:relative;overflow:hidden;">
+          <div style="width:200px;height:200px;border:3px dashed #7a9bb5;border-radius:12px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:40px;color:#7a9bb5;">🔲</div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:220px;height:220px;border:2px solid var(--teal);border-radius:16px;animation:scanLine 1.5s ease-in-out infinite;"></div>
+        </div>
+        <style>@keyframes scanLine{0%,100%{opacity:1;transform:translate(-50%,-50%) scaleY(1);}50%{opacity:0.4;transform:translate(-50%,-50%) scaleY(0.95);}}</style>
+        <button class="send-btn" onclick="window.open('Drukpay.html','_self')">
+          Simulate a Payment →
+        </button>
+      </div>
+      <div style="margin-top:8px;">
+        <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;">How to pay at a shop:</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0;">1</div>
+            <div style="font-size:13px;color:#5a7a9a;line-height:1.6;">Ask the shop owner to show their DrukShift Pay QR code</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0;">2</div>
+            <div style="font-size:13px;color:#5a7a9a;line-height:1.6;">Tap Scan to Pay above and point your camera at the QR code</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0;">3</div>
+            <div style="font-size:13px;color:#5a7a9a;line-height:1.6;">Check the amount in Ngultrum then tap Confirm to pay instantly</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 5 — HISTORY ══ -->
+<div class="screen hidden" id="historyScreen">
+  <div class="statusbar"><span class="statusbar-time">10:24</span><div class="statusbar-icons"><span>▲▲▲</span><span>🔋</span></div></div>
+  <div class="screen-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="screen-title">Transaction History</span>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 108px);padding-bottom:20px;">
+    <div class="history-filter">
+      <button class="filter-pill active" onclick="filterTx(this,'all')">All</button>
+      <button class="filter-pill" onclick="filterTx(this,'recv')">Received</button>
+      <button class="filter-pill" onclick="filterTx(this,'sent')">Sent</button>
+      <button class="filter-pill" onclick="filterTx(this,'pay')">Payments</button>
+    </div>
+    <div class="history-group">
+      <div class="history-date">Today — 24 May 2026</div>
+      <div class="tx-item"><div class="tx-icon recv">↙</div><div class="tx-info"><div class="tx-title">Payment Received</div><div class="tx-sub">From tourist · 2:14 PM · Confirmed</div></div><div class="tx-amount"><div class="tx-amt recv">+Nu. 2,400</div><div class="tx-nu">+0.0000234 BTC</div></div></div>
+    </div>
+    <div class="history-group">
+      <div class="history-date">Yesterday — 23 May 2026</div>
+      <div class="tx-item"><div class="tx-icon sent">↗</div><div class="tx-info"><div class="tx-title">Sent to Tenzin</div><div class="tx-sub">Transfer · 6:30 PM · Confirmed</div></div><div class="tx-amount"><div class="tx-amt sent">-Nu. 500</div><div class="tx-nu">-0.0000049 BTC</div></div></div>
+      <div class="tx-item"><div class="tx-icon recv">↙</div><div class="tx-info"><div class="tx-title">Payment Received</div><div class="tx-sub">From customer · 11:20 AM · Confirmed</div></div><div class="tx-amount"><div class="tx-amt recv">+Nu. 850</div><div class="tx-nu">+9.46 USDT</div></div></div>
+    </div>
+    <div class="history-group">
+      <div class="history-date">22 May 2026</div>
+      <div class="tx-item"><div class="tx-icon pay">📱</div><div class="tx-info"><div class="tx-title">Paid at Thimphu Market</div><div class="tx-sub">QR payment · 11:00 AM · Confirmed</div></div><div class="tx-amount"><div class="tx-amt sent">-Nu. 1,200</div><div class="tx-nu">-9.46 USDT</div></div></div>
+      <div class="tx-item"><div class="tx-icon recv">↙</div><div class="tx-info"><div class="tx-title">Payment Received</div><div class="tx-sub">From tourist · 9:45 AM · Confirmed</div></div><div class="tx-amount"><div class="tx-amt recv">+Nu. 3,600</div><div class="tx-nu">+0.0000351 BTC</div></div></div>
+      <div class="tx-item"><div class="tx-icon sent">↗</div><div class="tx-info"><div class="tx-title">Sent to Pema</div><div class="tx-sub">Transfer · 8:00 AM · Confirmed</div></div><div class="tx-amount"><div class="tx-amt sent">-Nu. 200</div><div class="tx-nu">-1.58 USDT</div></div></div>
+    </div>
+    <div style="text-align:center;padding:20px;font-size:12px;color:var(--muted);">All transactions are confirmed on the blockchain 🇧🇹</div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 6 — LEARN ══ -->
+<div class="screen hidden" id="learnScreen">
+  <div class="statusbar"><span class="statusbar-time">10:24</span><div class="statusbar-icons"><span>▲▲▲</span><span>🔋</span></div></div>
+  <div class="screen-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="screen-title">Learn — Crypto Basics</span>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 108px);padding:20px 20px 32px;">
+    <div class="learn-card">
+      <div class="learn-emoji">💼</div>
+      <h3>What is a crypto wallet?</h3>
+      <p>Think of it like your purse or wallet — but for digital money. It holds your Bitcoin and USDT. Nobody can access it without your password and your secret recovery phrase.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-emoji">₿</div>
+      <h3>What is Bitcoin (BTC)?</h3>
+      <p>Bitcoin is digital money that works without a bank. It can be sent to anyone in the world in seconds. The price changes daily like gold or foreign currency. Bhutan already mines Bitcoin using hydropower.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-emoji">💲</div>
+      <h3>What is USDT?</h3>
+      <p>USDT is a stable digital currency always worth exactly 1 US Dollar. Unlike Bitcoin its price does not go up and down. Good for everyday payments if you want a stable amount.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-emoji">📋</div>
+      <h3>What is a wallet address?</h3>
+      <p>Your wallet address is like your bank account number — but for crypto. You share it with people who want to send you money. It looks like: bc1qxy2kgd... It is safe to share.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-emoji">🔑</div>
+      <h3>What is a seed phrase?</h3>
+      <p>Your seed phrase is 12 or 24 words that can recover your wallet if you lose your phone. Write it on paper. Never share it with anyone — not even DrukShift. Anyone with your seed phrase can access all your money.</p>
+    </div>
+    <div class="learn-card">
+      <div class="learn-emoji">🔲</div>
+      <h3>How does a QR code payment work?</h3>
+      <p>The shop shows their QR code. You scan it with your phone. The wallet reads the shop address and amount automatically. You confirm and the payment is sent instantly — no cash, no card, no bank needed.</p>
+    </div>
+    <div class="tip-box">
+      <p><strong>Safety tip for Bhutanese users:</strong><br>Never send crypto to someone who promises to double your money. Never share your seed phrase. Only send money to people and shops you trust. If something seems too good to be true — it is a scam.</p>
+    </div>
+    <button class="send-btn" onclick="goBack()">Got it — Back to Wallet</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 7 — ADD MONEY (ON-RAMP) ══ -->
+<div class="screen hidden" id="addMoneyScreen">
+  <div class="statusbar"><span class="statusbar-time">10:24</span><div class="statusbar-icons"><span>▲▲▲</span><span>🔋</span></div></div>
+  <div class="screen-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="screen-title">Add Money to Wallet</span>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 108px);padding-bottom:20px;" id="addMoneyBody">
+
+    <!-- STEP 1 — SELECT BANK -->
+    <div id="onramp-s1">
+      <div style="padding:20px 20px 0;">
+        <div class="progress-steps">
+          <div class="p-step active"></div>
+          <div class="p-step"></div>
+          <div class="p-step"></div>
+          <div class="p-step"></div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">Select Your Bank</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:20px;">Your Ngultrum will be converted to crypto</div>
+
+        <div class="bank-card selected" id="bob-card" onclick="selectBank('bob')">
+          <div class="bank-logo" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">🏦</div>
+          <div class="bank-info">
+            <h3>Bank of Bhutan</h3>
+            <p>mBoB app · Interoperable via BIPS</p>
+          </div>
+          <div class="bank-check checked" id="bob-check">✓</div>
+        </div>
+
+        <div style="background:#f8fafc;border:1px dashed #dce6f0;border-radius:14px;padding:14px 16px;margin-bottom:20px;">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Coming Soon</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;opacity:0.4;">
+              <div style="width:32px;height:32px;border-radius:8px;background:#e8eef4;display:flex;align-items:center;justify-content:center;font-size:16px;">🏦</div>
+              <div style="font-size:13px;color:var(--navy);font-weight:600;">BNB mPAY</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;opacity:0.4;">
+              <div style="width:32px;height:32px;border-radius:8px;background:#e8eef4;display:flex;align-items:center;justify-content:center;font-size:16px;">🏦</div>
+              <div style="font-size:13px;color:var(--navy);font-weight:600;">BDBL ePay</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;opacity:0.4;">
+              <div style="width:32px;height:32px;border-radius:8px;background:#e8eef4;display:flex;align-items:center;justify-content:center;font-size:16px;">🏦</div>
+              <div style="font-size:13px;color:var(--navy);font-weight:600;">T Bank TPAY</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;opacity:0.4;">
+              <div style="width:32px;height:32px;border-radius:8px;background:#e8eef4;display:flex;align-items:center;justify-content:center;font-size:16px;">🏦</div>
+              <div style="font-size:13px;color:var(--navy);font-weight:600;">Druk PNB</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fffbe8;border:1px solid #e9c46a;border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:#5a4a00;">
+          💡 <strong>How it works:</strong> Your Ngultrum from BOB is sent to our licensed exchange partner. The exchange converts it to Bitcoin or USDT and sends it to your DrukShift Wallet. Usually takes 2-5 minutes.
+        </div>
+        <button class="send-btn" onclick="onrampNext(1)">Continue with BOB →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 — AMOUNT + GUIDE -->
+    <div id="onramp-s2" style="display:none;">
+      <div style="padding:20px 20px 0;">
+        <div class="progress-steps">
+          <div class="p-step done"></div>
+          <div class="p-step active"></div>
+          <div class="p-step"></div>
+          <div class="p-step"></div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">Enter Amount</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">How much Ngultrum do you want to convert?</div>
+
+        <!-- mBoB Simulation -->
+        <div class="sim-screen">
+          <div class="sim-header">
+            <div class="sim-app-icon">🏦</div>
+            <div>
+              <div class="sim-app-name">mBoB</div>
+              <div class="sim-app-sub">Bank of Bhutan · Mobile Banking</div>
+            </div>
+          </div>
+          <div class="sim-balance-lbl">Available Balance</div>
+          <div class="sim-balance">Nu. 25,000.00</div>
+          <div class="sim-field">
+            <div class="sim-field-lbl">Transfer to DrukShift Exchange</div>
+            <div class="sim-field-val" id="sim-amount-display">Nu. 5,000</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-field-lbl">Exchange Account Number</div>
+            <div class="sim-field-val">DSHIFT-EXCHANGE-BT-001</div>
+          </div>
+          <div class="sim-field">
+            <div class="sim-field-lbl">Remarks</div>
+            <div class="sim-field-val">Crypto top-up · Deki wallet</div>
+          </div>
+        </div>
+
+        <span class="field-label" style="margin-bottom:8px;display:block;">Choose Amount</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+          <button style="padding:12px;background:white;border:1.5px solid #dce6f0;border-radius:10px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;" onclick="setAmount(1000)">Nu. 1,000</button>
+          <button style="padding:12px;background:var(--teal);border:1.5px solid var(--teal);border-radius:10px;font-size:13px;font-weight:600;color:white;cursor:pointer;" onclick="setAmount(5000)">Nu. 5,000 ✓</button>
+          <button style="padding:12px;background:white;border:1.5px solid #dce6f0;border-radius:10px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;" onclick="setAmount(10000)">Nu. 10,000</button>
+          <button style="padding:12px;background:white;border:1.5px solid #dce6f0;border-radius:10px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;" onclick="setAmount(25000)">Nu. 25,000</button>
+        </div>
+        <input class="field-input" type="number" id="customAmount" placeholder="Or type your own amount..." oninput="setCustomAmount()" style="margin-bottom:12px;">
+
+        <div class="rate-box">
+          <div class="rate-row" style="margin-bottom:6px;">
+            <span class="rate-label">You send</span>
+            <span class="rate-val" id="rate-send">Nu. 5,000</span>
+          </div>
+          <div class="rate-row" style="margin-bottom:6px;">
+            <span class="rate-label">Exchange rate</span>
+            <span class="rate-val">1 BTC = Nu. 1,02,15,432</span>
+          </div>
+          <div class="rate-row" style="margin-bottom:6px;">
+            <span class="rate-label">Exchange fee (0.5%)</span>
+            <span class="rate-val" id="rate-fee">Nu. 25</span>
+          </div>
+          <div style="height:1px;background:#e8eef4;margin:8px 0;"></div>
+          <div class="rate-row">
+            <span class="rate-label" style="font-weight:700;color:var(--navy);">You receive</span>
+            <span class="rate-val" style="color:var(--teal);" id="rate-receive">≈ 0.0000484 BTC</span>
+          </div>
+        </div>
+        <button class="send-btn" onclick="onrampNext(2)">Confirm Amount →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 — STEP BY STEP GUIDE -->
+    <div id="onramp-s3" style="display:none;">
+      <div style="padding:20px 20px 0;">
+        <div class="progress-steps">
+          <div class="p-step done"></div>
+          <div class="p-step done"></div>
+          <div class="p-step active"></div>
+          <div class="p-step"></div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">How to Transfer from BOB</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:20px;">Follow these steps on your mBoB app</div>
+
+        <div class="step-guide">
+          <div class="guide-step">
+            <div class="step-num-wrap">
+              <div class="step-num" style="background:var(--teal);">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h4>Open mBoB on your phone</h4>
+              <p>Open the Bank of Bhutan mBoB app and log in with your username and password or fingerprint.</p>
+              <span class="step-tag">mBoB App → Login</span>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num-wrap">
+              <div class="step-num" style="background:var(--teal);">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h4>Tap "Fund Transfer"</h4>
+              <p>On the mBoB home screen tap Fund Transfer then select Interbank Transfer to send to another bank account.</p>
+              <span class="step-tag">mBoB → Fund Transfer → Interbank</span>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num-wrap">
+              <div class="step-num" style="background:var(--teal);">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h4>Enter exchange account details</h4>
+              <p>Enter the DrukShift Exchange account number shown below. This is the licensed exchange that converts your Ngultrum to crypto.</p>
+              <div style="background:#f0f4f8;border-radius:8px;padding:10px 12px;margin-top:8px;font-family:monospace;font-size:12px;color:var(--navy);font-weight:600;">DSHIFT-EXCHANGE-BT-001<br><span style="font-size:10px;color:var(--muted);font-family:Outfit,sans-serif;font-weight:400;">Bank: DrukShift Licensed Exchange · Bhutan</span></div>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num-wrap">
+              <div class="step-num" style="background:var(--teal);">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h4>Enter Nu. 5,000 and your reference</h4>
+              <p>Enter the amount Nu. 5,000 in the transfer amount field. In the Remarks box type your DrukShift Wallet ID so the exchange knows to credit your wallet.</p>
+              <div style="background:#f0f4f8;border-radius:8px;padding:10px 12px;margin-top:8px;font-family:monospace;font-size:12px;color:var(--navy);font-weight:600;">DEKI-BT-2026-SILK<br><span style="font-size:10px;color:var(--muted);font-family:Outfit,sans-serif;font-weight:400;">Your DrukShift Wallet reference ID</span></div>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num-wrap">
+              <div class="step-num" style="background:var(--teal);">5</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h4>Confirm with your mPIN</h4>
+              <p>mBoB will ask for your 4-digit transaction PIN to confirm. Enter it and tap Confirm Transfer.</p>
+              <span class="step-tag">mBoB → Enter mPIN → Confirm</span>
+            </div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num-wrap">
+              <div class="step-num" style="background:var(--accent);">6</div>
+            </div>
+            <div class="step-content">
+              <h4>Wait 2-5 minutes</h4>
+              <p>The exchange converts your Ngultrum to Bitcoin and sends it to your DrukShift Wallet automatically. You will get a notification when it arrives.</p>
+              <span class="step-tag">Usually arrives in 2-5 minutes</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px;"></div>
+        <button class="send-btn" onclick="onrampNext(3)">I have done this — Simulate →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 — PROCESSING + SUCCESS -->
+    <div id="onramp-s4" style="display:none;">
+      <div style="padding:20px 20px 0;" id="onramp-processing">
+        <div class="progress-steps">
+          <div class="p-step done"></div>
+          <div class="p-step done"></div>
+          <div class="p-step done"></div>
+          <div class="p-step active"></div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">Processing Transfer</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:20px;">Your Ngultrum is being converted to crypto</div>
+
+        <div class="processing-anim">
+          <div class="processing-spinner" id="procSpinner"></div>
+          <div style="font-size:15px;font-weight:700;color:var(--navy);" id="procTitle">Connecting to BOB via BIPS...</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px;" id="procSub">This usually takes 2-5 minutes</div>
+        </div>
+
+        <div class="processing-steps">
+          <div class="proc-step" id="ps1"><div class="proc-dot active"></div>BOB mBoB transfer received via BIPS</div>
+          <div class="proc-step" id="ps2"><div class="proc-dot pending"></div>DrukShift Exchange verifying payment</div>
+          <div class="proc-step" id="ps3"><div class="proc-dot pending"></div>Converting Nu. 5,000 to Bitcoin</div>
+          <div class="proc-step" id="ps4"><div class="proc-dot pending"></div>Broadcasting to Bitcoin network</div>
+          <div class="proc-step" id="ps5"><div class="proc-dot pending"></div>Crediting DrukShift Wallet</div>
+        </div>
+      </div>
+
+      <!-- SUCCESS STATE (hidden initially) -->
+      <div style="display:none;padding:20px;" id="onramp-success">
+        <div style="text-align:center;padding:16px 0;">
+          <div style="font-size:72px;animation:successPop 0.5s ease;display:block;margin-bottom:16px;">🎉</div>
+          <div style="font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;">Money Added!</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">Your Ngultrum has been converted to Bitcoin and is now in your DrukShift Wallet</div>
+        </div>
+
+        <div style="background:white;border-radius:16px;padding:20px;box-shadow:0 2px 20px rgba(8,25,45,0.06);margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;">
+            <span style="color:var(--muted);">Amount sent from BOB</span>
+            <span style="font-weight:700;color:var(--navy);">Nu. 5,000</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;">
+            <span style="color:var(--muted);">Exchange fee (0.5%)</span>
+            <span style="font-weight:700;color:var(--navy);">Nu. 25</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;">
+            <span style="color:var(--muted);">Bitcoin received</span>
+            <span style="font-weight:700;color:var(--teal);">0.0000484 BTC</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:13px;">
+            <span style="color:var(--muted);">New wallet balance</span>
+            <span style="font-weight:700;color:var(--navy);">Nu. 17,425</span>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg,rgba(42,157,143,0.08),rgba(233,196,106,0.08));border:1px solid rgba(42,157,143,0.2);border-radius:12px;padding:14px 16px;margin-bottom:20px;">
+          <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">🇧🇹 GNH Moment</div>
+          <div style="font-size:12px;color:#2d4a5a;line-height:1.7;font-style:italic;">"Deki just converted her first Ngultrum into Bitcoin using her BOB mBoB account. Her shop is now ready for the digital future of Bhutan."</div>
+        </div>
+
+        <button class="send-btn" onclick="onrampDone()">Back to My Wallet →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── DEMO NOTE ── -->
+<div class="demo-note" id="demoNote"></div>
+
+</div><!-- end phone -->
+</div><!-- end frame-wrap -->
+
+<!-- ── BACK LINK ── -->
+<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:200;">
+  <a href="index.html" style="background:rgba(8,25,45,0.9);color:rgba(255,255,255,0.6);font-size:12px;padding:8px 20px;border-radius:50px;text-decoration:none;font-family:Outfit,sans-serif;">← Back to DrukShift Website</a>
+</div>
+
+<script>
+
+// ── ON-RAMP ──
+var orAmount = 5000;
+function selectBank(b){
+  document.querySelectorAll('.bank-card').forEach(function(c){c.classList.remove('selected');});
+  document.querySelectorAll('.bank-check').forEach(function(c){c.classList.remove('checked');c.textContent='';});
+  document.getElementById(b+'-card').classList.add('selected');
+  document.getElementById(b+'-check').classList.add('checked');
+  document.getElementById(b+'-check').textContent='✓';
+}
+function setAmount(n){
+  orAmount=n;
+  updateRates();
+  document.getElementById('sim-amount-display').textContent='Nu. '+n.toLocaleString();
+  document.querySelectorAll('#onramp-s2 button[onclick^="setAmount"]').forEach(function(b){
+    b.style.background='white';b.style.color='var(--navy)';b.style.borderColor='#dce6f0';b.textContent=b.textContent.replace(' ✓','');
+  });
+  event.target.style.background='var(--teal)';event.target.style.color='white';event.target.style.borderColor='var(--teal)';
+  if(!event.target.textContent.includes('✓'))event.target.textContent+=(' ✓');
+}
+function setCustomAmount(){
+  var v=parseInt(document.getElementById('customAmount').value)||0;
+  if(v>0){orAmount=v;updateRates();}
+}
+function updateRates(){
+  var fee=Math.round(orAmount*0.005);
+  var net=orAmount-fee;
+  var btc=(net/102154320).toFixed(7);
+  document.getElementById('rate-send').textContent='Nu. '+orAmount.toLocaleString();
+  document.getElementById('rate-fee').textContent='Nu. '+fee.toLocaleString();
+  document.getElementById('rate-receive').textContent='≈ '+btc+' BTC';
+}
+function onrampNext(step){
+  ['onramp-s1','onramp-s2','onramp-s3','onramp-s4'].forEach(function(id){
+    document.getElementById(id).style.display='none';
+  });
+  document.getElementById('onramp-s'+(step+1)).style.display='block';
+  document.getElementById('addMoneyBody').scrollTop=0;
+  if(step===3) startProcessing();
+}
+var procTimers=[];
+function startProcessing(){
+  var steps=['ps1','ps2','ps3','ps4','ps5'];
+  var titles=['Connecting to BOB via BIPS...','Exchange verifying your payment...','Converting Ngultrum to Bitcoin...','Broadcasting on Bitcoin network...','Crediting your DrukShift Wallet...'];
+  steps.forEach(function(id){
+    var d=document.getElementById(id).querySelector('.proc-dot');
+    d.className='proc-dot pending';
+  });
+  steps.forEach(function(id,i){
+    var t=setTimeout(function(){
+      if(i>0){
+        var prev=document.getElementById(steps[i-1]).querySelector('.proc-dot');
+        prev.className='proc-dot done';
+      }
+      var cur=document.getElementById(id).querySelector('.proc-dot');
+      cur.className='proc-dot active';
+      document.getElementById('procTitle').textContent=titles[i];
+    },(i+1)*1200);
+    procTimers.push(t);
+  });
+  var done=setTimeout(function(){
+    var last=document.getElementById('ps5').querySelector('.proc-dot');
+    last.className='proc-dot done';
+    document.getElementById('onramp-processing').style.display='none';
+    document.getElementById('onramp-success').style.display='block';
+  },7200);
+  procTimers.push(done);
+}
+function onrampDone(){
+  procTimers.forEach(function(t){clearTimeout(t);});
+  procTimers=[];
+  ['onramp-s1','onramp-s2','onramp-s3','onramp-s4'].forEach(function(id){
+    document.getElementById(id).style.display='none';
+  });
+  document.getElementById('onramp-s1').style.display='block';
+  document.getElementById('onramp-processing').style.display='block';
+  document.getElementById('onramp-success').style.display='none';
+  history_stack=[];
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.add('hidden');s.classList.remove('slide-left');});
+  document.getElementById('homeScreen').classList.remove('hidden');
+  showNote('Nu. 5,000 added to wallet!');
+}
+
+// ── CLOCK ──
+function updateClock(){
+  var now=new Date();
+  var t=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  document.querySelectorAll('.statusbar-time').forEach(function(e){e.textContent=t;});
+}
+updateClock();setInterval(updateClock,60000);
+
+// ── SCREEN NAVIGATION ──
+var history_stack=[];
+function goTo(id){
+  var cur=document.querySelector('.screen:not(.hidden):not(.slide-left)');
+  if(cur&&cur.id!==id){
+    history_stack.push(cur.id);
+    cur.classList.add('slide-left');
+  }
+  var next=document.getElementById(id);
+  next.classList.remove('hidden','slide-left');
+  next.scrollTop=0;
+}
+function goBack(){
+  var prev=history_stack.pop();
+  var cur=document.querySelector('.screen:not(.hidden):not(.slide-left)');
+  if(cur){cur.classList.add('hidden');}
+  if(prev){
+    var p=document.getElementById(prev);
+    p.classList.remove('hidden','slide-left');
+  } else {
+    document.getElementById('homeScreen').classList.remove('hidden','slide-left');
+  }
+}
+function showLearn(){goTo('learnScreen');}
+
+// ── SEND SCREEN ──
+var sendAmtStr='0';
+var currMode='Nu';
+function setCurr(m){
+  currMode=m;
+  ['Nu','BTC','USDT'].forEach(function(c){
+    document.getElementById('btn'+c).classList.toggle('active',c===m);
+  });
+  updateSendDisplay();
+}
+function numPress(v){
+  if(v==='del'){sendAmtStr=sendAmtStr.length>1?sendAmtStr.slice(0,-1):'0';}
+  else if(v==='.'){if(!sendAmtStr.includes('.'))sendAmtStr+=v;}
+  else{if(sendAmtStr==='0'&&v!=='.')sendAmtStr=v;else sendAmtStr+=v;}
+  updateSendDisplay();
+}
+function updateSendDisplay(){
+  var n=parseFloat(sendAmtStr)||0;
+  var unitLabels={Nu:'Ngultrum (Nu.)',BTC:'Bitcoin (BTC)',USDT:'USDT'};
+  var equivLabels={
+    Nu:'≈ '+(n*0.0000000979).toFixed(7)+' BTC',
+    BTC:'≈ Nu. '+(n*10215432).toLocaleString(),
+    USDT:'≈ Nu. '+(n*127.3).toFixed(0)
+  };
+  document.getElementById('sendAmount').textContent=sendAmtStr;
+  document.getElementById('sendUnit').textContent=unitLabels[currMode];
+  document.getElementById('sendEquiv').textContent=equivLabels[currMode];
+}
+function selectRecipient(name){
+  document.getElementById('recipientInput').value=name+"'s Wallet";
+}
+function doSend(){
+  var recip=document.getElementById('recipientInput').value.trim();
+  if(!recip){showNote('Please enter a recipient!');return;}
+  if(parseFloat(sendAmtStr)<=0){showNote('Please enter an amount!');return;}
+  var msg='Nu. '+sendAmtStr+' sent to '+recip;
+  document.getElementById('successMsg').textContent=msg;
+  var txid='DRUK'+Math.random().toString(36).substr(2,8).toUpperCase()+'BT'+Math.floor(Math.random()*9999);
+  document.getElementById('successTxId').textContent='TX: '+txid;
+  document.getElementById('sendSuccess').classList.add('show');
+}
+function closeSendSuccess(){
+  document.getElementById('sendSuccess').classList.remove('show');
+  sendAmtStr='0';updateSendDisplay();
+  document.getElementById('recipientInput').value='';
+  history_stack=[];
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.add('hidden');s.classList.remove('slide-left');});
+  document.getElementById('homeScreen').classList.remove('hidden');
+}
+
+// ── RECEIVE SCREEN ──
+function updateReqAmount(){
+  var v=document.getElementById('reqAmount').value;
+  if(v&&parseFloat(v)>0){
+    document.getElementById('reqAmountDisplay').textContent='Nu. '+parseFloat(v).toLocaleString()+' (≈ '+(parseFloat(v)*0.0000000979).toFixed(7)+' BTC)';
+  } else {
+    document.getElementById('reqAmountDisplay').textContent='Not set';
+  }
+}
+function copyAddress(){showNote('Address copied!');}
+
+// ── HISTORY FILTER ──
+function filterTx(btn,type){
+  document.querySelectorAll('.filter-pill').forEach(function(p){p.classList.remove('active');});
+  btn.classList.add('active');
+  showNote(type==='all'?'Showing all transactions':'Filtered: '+type);
+}
+
+// ── DEMO NOTE ──
+function showNote(msg){
+  var n=document.getElementById('demoNote');
+  n.textContent=msg;n.classList.add('show');
+  setTimeout(function(){n.classList.remove('show');},2000);
+}
+</script>
+</body>
+</html>
