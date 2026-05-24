@@ -345,7 +345,7 @@ footer{background:var(--navy);padding:48px;text-align:center;
       "Cryptocurrency readiness in Bhutan is not just a technology question — it is a happiness question."
     </div>
     <p class="body-text">
-      Through this project I delivered a live interactive website at <strong>kinzang7066.github.io</strong>, a Node.js backend deployed on Render, a MongoDB database collecting real responses, 18 Tableau visualizations, a personalised quiz engine, an admin dashboard, a gamification system, 3 educational mini games, a 10-page illustrated webtoon, and an interactive crypto payment prototype called DrukShift Pay.
+      Through this project I delivered a live interactive website at <strong>kinzang7066.github.io</strong>, a Node.js backend deployed on Render, a MongoDB database collecting real responses, 18 Tableau visualizations, a personalised quiz engine, an admin dashboard, a gamification system, 3 educational mini games, a 10-page illustrated webtoon, an interactive crypto payment prototype called DrukShift Pay, and a full crypto wallet prototype called DrukShift Wallet.
     </p>
     <div class="stat-row">
       <div class="stat-card"><div class="stat-card-n">113</div><div class="stat-card-l">Real Survey Responses</div></div>
@@ -638,7 +638,7 @@ footer{background:var(--navy);padding:48px;text-align:center;
     <h2 class="section-h">The DrukShift <em>Live Platform</em></h2>
     <div class="accent-line"></div>
     <p class="body-text">
-      I wanted DrukShift to go beyond a traditional academic report. I transformed my research findings into a fully functional live website that allows any Bhutanese person to take the readiness quiz, receive a personalised improvement plan, explore my Tableau visualisations, and learn through mini games, a webtoon, and a crypto payment prototype.
+      I wanted DrukShift to go beyond a traditional academic report. I transformed my research findings into a fully functional live website that allows any Bhutanese person to take the readiness quiz, receive a personalised improvement plan, explore my Tableau visualisations, and learn through mini games, a webtoon, a crypto payment prototype, and a crypto wallet prototype.
     </p>
     <div class="highlight-box">
       <h4>🌐 Live Website</h4>
@@ -657,6 +657,27 @@ footer{background:var(--navy);padding:48px;text-align:center;
     <p class="body-text">
       I also built <strong>DrukShift Pay</strong> — an interactive prototype showing how a cryptocurrency payment could work at a small Bhutanese shop. It simulates the full payment flow from QR code scan to blockchain confirmation to success receipt. I based it on Deki's Silk Shop from my webtoon to make it feel connected to the story I was telling throughout the project.
     </p>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);margin:28px 0 16px;">DrukShift Wallet — Why It Was Built</h3>
+    <p class="body-text">
+      While building DrukShift Pay I realised that showing how a payment works is only half the story. The other half is showing where the money actually lives. This led to building the <strong>DrukShift Wallet</strong> — a full crypto wallet prototype designed specifically for Bhutanese people.
+    </p>
+    <div class="highlight-box orange">
+      <h4>The Problem That Inspired the Wallet</h4>
+      <p>Tourists can already pay with cryptocurrency in Bhutan today. The infrastructure exists. But there is a significant human problem — ordinary Bhutanese people, including small business owners like the Deki in my webtoon, do not understand how a crypto wallet actually works. One of the most common points of confusion found through the research was that people had difficulty knowing whether a payment was sent or not even when it had already been confirmed successfully. The transaction would be sitting in their wallet but they could not read it or trust it. This uncertainty made them reluctant to accept crypto payments at all.</p>
+    </div>
+    <p class="body-text">
+      The DrukShift Wallet prototype directly addresses this. It is designed with Bhutanese people in mind — showing the balance in <strong>Ngultrum first</strong> alongside the Bitcoin and USDT equivalent, so the amount always feels familiar. Every transaction in the history screen clearly shows whether money came in or went out, the exact amount in Ngultrum, and a Confirmed status so there is never any doubt about whether the payment actually arrived.
+    </p>
+    <p class="body-text">
+      The wallet includes six screens: a <strong>Home screen</strong> showing the full balance and recent transactions, a <strong>Send screen</strong> with a numpad and currency toggle between Ngultrum, Bitcoin and USDT, a <strong>Receive screen</strong> with a QR code and wallet address to share with customers, a <strong>Pay screen</strong> for scanning a shop's QR code, a <strong>History screen</strong> with filterable transaction records grouped by date, and a <strong>Learn screen</strong> explaining six core crypto concepts in simple Bhutanese terms.
+    </p>
+    <p class="body-text">
+      Most importantly the wallet includes an <strong>Add Money on-ramp</strong> — a feature that shows Bhutanese people exactly how to convert their Ngultrum from their Bank of Bhutan mBoB account into Bitcoin. The on-ramp walks through four steps: selecting the bank, choosing the amount, following a step-by-step guide on what to do in the mBoB app, and then watching a simulation of the transfer being processed. This directly answers the question that many Bhutanese people ask — if I want to use crypto, how do I even get started with real Bhutanese money?
+    </p>
+    <div class="highlight-box">
+      <h4>How the On-Ramp Works</h4>
+      <p>The user opens mBoB, taps Fund Transfer and sends Ngultrum to the DrukShift Exchange account. The exchange converts the Ngultrum to Bitcoin at the live rate minus a 0.5% fee and credits the DrukShift Wallet automatically. The whole process takes 2 to 5 minutes. The wallet then shows the new Bitcoin balance alongside its Ngultrum equivalent so the user always understands what they hold in familiar terms.</p>
+    </div>
     <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);margin:28px 0 16px;">Platform Features</h3>
     <div class="web-features">
       <div class="web-feat">
@@ -698,6 +719,11 @@ footer{background:var(--navy);padding:48px;text-align:center;
         <div class="web-feat-icon">📚</div>
         <div class="web-feat-title">Curated Resources</div>
         <div class="web-feat-body">18 curated resources organised by audience (individuals and small businesses) and category (crypto basics, scam awareness, next steps, regulatory guidance, real-world case studies). All links verified and updated for 2025/2026.</div>
+      </div>
+      <div class="web-feat">
+        <div class="web-feat-icon">👛</div>
+        <div class="web-feat-title">DrukShift Wallet</div>
+        <div class="web-feat-body">A full crypto wallet prototype designed for Bhutanese people — balance in Ngultrum and BTC, send and receive screens, QR code, transaction history, a Learn section in simple terms, and a BOB on-ramp showing how to convert Ngultrum to crypto using mBoB.</div>
       </div>
       <div class="web-feat">
         <div class="web-feat-icon">📱</div>
@@ -758,6 +784,8 @@ footer{background:var(--navy);padding:48px;text-align:center;
       <span class="feat-tag orange">Hero Slideshow</span>
       <span class="feat-tag">Admin Dashboard</span>
       <span class="feat-tag teal">Webtoon</span>
+      <span class="feat-tag">DrukShift Wallet</span>
+      <span class="feat-tag orange">BOB On-Ramp</span>
       <span class="feat-tag gold">Mini Games</span>
       <span class="feat-tag">Dark Mode</span>
       <span class="feat-tag teal">Mobile Responsive</span>
