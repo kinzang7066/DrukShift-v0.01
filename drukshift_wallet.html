@@ -256,6 +256,42 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
 .tip-box strong{color:var(--teal);}
 
 
+
+
+/* ── LIVE RATE ── */
+.rate-ticker{
+  background:linear-gradient(135deg,var(--navy),#0f2a45);
+  border-radius:10px;padding:10px 14px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.rate-ticker-label{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;}
+.rate-ticker-val{font-size:13px;font-weight:700;color:var(--gold);}
+.rate-ticker-sub{font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;}
+.rate-live-dot{width:6px;height:6px;border-radius:50%;background:#5cb85c;animation:livePulse 1.5s ease infinite;display:inline-block;margin-right:4px;}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.rate-updating{color:rgba(255,255,255,0.3);font-size:10px;}
+
+/* ── CONVERT / OFF-RAMP ── */
+.ab-convert .ab-icon{background:rgba(42,106,173,0.12);color:#1a4a7a;}
+.bank-select{width:100%;padding:14px 16px;background:white;border:1.5px solid #dce6f0;border-radius:12px;font-size:14px;color:var(--navy);font-family:"Outfit",sans-serif;outline:none;transition:border 0.2s;margin-bottom:16px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237a9bb5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;}
+.convert-card{background:white;border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:0 2px 16px rgba(8,25,45,0.06);}
+.convert-arrow{text-align:center;font-size:24px;margin:8px 0;color:var(--teal);}
+.convert-from{background:rgba(42,157,143,0.06);border:1px solid rgba(42,157,143,0.2);border-radius:12px;padding:16px;margin-bottom:8px;}
+.convert-to{background:rgba(42,106,173,0.06);border:1px solid rgba(42,106,173,0.2);border-radius:12px;padding:16px;}
+.convert-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.convert-amount{font-size:28px;font-weight:700;color:var(--navy);line-height:1;}
+.convert-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+.quick-pct{display:flex;gap:8px;margin-bottom:16px;}
+.pct-btn{flex:1;padding:10px;background:white;border:1.5px solid #dce6f0;border-radius:10px;font-size:12px;font-weight:600;color:var(--navy);cursor:pointer;text-align:center;transition:all 0.2s;}
+.pct-btn.active{background:var(--teal);border-color:var(--teal);color:white;}
+.account-card{background:white;border:1.5px solid #dce6f0;border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all 0.2s;}
+.account-card.selected{border-color:var(--teal);background:rgba(42,157,143,0.04);}
+.account-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ff6b35,#f7931e);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.account-info h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.account-info p{font-size:11px;color:var(--muted);}
+.account-check{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid #dce6f0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all 0.2s;}
+.account-check.on{background:var(--teal);border-color:var(--teal);color:white;}
+
 /* ── ON-RAMP STYLES ── */
 .bank-card{background:white;border-radius:16px;padding:18px;margin-bottom:12px;border:2px solid #e8eef4;cursor:pointer;display:flex;align-items:center;gap:14px;transition:all 0.2s;}
 .bank-card.selected{border-color:var(--teal);background:rgba(42,157,143,0.04);}
@@ -366,12 +402,24 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
       <div class="balance-amount">Nu. 12,450</div>
       <div class="balance-sub">≈ 0.0001564 BTC · 98.22 USDT</div>
       <div class="balance-change">↑ +Nu. 2,400 today</div>
+      <div id="liveRateTicker" class="rate-ticker">
+        <div>
+          <div class="rate-ticker-label"><span class="rate-live-status"><span class="rate-live-dot"></span>Live rate</span></div>
+          <div class="rate-ticker-val">1 BTC = <span class="live-btc-nu">Loading...</span></div>
+          <div class="rate-ticker-sub">= <span class="live-btc-usd">...</span> · <span class="live-updated">Fetching...</span></div>
+        </div>
+        <div style="text-align:right;">
+          <div class="rate-ticker-label">USDT/Nu</div>
+          <div class="rate-ticker-val">1 USDT = Nu. 127.3</div>
+          <div class="rate-ticker-sub">Stable · Pegged to USD</div>
+        </div>
+      </div>
       <div class="balance-coins">
         <div class="coin-item">
           <div class="coin-icon">₿</div>
           <div class="coin-name">Bitcoin</div>
           <div class="coin-val">0.0001564</div>
-          <div class="coin-nu">Nu. 12,050</div>
+          <div class="coin-nu" id="homeBtcNu">Nu. 12,050</div>
         </div>
         <div class="coin-item">
           <div class="coin-icon">💲</div>
@@ -403,6 +451,7 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
         <span class="ab-label">Pay</span>
       </button>
       <button class="action-btn ab-add" onclick="goTo('addMoneyScreen')"><div class="ab-icon">➕</div><span class="ab-label">Add Money</span></button>
+      <button class="action-btn ab-convert" onclick="goTo('convertScreen')"><div class="ab-icon">🔄</div><span class="ab-label">Convert</span></button>
       <button class="action-btn ab-history" onclick="goTo('historyScreen')">
         <div class="ab-icon">📋</div>
         <span class="ab-label">History</span>
@@ -567,93 +616,169 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
   </div>
   <div style="overflow-y:auto;height:calc(100% - 108px);padding-bottom:20px;">
     <div class="screen-body">
-      <div class="amount-req">
-        <p>Request specific amount (optional)</p>
-        <strong id="reqAmountDisplay">Not set</strong>
+
+      <!-- QR TYPE TOGGLE -->
+      <div class="currency-toggle" style="margin-bottom:16px;">
+        <button class="curr-btn active" id="qr-local-btn" onclick="switchQR('local')">🇧🇹 For Locals</button>
+        <button class="curr-btn" id="qr-tourist-btn" onclick="switchQR('tourist')">✈️ For Tourists</button>
       </div>
-      <input class="field-input" type="number" id="reqAmount" placeholder="Enter Nu. amount to request" oninput="updateReqAmount()">
-      
-      <div class="qr-wrap">
-        <div class="qr-svg-wrap" id="qrDisplay">
-          <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-            <!-- QR corner markers -->
-            <rect x="10" y="10" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
-            <rect x="18" y="18" width="28" height="28" fill="#08192d" rx="2"/>
-            <rect x="106" y="10" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
-            <rect x="114" y="18" width="28" height="28" fill="#08192d" rx="2"/>
-            <rect x="10" y="106" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
-            <rect x="18" y="114" width="28" height="28" fill="#08192d" rx="2"/>
-            <!-- QR data dots pattern -->
-            <rect x="62" y="10" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="74" y="10" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="86" y="10" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="22" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="86" y="22" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="34" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="74" y="34" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="10" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="22" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="34" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="46" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="74" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="98" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="110" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="134" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="146" y="62" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="10" y="74" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="34" y="74" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="74" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="86" y="74" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="98" y="74" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="122" y="74" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="146" y="74" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="10" y="86" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="22" y="86" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="46" y="86" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="74" y="86" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="86" y="86" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="110" y="86" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="134" y="86" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="98" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="86" y="98" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="98" y="98" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="122" y="98" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="134" y="98" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="110" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="74" y="110" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="98" y="110" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="110" y="110" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="146" y="110" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="122" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="86" y="122" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="110" y="122" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="134" y="122" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="134" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="74" y="134" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="98" y="134" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="122" y="134" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="146" y="134" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="62" y="146" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="86" y="146" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="110" y="146" width="8" height="8" fill="#08192d" rx="1"/>
-            <rect x="134" y="146" width="8" height="8" fill="#08192d" rx="1"/>
-            <!-- Center Bhutan flag -->
-            <rect x="64" y="64" width="32" height="32" fill="white" rx="4"/>
-            <text x="80" y="85" text-anchor="middle" font-size="18">🇧🇹</text>
-          </svg>
+
+      <!-- LOCAL QR — DrukShift Wallet -->
+      <div id="qr-local">
+        <div style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">🇧🇹</span>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#1b5e20;">For Bhutanese locals</div>
+            <div style="font-size:11px;color:#388e3c;">Scan with DrukShift Wallet app</div>
+          </div>
         </div>
-        <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;">Deki's Silk Shop</div>
-        <div style="font-size:11px;color:var(--muted);">Scan to send crypto to this wallet</div>
+        <div class="amount-req">
+          <p>Request specific amount (optional)</p>
+          <strong id="reqAmountDisplay">Not set</strong>
+        </div>
+        <input class="field-input" type="number" id="reqAmount" placeholder="Enter Nu. amount to request" oninput="updateReqAmount()">
+        <div class="qr-wrap">
+          <div class="qr-svg-wrap">
+            <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
+              <rect x="18" y="18" width="28" height="28" fill="#08192d" rx="2"/>
+              <rect x="106" y="10" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
+              <rect x="114" y="18" width="28" height="28" fill="#08192d" rx="2"/>
+              <rect x="10" y="106" width="44" height="44" fill="none" stroke="#08192d" stroke-width="4" rx="4"/>
+              <rect x="18" y="114" width="28" height="28" fill="#08192d" rx="2"/>
+              <rect x="62" y="10" width="8" height="8" fill="#08192d" rx="1"/><rect x="74" y="10" width="8" height="8" fill="#08192d" rx="1"/><rect x="86" y="10" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="22" width="8" height="8" fill="#08192d" rx="1"/><rect x="86" y="22" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="34" width="8" height="8" fill="#08192d" rx="1"/><rect x="74" y="34" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="10" y="62" width="8" height="8" fill="#08192d" rx="1"/><rect x="22" y="62" width="8" height="8" fill="#08192d" rx="1"/><rect x="34" y="62" width="8" height="8" fill="#08192d" rx="1"/><rect x="46" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="62" width="8" height="8" fill="#08192d" rx="1"/><rect x="74" y="62" width="8" height="8" fill="#08192d" rx="1"/><rect x="98" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="110" y="62" width="8" height="8" fill="#08192d" rx="1"/><rect x="134" y="62" width="8" height="8" fill="#08192d" rx="1"/><rect x="146" y="62" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="10" y="74" width="8" height="8" fill="#08192d" rx="1"/><rect x="34" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="74" width="8" height="8" fill="#08192d" rx="1"/><rect x="86" y="74" width="8" height="8" fill="#08192d" rx="1"/><rect x="98" y="74" width="8" height="8" fill="#08192d" rx="1"/><rect x="122" y="74" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="10" y="86" width="8" height="8" fill="#08192d" rx="1"/><rect x="22" y="86" width="8" height="8" fill="#08192d" rx="1"/><rect x="46" y="86" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="98" width="8" height="8" fill="#08192d" rx="1"/><rect x="98" y="98" width="8" height="8" fill="#08192d" rx="1"/><rect x="122" y="98" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="110" width="8" height="8" fill="#08192d" rx="1"/><rect x="74" y="110" width="8" height="8" fill="#08192d" rx="1"/><rect x="98" y="110" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="122" width="8" height="8" fill="#08192d" rx="1"/><rect x="86" y="122" width="8" height="8" fill="#08192d" rx="1"/><rect x="110" y="122" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="134" width="8" height="8" fill="#08192d" rx="1"/><rect x="74" y="134" width="8" height="8" fill="#08192d" rx="1"/><rect x="98" y="134" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="62" y="146" width="8" height="8" fill="#08192d" rx="1"/><rect x="86" y="146" width="8" height="8" fill="#08192d" rx="1"/>
+              <rect x="64" y="64" width="32" height="32" fill="white" rx="4"/>
+              <text x="80" y="85" text-anchor="middle" font-size="18">🇧🇹</text>
+            </svg>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;">DrukShift Wallet QR</div>
+          <div style="font-size:11px;color:var(--muted);">For local Bhutanese payments</div>
+        </div>
+        <div class="receive-address">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
+        <button class="copy-btn" onclick="copyAddress()">📋 Copy Wallet Address</button>
+        <div class="share-row">
+          <button class="share-btn" onclick="showNote('Shared!')">📤 Share</button>
+          <button class="share-btn" onclick="showNote('Saved!')">💾 Save QR</button>
+        </div>
       </div>
-      <div class="receive-address">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</div>
-      <button class="copy-btn" onclick="copyAddress()">📋 Copy Wallet Address</button>
-      <div class="share-row">
-        <button class="share-btn" onclick="showNote('Shared via WhatsApp!')">📤 Share</button>
-        <button class="share-btn" onclick="showNote('Saved to Photos!')">💾 Save QR</button>
+
+      <!-- TOURIST QR — Binance Pay -->
+      <div id="qr-tourist" style="display:none;">
+        <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">✈️</span>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#e65100;">For international tourists</div>
+            <div style="font-size:11px;color:#f57c00;">Tourist scans with Binance app</div>
+          </div>
+        </div>
+        <div class="qr-wrap">
+          <div class="qr-svg-wrap" style="border-color:#f3ba2f;">
+            <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="44" height="44" fill="none" stroke="#f3ba2f" stroke-width="4" rx="4"/>
+              <rect x="18" y="18" width="28" height="28" fill="#f3ba2f" rx="2"/>
+              <rect x="106" y="10" width="44" height="44" fill="none" stroke="#f3ba2f" stroke-width="4" rx="4"/>
+              <rect x="114" y="18" width="28" height="28" fill="#f3ba2f" rx="2"/>
+              <rect x="10" y="106" width="44" height="44" fill="none" stroke="#f3ba2f" stroke-width="4" rx="4"/>
+              <rect x="18" y="114" width="28" height="28" fill="#f3ba2f" rx="2"/>
+              <rect x="62" y="10" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="74" y="10" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="86" y="10" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="22" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="86" y="22" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="34" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="74" y="34" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="10" y="62" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="22" y="62" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="34" y="62" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="46" y="62" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="62" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="98" y="62" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="122" y="62" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="10" y="74" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="46" y="74" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="74" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="86" y="74" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="110" y="74" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="134" y="74" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="10" y="86" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="22" y="86" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="34" y="86" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="98" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="74" y="98" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="110" y="98" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="110" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="86" y="110" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="122" y="110" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="122" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="98" y="122" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="134" y="122" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="134" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="86" y="134" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <rect x="62" y="146" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="74" y="146" width="8" height="8" fill="#f3ba2f" rx="1"/><rect x="110" y="146" width="8" height="8" fill="#f3ba2f" rx="1"/>
+              <!-- Binance logo centre -->
+              <rect x="62" y="62" width="36" height="36" fill="white" rx="4"/>
+              <text x="80" y="85" text-anchor="middle" font-size="20">🟡</text>
+            </svg>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;">Binance Pay QR</div>
+          <div style="font-size:11px;color:var(--muted);">For tourists paying with Binance app</div>
+        </div>
+
+        <div style="background:#fffbe8;border:1px solid #f3ba2f;border-radius:10px;padding:12px 14px;margin-bottom:12px;">
+          <div style="font-size:11px;font-weight:700;color:#7a5c00;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Binance Pay Merchant ID</div>
+          <div style="font-family:monospace;font-size:13px;font-weight:700;color:var(--navy);">DEKI-SILK-BT-2026</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;">DK Bank · Registered merchant</div>
+        </div>
+
+        <!-- How tourist pays -->
+        <div style="background:white;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #e8eef4;">
+          <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;">How the tourist pays:</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:24px;height:24px;background:#f3ba2f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:11px;font-weight:700;flex-shrink:0;">1</div>
+              <div style="font-size:12px;color:#5a7a9a;line-height:1.6;">Tourist opens Binance app and taps Pay</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:24px;height:24px;background:#f3ba2f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:11px;font-weight:700;flex-shrink:0;">2</div>
+              <div style="font-size:12px;color:#5a7a9a;line-height:1.6;">Tourist scans this yellow Binance QR code</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:24px;height:24px;background:#f3ba2f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:11px;font-weight:700;flex-shrink:0;">3</div>
+              <div style="font-size:12px;color:#5a7a9a;line-height:1.6;">Enters amount and confirms payment in Binance</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:24px;height:24px;background:#2a9d8f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700;flex-shrink:0;">✓</div>
+              <div style="font-size:12px;color:#5a7a9a;line-height:1.6;">You get a notification here — payment confirmed in Ngultrum!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulated Binance notification -->
+        <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:16px;margin-bottom:12px;">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Live notification preview</div>
+          <!-- Notification 1 — crypto received -->
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border-radius:10px;padding:12px;margin-bottom:8px;">
+            <div style="width:36px;height:36px;background:#f3ba2f;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🟡</div>
+            <div style="flex:1;">
+              <div style="font-size:12px;font-weight:700;color:white;margin-bottom:2px;">Binance Pay — Crypto Received</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);">From tourist · Just now</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:13px;font-weight:700;color:#f3ba2f;">+0.0000234 BTC</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);">Confirmed ✅</div>
+            </div>
+          </div>
+          <!-- Notification 2 — what it means in Nu -->
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(42,157,143,0.1);border-radius:10px;padding:12px;border:1px solid rgba(42,157,143,0.2);">
+            <div style="width:36px;height:36px;background:rgba(42,157,143,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">💱</div>
+            <div style="flex:1;">
+              <div style="font-size:12px;font-weight:700;color:white;margin-bottom:2px;">Estimated value in Ngultrum</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);">Tap Convert to cash out</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:13px;font-weight:700;color:#2a9d8f;">≈ <span id="touristNuVal">Nu. 2,400</span></div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);"><span class="rate-live-status"><span class="rate-live-dot"></span>Live rate</span></div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;margin-top:10px;">You receive crypto → tap Convert to get Ngultrum in your BOB account</div>
+        </div>
+
+        <button class="copy-btn" style="background:linear-gradient(135deg,#f3ba2f,#e6a800);color:var(--navy);" onclick="showNote('Binance QR saved!')">💾 Save Binance Pay QR</button>
       </div>
+
       <div style="background:#fffbe8;border:1px solid #e9c46a;border-radius:10px;padding:12px 14px;margin-top:16px;font-size:12px;color:#5a4a00;">
-        💡 <strong>Tip:</strong> Share this QR code with anyone who wants to send you crypto. You do not need to share your full wallet address — the QR contains it automatically.
+        💡 <strong>Tip:</strong> Show the green QR to Bhutanese locals and the yellow QR to tourists. Both payments will appear in your transaction history automatically.
       </div>
     </div>
   </div>
@@ -891,17 +1016,17 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
             <span class="rate-val" id="rate-send">Nu. 5,000</span>
           </div>
           <div class="rate-row" style="margin-bottom:6px;">
-            <span class="rate-label">Exchange rate</span>
-            <span class="rate-val">1 BTC = Nu. 1,02,15,432</span>
+            <span class="rate-label">Exchange rate <span class="rate-live-status" style="font-size:10px;"><span class="rate-live-dot"></span>Live</span></span>
+            <span class="rate-val">1 BTC = <span class="live-btc-nu">Loading...</span></span>
           </div>
           <div class="rate-row" style="margin-bottom:6px;">
             <span class="rate-label">Exchange fee (0.5%)</span>
-            <span class="rate-val" id="rate-fee">Nu. 25</span>
+            <span class="rate-val" id="rate-fee">Calculating...</span>
           </div>
           <div style="height:1px;background:#e8eef4;margin:8px 0;"></div>
           <div class="rate-row">
             <span class="rate-label" style="font-weight:700;color:var(--navy);">You receive</span>
-            <span class="rate-val" style="color:var(--teal);" id="rate-receive">≈ 0.0000484 BTC</span>
+            <span class="rate-val" style="color:var(--teal);" id="rate-receive">Calculating...</span>
           </div>
         </div>
         <button class="send-btn" onclick="onrampNext(2)">Confirm Amount →</button>
@@ -1059,6 +1184,208 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
   </div>
 </div>
 
+<!-- ══ SCREEN 8 — CONVERT TO NU ══ -->
+<div class="screen hidden" id="convertScreen">
+  <div class="statusbar"><span class="statusbar-time">10:24</span><div class="statusbar-icons"><span>▲▲▲</span><span>🔋</span></div></div>
+  <div class="screen-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="screen-title">Convert to Ngultrum</span>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 108px);padding-bottom:20px;" id="convertBody">
+
+    <!-- STEP 1 — SELECT AMOUNT -->
+    <div id="conv-s1">
+      <div style="padding:20px 20px 0;">
+        <div class="progress-steps">
+          <div class="p-step active"></div>
+          <div class="p-step"></div>
+          <div class="p-step"></div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">Convert Crypto to Nu.</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">Choose how much to convert to Ngultrum</div>
+
+        <!-- Balance -->
+        <div style="background:linear-gradient(135deg,var(--navy),#0f2a45);border-radius:16px;padding:18px;margin-bottom:16px;">
+          <div style="font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Available to Convert</div>
+          <div style="font-size:28px;font-weight:700;color:white;margin-bottom:4px;">0.0001564 BTC</div>
+          <div style="font-size:13px;color:var(--gold);" id="conv-bal-sub">Loading live rate...</div>
+        </div>
+
+        <!-- What to convert -->
+        <span class="field-label" style="display:block;margin-bottom:8px;">Convert from</span>
+        <select class="bank-select" id="convCurrency" onchange="updateConvCalc()">
+          <option value="btc">Bitcoin (BTC) — 0.0001564 BTC</option>
+          <option value="usdt">USDT — 98.22 USDT</option>
+        </select>
+
+        <span class="field-label" style="display:block;margin-bottom:8px;">How much to convert?</span>
+        <div class="quick-pct">
+          <button class="pct-btn" onclick="setPct(this,25)">25%</button>
+          <button class="pct-btn" onclick="setPct(this,50)">50%</button>
+          <button class="pct-btn" onclick="setPct(this,75)">75%</button>
+          <button class="pct-btn active" onclick="setPct(this,100)">All</button>
+        </div>
+        <input class="field-input" type="number" id="convAmount" placeholder="Or enter custom amount..." oninput="updateConvCalc()" style="margin-bottom:12px;">
+
+        <!-- Conversion preview -->
+        <div class="convert-card">
+          <div class="convert-from">
+            <div class="convert-label">You Convert</div>
+            <div class="convert-amount" id="convFrom">0.0001564 BTC</div>
+            <div class="convert-sub" id="convFromSub">Full balance</div>
+          </div>
+          <div class="convert-arrow">↓</div>
+          <div class="convert-to">
+            <div class="convert-label">You Receive</div>
+            <div class="convert-amount" id="convTo" style="color:#1a4a7a;">Nu. 12,025</div>
+            <div class="convert-sub" id="convToSub">After 0.2% conversion fee · Nu. 25 deducted</div>
+          </div>
+        </div>
+
+        <div class="rate-box">
+          <div class="rate-row" style="margin-bottom:6px;">
+            <span class="rate-label">Exchange rate <span class="rate-live-status" style="font-size:10px;"><span class="rate-live-dot"></span>Live</span></span>
+            <span class="rate-val">1 BTC = <span class="live-btc-nu">Loading...</span></span>
+          </div>
+          <div class="rate-row" style="margin-bottom:6px;">
+            <span class="rate-label">Conversion fee (0.2%)</span>
+            <span class="rate-val" id="convFee">Calculating...</span>
+          </div>
+          <div style="height:1px;background:#e8eef4;margin:8px 0;"></div>
+          <div class="rate-row">
+            <span class="rate-label" style="font-weight:700;color:var(--navy);">Net Ngultrum</span>
+            <span class="rate-val" style="color:var(--teal);" id="convNet">Calculating...</span>
+          </div>
+        </div>
+
+        <div style="background:#fffbe8;border:1px solid #e9c46a;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#5a4a00;">
+          💡 <strong>Tip:</strong> The Ngultrum will be transferred to your bank account within 1-2 business days after conversion is confirmed.
+        </div>
+        <button class="send-btn" onclick="convNext(1)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 — SELECT BANK ACCOUNT -->
+    <div id="conv-s2" style="display:none;">
+      <div style="padding:20px 20px 0;">
+        <div class="progress-steps">
+          <div class="p-step done"></div>
+          <div class="p-step active"></div>
+          <div class="p-step"></div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">Select Bank Account</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">Where should the Ngultrum be sent?</div>
+
+        <!-- Summary -->
+        <div style="background:rgba(42,106,173,0.06);border:1px solid rgba(42,106,173,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:2px;">Converting</div>
+            <div style="font-size:15px;font-weight:700;color:var(--navy);" id="conv-summary-from">0.0001564 BTC</div>
+          </div>
+          <div style="font-size:20px;color:var(--teal);">→</div>
+          <div style="text-align:right;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:2px;">You receive</div>
+            <div style="font-size:15px;font-weight:700;color:#1a4a7a;" id="conv-summary-to">Nu. 12,025</div>
+          </div>
+        </div>
+
+        <div class="account-card selected" id="acc-bob" onclick="selectAccount('bob')">
+          <div class="account-icon">🏦</div>
+          <div class="account-info">
+            <h4>Bank of Bhutan — mBoB</h4>
+            <p>Account ending ••••4892 · Deki Wangmo</p>
+          </div>
+          <div class="account-check on" id="acc-bob-check">✓</div>
+        </div>
+
+        <div style="background:#f8fafc;border:1px dashed #dce6f0;border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Add New Account</div>
+          <input class="field-input" type="text" placeholder="Account number" style="margin-bottom:10px;">
+          <select class="bank-select" style="margin-bottom:0;">
+            <option>Select Bank...</option>
+            <option>Bank of Bhutan (BOB)</option>
+            <option>Bhutan National Bank (BNB)</option>
+            <option>BDBL</option>
+            <option>T Bank</option>
+            <option>Druk PNB</option>
+          </select>
+        </div>
+
+        <div style="background:#fffbe8;border:1px solid #e9c46a;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#5a4a00;">
+          💡 <strong>Note:</strong> The bank account must be registered under the same name as your DrukShift Wallet to comply with RMA regulations.
+        </div>
+        <button class="send-btn" onclick="convNext(2)">Confirm Transfer →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 — PROCESSING + SUCCESS -->
+    <div id="conv-s3" style="display:none;">
+      <div style="padding:20px;" id="conv-processing">
+        <div class="progress-steps">
+          <div class="p-step done"></div>
+          <div class="p-step done"></div>
+          <div class="p-step active"></div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;">Processing Conversion</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:20px;">Converting your crypto to Ngultrum</div>
+
+        <div class="processing-anim">
+          <div class="processing-spinner" id="convSpinner"></div>
+          <div style="font-size:15px;font-weight:700;color:var(--navy);" id="convProcTitle">Selling Bitcoin on exchange...</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px;">Please wait while we process</div>
+        </div>
+
+        <div class="processing-steps">
+          <div class="proc-step" id="cp1"><div class="proc-dot active"></div>Selling BTC on DrukShift Exchange</div>
+          <div class="proc-step" id="cp2"><div class="proc-dot pending"></div>Converting to Ngultrum at live rate</div>
+          <div class="proc-step" id="cp3"><div class="proc-dot pending"></div>Sending via BIPS to BOB account</div>
+          <div class="proc-step" id="cp4"><div class="proc-dot pending"></div>Crediting your BOB mBoB account</div>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div style="display:none;padding:20px;" id="conv-success">
+        <div style="text-align:center;padding:16px 0;">
+          <div style="font-size:72px;animation:successPop 0.5s ease;display:block;margin-bottom:16px;">🏦</div>
+          <div style="font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;">Conversion Complete!</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">Your Ngultrum is on its way to your BOB account</div>
+        </div>
+
+        <div style="background:white;border-radius:16px;padding:20px;box-shadow:0 2px 20px rgba(8,25,45,0.06);margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;">
+            <span style="color:var(--muted);">Crypto sold</span>
+            <span style="font-weight:700;color:var(--navy);">0.0001564 BTC</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;">
+            <span style="color:var(--muted);">Conversion fee (0.2%)</span>
+            <span style="font-weight:700;color:var(--navy);">Nu. 25</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;">
+            <span style="color:var(--muted);">Ngultrum sent</span>
+            <span style="font-weight:700;color:#1a4a7a;">Nu. 12,025</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f4f8;font-size:13px;">
+            <span style="color:var(--muted);">Destination</span>
+            <span style="font-weight:700;color:var(--navy);">BOB ••••4892</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:13px;">
+            <span style="color:var(--muted);">Expected arrival</span>
+            <span style="font-weight:700;color:var(--green);">1-2 business days</span>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg,rgba(42,157,143,0.08),rgba(233,196,106,0.08));border:1px solid rgba(42,157,143,0.2);border-radius:12px;padding:14px 16px;margin-bottom:20px;">
+          <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">🇧🇹 GNH Moment</div>
+          <div style="font-size:12px;color:#2d4a5a;line-height:1.7;font-style:italic;">"Deki sold the Bitcoin she received from the tourist and sent it straight to her BOB account. Crypto in. Ngultrum out. No middleman. No confusion."</div>
+        </div>
+
+        <button class="send-btn" onclick="convDone()">Back to Wallet →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ── DEMO NOTE ── -->
 <div class="demo-note" id="demoNote"></div>
 
@@ -1071,6 +1398,178 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
 </div>
 
 <script>
+
+
+
+
+// ── LIVE CRYPTO RATES ──
+var liveRates = { btc_usd: 0, btc_nu: 0, usdt_nu: 127.3, lastUpdated: null };
+
+async function fetchLiveRates() {
+  try {
+    // Show updating state
+    document.querySelectorAll('.rate-live-status').forEach(function(e){
+      e.textContent = 'Updating...';
+      e.style.color = 'rgba(255,255,255,0.3)';
+    });
+
+    var res = await fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
+      { signal: AbortSignal.timeout(5000) }
+    );
+    var data = await res.json();
+    var btcUsd = data.bitcoin.usd;
+    var usdToNu = 127.3;
+    liveRates.btc_usd = btcUsd;
+    liveRates.btc_nu  = Math.round(btcUsd * usdToNu);
+    liveRates.lastUpdated = new Date();
+
+    updateRateDisplays();
+    console.log('Live BTC rate fetched: $' + btcUsd + ' = Nu.' + liveRates.btc_nu);
+  } catch(err) {
+    console.log('Rate fetch failed, using fallback:', err);
+    // Fallback rate if API fails
+    if(!liveRates.btc_nu) {
+      liveRates.btc_nu  = 102154320;
+      liveRates.btc_usd = 102154320 / 127.3;
+    }
+    document.querySelectorAll('.rate-live-status').forEach(function(e){
+      e.textContent = 'Cached rate';
+      e.style.color = 'rgba(244,162,97,0.6)';
+    });
+  }
+}
+
+function updateRateDisplays() {
+  var nu = liveRates.btc_nu;
+  var usd = Math.round(liveRates.btc_usd);
+  var now = liveRates.lastUpdated;
+  var timeStr = now ? now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') : '--:--';
+
+  // Update all rate displays
+  document.querySelectorAll('.live-btc-nu').forEach(function(e){ e.textContent = 'Nu. ' + nu.toLocaleString(); });
+  document.querySelectorAll('.live-btc-usd').forEach(function(e){ e.textContent = '$' + usd.toLocaleString(); });
+  document.querySelectorAll('.live-updated').forEach(function(e){ e.textContent = 'Updated ' + timeStr; });
+  document.querySelectorAll('.rate-live-status').forEach(function(e){
+    e.innerHTML = '<span class="rate-live-dot"></span>Live rate';
+    e.style.color = '#5cb85c';
+  });
+
+  // Update home balance in BTC equivalent
+  var btcBal = 0.0001564;
+  var nuVal = Math.round(btcBal * nu);
+  var homeBalEl = document.getElementById('homeBtcNu');
+  if(homeBalEl) homeBalEl.textContent = 'Nu. ' + nuVal.toLocaleString();
+
+  // Update convert calculations
+  updateConvCalc();
+  updateRates();
+}
+
+// Fetch on load and every 60 seconds
+window.addEventListener('load', function(){
+  fetchLiveRates();
+  setInterval(fetchLiveRates, 60000);
+});
+
+// ── QR SWITCH ──
+function switchQR(type) {
+  document.getElementById('qr-local').style.display = type==='local' ? 'block' : 'none';
+  document.getElementById('qr-tourist').style.display = type==='tourist' ? 'block' : 'none';
+  document.getElementById('qr-local-btn').classList.toggle('active', type==='local');
+  document.getElementById('qr-tourist-btn').classList.toggle('active', type==='tourist');
+}
+
+// ── CONVERT OFF-RAMP ──
+var convPct = 100;
+var convTimers = [];
+
+function setPct(btn, pct) {
+  convPct = pct;
+  document.querySelectorAll('.pct-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  updateConvCalc();
+}
+
+function updateConvCalc() {
+  var curr = document.getElementById('convCurrency').value;
+  var custom = parseFloat(document.getElementById('convAmount').value);
+  var btcBal = 0.0001564, usdtBal = 98.22;
+  var btcRate = liveRates.btc_nu || 102154320;
+  var usdtRate = liveRates.usdt_nu || 127.3;
+  // Update balance sub
+  var convBalSub = document.getElementById('conv-bal-sub');
+  if(convBalSub) convBalSub.textContent = '≈ Nu. ' + Math.round(btcBal * btcRate).toLocaleString() + ' · 98.22 USDT';
+  var bal = curr === 'btc' ? btcBal : usdtBal;
+  var rate = curr === 'btc' ? btcRate : usdtRate;
+  var unit = curr === 'btc' ? 'BTC' : 'USDT';
+  var amt = custom > 0 ? custom : (bal * convPct / 100);
+  var gross = amt * rate;
+  var fee = Math.round(gross * 0.002);
+  var net = Math.round(gross - fee);
+  document.getElementById('convFrom').textContent = amt.toFixed(curr==='btc'?7:2) + ' ' + unit;
+  document.getElementById('convFromSub').textContent = convPct + '% of balance';
+  document.getElementById('convTo').textContent = 'Nu. ' + gross.toLocaleString(undefined,{maximumFractionDigits:0});
+  document.getElementById('convToSub').textContent = 'After 0.2% fee · Nu. ' + fee + ' deducted';
+  document.getElementById('convFee').textContent = 'Nu. ' + fee.toLocaleString();
+  document.getElementById('convNet').textContent = 'Nu. ' + net.toLocaleString();
+  document.getElementById('conv-summary-from').textContent = amt.toFixed(curr==='btc'?7:2) + ' ' + unit;
+  document.getElementById('conv-summary-to').textContent = 'Nu. ' + net.toLocaleString();
+}
+
+function selectAccount(id) {
+  document.querySelectorAll('.account-card').forEach(function(c){ c.classList.remove('selected'); });
+  document.querySelectorAll('.account-check').forEach(function(c){ c.classList.remove('on'); c.textContent=''; });
+  document.getElementById('acc-'+id).classList.add('selected');
+  document.getElementById('acc-'+id+'-check').classList.add('on');
+  document.getElementById('acc-'+id+'-check').textContent='✓';
+}
+
+function convNext(step) {
+  ['conv-s1','conv-s2','conv-s3'].forEach(function(id){
+    document.getElementById(id).style.display='none';
+  });
+  document.getElementById('conv-s'+(step+1)).style.display='block';
+  document.getElementById('convertBody').scrollTop=0;
+  if(step===2) startConvProcessing();
+}
+
+function startConvProcessing() {
+  var steps=['cp1','cp2','cp3','cp4'];
+  var titles=['Selling BTC on exchange...','Converting to Ngultrum...','Sending via BIPS to BOB...','Crediting your mBoB account...'];
+  steps.forEach(function(id){
+    document.getElementById(id).querySelector('.proc-dot').className='proc-dot pending';
+  });
+  steps.forEach(function(id,i){
+    var t=setTimeout(function(){
+      if(i>0) document.getElementById(steps[i-1]).querySelector('.proc-dot').className='proc-dot done';
+      document.getElementById(id).querySelector('.proc-dot').className='proc-dot active';
+      document.getElementById('convProcTitle').textContent=titles[i];
+    },(i+1)*1400);
+    convTimers.push(t);
+  });
+  var done=setTimeout(function(){
+    document.getElementById(steps[3]).querySelector('.proc-dot').className='proc-dot done';
+    document.getElementById('conv-processing').style.display='none';
+    document.getElementById('conv-success').style.display='block';
+  },7000);
+  convTimers.push(done);
+}
+
+function convDone() {
+  convTimers.forEach(function(t){clearTimeout(t);});
+  convTimers=[];
+  ['conv-s1','conv-s2','conv-s3'].forEach(function(id){
+    document.getElementById(id).style.display='none';
+  });
+  document.getElementById('conv-s1').style.display='block';
+  document.getElementById('conv-processing').style.display='block';
+  document.getElementById('conv-success').style.display='none';
+  history_stack=[];
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.add('hidden');s.classList.remove('slide-left');});
+  document.getElementById('homeScreen').classList.remove('hidden');
+  showNote('Nu. 12,025 sent to BOB account!');
+}
 
 // ── ON-RAMP ──
 var orAmount = 5000;
@@ -1098,7 +1597,8 @@ function setCustomAmount(){
 function updateRates(){
   var fee=Math.round(orAmount*0.005);
   var net=orAmount-fee;
-  var btc=(net/102154320).toFixed(7);
+  var btcRate = liveRates.btc_nu || 102154320;
+  var btc=(net/btcRate).toFixed(7);
   document.getElementById('rate-send').textContent='Nu. '+orAmount.toLocaleString();
   document.getElementById('rate-fee').textContent='Nu. '+fee.toLocaleString();
   document.getElementById('rate-receive').textContent='≈ '+btc+' BTC';
