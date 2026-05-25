@@ -258,6 +258,67 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
 
 
 
+
+/* ── LIVE CONVERTER ── */
+.fab-converter{
+  position:absolute;bottom:90px;right:16px;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#c8a020);
+  border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(233,196,106,0.5);
+  font-size:22px;display:flex;align-items:center;justify-content:center;
+  z-index:50;transition:all 0.2s;
+  animation:fabBounce 2s ease-in-out infinite;
+}
+.fab-converter:active{transform:scale(0.92);}
+@keyframes fabBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+.converter-overlay{
+  position:absolute;inset:0;z-index:200;
+  background:rgba(8,25,45,0.7);
+  opacity:0;pointer-events:none;
+  transition:opacity 0.3s;
+}
+.converter-overlay.show{opacity:1;pointer-events:all;}
+.converter-sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:#f0f4f8;border-radius:24px 24px 0 0;
+  padding:0 0 20px;
+  transform:translateY(100%);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  max-height:88%;overflow-y:auto;
+}
+.converter-overlay.show .converter-sheet{transform:translateY(0);}
+.converter-handle{width:40px;height:4px;background:#dce6f0;border-radius:2px;margin:12px auto 0;}
+.converter-head{padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between;}
+.converter-head-title{font-size:17px;font-weight:700;color:var(--navy);}
+.converter-close{width:32px;height:32px;border-radius:50%;background:#e8eef4;border:none;font-size:16px;cursor:pointer;}
+
+.conv-input-wrap{padding:16px 20px;}
+.conv-input-row{display:flex;align-items:center;gap:10px;background:white;border-radius:14px;padding:14px 16px;border:2px solid #e8eef4;margin-bottom:10px;transition:border 0.2s;}
+.conv-input-row.active-input{border-color:var(--teal);}
+.conv-currency-badge{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.conv-currency-info{flex:1;}
+.conv-currency-name{font-size:12px;font-weight:700;color:var(--navy);}
+.conv-currency-full{font-size:10px;color:var(--muted);}
+.conv-input-field{text-align:right;font-size:20px;font-weight:700;color:var(--navy);border:none;outline:none;background:none;font-family:"Outfit",sans-serif;width:120px;}
+
+.rates-grid{padding:0 20px;}
+.rates-title{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.rate-row-item{display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 14px;margin-bottom:8px;border:1px solid #e8eef4;}
+.rate-coin-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.rate-coin-info{flex:1;}
+.rate-coin-name{font-size:13px;font-weight:700;color:var(--navy);}
+.rate-coin-price{font-size:10px;color:var(--muted);margin-top:1px;}
+.rate-coin-equiv{text-align:right;}
+.rate-coin-amount{font-size:14px;font-weight:700;color:var(--navy);}
+.rate-coin-nu{font-size:10px;color:var(--muted);margin-top:1px;}
+.rate-coin-change{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;}
+.rate-coin-change.up{background:#e1f5ee;color:#085041;}
+.rate-coin-change.down{background:#fcebeb;color:#a32d2d;}
+.conv-loading{text-align:center;padding:20px;color:var(--muted);font-size:13px;}
+.conv-refresh-btn{width:100%;padding:12px;background:white;border:1px solid #e8eef4;border-radius:12px;font-size:13px;font-weight:600;color:var(--teal);cursor:pointer;margin:8px 0;font-family:"Outfit",sans-serif;}
+
 /* ── LIVE RATE ── */
 .rate-ticker{
   background:linear-gradient(135deg,var(--navy),#0f2a45);
@@ -1386,6 +1447,50 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
   </div>
 </div>
 
+<!-- ══ FLOATING CONVERTER BUTTON ══ -->
+<button class="fab-converter" onclick="toggleConverter()" title="Live Currency Converter">💱</button>
+
+<!-- ══ CONVERTER OVERLAY ══ -->
+<div class="converter-overlay" id="converterOverlay" onclick="closeConverterOutside(event)">
+  <div class="converter-sheet" id="converterSheet">
+    <div class="converter-handle"></div>
+    <div class="converter-head">
+      <div class="converter-head-title">💱 Live Converter</div>
+      <button class="converter-close" onclick="toggleConverter()">✕</button>
+    </div>
+
+    <!-- Input area -->
+    <div class="conv-input-wrap">
+      <div class="conv-input-row active-input" id="nuRow">
+        <div class="conv-currency-badge" style="background:rgba(42,157,143,0.1);">🇧🇹</div>
+        <div class="conv-currency-info">
+          <div class="conv-currency-name">Ngultrum</div>
+          <div class="conv-currency-full">BTN · Bhutan</div>
+        </div>
+        <input class="conv-input-field" type="number" id="nuInput" value="2500" placeholder="0" oninput="convertFromNu()">
+      </div>
+      <div style="text-align:center;font-size:18px;color:var(--teal);margin:-4px 0;">⇅</div>
+      <div style="background:#e8eef4;border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;color:var(--muted);">Quick amounts:</span>
+        <button onclick="setNuAmount(500)" style="padding:4px 10px;background:white;border:1px solid #dce6f0;border-radius:6px;font-size:11px;font-weight:600;color:var(--navy);cursor:pointer;">Nu.500</button>
+        <button onclick="setNuAmount(1000)" style="padding:4px 10px;background:white;border:1px solid #dce6f0;border-radius:6px;font-size:11px;font-weight:600;color:var(--navy);cursor:pointer;">Nu.1K</button>
+        <button onclick="setNuAmount(2500)" style="padding:4px 10px;background:var(--teal);border:1px solid var(--teal);border-radius:6px;font-size:11px;font-weight:600;color:white;cursor:pointer;">Nu.2.5K</button>
+        <button onclick="setNuAmount(5000)" style="padding:4px 10px;background:white;border:1px solid #dce6f0;border-radius:6px;font-size:11px;font-weight:600;color:var(--navy);cursor:pointer;">Nu.5K</button>
+      </div>
+    </div>
+
+    <!-- Rates grid -->
+    <div class="rates-grid">
+      <div class="rates-title"><span class="rate-live-dot"></span> Live rates — Nu. <span id="convNuLabel">2,500</span> equals</div>
+      <div id="convRatesGrid">
+        <div class="conv-loading">⏳ Fetching live rates...</div>
+      </div>
+      <button class="conv-refresh-btn" onclick="fetchAllRates()">🔄 Refresh Rates</button>
+      <div style="text-align:center;font-size:10px;color:var(--muted);padding-bottom:8px;">Rates from CoinGecko · Updates every 60s · 1 USD = Nu. 127.3</div>
+    </div>
+  </div>
+</div>
+
 <!-- ── DEMO NOTE ── -->
 <div class="demo-note" id="demoNote"></div>
 
@@ -1401,6 +1506,130 @@ html,body{height:100%;font-family:"Outfit",sans-serif;background:#f0f4f8;color:#
 
 
 
+
+
+// ── LIVE CONVERTER ──
+var allRates = {};
+var cryptoList = [
+  { id:'bitcoin',       sym:'BTC',  name:'Bitcoin',        icon:'₿',  color:'#f7931a', bg:'rgba(247,147,26,0.12)' },
+  { id:'ethereum',      sym:'ETH',  name:'Ethereum',       icon:'Ξ',  color:'#627eea', bg:'rgba(98,126,234,0.12)' },
+  { id:'tether',        sym:'USDT', name:'Tether USD',     icon:'💲', color:'#26a17b', bg:'rgba(38,161,123,0.12)' },
+  { id:'binancecoin',   sym:'BNB',  name:'BNB',            icon:'🟡', color:'#f3ba2f', bg:'rgba(243,186,47,0.12)' },
+  { id:'ripple',        sym:'XRP',  name:'XRP',            icon:'✕',  color:'#346aa9', bg:'rgba(52,106,169,0.12)' },
+  { id:'solana',        sym:'SOL',  name:'Solana',         icon:'◎',  color:'#9945ff', bg:'rgba(153,69,255,0.12)' },
+  { id:'dogecoin',      sym:'DOGE', name:'Dogecoin',       icon:'🐕', color:'#c2a633', bg:'rgba(194,166,51,0.12)' },
+  { id:'cardano',       sym:'ADA',  name:'Cardano',        icon:'₳',  color:'#0033ad', bg:'rgba(0,51,173,0.12)'   },
+  { id:'avalanche-2',   sym:'AVAX', name:'Avalanche',      icon:'🔺', color:'#e84142', bg:'rgba(232,65,66,0.12)'  },
+  { id:'tron',          sym:'TRX',  name:'TRON',           icon:'🔴', color:'#ef0027', bg:'rgba(239,0,39,0.12)'   },
+];
+var convNuAmount = 2500;
+
+function toggleConverter() {
+  var overlay = document.getElementById('converterOverlay');
+  overlay.classList.toggle('show');
+  if(overlay.classList.contains('show')) {
+    if(Object.keys(allRates).length === 0) fetchAllRates();
+    else renderConvRates();
+  }
+}
+
+function closeConverterOutside(e) {
+  if(e.target === document.getElementById('converterOverlay')) toggleConverter();
+}
+
+async function fetchAllRates() {
+  document.getElementById('convRatesGrid').innerHTML = '<div class="conv-loading">⏳ Fetching live rates...</div>';
+  try {
+    var ids = cryptoList.map(function(c){ return c.id; }).join(',');
+    var res = await fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=' + ids + '&vs_currencies=usd&include_24hr_change=true',
+      { signal: AbortSignal.timeout(6000) }
+    );
+    var data = await res.json();
+    var usdToNu = 127.3;
+    cryptoList.forEach(function(c) {
+      if(data[c.id]) {
+        allRates[c.sym] = {
+          usd: data[c.id].usd,
+          nu:  data[c.id].usd * usdToNu,
+          change: data[c.id].usd_24h_change || 0
+        };
+      }
+    });
+    // Update global BTC rate
+    if(allRates['BTC']) {
+      liveRates.btc_usd = allRates['BTC'].usd;
+      liveRates.btc_nu  = Math.round(allRates['BTC'].nu);
+      updateRateDisplays();
+    }
+    renderConvRates();
+  } catch(err) {
+    // Fallback rates
+    var fallback = {
+      BTC:{usd:76135,nu:76135*127.3,change:-1.2},
+      ETH:{usd:3200,nu:3200*127.3,change:0.8},
+      USDT:{usd:1,nu:127.3,change:0.01},
+      BNB:{usd:580,nu:580*127.3,change:-0.5},
+      XRP:{usd:0.52,nu:0.52*127.3,change:1.1},
+      SOL:{usd:145,nu:145*127.3,change:2.3},
+      DOGE:{usd:0.12,nu:0.12*127.3,change:-0.8},
+      ADA:{usd:0.45,nu:0.45*127.3,change:0.3},
+      AVAX:{usd:28,nu:28*127.3,change:-1.5},
+      TRX:{usd:0.11,nu:0.11*127.3,change:0.2}
+    };
+    allRates = fallback;
+    renderConvRates();
+    document.getElementById('convRatesGrid').insertAdjacentHTML('beforeend',
+      '<div style="text-align:center;font-size:11px;color:var(--accent);padding:4px;">⚠️ Using cached rates — check internet connection</div>'
+    );
+  }
+}
+
+function renderConvRates() {
+  var nu = parseFloat(document.getElementById('nuInput').value) || 2500;
+  convNuAmount = nu;
+  document.getElementById('convNuLabel').textContent = nu.toLocaleString();
+  var html = '';
+  cryptoList.forEach(function(c) {
+    var r = allRates[c.sym];
+    if(!r) return;
+    var cryptoAmt = nu / r.nu;
+    var fmtAmt = cryptoAmt < 0.001 ? cryptoAmt.toFixed(8) : cryptoAmt < 1 ? cryptoAmt.toFixed(6) : cryptoAmt.toFixed(4);
+    var change = r.change.toFixed(2);
+    var changeClass = r.change >= 0 ? 'up' : 'down';
+    var changeStr = (r.change >= 0 ? '+' : '') + change + '%';
+    var nuPerOne = r.nu >= 1000 ? 'Nu.' + Math.round(r.nu).toLocaleString() : 'Nu.' + r.nu.toFixed(2);
+    html += '<div class="rate-row-item">' +
+      '<div class="rate-coin-icon" style="background:' + c.bg + ';color:' + c.color + ';">' + c.icon + '</div>' +
+      '<div class="rate-coin-info">' +
+        '<div class="rate-coin-name">' + c.sym + ' — ' + c.name + '</div>' +
+        '<div class="rate-coin-price">1 ' + c.sym + ' = ' + nuPerOne + ' <span class="rate-coin-change ' + changeClass + '">' + changeStr + '</span></div>' +
+      '</div>' +
+      '<div class="rate-coin-equiv">' +
+        '<div class="rate-coin-amount">' + fmtAmt + ' ' + c.sym + '</div>' +
+        '<div class="rate-coin-nu">for Nu. ' + nu.toLocaleString() + '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('convRatesGrid').innerHTML = html || '<div class="conv-loading">No rates available</div>';
+}
+
+function convertFromNu() {
+  var nu = parseFloat(document.getElementById('nuInput').value) || 0;
+  convNuAmount = nu;
+  if(Object.keys(allRates).length > 0) renderConvRates();
+}
+
+function setNuAmount(amt) {
+  document.getElementById('nuInput').value = amt;
+  convertFromNu();
+}
+
+// Refresh rates every 60 seconds when converter is open
+setInterval(function(){
+  var overlay = document.getElementById('converterOverlay');
+  if(overlay && overlay.classList.contains('show')) fetchAllRates();
+}, 60000);
 
 // ── LIVE CRYPTO RATES ──
 var liveRates = { btc_usd: 0, btc_nu: 0, usdt_nu: 127.3, lastUpdated: null };
