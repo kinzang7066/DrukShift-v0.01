@@ -470,6 +470,57 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
     .btn-primary,.btn-secondary{font-size:13px;padding:12px 20px;}
 }
 
+
+/* ── WELCOME POPUP ── */
+.welcome-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(8,25,45,0.85);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  animation:fadeIn 0.5s ease;
+}
+.welcome-card{
+  background:white;border-radius:24px;
+  max-width:420px;width:100%;
+  overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,0.4);
+  animation:slideUp 0.5s ease;
+}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.welcome-header{
+  background:linear-gradient(160deg,var(--navy),#0f2a45);
+  padding:28px 28px 24px;text-align:center;position:relative;overflow:hidden;
+}
+.welcome-header::before{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:16px 16px;
+}
+.welcome-flag{font-size:36px;margin-bottom:8px;position:relative;}
+.welcome-logo{font-size:22px;font-weight:700;color:white;position:relative;}
+.welcome-logo span{color:var(--accent);}
+.welcome-tagline{font-size:13px;color:var(--muted);margin-top:4px;position:relative;}
+.welcome-body{padding:24px 28px;}
+.welcome-title{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.welcome-sub{font-size:13px;color:#7a9bb5;margin-bottom:20px;line-height:1.6;}
+.welcome-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.welcome-step{display:flex;align-items:flex-start;gap:14px;padding:14px;background:#f8fafc;border-radius:14px;border:1px solid #e8eef4;cursor:pointer;transition:all 0.2s;text-decoration:none;}
+.welcome-step:hover{background:#eef6ff;border-color:#c8d8f0;transform:translateX(4px);}
+.ws-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;flex-shrink:0;}
+.ws-text h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.ws-text p{font-size:11px;color:#7a9bb5;line-height:1.5;}
+.welcome-cta{
+  width:100%;padding:16px;
+  background:linear-gradient(135deg,var(--accent),#e8935a);
+  color:var(--navy);border:none;border-radius:12px;
+  font-size:15px;font-weight:700;font-family:"Outfit",sans-serif;
+  cursor:pointer;transition:all 0.2s;
+}
+.welcome-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(244,162,97,0.4);}
+.welcome-skip{display:block;text-align:center;margin-top:12px;font-size:12px;color:#7a9bb5;cursor:pointer;background:none;border:none;font-family:"Outfit",sans-serif;width:100%;}
+.welcome-skip:hover{color:var(--navy);}
+
 /* ═══════════════════════════════════════
    LOADING SCREEN
 ═══════════════════════════════════════ */
@@ -894,6 +945,38 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
         </div>
         <h1>Cryptocurrency<br><em>Readiness</em><br>in Bhutan</h1>
         <p class="hero-desc">A data-driven survey project by <strong style="color:var(--accent)">Kinzang Choden</strong> — 3rd Year Business Intelligence Student who completed her internship at Bhutan Data Scientists Pvt. Ltd, examining whether Bhutanese adults are prepared to adopt cryptocurrency — aligned with Bhutan's GNH values.</p>
+        <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;animation:fadeUp 0.6s 0.3s ease both;">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">113</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Respondents</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">80%</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Overall Readiness</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">96%</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Crypto Awareness</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">7</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Key Findings</div>
+          </div>
+        </div>
+
+        <!-- HOW TO EXPLORE STRIP -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px;animation:fadeUp 0.6s 0.35s ease both;">
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:50px;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;">
+            <span style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;letter-spacing:1px;text-transform:uppercase;">Start here</span>
+            <span style="color:rgba(255,255,255,0.2);">|</span>
+            <span style="font-size:12px;color:var(--accent);font-weight:700;cursor:pointer;" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'})">🎯 1. Take the Quiz</span>
+            <span style="color:rgba(255,255,255,0.2);">→</span>
+            <span style="font-size:12px;color:var(--teal);font-weight:700;cursor:pointer;" onclick="document.getElementById('findings').scrollIntoView({behavior:'smooth',block:'start'})">📊 2. See Findings</span>
+            <span style="color:rgba(255,255,255,0.2);">→</span>
+            <span style="font-size:12px;color:var(--gold);font-weight:700;cursor:pointer;" onclick="window.open('drukshift_wallet.html','_blank')">👛 3. Try Wallet</span>
+          </div>
+        </div>
+
         <div class="hero-buttons">
             <a href="#gnh" class="btn-primary">🇧🇹 View GNH Story</a>
             <a href="#findings" class="btn-secondary">🔑 View Key Findings</a>
@@ -928,6 +1011,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
     <div class="stat-item"><div class="stat-num">96%</div><div class="stat-lbl">Crypto Awareness</div></div>
     <div class="stat-item"><div class="stat-num">12.75</div><div class="stat-lbl">Avg Score / 16</div></div>
     <div class="stat-item"><div class="stat-num">#1</div><div class="stat-lbl">Barrier: Internet</div></div>
+</section>
 
 <section class="story-section" id="story">
 
@@ -2483,6 +2567,39 @@ window.addEventListener('scroll', bcUpdate, {passive:true});
 window.addEventListener('load', function(){
     bcUpdate();
     document.getElementById('breadcrumb').classList.add('hidden');
+});
+
+
+// ── WELCOME POPUP ──
+function closeWelcome() {
+  var overlay = document.getElementById('welcomeOverlay');
+  if(overlay) {
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s ease';
+    setTimeout(function(){ overlay.style.display = 'none'; }, 300);
+    localStorage.setItem('drukshift-visited', '1');
+  }
+}
+function startHere(section) {
+  closeWelcome();
+  setTimeout(function(){
+    if(false) {
+    } else {
+      var el = document.getElementById(section);
+      if(el) {
+        var top = el.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    }
+  }, 350);
+}
+// Only show once per session — not every visit
+window.addEventListener('DOMContentLoaded', function(){
+  var visited = localStorage.getItem('drukshift-visited');
+  if(visited) {
+    var overlay = document.getElementById('welcomeOverlay');
+    if(overlay) overlay.style.display = 'none';
+  }
 });
 
 </script>
