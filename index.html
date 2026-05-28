@@ -471,6 +471,31 @@ footer{background:var(--navy);padding:60px 48px 40px;text-align:center;}
 }
 
 
+
+/* ── START HERE FLOATING ANIMATION ── */
+@keyframes floatStrip {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 20px rgba(244,162,97,0.3), 0 0 40px rgba(244,162,97,0.1); }
+  50%     { box-shadow: 0 0 40px rgba(244,162,97,0.7), 0 0 80px rgba(244,162,97,0.3), 0 0 120px rgba(233,196,106,0.2); }
+}
+@keyframes blinkBorder {
+  0%,100% { border-color: rgba(244,162,97,0.6); }
+  50%     { border-color: rgba(244,162,97,1); }
+}
+@keyframes startLabelPulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%     { opacity:0.7; transform:scale(1.08); }
+}
+.start-here-strip {
+  animation: floatStrip 2.5s ease-in-out infinite, glowPulse 2.5s ease-in-out infinite, blinkBorder 2.5s ease-in-out infinite !important;
+}
+.start-here-label {
+  animation: startLabelPulse 1.2s ease-in-out infinite !important;
+}
+
 /* ── WELCOME POPUP ── */
 .welcome-overlay{
   position:fixed;inset:0;z-index:9999;
@@ -966,14 +991,16 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <!-- HOW TO EXPLORE STRIP -->
         <div style="display:flex;align-items:center;justify-content:center;margin-bottom:28px;animation:fadeUp 0.6s 0.35s ease both;">
-          <div style="background:linear-gradient(135deg,rgba(244,162,97,0.18),rgba(42,157,143,0.18));border:2px solid rgba(244,162,97,0.6);border-radius:16px;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;box-shadow:0 0 24px rgba(244,162,97,0.25);">
-            <span style="font-size:12px;color:var(--gold);font-weight:800;letter-spacing:2px;text-transform:uppercase;">👇 Start Here</span>
+          <div class="start-here-strip" style="background:linear-gradient(135deg,rgba(244,162,97,0.22),rgba(42,157,143,0.18));border:2px solid rgba(244,162,97,0.6);border-radius:16px;padding:14px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;box-shadow:0 0 24px rgba(244,162,97,0.25);">
+            <span class="start-here-label" style="font-size:13px;color:var(--gold);font-weight:800;letter-spacing:2px;text-transform:uppercase;display:inline-block;">👇 Start Here</span>
             <span style="width:1px;height:20px;background:rgba(255,255,255,0.2);display:inline-block;"></span>
-            <span style="font-size:14px;color:white;font-weight:700;cursor:pointer;padding:6px 14px;background:rgba(244,162,97,0.25);border-radius:8px;border:1px solid rgba(244,162,97,0.4);transition:all 0.2s;" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'})">🎯 1. Take the Quiz</span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(233,196,106,0.25);border-radius:8px;border:1px solid rgba(233,196,106,0.5);transition:all 0.2s;" onclick="window.open('drukshift_story.html','_blank')">🎬 1. Read Webtoon</span>
             <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
-            <span style="font-size:14px;color:white;font-weight:700;cursor:pointer;padding:6px 14px;background:rgba(42,157,143,0.25);border-radius:8px;border:1px solid rgba(42,157,143,0.4);transition:all 0.2s;" onclick="document.getElementById('findings').scrollIntoView({behavior:'smooth',block:'start'})">📊 2. See Findings</span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(244,162,97,0.25);border-radius:8px;border:1px solid rgba(244,162,97,0.5);transition:all 0.2s;" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'})">🎯 2. Take the Quiz</span>
             <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
-            <span style="font-size:14px;color:white;font-weight:700;cursor:pointer;padding:6px 14px;background:rgba(233,196,106,0.25);border-radius:8px;border:1px solid rgba(233,196,106,0.4);transition:all 0.2s;" onclick="window.open('drukshift_wallet.html','_blank')">👛 3. Try Wallet</span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(42,157,143,0.25);border-radius:8px;border:1px solid rgba(42,157,143,0.5);transition:all 0.2s;" onclick="document.getElementById('findings').scrollIntoView({behavior:'smooth',block:'start'})">📊 3. See Findings</span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(42,106,173,0.25);border-radius:8px;border:1px solid rgba(42,106,173,0.5);transition:all 0.2s;" onclick="window.open('drukshift_wallet.html','_blank')">👛 4. Try Wallet</span>
           </div>
         </div>
 
