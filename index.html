@@ -21,15 +21,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .nav-links{display:flex;gap:32px;list-style:none;}
 .nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;}
 .nav-links a:hover{color:var(--white);}
-.hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;overflow:hidden;}
+.hero{min-height:100vh;background:linear-gradient(160deg,#04101e,#08192d);position:relative;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;overflow:hidden;}
 .hero-slides{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;}
-.hero-slide{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 0.6s cubic-bezier(0.4,0,0.2,1),transform 0.6s cubic-bezier(0.4,0,0.2,1);background-size:cover;background-position:center;background-repeat:no-repeat;transform:scale(1.08);}
+.hero-slide{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 0.8s cubic-bezier(0.4,0,0.2,1),transform 2s cubic-bezier(0.4,0,0.2,1);background-size:cover;background-position:center;background-repeat:no-repeat;transform:scale(1.08);}
 .hero-slide.active{opacity:1;transform:scale(1);}
-.hero-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');}
-.hero-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&q=80');}
-.hero-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1920&q=80');}
-.hero-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=1920&q=80');}
-.hero-slide:nth-child(5){background-image:url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1920&q=80');}
+.hero-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80');}
+.hero-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=80');}
+.hero-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1920&q=80');}
+.hero-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1920&q=80');}
+.hero-slide:nth-child(5){background-image:url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1920&q=80');}
 .hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,25,45,0.80) 0%,rgba(15,42,69,0.72) 50%,rgba(10,31,56,0.82) 100%);}
 .hero-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
 .hero-orb{position:absolute;border-radius:50%;pointer-events:none;}
@@ -44,7 +44,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .hero-intro strong{color:var(--accent);font-weight:600;}
 .hero-desc{font-size:16px;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto 40px;animation:fadeUp 0.6s 0.2s ease both;}
 .hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.6s 0.3s ease both;}
-.hero-dots{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:4;}
+.hero-dots{display:flex;gap:10px;justify-content:center;z-index:4;margin-top:20px;}
 .hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);border:2px solid rgba(255,255,255,0.4);cursor:pointer;padding:0;transition:all 0.3s;}
 .hero-dot.active{background:var(--accent);border-color:var(--accent);transform:scale(1.3);}
 .hero-dot:hover{background:rgba(255,255,255,0.6);}
@@ -965,15 +965,15 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
         </div>
 
         <!-- HOW TO EXPLORE STRIP -->
-        <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px;animation:fadeUp 0.6s 0.35s ease both;">
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:50px;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;">
-            <span style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;letter-spacing:1px;text-transform:uppercase;">Start here</span>
-            <span style="color:rgba(255,255,255,0.2);">|</span>
-            <span style="font-size:12px;color:var(--accent);font-weight:700;cursor:pointer;" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'})">🎯 1. Take the Quiz</span>
-            <span style="color:rgba(255,255,255,0.2);">→</span>
-            <span style="font-size:12px;color:var(--teal);font-weight:700;cursor:pointer;" onclick="document.getElementById('findings').scrollIntoView({behavior:'smooth',block:'start'})">📊 2. See Findings</span>
-            <span style="color:rgba(255,255,255,0.2);">→</span>
-            <span style="font-size:12px;color:var(--gold);font-weight:700;cursor:pointer;" onclick="window.open('drukshift_wallet.html','_blank')">👛 3. Try Wallet</span>
+        <div style="display:flex;align-items:center;justify-content:center;margin-bottom:28px;animation:fadeUp 0.6s 0.35s ease both;">
+          <div style="background:linear-gradient(135deg,rgba(244,162,97,0.18),rgba(42,157,143,0.18));border:2px solid rgba(244,162,97,0.6);border-radius:16px;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;box-shadow:0 0 24px rgba(244,162,97,0.25);">
+            <span style="font-size:12px;color:var(--gold);font-weight:800;letter-spacing:2px;text-transform:uppercase;">👇 Start Here</span>
+            <span style="width:1px;height:20px;background:rgba(255,255,255,0.2);display:inline-block;"></span>
+            <span style="font-size:14px;color:white;font-weight:700;cursor:pointer;padding:6px 14px;background:rgba(244,162,97,0.25);border-radius:8px;border:1px solid rgba(244,162,97,0.4);transition:all 0.2s;" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'})">🎯 1. Take the Quiz</span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
+            <span style="font-size:14px;color:white;font-weight:700;cursor:pointer;padding:6px 14px;background:rgba(42,157,143,0.25);border-radius:8px;border:1px solid rgba(42,157,143,0.4);transition:all 0.2s;" onclick="document.getElementById('findings').scrollIntoView({behavior:'smooth',block:'start'})">📊 2. See Findings</span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
+            <span style="font-size:14px;color:white;font-weight:700;cursor:pointer;padding:6px 14px;background:rgba(233,196,106,0.25);border-radius:8px;border:1px solid rgba(233,196,106,0.4);transition:all 0.2s;" onclick="window.open('drukshift_wallet.html','_blank')">👛 3. Try Wallet</span>
           </div>
         </div>
 
@@ -984,13 +984,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
             <a href="drukshift_story.html" class="btn-story" target="_blank">🎬 Read Our Story</a>
         </div>
     </div>
-    <div class="hero-dots">
-        <button class="hero-dot active" onclick="goToSlide(0)"></button>
-        <button class="hero-dot" onclick="goToSlide(1)"></button>
-        <button class="hero-dot" onclick="goToSlide(2)"></button>
-        <button class="hero-dot" onclick="goToSlide(3)"></button>
-        <button class="hero-dot" onclick="goToSlide(4)"></button>
-    </div>
+
     <div class="hero-caption" id="heroCaption">Bhutan · Digital Finance · Future</div>
     <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 </section>
@@ -1457,7 +1451,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 <script>
 // HERO SLIDESHOW
 var slideCaptions=['Bhutan · Mountains · Heritage','Blockchain · Technology · Future','Digital Finance · Crypto · Innovation','Data · Technology · Bhutan','Crypto · Readiness · DrukShift'];
-var currentSlide=0,totalSlides=5,slideTimer=null;
+var currentSlide=0,totalSlides=5,slideTimer=null,slideCaptions=['Bhutan · Mountains · Heritage','Crypto · Digital Finance · Future','Blockchain · Technology · Bhutan','Data · Research · DrukShift','Readiness · GNH · Happiness'];
 function goToSlide(n){
     var slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dot');
     if(!slides.length)return;
@@ -1473,7 +1467,7 @@ function goToSlide(n){
     slides[currentSlide].style.transform='scale(1.04)';
     slides[currentSlide].style.opacity='0';
     setTimeout(function(){
-        slides[currentSlide].style.transition='opacity 0.6s cubic-bezier(0.4,0,0.2,1),transform 3s ease-out';
+        slides[currentSlide].style.transition='opacity 0.8s cubic-bezier(0.4,0,0.2,1),transform 2s ease-out';
         slides[currentSlide].style.transform='scale(1)';
         slides[currentSlide].style.opacity='1';
         slides[currentSlide].classList.add('active');
