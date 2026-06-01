@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Readiness in Bhutan | DrukShift</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     XP SIDEBAR
+═══════════════════════════════════════ -->
+<div class="xp-sidebar" id="xpSidebar">
+    <div class="xp-bar-wrap">
+        <div class="xp-label">XP Points</div>
+        <div class="xp-track">
+            <div class="xp-fill" id="xpFill" style="height:0%;"></div>
+        </div>
+        <div class="xp-num" id="xpNum">0</div>
+        <div class="xp-pts">pts</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ACHIEVEMENT POPUP
+═══════════════════════════════════════ -->
+<div class="achievement-popup" id="achievementPopup">
+    <div class="achievement-icon" id="achIcon">🏆</div>
+    <div class="achievement-text">
+        <div class="ach-title">Achievement Unlocked!</div>
+        <div class="ach-name" id="achName">Quiz Taker</div>
+        <div class="ach-desc" id="achDesc">You completed the readiness quiz!</div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     LEVEL UP BANNER
+═══════════════════════════════════════ -->
+<div class="levelup-banner" id="levelupBanner">
+    <div style="font-size:48px;">⬆️</div>
+    <h2>LEVEL UP!</h2>
+    <p id="levelupText">You reached a new level!</p>
+</div>
+
+
+
+
+<!-- ═══════════════════════════════════════
+     LOADING SCREEN
+═══════════════════════════════════════ -->
+<div id="loadingScreen" style="position:fixed;inset:0;background:#08192d;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease;">
+    <div id="loadingLogo" style="text-align:center;animation:loadPulse 1.5s ease-in-out infinite;">
+        <div style="font-size:48px;margin-bottom:12px;">🇧🇹</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;color:#ffffff;letter-spacing:2px;">Druk<span style="color:#f4a261;">Shift</span></div>
+        <div style="font-size:12px;color:#7a9bb5;letter-spacing:4px;text-transform:uppercase;margin-top:8px;">Shift Forward, Bhutan</div>
+    </div>
+    <div style="margin-top:48px;display:flex;gap:8px;">
+        <div class="load-dot" style="width:8px;height:8px;border-radius:50%;background:#2a9d8f;animation:loadDots 1.2s ease-in-out infinite;"></div>
+        <div class="load-dot" style="width:8px;height:8px;border-radius:50%;background:#2a9d8f;animation:loadDots 1.2s ease-in-out 0.2s infinite;"></div>
+        <div class="load-dot" style="width:8px;height:8px;border-radius:50%;background:#2a9d8f;animation:loadDots 1.2s ease-in-out 0.4s infinite;"></div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FLOATING QUIZ BUTTON
+═══════════════════════════════════════ -->
+<div id="floatingQuizBtn" style="position:fixed;bottom:32px;right:80px;z-index:500;opacity:0;transform:translateY(20px);transition:all 0.4s ease;">
+    <a href="#quiz" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#e9c46a,#d4a017);color:#08192d;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;padding:14px 24px;border-radius:50px;text-decoration:none;box-shadow:0 8px 30px rgba(233,196,106,0.4);transition:all 0.25s;">
+        ✨ Take Quiz
+    </a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CURSOR GLOW
+═══════════════════════════════════════ -->
+<div id="cursorGlow" style="position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(42,157,143,0.08) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:left 0.1s ease,top 0.1s ease;left:-999px;top:-999px;"></div>
+
+
+<nav>
+    <div class="nav-logo">Druk<span>Shift</span> 🇧🇹</div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#about" onclick="closeMenu()">About</a></li>
+        <li><a href="#gnh" onclick="closeMenu()">GNH Story</a></li>
+        <li><a href="#solutions" onclick="closeMenu()">Solutions</a></li>
+        <li><a href="#readiness" onclick="closeMenu()">Readiness</a></li>
+        <li><a href="#findings" onclick="closeMenu()">Findings</a></li>
+        <li><a href="#realproblems" onclick="closeMenu()">Real Problems</a></li>
+        <li><a href="#reports" onclick="closeMenu()">Reports</a></li>
+        <li><a href="#story" style="color:var(--accent)" onclick="closeMenu()">🇧🇹 Our Story</a></li>
+        <li><a href="drukshift_story.html" style="color:var(--red)" target="_blank" onclick="closeMenu()">🎬 Webtoon</a></li>
+        <li><a href="drukshift_wallet.html" style="color:var(--gold)" target="_blank" onclick="closeMenu()">👛 Wallet</a></li>
+        <li><a href="#quiz" style="color:var(--gold)" onclick="closeMenu()">Take Quiz</a></li>
+        <li><a href="#resources" style="color:var(--teal)" onclick="closeMenu()">📚 Resources</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+<div class="live-counter-bar" id="liveCounterBar">
+    <div class="lc-dot"></div>
+    <span class="lc-text">Bhutanese adults who have taken the DrukShift quiz:</span>
+    <span class="lc-num" id="liveCountNum">...</span>
+    <a href="#quiz" class="lc-share">✨ Take the Quiz →</a>
+</div>
+<div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb">
+    <div class="bc-item"><button class="bc-link active" onclick="bcGo('home')">🏠 Home</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('about')">About</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('gnh')">GNH Story</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('solutions')">Solutions</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('readiness')">Readiness</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('findings')">Findings</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('reports')">Reports</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('quiz')">Quiz</button><span class="bc-sep">›</span></div>
+    <div class="bc-item"><button class="bc-link" onclick="bcGo('resources')">Resources</button></div>
+</div>
+
+<section class="hero" id="home">
+    <div class="hero-slides">
+        <div class="hero-slide active"></div>
+        <div class="hero-slide"></div>
+        <div class="hero-slide"></div>
+        <div class="hero-slide"></div>
+        <div class="hero-slide"></div>
+    </div>
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-content">
+        <div class="hero-badge">🇧🇹 Bhutan Data Scientists Pvt. Ltd — Internship 2026</div>
+        <div class="hero-intro">
+            Hi, I am <strong>Kinzang Choden</strong> — who did an internship at Bhutan Data Scientists Pvt. Ltd when I was a 3rd year Business Intelligence student.
+            This project explored cryptocurrency readiness in Bhutan.
+        </div>
+        <h1>Cryptocurrency<br><em>Readiness</em><br>in Bhutan</h1>
+        <p class="hero-desc">A data-driven survey project by <strong style="color:var(--accent)">Kinzang Choden</strong> — 3rd Year Business Intelligence Student who completed her internship at Bhutan Data Scientists Pvt. Ltd, examining whether Bhutanese adults are prepared to adopt cryptocurrency — aligned with Bhutan's GNH values.</p>
+        <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;animation:fadeUp 0.6s 0.3s ease both;">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">113</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Respondents</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">80%</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Overall Readiness</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">96%</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Crypto Awareness</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:16px 24px;text-align:center;min-width:120px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;">7</div>
+            <div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;">Key Findings</div>
+          </div>
+        </div>
+
+        <!-- HOW TO EXPLORE STRIP -->
+        <div style="display:flex;align-items:center;justify-content:center;margin-bottom:28px;animation:fadeUp 0.6s 0.35s ease both;">
+          <div class="start-here-strip" style="background:linear-gradient(135deg,rgba(244,162,97,0.22),rgba(42,157,143,0.18));border:2px solid rgba(244,162,97,0.6);border-radius:16px;padding:14px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;box-shadow:0 0 24px rgba(244,162,97,0.25);">
+            <span class="start-here-label" style="font-size:13px;color:var(--gold);font-weight:800;letter-spacing:2px;text-transform:uppercase;display:inline-block;">👇 Start Here</span>
+            <span style="width:1px;height:20px;background:rgba(255,255,255,0.2);display:inline-block;"></span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(233,196,106,0.25);border-radius:8px;border:1px solid rgba(233,196,106,0.5);transition:all 0.2s;" onclick="window.open('drukshift_story.html','_blank')">🎬 1. Read Webtoon</span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(244,162,97,0.25);border-radius:8px;border:1px solid rgba(244,162,97,0.5);transition:all 0.2s;" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth',block:'start'})">🎯 2. Take the Quiz</span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(42,157,143,0.25);border-radius:8px;border:1px solid rgba(42,157,143,0.5);transition:all 0.2s;" onclick="document.getElementById('findings').scrollIntoView({behavior:'smooth',block:'start'})">📊 3. See Findings</span>
+            <span style="font-size:16px;color:rgba(255,255,255,0.4);">→</span>
+            <span style="font-size:13px;color:white;font-weight:700;cursor:pointer;padding:7px 14px;background:rgba(42,106,173,0.25);border-radius:8px;border:1px solid rgba(42,106,173,0.5);transition:all 0.2s;" onclick="window.open('drukshift_wallet.html','_blank')">👛 4. Try Wallet</span>
+          </div>
+        </div>
+
+        <div class="hero-buttons">
+            <a href="#gnh" class="btn-primary">🇧🇹 View GNH Story</a>
+            <a href="#findings" class="btn-secondary">🔑 View Key Findings</a>
+            <a href="#quiz" class="btn-quiz">✨ Take Readiness Quiz</a>
+            <a href="drukshift_story.html" class="btn-story" target="_blank">🎬 Read Our Story</a>
+        </div>
+    </div>
+
+    <div class="hero-caption" id="heroCaption">Bhutan · Digital Finance · Future</div>
+    <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<section class="about-section reveal" id="about">
+    <div class="about-inner-simple">
+        <span class="section-tag" style="color:var(--mid)">👋 About Me</span>
+        <h2>Hi, I am <em>Kinzang Choden</em></h2>
+        <p>I am a 3rd year Business Intelligence student who completed my internship at <strong>Bhutan Data Scientists Pvt. Ltd (BDS)</strong> — Bhutan's leading data science company focused on building data literacy and analytical capability across the country.</p>
+        <p>During my internship I designed and developed this project from scratch — from collecting 113 survey responses, cleaning the data using Python, building 12 interactive Tableau visualizations, aligning findings with Bhutan's GNH values, and publishing everything as a live website on GitHub Pages.</p>
+        <p>This project is called <strong>DrukShift</strong> — named after Bhutan's identity as the Land of the Thunder Dragon and our shift toward the future of digital finance. I believed cryptocurrency readiness in Bhutan is not just a technology question — it is a happiness question.</p>
+    </div>
+</section>
+
+<section class="stats-section reveal" id="stats">
+    <div class="stat-item"><div class="stat-num">113</div><div class="stat-lbl">Respondents</div></div>
+    <div class="stat-item"><div class="stat-num">80%</div><div class="stat-lbl">Overall Readiness</div></div>
+    <div class="stat-item"><div class="stat-num">96%</div><div class="stat-lbl">Crypto Awareness</div></div>
+    <div class="stat-item"><div class="stat-num">12.75</div><div class="stat-lbl">Avg Score / 16</div></div>
+    <div class="stat-item"><div class="stat-num">#1</div><div class="stat-lbl">Barrier: Internet</div></div>
+</section>
+
+<section class="story-section" id="story">
+
+    <!-- INTRO -->
+    <div class="story-intro">
+        <div class="story-intro-tag">🇧🇹 Why DrukShift Exists</div>
+        <h2>A Story About <em>One Woman,<br>One Quiz, One Village</em></h2>
+        <p class="story-intro-lead">This is not just a research project. This is a story about what happens when one curious person gets the right information — in their own language, about their own life.</p>
+    </div>
+
+    <!-- CHAPTER 1 — The Problem -->
+    <div class="story-ch1">
+        <div class="story-ch1-img">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80" alt="Bhutan mountains morning" loading="lazy">
+        </div>
+        <div class="story-ch1-text">
+            <div class="story-ch-num">01</div>
+            <div class="story-ch-label">The Problem</div>
+            <h3>She Lost a Sale.<br><em>Because of a Knowledge Gap.</em></h3>
+            <p>Imagine Deki — a 34 year old textile weaver in Paro who crafts beautiful Kishuthara silk by hand. A tourist wants to buy. They have no cash. She cannot accept digital payment.</p>
+            <p>The tourist walks away. <strong>This happens every week.</strong> Not because Deki is not smart. Not because she is not ready. But because no one ever explained cryptocurrency to her — in her language, in terms of her life.</p>
+            <div class="story-quote">"The information existed. But it was complicated, in a foreign language, and felt very far away from Paro."</div>
+        </div>
+    </div>
+
+    <!-- CHAPTER 2 — The Discovery -->
+    <div class="story-ch2">
+        <div class="story-ch2-inner">
+            <div class="story-ch2-text">
+                <div class="story-ch-num">02</div>
+                <div class="story-ch-label">The Discovery</div>
+                <h3>What If Bhutan<br><em>Had Its Own Answer?</em></h3>
+                <p>This question is what drove the DrukShift research project — built by a Bhutanese student, for Bhutanese people, during her internship at Bhutan Data Scientists Pvt. Ltd.</p>
+                <p><strong>113 real Bhutanese adults</strong> were surveyed — weavers, farmers, students, shopkeepers, government workers. Asked 10 honest questions about what they know, what they trust, and what they fear about cryptocurrency.</p>
+                <p>The results were surprising. <strong>Bhutan is 80% ready.</strong> The knowledge exists. The willingness is there. The barriers are specific — and fixable.</p>
+                <div class="story-quote" style="border-color:var(--gold);background:rgba(233,196,106,0.08);color:rgba(255,255,255,0.9);">"We did not need to look to Silicon Valley for answers. The answers were already here — in Bhutan."</div>
+            </div>
+            <div class="story-ch2-img-wrap">
+                <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80" alt="Blockchain technology" loading="lazy">
+                <div class="story-ch2-img-badge">
+                    <div class="badge-num">113</div>
+                    <div class="badge-lbl">Bhutanese voices</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAPTER 3 — The Three Barriers -->
+    <div class="story-ch3">
+        <div class="story-ch3-inner">
+            <div class="story-ch3-header">
+                <div class="story-ch-num" style="text-align:center;">03</div>
+                <div class="story-ch-label" style="text-align:center;display:block;">The Findings</div>
+                <h3>Three Things Standing<br><em>Between Bhutan and the Future</em></h3>
+                <p>The data revealed that Bhutan's readiness gap is not about willingness — it is about three very specific and very solvable barriers.</p>
+            </div>
+            <div class="story-cards">
+                <div class="story-card">
+                    <div class="story-card-img">
+                        <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=600&q=80" alt="Internet infrastructure" loading="lazy">
+                        <div class="story-card-img-overlay"></div>
+                    </div>
+                    <div class="story-card-body">
+                        <div class="story-card-icon">🌐</div>
+                        <h4>Internet is Barrier #1</h4>
+                        <p>Poor internet connectivity — especially in rural Bhutan — is the single biggest obstacle to safe crypto adoption. You cannot transact safely on an unstable connection.</p>
+                        <span class="story-card-tag">Infrastructure</span>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-card-img">
+                        <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" alt="Digital education" loading="lazy">
+                        <div class="story-card-img-overlay"></div>
+                    </div>
+                    <div class="story-card-body">
+                        <div class="story-card-icon">📚</div>
+                        <h4>High Awareness, Low Understanding</h4>
+                        <p>96% of Bhutanese adults have heard of cryptocurrency — but most only have surface level knowledge. Awareness without understanding is the most dangerous combination.</p>
+                        <span class="story-card-tag">Education</span>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-card-img">
+                        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Security and trust" loading="lazy">
+                        <div class="story-card-img-overlay"></div>
+                    </div>
+                    <div class="story-card-body">
+                        <div class="story-card-icon">🛡️</div>
+                        <h4>The Scam Vulnerability Gap</h4>
+                        <p>The 35–44 age group has the highest trust in crypto but the lowest security awareness — the most dangerous combination. They are the most likely targets for scammers.</p>
+                        <span class="story-card-tag">Security</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINALE -->
+    <div class="story-finale">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80" alt="Bhutan landscape" class="story-finale-img" loading="lazy">
+        <div class="story-finale-overlay"></div>
+        <div class="story-finale-content">
+            <h3>Back to Deki.<br><em>She Took the Quiz.</em></h3>
+            <p>She scored 58%. The quiz did not judge her. It gave her a personalised plan — because she rated her personal readiness as 2 out of 10, her next step was clear. She followed it. Weeks later the same tourist returned. This time she showed a QR code. The payment went through. She smiled.</p>
+            <p style="font-size:14px;color:rgba(255,255,255,0.5);font-style:italic;">One quiz. One woman. One village. This is how Bhutan shifts — not all at once, but one person at a time.</p>
+            <div class="story-finale-sig">Kinzang Choden · BDS Internship 2026 · Bhutan Data Scientists Pvt. Ltd 🇧🇹</div>
+        </div>
+    </div>
+
+</section>
+
+</section>
+
+<section class="gnh-section reveal" id="gnh">
+    <div class="gnh-inner">
+        <span class="section-tag" style="color:var(--gold)">🇧🇹 GNH Alignment</span>
+        <h2>Crypto Readiness as<br>a <em>GNH Story</em></h2>
+        <p>Bhutan measures progress through happiness — not just money. This story maps cryptocurrency readiness across 6 GNH domains — Education, Living Standards, Psychological Wellbeing, Governance, Community Vitality and Time Use.</p>
+        <div class="gnh-domains">
+            <div class="gnh-pill">🎓 Education</div>
+            <div class="gnh-pill">🏠 Living Standards</div>
+            <div class="gnh-pill">🧠 Psychological Wellbeing</div>
+            <div class="gnh-pill">🏛️ Governance</div>
+            <div class="gnh-pill">🤝 Community Vitality</div>
+            <div class="gnh-pill">⏰ Time Use</div>
+        </div>
+        <button class="btn-gnh" onclick="openGNHModal()">🇧🇹 View GNH Story on Tableau ↗</button>
+        <span class="btn-note">Opens interactive GNH story — no download required</span>
+    </div>
+</section>
+
+<section class="solutions-section reveal" id="solutions">
+    <div class="solutions-inner">
+        <span class="section-tag" style="color:var(--teal)">💡 Recommendations</span>
+        <h2>5 Solutions to Improve<br><em>Crypto Readiness in Bhutan</em></h2>
+        <p>Based on 113 survey responses, these five targeted solutions address the real barriers identified in the data — from education gaps to scam vulnerability.</p>
+        <div class="solutions-grid">
+            <div class="solution-card"><div class="solution-num">01</div><div class="solution-icon">🎓</div><h3>Close the Education Gap</h3><p>Run targeted crypto literacy programs for 35-54 and 55+ age groups. Young people need digital platforms. Older generations need community workshops and face to face education in local languages.</p></div>
+            <div class="solution-card"><div class="solution-num">02</div><div class="solution-icon">🌐</div><h3>Fix Internet Infrastructure First</h3><p>Poor internet is barrier number one. The government must expand reliable and affordable internet to rural and semi-urban areas before pushing crypto adoption. Connectivity is a prerequisite — not a luxury.</p></div>
+            <div class="solution-card"><div class="solution-num">03</div><div class="solution-icon">🛡️</div><h3>Protect Vulnerable Groups from Scams</h3><p>The 35-44 group has the highest trust and lowest security concern — the perfect target for scammers. Launch dedicated scam awareness campaigns with simple clear messaging about red flags and how to stay safe.</p></div>
+            <div class="solution-card"><div class="solution-num">04</div><div class="solution-icon">🏛️</div><h3>Government Must Lead on Governance</h3><p>People are already asking for government support. Create clear cryptocurrency regulations, establish consumer protection laws, and build a transparent framework. Strong government leadership is the single most powerful accelerator of adoption in Bhutan.</p></div>
+            <div class="solution-card solution-card-wide"><div class="solution-num">05</div><div class="solution-icon">🤝</div><h3>Start With Communities — Let Adoption Grow Naturally</h3><p>The majority said Maybe — not No. These undecided people are waiting to see crypto work in real life. Encourage local shops and small businesses to accept crypto as payment. When people see their favorite restaurant using crypto safely — it becomes real, relatable and trustworthy.</p></div>
+        </div>
+        <div style="text-align:center;margin-top:48px;">
+            <a href="https://public.tableau.com/app/profile/kinzang.choden5860/viz/Tableaucryptoreadiness/Story4?publish=yes" target="_blank" class="btn-solutions">💡 View Solutions on Tableau ↗</a>
+            <span class="btn-note" style="display:block;margin-top:12px;color:var(--muted)">Opens interactive Tableau story — no download required</span>
+        </div>
+    </div>
+</section>
+
+<section class="readiness-section reveal" id="readiness">
+    <div class="readiness-inner">
+        <span class="section-tag" style="color:var(--accent)">📈 Story 2</span>
+        <h2>How Can Readiness<br>Be <em>Improved Over Time?</em></h2>
+        <p>Using age groups as a generational proxy, this story explores how crypto readiness changes across generations — and what it means for Bhutan's digital future.</p>
+        <div class="readiness-pills">
+            <div class="readiness-pill">📉 Readiness drops after 35</div>
+            <div class="readiness-pill">🎯 25-34 score highest at 13.74</div>
+            <div class="readiness-pill">⚠️ 55+ score lowest at 7.83</div>
+            <div class="readiness-pill">📚 Education is the key gap</div>
+        </div>
+        <button class="btn-readiness" onclick="openReadinessModal()">📈 View Readiness on Tableau ↗</button>
+        <span class="btn-note">Opens interactive story — no download required</span>
+    </div>
+</section>
+
+<section class="findings-section reveal" id="findings">
+    <div class="findings-inner">
+        <div class="section-header">
+            <span class="section-tag" style="color:var(--mid)">Research Results</span>
+            <h2>Key Findings</h2>
+            <p>Four critical insights from 113 survey responses</p>
+            <div class="accent-line"></div>
+        </div>
+        <div class="findings-grid" id="findingsGrid">
+            <div class="finding-card">
+                <span class="finding-num">01</span>
+                <div class="finding-icon">🏆</div>
+                <h3>Bhutan is 80% Ready</h3>
+                <p>Average readiness score of 12.75 out of 16 — Bhutan shows strong foundational readiness for cryptocurrency adoption aligned with GNH values.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Overall Readiness</span><span>80%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="80" style="background:#2a6aad;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Avg Score</span><span>12.75/16</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="79.7" style="background:#2a9d8f;"></div></div></div>
+                </div>
+            </div>
+            <div class="finding-card">
+                <span class="finding-num">02</span>
+                <div class="finding-icon">👂</div>
+                <h3>High Awareness, Low Understanding</h3>
+                <p>96% have heard of cryptocurrency but most only have basic understanding — a critical knowledge gap exists between awareness and true readiness.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Have Heard of Crypto</span><span>96%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="96" style="background:#f4a261;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Deep Understanding</span><span>34%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="34" style="background:#e63946;"></div></div></div>
+                </div>
+            </div>
+            <div class="finding-card">
+                <span class="finding-num">03</span>
+                <div class="finding-icon">🌐</div>
+                <h3>Internet is Barrier #1</h3>
+                <p>Poor internet connection is the single biggest barrier to adoption — especially critical for rural communities who remain underserved.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Cite Internet as Barrier</span><span>68%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="68" style="background:#e63946;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>Rural Connectivity Gap</span><span>74%</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="74" style="background:#e9c46a;"></div></div></div>
+                </div>
+            </div>
+            <div class="finding-card">
+                <span class="finding-num">04</span>
+                <div class="finding-icon">📅</div>
+                <h3>Age Predicts Readiness</h3>
+                <p>Age is a stronger predictor of readiness than location — younger groups show consistently higher scores regardless of where they live.</p>
+                <div class="finding-stat-wrap">
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>25–34 age group score</span><span>13.74/16</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="86" style="background:#2a9d8f;"></div></div></div>
+                    <div class="finding-stat-row"><div class="finding-stat-label"><span>55+ age group score</span><span>7.83/16</span></div><div class="finding-stat-track"><div class="finding-stat-fill" data-width="49" style="background:#9b5de5;"></div></div></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══ REAL PROBLEMS AND SOLUTIONS SECTION ══ -->
+<section class="ps-section reveal" id="realproblems">
+  <div class="ps-inner">
+    <div style="text-align:center;margin-bottom:8px;">
+      <span class="section-tag" style="color:var(--red);">🔍 Field Research</span>
+    </div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:white;text-align:center;line-height:1.2;margin-bottom:8px;">
+      The Real Problem in <em style="color:var(--gold);">Bhutan Today</em>
+    </h2>
+    <div style="width:48px;height:3px;background:var(--accent);border-radius:2px;margin:0 auto 16px;"></div>
+    <p style="text-align:center;font-size:14px;color:rgba(255,255,255,0.5);max-width:600px;margin:0 auto;line-height:1.8;">
+      Bhutan became the world's first country to launch a national crypto tourism payment system in May 2025. 
+      Over 1,000 merchants registered. But nearly a year later — almost nobody is using it. 
+      These are the real documented problems and what can be done.
+    </p>
+
+    <div class="ps-grid">
+      <!-- PROBLEMS COLUMN -->
+      <div>
+        <div class="ps-col-title" style="color:var(--red);">
+          <span style="font-size:20px;">⚠️</span> Real Problems
+        </div>
+
+        <div class="ps-card problem">
+          <div class="ps-card-num p">Problem 01</div>
+          <div class="ps-card-title">Tourists Do Not Know the Option Exists</div>
+          <div class="ps-card-body">Most tourists arrive in Bhutan with no idea that over 1,000 merchants accept cryptocurrency. There is no information at the airport, no mention in visa documents and no push notification when they land. The system exists but tourists simply never find out about it.</div>
+          <div class="ps-card-source">Source — Trade Brains, February 2026</div>
+        </div>
+
+        <div class="ps-card problem">
+          <div class="ps-card-num p">Problem 02</div>
+          <div class="ps-card-title">Merchants Never Tell Tourists About It</div>
+          <div class="ps-card-body">"It has been four to five months but no customer has used it until now. No one knows that we accept cryptocurrency and Binance Pay." — Sonam Dorji, Lotus Peak Enterprise, Le Meridien Thimphu.</div>
+          <div class="ps-card-source">Source — Rest of World, March 2026</div>
+        </div>
+
+        <div class="ps-card problem">
+          <div class="ps-card-num p">Problem 03</div>
+          <div class="ps-card-title">QR Codes Are Sitting Untouched</div>
+          <div class="ps-card-body">Across Thimphu QR codes sit untouched at hotel counters and cafe tables. For most merchants the system exists on paper not in practice. Merchants were given a QR code but no training or confidence to use it.</div>
+          <div class="ps-card-source">Source — Trade Brains, February 2026</div>
+        </div>
+
+        <div class="ps-card problem">
+          <div class="ps-card-num p">Problem 04</div>
+          <div class="ps-card-title">Tourists Must Already Have Binance</div>
+          <div class="ps-card-body">The system requires tourists to be existing Binance users. A tourist who does not already have a Binance account set up before arriving in Bhutan cannot use the system at all — even if they want to.</div>
+          <div class="ps-card-source">Source — Lightspark, 2026</div>
+        </div>
+
+        <div class="ps-card problem">
+          <div class="ps-card-num p">Problem 05</div>
+          <div class="ps-card-title">Internet Reliability in Remote Areas</div>
+          <div class="ps-card-body">In remote tourist areas outside Thimphu and Paro internet connectivity is slow or unstable. Crypto payments require a stable connection to confirm. This remains a real barrier especially in areas like Punakha and Bumthang.</div>
+          <div class="ps-card-source">Source — GoBhutanTours, 2025</div>
+        </div>
+      </div>
+
+      <!-- SOLUTIONS COLUMN -->
+      <div>
+        <div class="ps-col-title" style="color:var(--teal);">
+          <span style="font-size:20px;">✅</span> Real Solutions
+        </div>
+
+        <div class="ps-card solution">
+          <div class="ps-card-num s">Solution 01</div>
+          <div class="ps-card-title">Merchants Receive Ngultrum — Not Crypto</div>
+          <div class="ps-card-body">All Binance Pay payments are instantly converted to Ngultrum through DK Bank. Merchants never actually hold crypto or face price volatility. They simply receive Ngultrum in their account just like a normal bank transfer. This already works — merchants just do not know it.</div>
+          <div class="ps-card-source">Source — TravelAcrossBhutan, 2026</div>
+        </div>
+
+        <div class="ps-card solution">
+          <div class="ps-card-num s">Solution 02</div>
+          <div class="ps-card-title">Zero Fees for Tourist Payments</div>
+          <div class="ps-card-body">Tourist crypto payments through Binance Pay have no added transaction fees. Unlike credit cards which charge merchants 2 to 3 percent per transaction Binance Pay costs nothing. This is a real financial benefit that most merchants are not aware of.</div>
+          <div class="ps-card-source">Source — Lightspark, 2026</div>
+        </div>
+
+        <div class="ps-card solution">
+          <div class="ps-card-num s">Solution 03</div>
+          <div class="ps-card-title">DrukShift Wallet — Built for This Problem</div>
+          <div class="ps-card-body">The DrukShift Wallet prototype was built specifically to solve Problems 2 and 3. It gives merchants a simple app showing every incoming payment clearly confirmed in Ngultrum with a live rate — removing the confusion that stops merchants from actively promoting crypto payments to tourists.</div>
+          <div class="ps-drukshift-badge">
+            <span>🇧🇹 Built as part of this internship research — try it yourself using the Wallet button in the navigation above.</span>
+          </div>
+        </div>
+
+        <div class="ps-card solution">
+          <div class="ps-card-num s">Solution 04</div>
+          <div class="ps-card-title">Awareness at Point of Entry</div>
+          <div class="ps-card-body">A simple information card in multiple languages at Paro International Airport arrival hall — given to every tourist alongside their visa — would reach 100 percent of incoming visitors before they even reach a merchant. This requires no new technology just communication.</div>
+        </div>
+
+        <div class="ps-card solution">
+          <div class="ps-card-num s">Solution 05</div>
+          <div class="ps-card-title">Merchant Training by DK Bank</div>
+          <div class="ps-card-body">DK Bank and the Department of Tourism should run a short hands-on training for all registered merchants — showing them exactly how to receive a payment, confirm it in Ngultrum and encourage tourists to use it. Currently merchants were onboarded with a QR code but nothing else.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM SUMMARY -->
+    <div style="margin-top:40px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px 28px;text-align:center;">
+      <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;">The Core Truth</div>
+      <div style="font-size:16px;color:white;line-height:1.8;font-style:italic;font-family:'Cormorant Garamond',serif;">
+        "The technology works. Merchants already receive Ngultrum automatically. The only real unsolved problems are that tourists do not know about it and merchants do not promote it — and both come down to awareness and confidence, not technology."
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;">— Kinzang Choden · DrukShift Research · BDS Internship 2026</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── NEXT STEP — TRY WALLET (after findings) ── -->
+<div style="background:linear-gradient(135deg,#08192d,#0f2a45);padding:48px 24px;text-align:center;">
+  <div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">📍 Next Step — Step 4 of 4</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:white;margin-bottom:8px;line-height:1.3;">You have seen the data.<br>Now see the <em style="color:var(--gold);">solution.</em></div>
+  <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:24px;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;">The DrukShift Wallet shows exactly how crypto payments work for Bhutanese merchants — with live Bitcoin rates in Ngultrum.</div>
+  <a href="drukshift_wallet.html" target="_blank" style="display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--gold),#c8a020);color:var(--navy);padding:16px 36px;border-radius:14px;font-size:16px;font-weight:700;text-decoration:none;box-shadow:0 6px 24px rgba(233,196,106,0.4);transition:all 0.2s;">
+    👛 Try the DrukShift Wallet →
+  </a>
+  <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:12px;">Live Bitcoin rates · Send · Receive · Convert to Ngultrum · BOB on-ramp</div>
+</div>
+
+<section class="reports-section reveal" id="reports">
+    <div class="reports-inner">
+        <span class="section-tag" style="color:var(--muted)">📄 Documentation</span>
+        <h2>Project <em>Reports</em></h2>
+        <p>Download and read the full project documentation — business report and key findings — published as interactive HTML reports.</p>
+        <div class="reports-grid">
+            <div class="report-card"><div class="report-icon">📋</div><div class="report-info"><h3>Business Report</h3><p>Full project documentation covering problem statement, methodology, GNH alignment, web integration, solutions and conclusion.</p><span class="report-meta">10 pages · HTML Report</span></div><a href="BusinessReport.html" target="_blank" class="btn-report">Open Report →</a></div>
+            <div class="report-card"><div class="report-icon">🔑</div><div class="report-info"><h3>Key Findings Report</h3><p>Deep dive into all 7 key findings with data tables, charts interpretation and business insights for each finding.</p><span class="report-meta">9 pages · HTML Report</span></div><a href="keyfindings.html" target="_blank" class="btn-report btn-report-teal">Open Report →</a></div>
+        </div>
+    </div>
+</section>
+
+<section class="quiz-section" id="quiz">
+    <div class="quiz-outer">
+        <div class="quiz-header-block">
+            <span class="section-tag" style="color:var(--gold)">✨ Try It Yourself</span>
+            <h2>How Ready Are <em>You?</em></h2>
+            <p>10 questions · Rate yourself 1 to 10 · Based on real data from 113 Bhutanese adults</p>
+        </div>
+
+        <!-- ✅ SIMPLE EMAIL VALIDATION — no OTP -->
+        <div class="quiz-card" id="userInfoWrap">
+            <div style="text-align:center;margin-bottom:24px;">
+                <div style="font-size:28px;margin-bottom:8px;">👤</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px;">Before you begin</div>
+                <div style="font-size:13px;color:var(--muted);">Enter your details to save your score and compare next time</div>
+            </div>
+            <div style="margin-bottom:16px;">
+                <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Your Name</label>
+                <input id="userName" type="text" placeholder="e.g. Kinzang Choden" style="width:100%;padding:12px 14px;border:1px solid #dce6f0;border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;">
+            </div>
+            <div style="margin-bottom:24px;">
+                <label style="font-size:12px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px;">Your Email</label>
+                <input id="userEmail" type="email" placeholder="e.g. kinzang@gmail.com" style="width:100%;padding:12px 14px;border:1px solid #dce6f0;border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;outline:none;">
+                <div id="emailError" style="display:none;font-size:12px;color:var(--red);margin-top:6px;padding:8px 12px;background:#fcebeb;border-radius:6px;">⚠️ Please enter a valid email address (e.g. kinzang@gmail.com)</div>
+            </div>
+            <button onclick="startQuiz()" style="width:100%;padding:13px;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;">Start Quiz →</button>
+        </div>
+
+        <!-- QUIZ QUESTIONS -->
+        <div class="quiz-card" id="quizWrap" style="display:none">
+            <div class="q-progress-wrap">
+                <div class="q-progress-label"><span id="qProgressText">Question 1 of 10</span><span id="qProgressPct">0%</span></div>
+                <div class="q-progress-bar"><div class="q-progress-fill" id="qProgressFill" style="width:0%"></div></div>
+            </div>
+            <div class="q-domain" id="qDomain"></div>
+            <div class="q-text" id="qText"></div>
+            <div class="q-likert-wrap">
+                <div class="q-likert-labels"><span>1 — Not at all</span><span>10 — Completely</span></div>
+                <div class="q-likert-row" id="qLikertRow"></div>
+            </div>
+            <div class="q-nav-row">
+                <button class="q-btn-prev" id="qPrevBtn" style="visibility:hidden" onclick="qPrev()">← Back</button>
+                <button class="q-btn-next" id="qNextBtn" disabled onclick="qNext()">Next →</button>
+            </div>
+        </div>
+
+        <!-- QUIZ RESULTS -->
+        <div class="quiz-card" id="qResultWrap" style="display:none">
+            <div id="qHistoryBox"></div>
+
+            <!-- BADGE CARD -->
+            <div class="badge-card" id="badgeCard">
+                <div class="badge-glow"></div>
+                <span class="badge-emoji" id="badgeEmoji">🥇</span>
+                <div class="badge-title" id="badgeTitle">Crypto Ready</div>
+                <div class="badge-subtitle" id="badgeSubtitle">You earned this badge!</div>
+                <div class="badge-stars" id="badgeStars">⭐⭐⭐</div>
+                <button class="badge-share-btn" onclick="shareBadge()">📤 Share Your Badge</button>
+            </div>
+
+            <!-- STREAK -->
+            <div class="streak-wrap" id="streakWrap" style="display:none;">
+                <div class="streak-fire">🔥</div>
+                <div class="streak-info">
+                    <div class="streak-num" id="streakNum">1</div>
+                    <div class="streak-label">Quiz streak — keep improving!</div>
+                </div>
+            </div>
+
+            <!-- PROGRESS ROADMAP -->
+            <div class="progress-roadmap" id="progressRoadmap">
+                <div class="roadmap-title">🗺️ Your Readiness Journey</div>
+                <div class="roadmap-steps" id="roadmapSteps">
+                    <div class="roadmap-progress-line" id="roadmapLine" style="width:0%;"></div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-dot" id="rdot0">🎯</div>
+                        <div class="roadmap-dot-label">Started</div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-dot" id="rdot1">📚</div>
+                        <div class="roadmap-dot-label">Aware</div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-dot" id="rdot2">🛡️</div>
+                        <div class="roadmap-dot-label">Safe</div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-dot" id="rdot3">💡</div>
+                        <div class="roadmap-dot-label">Ready</div>
+                    </div>
+                    <div class="roadmap-step">
+                        <div class="roadmap-dot" id="rdot4">🏆</div>
+                        <div class="roadmap-dot-label">Champion</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-score-circle" id="qScoreCircle"><div class="q-score-num" id="qScoreNum">0</div><div class="q-score-denom">out of 100</div></div>
+            <div class="q-result-title" id="qResultTitle"></div>
+            <div class="q-result-desc" id="qResultDesc"></div>
+            <div class="q-compare-grid">
+                <div class="q-compare-card"><div class="q-compare-val" id="qYourPct">0%</div><div class="q-compare-lbl">Your readiness</div></div>
+                <div class="q-compare-card"><div class="q-compare-val">80%</div><div class="q-compare-lbl">Bhutan average</div></div>
+                <div class="q-compare-card"><div class="q-compare-val" id="qVsAvg"></div><div class="q-compare-lbl">vs average</div></div>
+            </div>
+            <div class="q-domain-bars" id="qDomainBars"></div>
+            <div class="qs-divider"></div>
+            <div class="qs-heading">Your personalised improvement plan</div>
+            <div class="qs-sub" id="qsSub"></div>
+            <div class="qs-summary" id="qsSummary"></div>
+            <div class="qs-filter-row">
+                <button class="qs-filter active" onclick="qsFilter('all',this)">All</button>
+                <button class="qs-filter" onclick="qsFilter('education',this)">Education</button>
+                <button class="qs-filter" onclick="qsFilter('security',this)">Security</button>
+                <button class="qs-filter" onclick="qsFilter('infrastructure',this)">Infrastructure</button>
+                <button class="qs-filter" onclick="qsFilter('governance',this)">Governance</button>
+                <button class="qs-filter" onclick="qsFilter('community',this)">Community</button>
+            </div>
+            <div id="qsSolutions"></div>
+            <div class="qs-roadmap-wrap"><div class="qs-roadmap-title">Your readiness roadmap</div><div id="qsRoadmap"></div></div>
+            <div style="background:linear-gradient(135deg,#e1f5ee,#d4f0e8);border-radius:12px;padding:20px;margin-top:20px;text-align:center;">
+                <div style="font-size:20px;margin-bottom:8px;">📚</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px;">Ready to improve your score?</div>
+                <div style="font-size:13px;color:#4a6070;margin-bottom:16px;">Check out our curated resources — videos, guides and tools for individuals and businesses.</div>
+                <a href="#resources" style="display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:var(--white);padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">📚 View Resources →</a>
+            </div>
+            <button class="q-btn-restart" onclick="qRestart()">Take the quiz again</button>
+            <!-- NEXT STEP — KEY FINDINGS -->
+            <div id="nextStepFindings" style="margin-top:24px;padding:20px;border-radius:14px;text-align:center;background:linear-gradient(135deg,rgba(42,157,143,0.08),rgba(42,157,143,0.03));border:2px solid var(--teal);animation:fadeUp 0.5s 0.3s ease both;opacity:0;">
+              <div style="font-size:10px;color:var(--teal);font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">📍 Next Step — Step 3 of 4</div>
+              <div style="font-size:14px;color:var(--navy);font-weight:600;margin-bottom:14px;line-height:1.6;">Now see how <strong>113 Bhutanese adults</strong> did compared to your score</div>
+              <a href="#findings" onclick="document.getElementById('findings').scrollIntoView({behavior:'smooth',block:'start'});return false;" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--teal),#1a7a6e);color:white;padding:16px 32px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;box-shadow:0 6px 20px rgba(42,157,143,0.4);width:100%;justify-content:center;">
+                📊 Read the Key Findings →
+              </a>
+              <div style="font-size:11px;color:var(--muted);margin-top:10px;">7 key insights from real Bhutanese adults · Takes 2 minutes to read</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="resources-section reveal" id="resources">
+    <div class="resources-inner">
+        <div class="resources-header">
+            <span class="section-tag" style="color:var(--teal)">📚 Learn & Grow</span>
+            <h2>Resources to Improve<br><em>Crypto Readiness</em></h2>
+            <p>Curated videos, guides and tools for individuals and small businesses in Bhutan looking to build their cryptocurrency knowledge safely.</p>
+        </div>
+        <div class="res-tabs">
+            <button class="res-tab active" onclick="resTab('individuals',this)">👤 For Individuals</button>
+            <button class="res-tab" onclick="resTab('businesses',this)">🏢 For Small Businesses</button>
+        </div>
+        <div class="res-content active" id="res-individuals">
+            <div class="res-category-label">🎓 Start Here — Crypto Basics</div>
+            <div class="res-grid">
+                <div class="res-card video"><div class="res-type video">🎥 Video</div><div class="res-card-title">Blockchain Explained Simply for Beginners 2025</div><div class="res-card-desc">A beginner-friendly explanation of blockchain technology and how it powers Bitcoin — no technical background needed. Updated for 2025.</div><div class="res-card-meta"><span>⏱ 12 min</span><span>Beginner</span></div><a href="https://www.youtube.com/watch?v=WpAENp79f34" target="_blank" class="res-card-btn video">▶ Watch Video →</a></div>
+                <div class="res-card video"><div class="res-type video">🎥 Video</div><div class="res-card-title">How Does a Blockchain Work — Simply Explained</div><div class="res-card-desc">A classic and clear explanation of what blockchain is and how it works — in plain English with simple visuals. Millions of views.</div><div class="res-card-meta"><span>⏱ 6 min</span><span>Beginner</span></div><a href="https://www.youtube.com/watch?v=SSo_EIwHSd4" target="_blank" class="res-card-btn video">▶ Watch Video →</a></div>
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">Bitcoin for Beginners — Complete 2025 Guide</div><div class="res-card-desc">Everything you need to know about Bitcoin as a beginner — what it is, how it works, how to store it safely, and the risks involved.</div><div class="res-card-meta"><span>📝 Article</span><span>Free</span></div><a href="https://cryptopotato.com/bitcoin-for-beginners/" target="_blank" class="res-card-btn guide">Read Guide →</a></div>
+            </div>
+            <div class="res-category-label">🛡️ Stay Safe — Scam Awareness</div>
+            <div class="res-grid">
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">What to Know About Crypto Scams — FTC Official Guide</div><div class="res-card-desc">Official guidance from the US Federal Trade Commission on recognising cryptocurrency scams, protecting your assets, and what to do if targeted.</div><div class="res-card-meta"><span>📝 Official</span><span>Free</span></div><a href="https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-scams" target="_blank" class="res-card-btn guide">Read Guide →</a></div>
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">Cryptocurrency Investment Fraud — FBI Official Guide</div><div class="res-card-desc">The FBI explains how pig butchering and crypto investment fraud works — and exactly how to protect yourself and report it.</div><div class="res-card-meta"><span>📝 Official FBI</span><span>Free</span></div><a href="https://www.fbi.gov/how-we-can-help-you/victim-services/national-crimes-and-victim-resources/cryptocurrency-investment-fraud" target="_blank" class="res-card-btn guide">Read Guide →</a></div>
+                <div class="res-card link"><div class="res-type link">🔗 Resource</div><div class="res-card-title">RMA Bhutan — Digital Finance Updates</div><div class="res-card-desc">Stay informed about the Royal Monetary Authority of Bhutan's official stance on digital assets, regulations, and consumer protections.</div><div class="res-card-meta"><span>🏛️ Official</span><span>Bhutan</span></div><a href="https://www.rma.org.bt" target="_blank" class="res-card-btn link">Visit RMA →</a></div>
+            </div>
+            <div class="res-category-label">🚀 Next Steps — Going Deeper</div>
+            <div class="res-grid">
+                <div class="res-card video"><div class="res-type video">🎥 Video</div><div class="res-card-title">How to Set Up Your First Crypto Wallet (2025)</div><div class="res-card-desc">Step by step beginner guide to setting up your first cryptocurrency wallet safely — understanding seed phrases and keeping your funds secure.</div><div class="res-card-meta"><span>⏱ 10 min</span><span>Beginner</span></div><a href="https://www.youtube.com/watch?v=IlIFuSqnklM" target="_blank" class="res-card-btn video">▶ Watch Video →</a></div>
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">How to Set Up a Crypto Wallet — Coinbase Guide</div><div class="res-card-desc">Official step by step guide from Coinbase on setting up your first crypto wallet — covering hosted wallets, self-custody, and hardware wallets.</div><div class="res-card-meta"><span>📝 Official Guide</span><span>Free</span></div><a href="https://www.coinbase.com/learn/tips-and-tutorials/how-to-set-up-a-crypto-wallet" target="_blank" class="res-card-btn guide">Read Guide →</a></div>
+                <div class="res-card link"><div class="res-type link">🔗 Resource</div><div class="res-card-title">Crypto Wallets Explained — Beginners Guide 2025</div><div class="res-card-desc">A comprehensive beginner friendly video covering what crypto wallets are, how they work, and how to get started using crypto apps safely.</div><div class="res-card-meta"><span>🎓 Video Guide</span><span>Free</span></div><a href="https://www.youtube.com/watch?v=4PvA7oYDXu8" target="_blank" class="res-card-btn link">Watch Now →</a></div>
+            </div>
+        </div>
+        <div class="res-content" id="res-businesses">
+            <div class="res-category-label">💡 Getting Started — Crypto for Business</div>
+            <div class="res-grid">
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">How to Accept Crypto Payments as a Business — 2026 Guide</div><div class="res-card-desc">A complete and up-to-date guide for small businesses on accepting cryptocurrency payments — payment gateways, setup, risks, and what to expect.</div><div class="res-card-meta"><span>📝 Guide</span><span>Free · 2026</span></div><a href="https://bvnk.com/blog/how-to-accept-crypto-as-a-business" target="_blank" class="res-card-btn guide">Read Guide →</a></div>
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">Accepting Crypto Payments — Stripe Business Guide</div><div class="res-card-desc">Stripe's official guide on how businesses can accept crypto payments today — covering payment processors, stablecoins, checkout setup, and compliance.</div><div class="res-card-meta"><span>📝 Official Stripe</span><span>Free</span></div><a href="https://stripe.com/resources/more/how-to-accept-crypto-payments" target="_blank" class="res-card-btn guide">Read Guide →</a></div>
+                <div class="res-card link"><div class="res-type link">🔗 Tool</div><div class="res-card-title">BTCPay Server — Free Crypto Payment Tool</div><div class="res-card-desc">Open source, self-hosted payment processor that lets any business accept Bitcoin directly — no third party, no fees, full control.</div><div class="res-card-meta"><span>🛠️ Free Tool</span><span>Open Source</span></div><a href="https://btcpayserver.org" target="_blank" class="res-card-btn link">Explore Tool →</a></div>
+            </div>
+            <div class="res-category-label">⚖️ Legal & Regulatory Guidance</div>
+            <div class="res-grid">
+                <div class="res-card link"><div class="res-type link">🔗 Official</div><div class="res-card-title">RMA Bhutan — Financial Regulations</div><div class="res-card-desc">The Royal Monetary Authority of Bhutan is the central bank responsible for financial regulations. Check here for the latest official digital finance policies.</div><div class="res-card-meta"><span>🏛️ Official</span><span>Bhutan</span></div><a href="https://www.rma.org.bt" target="_blank" class="res-card-btn link">Visit RMA →</a></div>
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">Crypto Regulation in Small Economies — IMF Fintech</div><div class="res-card-desc">International Monetary Fund analysis of how small economies should approach cryptocurrency regulation — directly relevant to Bhutan's context.</div><div class="res-card-meta"><span>📝 IMF Report</span><span>Free</span></div><a href="https://www.imf.org/en/Topics/fintech" target="_blank" class="res-card-btn guide">Read Report →</a></div>
+                <div class="res-card guide"><div class="res-type guide">📖 Guide</div><div class="res-card-title">Should Your Small Business Accept Crypto in 2025?</div><div class="res-card-desc">A balanced and practical guide covering the real pros and cons of accepting cryptocurrency for small businesses — fees, fraud, volatility, and legal compliance.</div><div class="res-card-meta"><span>📝 Business Guide</span><span>Free</span></div><a href="https://www.business.org/finance/payment-processing/small-business-accept-cryptocurrency/" target="_blank" class="res-card-btn guide">Read Guide →</a></div>
+            </div>
+            <div class="res-category-label">🌏 Case Studies — Real World Examples</div>
+            <div class="res-grid">
+                <div class="res-card guide"><div class="res-type guide">📖 Case Study</div><div class="res-card-title">El Salvador: Lessons from a Country Adopting Bitcoin</div><div class="res-card-desc">El Salvador became the first country to adopt Bitcoin as legal tender. This case study explores what worked, what didn't, and what Bhutan can learn.</div><div class="res-card-meta"><span>📝 Case Study</span><span>Free</span></div><a href="https://www.investopedia.com/el-salvador-bitcoin-legal-tender-5200875" target="_blank" class="res-card-btn guide">Read Case Study →</a></div>
+                <div class="res-card guide"><div class="res-type guide">📖 News</div><div class="res-card-title">Nansen Partners with Gelephu Mindfulness City, Bhutan</div><div class="res-card-desc">Blockchain analytics company Nansen is establishing a local entity in Bhutan's GMC — a major step in Bhutan's digital asset ecosystem development.</div><div class="res-card-meta"><span>📰 Latest News</span><span>2026</span></div><a href="https://cointelegraph.com/news/nansen-to-set-up-bhutan-entity-in-gelephu-mindfulness-city-to-support-digital-asset-ecosystem" target="_blank" class="res-card-btn guide">Read Article →</a></div>
+                <div class="res-card link"><div class="res-type link">🔗 Resource</div><div class="res-card-title">World Bank — Digital Finance for Small Business</div><div class="res-card-desc">World Bank resources on how digital finance and fintech can help small and medium businesses in developing economies grow and thrive.</div><div class="res-card-meta"><span>🌏 World Bank</span><span>Free</span></div><a href="https://www.worldbank.org/en/topic/smefinance" target="_blank" class="res-card-btn link">Explore Resources →</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-logo">Druk<span>Shift</span> 🇧🇹</div>
+    <div class="footer-tagline">Shift Forward, Bhutan</div>
+    <div class="footer-divider"></div>
+    <div class="footer-info">
+        Druk = The Land of the Thunder Dragon &nbsp;·&nbsp; Shift = Shifting towards the future of digital finance<br>
+        Kinzang Choden &nbsp;·&nbsp; BDS Internship 2026 &nbsp;·&nbsp; Bhutan Data Scientists Pvt. Ltd
+    </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">Cryptocurrency Readiness in Bhutan</span><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body" id="modalBody"></div></div>
+</div>
+<div class="gnh-modal-overlay" id="scamModalOverlay" onclick="if(event.target===this)closeScamModal()">
+    <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">🛡️ Scam Vulnerability</span><button class="modal-close" onclick="closeScamModal()">✕</button></div><div class="modal-body" id="scamModalBody"></div></div>
+</div>
+<div class="gnh-modal-overlay" id="solutionsModalOverlay" onclick="if(event.target===this)closeSolutionsModal()">
+    <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">💡 5 Solutions to Improve Crypto Readiness</span><button class="modal-close" onclick="closeSolutionsModal()">✕</button></div><div class="modal-body" id="solutionsModalBody"></div></div>
+</div>
+<div class="gnh-modal-overlay" id="gnhModalOverlay" onclick="if(event.target===this)closeGNHModal()">
+    <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">🇧🇹 Cryptocurrency Readiness — GNH Story</span><button class="modal-close" onclick="closeGNHModal()">✕</button></div><div class="modal-body" id="gnhModalBody"></div></div>
+</div>
+<div class="gnh-modal-overlay" id="readinessModalOverlay" onclick="if(event.target===this)closeReadinessModal()">
+    <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">📈 How Can Readiness Be Improved Over Time?</span><button class="modal-close" onclick="closeReadinessModal()">✕</button></div><div class="modal-body" id="readinessModalBody"></div></div>
+</div>
+
+
+
+<div class="gnh-modal-overlay" id="findingsModalOverlay" onclick="if(event.target===this)closeFindingsModal()">
+    <div class="modal"><div class="modal-header"><div class="modal-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><span class="modal-title">🔑 Key Findings — Cryptocurrency Readiness in Bhutan</span><button class="modal-close" onclick="closeFindingsModal()">✕</button></div><div class="modal-body" id="findingsModalBody"></div></div>
+</div>
+
+
+
+
+
+<!-- ════════════════════════════════════
+     EMBEDDED MINI GAMES PANEL
+════════════════════════════════════ -->
+
+<!-- GAME OPEN BUTTON -->
+<button 
+    onclick="document.getElementById('mg-wrap').classList.toggle('mg-open')"
+    style="position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:99999;background:#2a9d8f;color:white;border:none;cursor:pointer;padding:20px 14px;border-radius:16px 0 0 16px;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:Outfit,sans-serif;box-shadow:-6px 0 30px rgba(42,157,143,0.6);">
+    <span style="font-size:26px;">🎮</span>
+    <span style="font-size:8px;letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);font-weight:600;">GAMES</span>
+</button>
+
+<!-- GAME PANEL CONTENT -->
+<div id="mg-wrap">
+    <!-- PANEL HEADER -->
+    <div style="background:linear-gradient(90deg,#2a9d8f,#1a7a6e);padding:20px;position:sticky;top:0;z-index:10;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:white;">🎮 DrukShift Games</div>
+            <button onclick="document.getElementById('mg-wrap').classList.remove('mg-open')" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;">✕</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:11px;color:rgba(255,255,255,0.7);">Total XP</span>
+            <div style="flex:1;height:6px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden;"><div id="mg-xp-fill" style="height:100%;background:#e9c46a;border-radius:3px;width:0%;transition:width 0.5s;"></div></div>
+            <span id="mg-xp-num" style="font-size:13px;font-weight:700;color:#e9c46a;">0</span>
+        </div>
+    </div>
+
+    <!-- SCROLLABLE CONTENT -->
+    <div id="mg-content" style="height:calc(100vh - 110px);overflow-y:auto;padding:20px;">
+        <!-- MENU -->
+        <div id="mg-menu">
+            <div style="font-size:11px;color:#7a9bb5;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Choose a game</div>
+            
+            <div id="mg-card-blitz" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
+                <span style="font-size:36px;">⚡</span>
+                <div style="flex:1;">
+                    <div style="font-size:15px;font-weight:600;color:white;margin-bottom:4px;">Crypto Quiz Blitz</div>
+                    <div style="font-size:12px;color:#7a9bb5;">10 true/false questions · 30 seconds · How many can you get?</div>
+                </div>
+                <div style="text-align:center;"><span style="font-size:11px;color:#e9c46a;background:rgba(233,196,106,0.1);padding:3px 8px;border-radius:50px;font-weight:700;">+50 XP</span><br><span id="mg-hs-blitz" style="font-size:10px;color:#7a9bb5;">Best: 0</span></div>
+            </div>
+
+            <div id="mg-card-scam" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
+                <span style="font-size:36px;">🎯</span>
+                <div style="flex:1;">
+                    <div style="font-size:15px;font-weight:600;color:white;margin-bottom:4px;">Scam Spotter</div>
+                    <div style="font-size:12px;color:#7a9bb5;">Scam or Legit? · 8 messages · 10 seconds each</div>
+                </div>
+                <div style="text-align:center;"><span style="font-size:11px;color:#e9c46a;background:rgba(233,196,106,0.1);padding:3px 8px;border-radius:50px;font-weight:700;">+60 XP</span><br><span id="mg-hs-scam" style="font-size:10px;color:#7a9bb5;">Best: 0</span></div>
+            </div>
+
+            <div id="mg-card-memory" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all 0.2s;">
+                <span style="font-size:36px;">🃏</span>
+                <div style="flex:1;">
+                    <div style="font-size:15px;font-weight:600;color:white;margin-bottom:4px;">Match the Term</div>
+                    <div style="font-size:12px;color:#7a9bb5;">Flip cards · Match crypto terms to definitions</div>
+                </div>
+                <div style="text-align:center;"><span style="font-size:11px;color:#e9c46a;background:rgba(233,196,106,0.1);padding:3px 8px;border-radius:50px;font-weight:700;">+40 XP</span><br><span id="mg-hs-memory" style="font-size:10px;color:#7a9bb5;">Best: 0</span></div>
+            </div>
+
+            <!-- LEADERBOARD -->
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;margin-bottom:12px;">
+                <div style="font-size:13px;font-weight:600;color:white;margin-bottom:12px;">🏆 Your High Scores</div>
+                <div id="mg-lb"></div>
+            </div>
+        </div>
+
+        <!-- GAME AREA -->
+        <div id="mg-game" style="display:none;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                <button onclick="mgShowMenu()" style="background:rgba(255,255,255,0.1);border:none;color:white;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;">←</button>
+                <div>
+                    <div id="mg-game-title" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:white;"></div>
+                    <div id="mg-game-sub" style="font-size:11px;color:#7a9bb5;"></div>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div style="display:flex;gap:10px;margin-bottom:16px;">
+                <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center;">
+                    <div id="mg-stat-score" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:white;line-height:1;">0</div>
+                    <div style="font-size:10px;color:#7a9bb5;margin-top:2px;">Score</div>
+                </div>
+                <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center;">
+                    <div id="mg-stat-q" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:white;line-height:1;">1</div>
+                    <div style="font-size:10px;color:#7a9bb5;margin-top:2px;">Question</div>
+                </div>
+                <div style="flex:2;background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center;">
+                    <div id="mg-stat-time" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:white;line-height:1;">30</div>
+                    <div style="font-size:10px;color:#7a9bb5;margin-top:2px;">Seconds</div>
+                    <div style="height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:6px;overflow:hidden;"><div id="mg-timer-bar" style="height:100%;background:linear-gradient(90deg,#e63946,#f4a261,#2a9d8f);border-radius:2px;width:100%;transition:width 0.1s linear;"></div></div>
+                </div>
+            </div>
+
+            <!-- PROGRESS DOTS -->
+            <div id="mg-dots" style="display:flex;gap:6px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;"></div>
+
+            <!-- QUESTION -->
+            <div id="mg-qcard" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:20px;margin-bottom:16px;">
+                <div id="mg-qnum" style="font-size:10px;color:#2a9d8f;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;"></div>
+                <div id="mg-qtext" style="font-size:15px;font-weight:500;line-height:1.6;color:white;"></div>
+            </div>
+
+            <!-- ANSWER AREA -->
+            <div id="mg-answers"></div>
+
+            <!-- FEEDBACK -->
+            <div id="mg-feedback" style="display:none;padding:14px;border-radius:10px;margin-bottom:16px;font-size:13px;line-height:1.6;"></div>
+        </div>
+
+        <!-- RESULT -->
+        <div id="mg-result" style="display:none;text-align:center;padding:20px 0;">
+            <div id="mg-res-emoji" style="font-size:72px;margin-bottom:16px;display:block;"></div>
+            <div id="mg-res-score" style="font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;color:#e9c46a;line-height:1;margin-bottom:8px;"></div>
+            <div id="mg-res-label" style="font-size:16px;color:#7a9bb5;margin-bottom:16px;"></div>
+            <div id="mg-res-xp" style="font-size:20px;font-weight:700;color:#2a9d8f;margin-bottom:24px;"></div>
+            <button id="mg-res-again" style="width:100%;padding:14px;background:#2a9d8f;color:white;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;margin-bottom:10px;">▶ Play Again</button>
+            <button onclick="mgShowMenu()" style="width:100%;padding:14px;background:rgba(255,255,255,0.1);color:#7a9bb5;border:none;border-radius:10px;font-size:14px;font-family:'Outfit',sans-serif;cursor:pointer;">← Back to Games</button>
+        </div>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
