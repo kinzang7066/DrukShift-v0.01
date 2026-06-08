@@ -1150,3 +1150,30 @@ window.addEventListener('DOMContentLoaded', function(){
     if(overlay) overlay.style.display = 'none';
   }
 });
+
+// ── PROBLEMS SECTION CAROUSEL ──
+var psCur = 0, psTotal = 4, psTimer = null;
+function psSlide(dir) {
+  psCur = (psCur + dir + psTotal) % psTotal;
+  psGoTo(psCur);
+}
+function psGoTo(n) {
+  psCur = n;
+  var car = document.getElementById('psCarousel');
+  if(car) car.style.transform = 'translateX(-' + (n * 100) + '%)';
+  var dots = document.querySelectorAll('#psDots div');
+  dots.forEach(function(d, i) {
+    d.style.width = i === n ? '20px' : '8px';
+    d.style.background = i === n ? 'var(--accent)' : 'rgba(255,255,255,0.3)';
+  });
+  var num = document.getElementById('psNum');
+  if(num) num.textContent = n + 1;
+}
+// Auto play
+psTimer = setInterval(function(){ psSlide(1); }, 3500);
+// Pause on hover
+var psEl = document.getElementById('psCarousel');
+if(psEl) {
+  psEl.addEventListener('mouseenter', function(){ clearInterval(psTimer); });
+  psEl.addEventListener('mouseleave', function(){ psTimer = setInterval(function(){ psSlide(1); }, 3500); });
+}
