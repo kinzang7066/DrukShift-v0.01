@@ -25,16 +25,46 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .nav-links{display:flex;gap:32px;list-style:none;}
 .nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;}
 .nav-links a:hover{color:var(--white);}
-.hero{min-height:100vh;background:linear-gradient(160deg,#04101e,#08192d);position:relative;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;overflow:hidden;}
-.hero-slides{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;}
-.hero-slide{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;transition:opacity 0.8s cubic-bezier(0.4,0,0.2,1),transform 2s cubic-bezier(0.4,0,0.2,1);background-size:cover;background-position:center;background-repeat:no-repeat;transform:scale(1.08);}
-.hero-slide.active{opacity:1;transform:scale(1);}
+
+/* ═══════════════════════════════════════
+   HERO CAROUSEL
+═══════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg,#04101e,#08192d);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 48px 80px;
+  overflow: hidden;
+}
+.hero-slides { position:absolute; inset:0; z-index:0; }
+.hero-slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1),
+              transform 2s cubic-bezier(0.4,0,0.2,1);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.06);
+}
+.hero-slide.active { opacity:1; transform:scale(1); }
+.hero-slide::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(
+    160deg,
+    rgba(8,25,45,0.82) 0%,
+    rgba(15,42,69,0.70) 50%,
+    rgba(8,25,45,0.85) 100%
+  );
+}
 .hero-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80');}
 .hero-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=80');}
-.hero-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1920&q=80');}
-.hero-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1920&q=80');}
-.hero-slide:nth-child(5){background-image:url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1920&q=80');}
-.hero-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,25,45,0.80) 0%,rgba(15,42,69,0.72) 50%,rgba(10,31,56,0.82) 100%);}
+.hero-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?auto=format&fit=crop&w=1920&q=80');}
+.hero-slide:nth-child(4){background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80');}
+.hero-slide:nth-child(5){background-image:url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1920&q=80');}
 .hero-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
 .hero-orb{position:absolute;border-radius:50%;pointer-events:none;}
 .hero-orb-1{top:20%;right:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(42,106,173,0.2) 0%,transparent 70%);animation:pulse 4s ease-in-out infinite;z-index:2;}
@@ -48,11 +78,84 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .hero-intro strong{color:var(--accent);font-weight:600;}
 .hero-desc{font-size:16px;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto 40px;animation:fadeUp 0.6s 0.2s ease both;}
 .hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.6s 0.3s ease both;}
-.hero-dots{display:flex;gap:10px;justify-content:center;z-index:4;margin-top:20px;}
-.hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);border:2px solid rgba(255,255,255,0.4);cursor:pointer;padding:0;transition:all 0.3s;}
-.hero-dot.active{background:var(--accent);border-color:var(--accent);transform:scale(1.3);}
-.hero-dot:hover{background:rgba(255,255,255,0.6);}
 .hero-caption{position:absolute;bottom:112px;right:48px;z-index:4;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-align:right;text-transform:uppercase;transition:opacity 0.3s ease;}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:2px;text-transform:uppercase;z-index:4;}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── Carousel arrows ── */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+}
+.hero-arrow:hover {
+  background: rgba(244,162,97,0.4);
+  border-color: var(--accent);
+  transform: translateY(-50%) scale(1.1);
+}
+.hero-arrow.prev { left: 24px; }
+.hero-arrow.next { right: 24px; }
+
+/* ── Carousel dots ── */
+.hero-dots {
+  display: flex; gap: 8px;
+  justify-content: center;
+  z-index: 10;
+  margin-top: 28px;
+  position: relative;
+}
+.hero-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  border: none; cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+.hero-dot.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ── Slide caption ── */
+.hero-caption {
+  position: absolute;
+  bottom: 90px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── Slide counter ── */
+.hero-counter {
+  position: absolute;
+  top: 90px; right: 32px;
+  z-index: 10;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+}
+.hero-counter span { color: white; font-weight: 700; }
+
 .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:2px;text-transform:uppercase;z-index:4;}
 .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:scrollPulse 2s ease-in-out infinite;}
 @keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
@@ -961,7 +1064,10 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
   text-transform: uppercase; margin-bottom: 20px;
   display: flex; align-items: center; gap: 10px;
 }
-.ps-card { border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; }
+.ps-card { border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; overflow:hidden; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.ps-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+.ps-card-img { width:100%; height:140px; object-fit:cover; border-radius:8px; margin-bottom:12px; transition:transform 0.4s ease; display:block; }
+.ps-card:hover .ps-card-img { transform:scale(1.04); }
 .ps-card.problem { background: rgba(230,57,70,0.08); border: 1px solid rgba(230,57,70,0.25); }
 .ps-card.solution { background: rgba(42,157,143,0.08); border: 1px solid rgba(42,157,143,0.25); }
 .ps-card-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
@@ -992,6 +1098,44 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
     <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
 </head>
 <body>
+
+
+<!-- ═══════════════════════════════════════
+     WELCOME POPUP
+═══════════════════════════════════════ -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-card">
+    <div class="welcome-header">
+      <div class="welcome-flag">🇧🇹</div>
+      <div class="welcome-logo">Druk<span>Shift</span></div>
+      <div class="welcome-tagline">Cryptocurrency Readiness in Bhutan</div>
+    </div>
+    <div class="welcome-body">
+      <div class="welcome-title">Before you explore — read this first 👇</div>
+      <div class="welcome-sub">This project works best when you follow these 4 steps in order. Each one builds on the last.</div>
+      <div class="welcome-steps">
+        <a class="welcome-step" onclick="closeWelcome();window.open('drukshift_story.html','_blank');" href="javascript:void(0)">
+          <div class="ws-num" style="background:#e63946;">1</div>
+          <div class="ws-text"><h4>🎬 Read the Webtoon</h4><p>Meet Deki — the story behind this research. 5 minutes.</p></div>
+        </a>
+        <a class="welcome-step" onclick="startHere('quiz');" href="javascript:void(0)">
+          <div class="ws-num" style="background:#f4a261;">2</div>
+          <div class="ws-text"><h4>🎯 Take the Quiz</h4><p>Test your own cryptocurrency readiness. 3 minutes.</p></div>
+        </a>
+        <a class="welcome-step" onclick="startHere('findings');" href="javascript:void(0)">
+          <div class="ws-num" style="background:#2a9d8f;">3</div>
+          <div class="ws-text"><h4>📊 Read the Key Findings</h4><p>See how 113 Bhutanese adults scored. 2 minutes.</p></div>
+        </a>
+        <a class="welcome-step" onclick="closeWelcome();window.open('drukshift_wallet.html','_blank');" href="javascript:void(0)">
+          <div class="ws-num" style="background:#1a4a7a;">4</div>
+          <div class="ws-text"><h4>👛 Try the DrukShift Wallet</h4><p>See the solution built for Bhutanese merchants.</p></div>
+        </a>
+      </div>
+      <button class="welcome-cta" onclick="closeWelcome()">Got it — Let me explore →</button>
+      <button class="welcome-skip" onclick="closeWelcome()">Skip and explore freely</button>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════
      XP SIDEBAR
@@ -1071,6 +1215,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
         <li><a href="#readiness" onclick="closeMenu()">Readiness</a></li>
         <li><a href="#findings" onclick="closeMenu()">Findings</a></li>
         <li><a href="#realproblems" onclick="closeMenu()">Real Problems</a></li>
+        <li><a href="#casestudy" onclick="closeMenu()">Case Study</a></li>
         <li><a href="#reports" onclick="closeMenu()">Reports</a></li>
         <li><a href="#story" style="color:var(--accent)" onclick="closeMenu()">🇧🇹 Our Story</a></li>
         <li><a href="drukshift_story.html" style="color:var(--red)" target="_blank" onclick="closeMenu()">🎬 Webtoon</a></li>
@@ -1118,6 +1263,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
     <div class="hero-grid"></div>
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
+
     <div class="hero-content">
         <div class="hero-badge">🇧🇹 Bhutan Data Scientists Pvt. Ltd — Internship 2026</div>
         <div class="hero-intro">
@@ -1434,6 +1580,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card problem">
           <div class="ps-card-num p">Problem 01</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80" alt="Tourists Do Not Know the Option Exists" loading="lazy">
           <div class="ps-card-title">Tourists Do Not Know the Option Exists</div>
           <div class="ps-card-body">Most tourists arrive in Bhutan with no idea that over 1,000 merchants accept cryptocurrency. There is no information at the airport, no mention in visa documents and no push notification when they land. The system exists but tourists simply never find out about it.</div>
           <div class="ps-card-source">Source — Trade Brains, February 2026</div>
@@ -1441,6 +1588,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card problem">
           <div class="ps-card-num p">Problem 02</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Merchants Never Tell Tourists About It" loading="lazy">
           <div class="ps-card-title">Merchants Never Tell Tourists About It</div>
           <div class="ps-card-body">"It has been four to five months but no customer has used it until now. No one knows that we accept cryptocurrency and Binance Pay." — Sonam Dorji, Lotus Peak Enterprise, Le Meridien Thimphu.</div>
           <div class="ps-card-source">Source — Rest of World, March 2026</div>
@@ -1448,6 +1596,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card problem">
           <div class="ps-card-num p">Problem 03</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1572021335469-31706a17aaef?auto=format&fit=crop&w=800&q=80" alt="QR Codes Are Sitting Untouched" loading="lazy">
           <div class="ps-card-title">QR Codes Are Sitting Untouched</div>
           <div class="ps-card-body">Across Thimphu QR codes sit untouched at hotel counters and cafe tables. For most merchants the system exists on paper not in practice. Merchants were given a QR code but no training or confidence to use it.</div>
           <div class="ps-card-source">Source — Trade Brains, February 2026</div>
@@ -1455,6 +1604,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card problem">
           <div class="ps-card-num p">Problem 04</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80" alt="Tourists Must Already Have Binance" loading="lazy">
           <div class="ps-card-title">Tourists Must Already Have Binance</div>
           <div class="ps-card-body">The system requires tourists to be existing Binance users. A tourist who does not already have a Binance account set up before arriving in Bhutan cannot use the system at all — even if they want to.</div>
           <div class="ps-card-source">Source — Lightspark, 2026</div>
@@ -1462,6 +1612,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card problem">
           <div class="ps-card-num p">Problem 05</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80" alt="Internet Reliability in Remote Areas" loading="lazy">
           <div class="ps-card-title">Internet Reliability in Remote Areas</div>
           <div class="ps-card-body">In remote tourist areas outside Thimphu and Paro internet connectivity is slow or unstable. Crypto payments require a stable connection to confirm. This remains a real barrier especially in areas like Punakha and Bumthang.</div>
           <div class="ps-card-source">Source — GoBhutanTours, 2025</div>
@@ -1476,6 +1627,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card solution">
           <div class="ps-card-num s">Solution 01</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" alt="Merchants Receive Ngultrum" loading="lazy">
           <div class="ps-card-title">Merchants Receive Ngultrum — Not Crypto</div>
           <div class="ps-card-body">All Binance Pay payments are instantly converted to Ngultrum through DK Bank. Merchants never actually hold crypto or face price volatility. They simply receive Ngultrum in their account just like a normal bank transfer. This already works — merchants just do not know it.</div>
           <div class="ps-card-source">Source — TravelAcrossBhutan, 2026</div>
@@ -1483,6 +1635,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card solution">
           <div class="ps-card-num s">Solution 02</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80" alt="Zero Fees for Tourist Payments" loading="lazy">
           <div class="ps-card-title">Zero Fees for Tourist Payments</div>
           <div class="ps-card-body">Tourist crypto payments through Binance Pay have no added transaction fees. Unlike credit cards which charge merchants 2 to 3 percent per transaction Binance Pay costs nothing. This is a real financial benefit that most merchants are not aware of.</div>
           <div class="ps-card-source">Source — Lightspark, 2026</div>
@@ -1490,6 +1643,7 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card solution">
           <div class="ps-card-num s">Solution 03</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80" alt="DrukShift Wallet" loading="lazy">
           <div class="ps-card-title">DrukShift Wallet — Built for This Problem</div>
           <div class="ps-card-body">The DrukShift Wallet prototype was built specifically to solve Problems 2 and 3. It gives merchants a simple app showing every incoming payment clearly confirmed in Ngultrum with a live rate — removing the confusion that stops merchants from actively promoting crypto payments to tourists.</div>
           <div class="ps-drukshift-badge">
@@ -1499,12 +1653,14 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
 
         <div class="ps-card solution">
           <div class="ps-card-num s">Solution 04</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=800&q=80" alt="Awareness at Point of Entry" loading="lazy">
           <div class="ps-card-title">Awareness at Point of Entry</div>
           <div class="ps-card-body">A simple information card in multiple languages at Paro International Airport arrival hall — given to every tourist alongside their visa — would reach 100 percent of incoming visitors before they even reach a merchant. This requires no new technology just communication.</div>
         </div>
 
         <div class="ps-card solution">
           <div class="ps-card-num s">Solution 05</div>
+          <img class="ps-card-img" src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Merchant Training by DK Bank" loading="lazy">
           <div class="ps-card-title">Merchant Training by DK Bank</div>
           <div class="ps-card-body">DK Bank and the Department of Tourism should run a short hands-on training for all registered merchants — showing them exactly how to receive a payment, confirm it in Ngultrum and encourage tourists to use it. Currently merchants were onboarded with a QR code but nothing else.</div>
         </div>
@@ -1533,6 +1689,99 @@ body.light-mode .finding-stat-track{background:#dce6f0;}
   </a>
   <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:12px;">Live Bitcoin rates · Send · Receive · Convert to Ngultrum · BOB on-ramp</div>
 </div>
+
+
+<!-- ══ CASE STUDY SECTION ══ -->
+<section style="padding:100px 48px;background:var(--light);" class="reveal" id="casestudy">
+  <div style="max-width:900px;margin:0 auto;">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:48px;">
+      <span style="display:inline-block;font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:16px;">📋 Field Case Study</span>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:12px;">A Real Merchant.<br><em style="color:var(--teal);font-style:italic;">A Real Problem.</em></h2>
+      <div style="width:48px;height:3px;background:var(--teal);border-radius:2px;margin:0 auto 16px;"></div>
+      <p style="font-size:14px;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.8;">This case study documents a real Bhutanese shop owner attempting to register for cryptocurrency payments — directly validating the problems identified in the DrukShift research.</p>
+    </div>
+
+    <!-- Case study card -->
+    <div style="background:white;border-radius:20px;overflow:hidden;box-shadow:0 4px 32px rgba(8,25,45,0.08);margin-bottom:32px;">
+
+      <!-- Top banner -->
+      <div style="background:linear-gradient(135deg,var(--navy),#0f2a45);padding:28px 32px;display:flex;align-items:center;gap:20px;">
+        <div style="width:60px;height:60px;border-radius:50%;background:rgba(42,157,143,0.2);border:2px solid rgba(42,157,143,0.4);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">🏪</div>
+        <div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Case Study — Thimphu, Bhutan</div>
+          <div style="font-size:20px;font-weight:700;color:white;font-family:'Cormorant Garamond',serif;">Small Souvenir Shop · Tourist Area</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px;">Registered business · Bhutanese owner · Loses tourist sales weekly</div>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Status</div>
+          <div style="background:rgba(233,196,106,0.15);border:1px solid rgba(233,196,106,0.4);color:var(--gold);font-size:12px;font-weight:700;padding:4px 12px;border-radius:50px;">⏳ Awaiting Response</div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div style="padding:32px;">
+
+        <!-- The problem -->
+        <div style="margin-bottom:28px;">
+          <div style="font-size:11px;font-weight:700;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">⚠️ The Problem</div>
+          <p style="font-size:14px;color:#2d4a5a;line-height:1.9;">The shop owner regularly loses sales because tourists visit wanting to buy Bhutanese handicrafts and souvenirs but arrive with no Bhutanese Ngultrum. They offer to pay by card or cryptocurrency but she has no system to accept either. The sale is lost. This happens every week.</p>
+          <div style="background:#fff5f5;border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:12px;font-size:13px;color:#a32d2d;line-height:1.7;font-style:italic;">"Tourist came in, loved everything, wanted to buy three items. No cash. I had no way to accept payment. She left."</div>
+        </div>
+
+        <!-- The goal -->
+        <div style="margin-bottom:28px;">
+          <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">🎯 The Goal</div>
+          <p style="font-size:14px;color:#2d4a5a;line-height:1.9;">Register for Binance Pay through DK Bank to accept cryptocurrency payments from tourists. Under the current system merchants receive Ngultrum automatically in their bank account after each transaction — no crypto is held. The goal is to have this running in the shop before the next tourist season.</p>
+        </div>
+
+        <!-- Steps taken -->
+        <div style="margin-bottom:28px;">
+          <div style="font-size:11px;font-weight:700;color:var(--navy);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">📋 Steps Taken So Far</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <div style="width:28px;height:28px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0;">1</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;">Identified DK Bank as the registration gateway</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.6;">DK Bank is the official digital bank managing all Binance Pay merchant registrations in Bhutan under the government tourism payment initiative.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <div style="width:28px;height:28px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0;">2</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;">Email sent to DK Bank requesting guidance</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.6;">A formal email was sent to DK Bank asking about the registration process, required documents, timeline and merchant support available after registration.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <div style="width:28px;height:28px;background:rgba(233,196,106,0.3);border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#b38a00;font-size:12px;font-weight:700;flex-shrink:0;">3</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;">Awaiting response from DK Bank</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.6;">Response pending. The time it takes for DK Bank to reply is itself a data point — it reflects how accessible the registration process actually is for ordinary merchants.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <div style="width:28px;height:28px;background:#e8eef4;border:2px dashed #c8d8e8;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:700;flex-shrink:0;">4</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:2px;">Complete registration and document the process</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.6;">Once guidance is received the shop owner will complete registration and the full process will be documented as a replicable guide for other small merchants in Bhutan.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Research connection -->
+        <div style="background:linear-gradient(135deg,rgba(42,157,143,0.06),rgba(42,157,143,0.02));border:1px solid rgba(42,157,143,0.2);border-radius:12px;padding:20px 24px;">
+          <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">🇧🇹 Why This Case Study Matters</div>
+          <p style="font-size:13px;color:#2d4a5a;line-height:1.8;margin:0;">This case study directly validates the findings of the DrukShift survey research. Of the 113 Bhutanese adults surveyed, 68% cited poor internet and lack of knowledge as barriers. This real merchant case shows the gap between having a national crypto payment system and having individual merchants who can confidently use it. The registration process itself, the waiting time for a response and the steps involved are all primary data points that no survey can capture.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <section class="reports-section reveal" id="reports">
     <div class="reports-inner">
@@ -3050,6 +3299,34 @@ window.addEventListener('DOMContentLoaded', function(){
     if(overlay) overlay.style.display = 'none';
   }
 });
+
+// ── PROBLEMS SECTION CAROUSEL ──
+var psCur = 0, psTotal = 4, psTimer = null;
+function psSlide(dir) {
+  psCur = (psCur + dir + psTotal) % psTotal;
+  psGoTo(psCur);
+}
+function psGoTo(n) {
+  psCur = n;
+  var car = document.getElementById('psCarousel');
+  if(car) car.style.transform = 'translateX(-' + (n * 100) + '%)';
+  var dots = document.querySelectorAll('#psDots div');
+  dots.forEach(function(d, i) {
+    d.style.width = i === n ? '20px' : '8px';
+    d.style.background = i === n ? 'var(--accent)' : 'rgba(255,255,255,0.3)';
+  });
+  var num = document.getElementById('psNum');
+  if(num) num.textContent = n + 1;
+}
+// Auto play
+psTimer = setInterval(function(){ psSlide(1); }, 3500);
+// Pause on hover
+var psEl = document.getElementById('psCarousel');
+if(psEl) {
+  psEl.addEventListener('mouseenter', function(){ clearInterval(psTimer); });
+  psEl.addEventListener('mouseleave', function(){ psTimer = setInterval(function(){ psSlide(1); }, 3500); });
+}
+
 </script>
 </body>
 </html>
