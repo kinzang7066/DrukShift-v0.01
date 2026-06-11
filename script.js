@@ -24,33 +24,35 @@ function goToSlide(n){
         slides[currentSlide].style.transition='opacity 0.8s cubic-bezier(0.4,0,0.2,1),transform 2s ease-out';
         slides[currentSlide].style.transform='scale(1)';
         slides[currentSlide].style.opacity='1';
-        slides[currentSlide].classList.add('active');
+        slides[currentSlide].classList.add('active'); 
     }, 30);
     dots[currentSlide].classList.add('active');
     var cap=document.getElementById('heroCaption');
     if(cap){cap.style.opacity='0';setTimeout(function(){cap.textContent=slideCaptions[currentSlide];cap.style.opacity='1';},300);}
 }
-function nextSlide(){goToSlide(currentSlide+1);}
-function startSlideshow(){stopSlideshow();slideTimer=setInterval(nextSlide,4500);}
+function nextSlide(){goToSlide(currentSlide+1);} //goes to next slide
+function startSlideshow(){stopSlideshow();slideTimer=setInterval(nextSlide,4500);} //automaticaly slides change every 4.5 secoinds
 function stopSlideshow(){if(slideTimer){clearInterval(slideTimer);slideTimer=null;}}
 startSlideshow();
 window.addEventListener('DOMContentLoaded',function(){var hero=document.querySelector('.hero');if(hero){hero.addEventListener('mouseenter',stopSlideshow);hero.addEventListener('mouseleave',startSlideshow);}});
 
 // RESOURCES TABS
 function resTab(tab,btn){document.querySelectorAll('.res-content').forEach(function(el){el.classList.remove('active');});document.querySelectorAll('.res-tab').forEach(function(el){el.classList.remove('active');});document.getElementById('res-'+tab).classList.add('active');btn.classList.add('active');}
+//switch between different resource sections eg:if user clicks articles, viidoes or reports, only one tab remains visible 
 
 // ✅ SIMPLE EMAIL VALIDATION
-var currentUser = { name: '', email: '' };
-var API_BASE = 'https://drukshift-vakend.onrender.com';
+var currentUser = { name: '', email: '' }; //stores user information 
+var API_BASE = 'https://drukshift-vakend.onrender.com'; //your frontend talks to this server
 
-function startQuiz() {
+function startQuiz() { //validate name and email before allowing quiz 
     var name  = document.getElementById('userName').value.trim();
-    var email = document.getElementById('userEmail').value.trim();
+    var email = document.getElementById('userEmail').value.trim(); 
+    //get user inputs 
     var emailError = document.getElementById('emailError');
 
-    if (!name) { alert('Please enter your name.'); return; }
+    if (!name) { alert('Please enter your name.'); return; } // check if name exists
 
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //validate the email
     if (!email || !emailRegex.test(email)) {
         emailError.style.display = 'block';
         document.getElementById('userEmail').style.borderColor = 'var(--red)';
@@ -61,10 +63,11 @@ function startQuiz() {
     document.getElementById('userEmail').style.borderColor = '#dce6f0';
     currentUser.name  = name;
     currentUser.email = email;
-    document.getElementById('userInfoWrap').style.display = 'none';
+    //store user
+    document.getElementById('userInfoWrap').style.display = 'none'; //hide form
     document.getElementById('quizWrap').style.display     = 'block';
-    qRender();
-}
+    qRender(); //show quiz 
+} 
 
 // Allow pressing Enter to start quiz
 document.addEventListener('DOMContentLoaded', function() {
@@ -82,9 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-async function saveQuizResult(score, answers) {
+async function saveQuizResult(score, answers) { // send quiz result to backend 
     try {
-        await fetch(API_BASE + '/api/quiz', {
+        await fetch(API_BASE + '/api/quiz', { //fetch means to send name, email,score and answers to api/quiz 
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: currentUser.name, email: currentUser.email, score: score, answers: answers })
         });
@@ -92,7 +95,7 @@ async function saveQuizResult(score, answers) {
     } catch (err) { console.error('Could not save result', err); }
 }
 
-async function fetchHistory(score) {
+async function fetchHistory(score) { //retrieve previous quiz attempts 
     try {
         var res  = await fetch(API_BASE + '/api/quiz/' + encodeURIComponent(currentUser.email));
         if (!res.ok) return;
@@ -115,6 +118,7 @@ function openReadinessModal(){window.open('https://public.tableau.com/views/Tabl
 function openSolutionsModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story4?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
 function openFindingsModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story4?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
 function openScamModal(){window.open('https://public.tableau.com/views/Tableaucryptoreadiness/Story4?:language=en-GB&:display_count=n&:origin=viz_share_link','_blank');}
+//open tableau dashboards window.open(url,'_blank' means opens in new browser tab)
 function closeGNHModal(){}
 function closeReadinessModal(){}
 function closeScamModal(){}
@@ -126,7 +130,7 @@ function handleOverlayClick(){}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeGNHModal();closeReadinessModal();closeScamModal();closeSolutionsModal();closeModal();}});
 
 // QUIZ
-var qQuestions=[
+var qQuestions=[ //stores all 10 readiness questions.
     {text:"How familiar are you with what cryptocurrency is?",area:"Knowledge"},
     {text:"How confident are you in your ability to use features, functions or tools of a crypto wallet?",area:"Technical Skill"},
     {text:"How much do you trust cryptocurrency as a reliable form of digital money?",area:"Trust"},
@@ -139,10 +143,11 @@ var qQuestions=[
     {text:"How much do you think cryptocurrency could positively contribute to Bhutan's development?",area:"GNH Alignment"}
 ];
 var qColors={'Knowledge':'#2a6aad','Technical Skill':'#2a9d8f','Trust':'#e9c46a','Security Awareness':'#e63946','Personal Readiness':'#9b5de5','Infrastructure':'#f4a261','Digital Comfort':'#2a9d8f','Regulatory Awareness':'#d4537e','Adoption Willingness':'#2a9d8f','GNH Alignment':'#e9c46a'};
+//each question also belongs to a category of knowledge. trust, infrastructure, ngh alighment 
 var qCurrent=0,qAnswers=[];
 for(var i=0;i<qQuestions.length;i++){qAnswers.push(null);}
 
-function qRender(){
+function qRender(){ //display current question like progress bar, question number, category, likertscale button
     var q=qQuestions[qCurrent],pct=Math.round((qCurrent/qQuestions.length)*100);
     document.getElementById('qProgressText').textContent='Question '+(qCurrent+1)+' of '+qQuestions.length;
     document.getElementById('qProgressPct').textContent=pct+'%';
@@ -151,26 +156,27 @@ function qRender(){
     document.getElementById('qText').textContent=q.text;
     var row=document.getElementById('qLikertRow');row.innerHTML='';
     for(var n=1;n<=10;n++){(function(val){var btn=document.createElement('button');btn.className='q-likert-btn'+(qAnswers[qCurrent]===val?' selected':'');btn.textContent=val;btn.type='button';btn.onclick=function(){qSelect(val);};row.appendChild(btn);})(n);}
+    //creates buttons of likert scale using for (var n=1)
     document.getElementById('qPrevBtn').style.visibility=qCurrent>0?'visible':'hidden';
     document.getElementById('qNextBtn').disabled=(qAnswers[qCurrent]===null);
     document.getElementById('qNextBtn').textContent=qCurrent===qQuestions.length-1?'See my results →':'Next →';
 }
 
-function qSelect(val){
-    qAnswers[qCurrent]=val;
+function qSelect(val){ // example user clicks 8
+    qAnswers[qCurrent]=val; //highlights selected button
     var btns=document.querySelectorAll('.q-likert-btn');
     for(var i=0;i<btns.length;i++){btns[i].className='q-likert-btn'+(parseInt(btns[i].textContent)===val?' selected':'');}
-    document.getElementById('qNextBtn').disabled=false;
+    document.getElementById('qNextBtn').disabled=false; //enables next button
 }
-function qNext(){if(qCurrent<qQuestions.length-1){qCurrent++;qRender();}else{qShowResults();}}
-function qPrev(){if(qCurrent>0){qCurrent--;qRender();}}
+function qNext(){if(qCurrent<qQuestions.length-1){qCurrent++;qRender();}else{qShowResults();}} //enables next button move forward
+function qPrev(){if(qCurrent>0){qCurrent--;qRender();}} //move backward
 
-function qShowResults(){
+function qShowResults(){ //most important quiz function
     var total=0;
     for(var i=0;i<qAnswers.length;i++){total+=qAnswers[i];}
-    var score=Math.round((total/100)*100),diff=score-80;
-    saveQuizResult(score,qAnswers);
-    setTimeout(function(){fetchHistory(score);},2000);
+    var score=Math.round((total/100)*100),diff=score-80; //10 questions *10 =100. 80% is the DrukShift benchmark
+    saveQuizResult(score,qAnswers); //saves quiz result
+    setTimeout(function(){fetchHistory(score);},2000); //fetch history
     document.getElementById('quizWrap').style.display='none';
     document.getElementById('qResultWrap').style.display='block';
     setTimeout(function(){ var el=document.getElementById('nextStepFindings'); if(el){el.style.opacity='1';el.style.animation='fadeUp 0.6s ease both';} }, 1500);
@@ -179,18 +185,21 @@ function qShowResults(){
     document.getElementById('qVsAvg').textContent=(diff>=0?'+':'')+diff+'%';
     var circle=document.getElementById('qScoreCircle'),title,desc;
     if(score>=80){circle.className='q-score-circle high';title='You are highly ready!';desc='Your readiness is at or above the Bhutan average of 80%. You have strong knowledge, confidence and willingness to adopt cryptocurrency safely.';}
+    //shows you are highly ready
     else if(score>=60){circle.className='q-score-circle mid';title='You are somewhat ready';desc='You have a solid foundation but some areas need strengthening. Targeted education and practice will help you reach full readiness.';}
+   //shows you are somewhat ready
     else{circle.className='q-score-circle low';title='You need more support';desc='Your readiness is below the Bhutan average. With the right education, awareness and support you can improve significantly.';}
+   //shows you need more support
     document.getElementById('qResultTitle').textContent=title;
     document.getElementById('qResultDesc').textContent=desc;
     var dContainer=document.getElementById('qDomainBars');
     dContainer.innerHTML='<div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px;">Your score by readiness area</div>';
     for(var i=0;i<qQuestions.length;i++){var dpct=Math.round((qAnswers[i]/10)*100),color=qColors[qQuestions[i].area]||'#888';dContainer.innerHTML+='<div class="q-domain-row"><div class="q-domain-label"><span>'+qQuestions[i].area+'</span><span>'+qAnswers[i]+'/10</span></div><div class="q-domain-track"><div class="q-domain-fill" style="width:'+dpct+'%;background:'+color+'"></div></div></div>';}
     setTimeout(function(){ document.getElementById('qResultWrap').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
-    qsRenderAll(score, qAnswers);
+    qsRenderAll(score, qAnswers); //creates personalized bar. Example : knowledge 8/10, trust 5/10 but with bars 
 
     // ── GAMIFICATION — BADGE LOGIC ──
-    var badgeEmoji, badgeTitle, badgeSubtitle, badgeStars;
+    var badgeEmoji, badgeTitle, badgeSubtitle, badgeStars; //badge system 
     if (score >= 90) {
         badgeEmoji    = '💎';
         badgeTitle    = 'Crypto Champion';
@@ -218,7 +227,7 @@ function qShowResults(){
     document.getElementById('badgeSubtitle').textContent = badgeSubtitle;
     document.getElementById('badgeStars').textContent    = badgeStars;
 
-    // Badge card border color by level
+    // Badge card border color by level //badge color 
     var badgeCard = document.getElementById('badgeCard');
     if (badgeCard) {
         if (score >= 90) badgeCard.style.borderColor = '#2a9d8f';
@@ -256,7 +265,7 @@ function qRestart(){
 var qsCurrentFilter='all',qsCurrentScore=65,qsCurrentAnswers=[];
 
 // Each solution maps to specific question indices (0-based) and has a "because" template
-var qsSolutions=[
+var qsSolutions=[ //this is the recommendation database.Each solution contains title, sections, impact, gnh domains like linked go question 4
     {
         id:'knowledge',category:'education',
         title:'Build your crypto knowledge from scratch',
@@ -371,7 +380,7 @@ function qsRenderAll(score, answers){
     qsRenderRoadmap(score);
 }
 
-function qsRenderSolutions(score, answers){
+function qsRenderSolutions(score, answers){  //stores answer for the question. eg:2/10 and system marks priority and displays scam - awareness recommendation first 
     answers = answers || [];
     var filtered=[];
     for(var i=0;i<qsSolutions.length;i++){
@@ -421,7 +430,7 @@ function qsRenderSolutions(score, answers){
     document.getElementById('qsSolutions').innerHTML=html;
 }
 
-function qsRenderRoadmap(score){
+function qsRenderRoadmap(score){ //creates future growth plan .e.g year 1: 65%, year 2: 73%, year 3:86%, shows projected improvement 
     var y1=Math.min(100,score+8),y2=Math.min(100,y1+7),y3=Math.min(100,y2+6),y4=Math.min(100,y3+5);
     var steps=[{label:'Now',sc:score,focus:'Assess your gaps',detail:'Take the quiz, identify weak areas, make a personal improvement plan'},{label:'Year 1',sc:y1,focus:'Learn and protect',detail:'Complete crypto basics, learn scam awareness, improve internet access'},{label:'Year 2',sc:y2,focus:'Practice and build',detail:'Use a demo wallet regularly, follow regulations, join community discussions'},{label:'Year 3',sc:y3,focus:'Adopt carefully',detail:'Start small with regulated crypto products, help others in your community'},{label:'Year 4',sc:y4,focus:'Lead and grow',detail:'Share knowledge, mentor others, contribute to GNH-aligned adoption in Bhutan'}];
     var html='';
@@ -433,12 +442,12 @@ function qsRenderRoadmap(score){
 // ═══════════════════════════════════════
 // LOADING SCREEN
 // ═══════════════════════════════════════
-window.addEventListener('load', function() {
+window.addEventListener('load', function() { //after page fully loads t
     setTimeout(function() {
         var ls = document.getElementById('loadingScreen');
         if (ls) {
             ls.style.opacity = '0';
-            setTimeout(function() { ls.style.display = 'none'; }, 800);
+            setTimeout(function() { ls.style.display = 'none'; }, 800); //removes splash screen 
         }
     }, 1800);
 });
@@ -446,7 +455,7 @@ window.addEventListener('load', function() {
 // ═══════════════════════════════════════
 // HAMBURGER MENU
 // ═══════════════════════════════════════
-function toggleMenu() {
+function toggleMenu() { // used for mobile navigation :contrils, open menu, close menu, show overlay, lock page scrolling 
     var nav     = document.getElementById('navLinks');
     var burger  = document.getElementById('hamburger');
     var overlay = document.getElementById('navOverlay');
@@ -468,7 +477,7 @@ function closeMenu() {
 // ═══════════════════════════════════════
 // SCROLL ANIMATIONS
 // ═══════════════════════════════════════
-var revealObserver = new IntersectionObserver(function(entries) {
+var revealObserver = new IntersectionObserver(function(entries) { //when section enters screen, class is added. this trigers css animations.
     entries.forEach(function(entry) {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
@@ -483,7 +492,7 @@ document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(functi
 // ═══════════════════════════════════════
 // COUNTER ANIMATION
 // ═══════════════════════════════════════
-function animateCounter(el, target, suffix, duration) {
+function animateCounter(el, target, suffix, duration) { //appearlt 113, 80%,96% instead of appearing 1,10,20,40,80
     var start = 0;
     var step  = target / (duration / 16);
     var timer = setInterval(function() {
@@ -520,12 +529,12 @@ if (statsSection) statsObserver.observe(statsSection);
 // ═══════════════════════════════════════
 // CURSOR GLOW
 // ═══════════════════════════════════════
-var cursorGlow = document.getElementById('cursorGlow');
+var cursorGlow = document.getElementById('cursorGlow'); //tracks mouse 
 document.addEventListener('mousemove', function(e) {
     if (cursorGlow) {
         cursorGlow.style.left = e.clientX + 'px';
         cursorGlow.style.top  = e.clientY + 'px';
-    }
+    } // moves glow element and create futuristic effect 
 });
 
 // ═══════════════════════════════════════
@@ -534,7 +543,7 @@ document.addEventListener('mousemove', function(e) {
 var floatBtn = document.getElementById('floatingQuizBtn');
 window.addEventListener('scroll', function() {
     if (!floatBtn) return;
-    if (window.scrollY > 400) {
+    if (window.scrollY > 400) { //if user reaches quiz section, buttin hides automatically 
         floatBtn.style.opacity  = '1';
         floatBtn.style.transform = 'translateY(0)';
     } else {
@@ -560,7 +569,7 @@ if (quizSection) {
 // ══════════════════════════════════════════
 // DARK / LIGHT MODE
 // ══════════════════════════════════════════
-function toggleTheme() {
+function toggleTheme() { //switches from dark to light 
     var body = document.body;
     var btn  = document.getElementById('themeToggle');
     body.classList.toggle('light-mode');
@@ -571,7 +580,7 @@ function toggleTheme() {
 
 // Remember theme on reload
 window.addEventListener('DOMContentLoaded', function() {
-    var saved = localStorage.getItem('drukshift-theme');
+    var saved = localStorage.getItem('drukshift-theme'); //stores oerferences so theme remains under refresh 
     var btn   = document.getElementById('themeToggle');
     if (saved === 'light') {
         document.body.classList.add('light-mode');
@@ -584,7 +593,7 @@ window.addEventListener('DOMContentLoaded', function() {
 // ══════════════════════════════════════════
 // LIVE QUIZ COUNTER
 // ══════════════════════════════════════════
-async function loadLiveCount() {
+async function loadLiveCount() { //calss api/admin/results and displays as 127 people assesed or whatever the count exists
     try {
         var res  = await fetch('https://drukshift-vakend.onrender.com/api/admin/results');
         var data = await res.json();
@@ -609,7 +618,7 @@ loadLiveCount();
 // ══════════════════════════════════════════
 // ANIMATED PROGRESS BARS IN FINDINGS
 // ══════════════════════════════════════════
-var findingsObserver = new IntersectionObserver(function(entries) {
+var findingsObserver = new IntersectionObserver(function(entries) { //bars animate to their target percentage 
     entries.forEach(function(entry) {
         if (entry.isIntersecting) {
             var bars = entry.target.querySelectorAll('.finding-stat-fill');
@@ -630,10 +639,10 @@ if (fg) findingsObserver.observe(fg);
 
 
 // ════════════════════════════════════════
-// MINI GAMES ENGINE — DIRECTLY EMBEDDED
+// MINI GAMES ENGINE — DIRECTLY EMBEDDED 
 // ════════════════════════════════════════
-var mgXP = parseInt(localStorage.getItem('mg-xp') || '0');
-var mgCurrentGame = 'blitz';
+var mgXP = parseInt(localStorage.getItem('mg-xp') || '0'); //stores experiencing points and local stroage, players can earn xp from games 
+var mgCurrentGame = 'blitz'; //
 var mgTimers = [];
 
 function mgUpdateXP() {
@@ -753,7 +762,7 @@ function mgDots(answered, total, current) {
     el.innerHTML = html;
 }
 
-// ── BLITZ ──
+// ── BLITZ ── //true or false crypto quiz 
 var mgBlitzQs = [
     {q:"Bitcoin was created in 2009.", a:true, f:"Satoshi Nakamoto released Bitcoin in January 2009."},
     {q:"Crypto transactions are 100% anonymous.", a:false, f:"They are pseudonymous — wallet addresses are public."},
@@ -846,7 +855,7 @@ function mgBlitzTimer() {
 }
 
 // ── SCAM SPOTTER ──
-var mgScamMsgs = [
+var mgScamMsgs = [ 
     {sender:'CryptoKing2026', avatar:'👑', text:'🚀 URGENT! Send 0.01 BTC now and receive 0.1 BTC back in 24 hours! 500% guaranteed returns!', isScam:true, reason:'Guaranteed returns are the #1 sign of a crypto scam.'},
     {sender:'RMA Bhutan Official', avatar:'🏛️', text:'Cryptocurrency transactions above Nu.50,000 must be reported to the Royal Monetary Authority. Visit rma.org.bt.', isScam:false, reason:'Legitimate regulatory communication from an official government body.'},
     {sender:'Binance Support', avatar:'💬', text:'Your account is locked! Click binance-secure-verify.xyz and enter your seed phrase to restore access.', isScam:true, reason:'Never share your seed phrase. Official exchanges never ask for it.'},
@@ -860,7 +869,7 @@ var mgScamMsgs = [
 var mgSState = {};
 var mgSTimerInt = null;
 
-function mgInitScam() {
+function mgInitScam() { //educational cybersecurity game users identifies Legit or Scam 
     var gt = document.getElementById('mg-game-title');
     var gs = document.getElementById('mg-game-sub');
     if (gt) gt.textContent = '🎯 Scam Spotter';
@@ -964,7 +973,7 @@ var mgMemPairs = [
 var mgMState = {};
 var mgMTimerInt = null;
 
-function mgInitMemory() {
+function mgInitMemory() { //memory card matching game eg: bitcoin - firsr crypti in 2009
     var gt = document.getElementById('mg-game-title');
     var gs = document.getElementById('mg-game-sub');
     var st = document.getElementById('mg-stat-time');
@@ -1056,7 +1065,7 @@ function mgMemFlip(idx) {
 
 // ── ATTACH GAME CARD CLICKS AFTER PAGE LOADS ──
 window.addEventListener('load', function() {
-    mgUpdateXP();
+    mgUpdateXP(); //displays highest score
     mgUpdateLB();
     mgUpdateHS();
     var cards = {
@@ -1120,14 +1129,14 @@ window.addEventListener('load', function(){
 
 
 // ── WELCOME POPUP ──
-function closeWelcome() {
+function closeWelcome() { //shows introductory overlay 
   var overlay = document.getElementById('welcomeOverlay');
   if(overlay) {
     overlay.style.opacity = '0';
     overlay.style.transition = 'opacity 0.3s ease';
     setTimeout(function(){ overlay.style.display = 'none'; }, 300);
     localStorage.setItem('drukshift-visited', '1');
-  }
+  } //shows introductory overlay so user only sees it once 
 }
 function startHere(section) {
   closeWelcome();
@@ -1157,7 +1166,7 @@ function psSlide(dir) {
   psCur = (psCur + dir + psTotal) % psTotal;
   psGoTo(psCur);
 }
-function psGoTo(n) {
+function psGoTo(n) { //controls the sliding cards in your "problems" section . Features : next slide, previous slude, autoplay every 3.5 seconds and pause on hover 
   psCur = n;
   var car = document.getElementById('psCarousel');
   if(car) car.style.transform = 'translateX(-' + (n * 100) + '%)';
